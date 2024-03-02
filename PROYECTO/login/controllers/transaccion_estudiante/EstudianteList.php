@@ -1,0 +1,18 @@
+<?php 
+
+// incluir la clase Usuario
+require_once("../../model/model_transaccion_estudiante/EstudianteModel.php");
+$cedula = $_POST["search"];
+
+// crear una instancia de la clase Usuario
+$usuario = new Estudiante();
+
+// llamar al método listarUsuario() para que me retorne todo lo que tiene la bd
+$json = $usuario->listarEstudiante($cedula);
+
+// convertir el resultado a formato JSON
+$jsonstring = json_encode($json);
+
+// imprimir el resultado en formato JSON
+echo $jsonstring;
+?>

@@ -1,0 +1,178 @@
+
+  .container {
+    margin: auto;
+    max-width: 500px;
+    width: 100%;
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .container .titulo{
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+  }
+
+  .container .titulo::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #9b59b6;
+  }
+  
+  .container form .user-details{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+  }
+  form .user-details .input-box{
+    margin-bottom: 10px;
+    width: calc(100% / 2 - 20px);
+  }
+
+  .user-details .input-box-rif .detalles{
+  
+   color: red;
+  }
+  .user-details .input-box .details{
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  .user-details .input-box input, .selector{
+    height: 30px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 15px;
+    font-size: 16px;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .user-details .input-box-rif {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .user-details .input-box .input-box-rif select {
+    height: 30px;
+    width: 30%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+  } 
+  .user-details .input-box-telefono {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .user-details .input-box-telefono select {
+    height: 30px;
+    width: 42%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+  } 
+
+
+  .user-details .input-box input:focus,
+  .user-details .input-box input:valid{
+    border-color: rgb(48, 93, 172);
+  }
+
+  .user-details .input-box .selector:focus,
+  .user-details .input-box .selector:valid{
+    border-color: rgb(48, 93, 172);
+  }
+
+form .button{
+    height: 45px;
+    /* margin: 45px 0; */
+  }
+  
+  form button{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    color:white;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    background-color: rgb(117 153 217);
+    cursor: pointer;
+  }
+
+  form button:hover{
+    background-color: rgb(48, 93, 172);
+  }
+
+ 
+  /* ESTILO DE TABLA */
+.resultado {
+  display: grid;
+  justify-items: center;
+  margin: 10px;
+}
+
+table {
+  
+  border-collapse: collapse;
+}
+
+h1{
+  padding-bottom:20px
+}
+
+td, th{
+  border: 1px solid #eee;
+  padding: 5px;
+}
+td{
+  background-color: white;
+}
+
+th{
+  background-color: rgb(48, 93, 172);
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+tr:nth-child(even){
+  background-color: #eee;
+}
+
+tr:hover{
+  background-color: #aaa;
+  cursor: pointer;
+
+}
+
+button{
+  color: white;
+  padding: 6px;
+  border: none;
+  background-color: rgb(117 153 217);
+}
+button:hover{
+   background-color: rgb(48, 93, 172);
+  cursor: pointer;
+}
+

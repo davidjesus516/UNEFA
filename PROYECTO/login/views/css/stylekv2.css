@@ -1,0 +1,314 @@
+@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
+* {
+	margin:0;
+	padding:0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+body {
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    color: #6f6969;
+}
+
+.containerk{
+    position:relative;
+    width:90%;
+    max-width:1024px;
+	margin: 0 auto;
+	overflow:hidden;
+}
+
+/*menu*/
+.menu_bar {
+	display:none;
+}
+
+/*exterior, fondo menu*/
+.cajamenu {
+    background-repeat: repeat-x;
+    background:#0e409e;
+    border-style: solid;
+    border-width: 1px;
+    border-color:rgba(255,255,255,.5);
+    height:71px;
+    position: relative;
+    top:0;
+    width:100%;
+    z-index:10
+    }
+
+header {
+	width: 100%;
+}
+
+
+
+header nav {
+    background:#0e409e;/*#igualé el color del fondo menu, para efecto 1 solo*/
+	z-index:2000;
+	max-width: 1000px;
+	width:100%;
+	margin:10px auto;
+}
+
+header nav ul {
+	list-style:none;
+}
+
+header nav ul li {
+	margin: 0 -3px; /*sin esto queda espacio entre li*/
+	background:rgba(255,255,255,.9);
+	display: inline-block;
+	position: relative;
+	
+}
+
+header nav ul li:hover {
+
+    background: rgba(5,79,148,1);
+    background: -moz-linear-gradient(left, rgba(5,79,148,1) 0%, rgba(6,94,188,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(5,79,148,1)), color-stop(100%, rgba(6,94,188,1)));
+    background: -webkit-linear-gradient(left, rgba(5,79,148,1) 0%, rgba(6,94,188,1) 100%);
+    background: -o-linear-gradient(left, rgba(5,79,148,1) 0%, rgba(6,94,188,1) 100%);
+    background: -ms-linear-gradient(left, rgba(5,79,148,1) 0%, rgba(6,94,188,1) 100%);
+    background: linear-gradient(to right, rgba(5,79,148,1) 0%, rgba(6,94,188,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#054f94', endColorstr='#065ebc', GradientType=1 );
+
+	border-right: 1px solid rgba(255,255,255,.5);
+	border-left: 1px solid rgba(255,255,255,.5);
+	border-bottom: 3px solid rgba(255,255,255,.5);
+	font-weight:bold;
+	color:fff;
+	
+}
+
+header nav ul li a {
+	color:#2d90c4;
+	display:block;
+	text-decoration:none;
+	padding: 8px; /*cambiar para ajustar texto menu*/
+}
+
+header nav ul li a:hover {
+	
+	color:#fff;
+	display:block;
+	text-decoration:none;
+	padding: 12px; /*cambiar para ajustar texto menu*/
+}
+
+/*distancias entre icono y texto*/
+header nav ul li a span {
+	margin-right:10px;
+}
+
+header nav ul li:hover .children {
+	display:block;
+	
+}
+
+header nav ul li:hover .expa {
+	display:block;
+	width: 400%;
+	position: relative;
+	top:3px;
+	margin-right:0px;
+}
+
+
+header nav ul li:hover .nietos {
+	display:block;
+}
+
+header nav ul li .children {
+	display: none;
+	background:#011826;
+	position: absolute;
+	width: 150%;
+	z-index:1000;
+}
+
+header nav ul li .children li {
+	display:block;
+	overflow: hidden;
+	border-bottom: 1px solid rgba(255,255,255,.5);
+}
+
+
+header nav ul li .children li a {
+	display: block;
+}
+
+header nav ul li .children li a span {
+	float: right;
+	position: relative;
+	top:3px;
+	margin-right:0px;
+	margin-left:10px;
+}
+
+
+	
+
+
+.flechadown, .flecharight
+{
+	font-size:7px
+}
+
+/*flecha down*/
+header nav ul li .flechadown {
+	position: relative;
+	top:1px;
+	margin-left:5px;
+	margin-right:0px;
+}
+
+/*centrar menu*/
+.center ul{
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;
+    margin: auto;   
+}
+
+/*al hacer clic menu*/
+a:active { 
+color: #023859;
+background:rgba(255,255,255,.5);  
+border-bottom: 3px solid rgba(255,255,255,.9);
+font-weight:lighter;
+}
+
+/*subrayado con efecto*/
+
+.cool-link {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.cool-link::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 3px;
+    background: #fff;
+    transition: width .2s;
+}
+
+.cool-link:hover::after {
+    width: 100%;
+    transition: width .2s;
+}
+
+/*ocultar elementos medidas menores a 960px*/
+/* @media screen and (max-width: 959px) {
+	body {
+		padding-top:0px;
+		/*padding-top:80px;*/
+	/* }
+	
+	.cuadroescudomenu, .escudomenu, .not959  {
+		display:none
+	}
+ }	 */
+	 
+
+.sticky1 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+ background-color:white;
+ z-index:11
+ 
+  /*padding: 9px;*/
+
+}
+/*pocision menu al flotar*/
+.sticky2 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+ /*top: 72px;*/
+ /* background-color: white; */
+ padding-bottom:1rem;
+ z-index:15
+
+ 
+}
+
+
+
+
+
+
+.cintillo1{
+  display: block;
+    width: 100% \9;
+    max-width: 100%;
+    height: auto;
+	margin:auto;
+	/*background-color:rgba(255,255,255,.5); */
+		
+	}
+	
+
+.cintillo2{
+   display: block;
+    width: 100% \9;
+    max-width: 100%;
+    max-height: 143px; height: auto;
+	margin:auto;
+	/*position: fixed;
+	top:60px;
+	background:#0F3*/
+	
+	}
+
+.mainheaderk, .headerfull {
+	 max-height: 410px; height: auto;
+    width:100%;
+	
+}
+
+/* @media screen and (max-width: 768px) {
+    .robp {
+		
+        font-size:1.5rem;
+	margin-bottom:2%;
+	text-align:center;
+    }
+	}
+	 */
+
+-------------------------------------------------------------- */
+
+
+*/
+.cboxIE #cboxTopLeft,
+.cboxIE #cboxTopCenter,
+.cboxIE #cboxTopRight,
+.cboxIE #cboxBottomLeft,
+.cboxIE #cboxBottomCenter,
+.cboxIE #cboxBottomRight,
+.cboxIE #cboxMiddleLeft,
+.cboxIE #cboxMiddleRight {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);
+}
+/*fin pop-up*/
+	
+
+@media screen and (min-width: 469px) { /*769 */
+   .cintillo2 {
+     display:none;
+ 
+    }
+	}	
+
+	
