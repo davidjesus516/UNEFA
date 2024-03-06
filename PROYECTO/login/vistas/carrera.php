@@ -9,7 +9,7 @@ require 'header.php';
             <tr class="w3-light-grey">
                 <th>Codigo</th>
                 <th>Carrera</th>
-                <th>Acciones</th>
+                <th colspan="2">Acciones</th>
             </tr>
         </thead>
         <tbody id="datos"></tbody>

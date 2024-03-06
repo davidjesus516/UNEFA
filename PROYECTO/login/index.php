@@ -16,7 +16,7 @@ if (isset($_SESSION['username'])) {
   <title>Inicio de Sesión</title>
   <link rel="stylesheet" href="vistas/css/estilos.css">
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-  <link rel="icon" href="img/logo_unefa.ico">
+  <link rel="icon" href="../img/logo_unefa.ico">
 
 </head>
 

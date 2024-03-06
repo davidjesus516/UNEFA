@@ -19,7 +19,7 @@
     <!-- BOX ICONS -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" href="img/logo_unefa.ico">
+    <link rel="icon" href="../../img/logo_unefa.ico">
 
     <!-- CUSTOM CSS -->
     <link rel="stylesheet" href="../css/estilos.css">

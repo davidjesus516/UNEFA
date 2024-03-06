@@ -7,3 +7,8 @@ rojo carmin : #990017
 
 Cambios Importantes:
 Visual - Css Home y visuales en general mas chequeo
+
+Otros:
+Al hacer el cambio de contraseña se queda en la misma pagina y no me regresa al login
+
+Login y pertinentes arreglados

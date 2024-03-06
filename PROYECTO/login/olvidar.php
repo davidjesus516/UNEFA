@@ -34,7 +34,8 @@ if (isset($_SESSION['username'])) {
   <title>Recuperar Contraseña</title>
   <link rel="stylesheet" href="vistas/css/estilos.css">
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-  <link rel="icon" href="img/logo_unefa.ico">
+  <link rel="icon" href="../img/logo_unefa.ico">
+
 
 </head>
 
@@ -43,24 +44,27 @@ if (isset($_SESSION['username'])) {
     echo '
     <div class="login-form">
     <!-- <h1>Recuperar Usuario</h1> -->
-    <div class="container">
-      <div class="main">
-        <div class="content">
-          <h2>Recuperar Usuario</h2>
-          <form id="task-form" action="#" method="POST">
-            <input type="text" id="username-input" name="username" placeholder="Nombre de Usuario" required autofocus="">
-            <button class="btn" type="submit" id="submit-button">
-              Recuperar
-            </button>
-          </form>
-          <p class="account">¿Volver al Inicio de Sesión? <a href="index.php">Regresar</a></p>
-        </div>
-        <div class="form-img">
-          <img src="" alt="">
+      <div class="container">
+        <div class="main">
+          <div class="content">
+            
+            <h2>Recuperar Usuario</h2>
+            
+            <form id="task-form" action="#" method="POST">
+              <input type="text" id="username-input" name="username" placeholder="Nombre de Usuario" required autofocus="">
+              <button class="btn" type="submit" id="submit-button">Recuperar</button>
+            </form>
+
+            <p class="account">¿Volver al Inicio de Sesión? <a href="index.php">Regresar</a></p>
+          </div>
+          
+          <div class="form-img">
+            <img src="" alt="">
+          </div>
+        
         </div>
       </div>
-    </div>
-  </div>
+    <!-- </div> -->
 
 
     ';
@@ -77,18 +81,17 @@ if (isset($_SESSION['username'])) {
             <input type="hidden" name="ID" value=' . $row["ID"] . ' />
             <input type="hidden" name="n1" value="' . $n1 . '"/>
             <input type="hidden" name="n2" value="' . $n2 . '"/>
-            <input  type="text" id="respuesta-input" name="respuesta1" required/>
             <label for="">' . ucfirst($row["pregunta" . $n1 . ""]) . '</label>
-            <input  type="text" id="respuesta-input" name="respuesta2" required/>
+            <input  type="text" id="respuesta-input" name="respuesta1" required/>
             <label for="">' . ucfirst($row["pregunta" . $n2 . ""]) . '</label>
+            <input  type="text" id="respuesta-input" name="respuesta2" required/>
+            <button class="btn" type="submit" id="submit-button">Recuperar</button>
+            <p class="account">¿Volver al Inicio de Sesión? <a href="index.php">Regresar</a></p>
           </div>
-            <button class="btn" type="submit" id="submit-button">
-                Recuperar
-              </button>
-            </form>
-          </div>
+          </form>
           <div class="form-img">
             <img src="" alt="">
+          </div>
           </div>
         </div>
       </div>

@@ -14,7 +14,7 @@ require 'header.php';
                 <th>Telefono</th>
                 <th>Correo Electronico</th>
                 <th>Carrera que imparte</th>
-                <th>Accion</th>
+                <th colspan="2">Accion</th>
             </tr>
         </thead>
         <tbody id="datos"></tbody>

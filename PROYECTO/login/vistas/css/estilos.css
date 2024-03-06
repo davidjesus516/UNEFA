@@ -14,7 +14,7 @@ html {
   position: relative;
   min-height: 100vh;
   z-index: 0;
-  background: #111A41;
+  background: #111a41;
   /* padding: 30px; */
   justify-content: center;
   /* display: grid; */
@@ -61,7 +61,7 @@ html {
 }
 .form-img {
   flex-basis: 50%;
-  background-image: url(../../views/img/fachada.jpg);
+  background-image: url(../../../img/fondo-claro.jpg);
   background-attachment: fixed;
   /* background: #dfe5ea; */
   background-size: cover;
@@ -71,6 +71,20 @@ html {
   align-items: center;
   display: grid;
 }
+
+.form-img-2 {
+  flex-basis: 50%;
+  background-image: url(../../../img/fondo-claro-2.jpg);
+  background-attachment: fixed;
+  /* background: #dfe5ea; */
+  background-size: cover;
+  padding: 40px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  align-items: center;
+  display: grid;
+}
+
 .form-img img {
   max-width: 100%;
 }
@@ -89,6 +103,7 @@ input {
 .btn:hover,
 button:hover {
   color: #272346;
+  background: #e4e9f7;
   transition: 0.5s ease;
 }
 a {
@@ -99,7 +114,7 @@ a {
 }
 .login-form input {
   outline: none;
-  margin-bottom: 15px;
+  margin: 15px 0;
   font-stretch: 16px;
   color: #999;
   text-align: left;
@@ -113,21 +128,22 @@ a {
 }
 .login-form input:focus {
   background: transparent;
-  border: 1px solid #111A41;
+  border: 1px solid #111a41;
 }
 
 .login-form button {
   font-size: 18px;
   color: #fff;
   width: 100%;
-  background: #111A41;
+  background: #111a41;
   border: none;
   padding: 14px 15px;
   font-weight: 600;
   transition: 0.3s ease;
+  margin: 15px 0;
 }
 p.account a {
-  color: #111A41;
+  color: #111a41;
 }
 p.account a:hover {
   text-decoration: underline;
@@ -160,7 +176,7 @@ p.account a:hover {
   left: 0;
   height: 100%;
   width: 18rem;
-  background: #111A41;
+  background: #111a41;
   z-index: 100;
   transition: all 0.5s ease;
 }
@@ -210,7 +226,7 @@ p.account a:hover {
   transition: all 0.4s ease;
 }
 .sidebar .nav-links li:hover {
-  background: #1d1b31;
+  background: #192dd4;
 }
 .sidebar .nav-links li .iocn-link {
   display: flex;
@@ -254,7 +270,7 @@ p.account a:hover {
 .sidebar .nav-links li .sub-menu {
   padding: 6px 6px 14px 80px;
   margin-top: -10px;
-  background: #1d1b31;
+  background: #192dd4;
   display: none;
 }
 .sidebar .nav-links li.showMenu .sub-menu {
@@ -378,7 +394,7 @@ p.account a:hover {
 }
 .home-section .home-content .bx-menu,
 .home-section .home-content .text {
-  color: #111A41;
+  color: #111a41;
   font-size: 35px;
 }
 .home-section .home-content .bx-menu {
@@ -440,7 +456,7 @@ p.account a:hover {
 }
 
 .formulario__input:focus {
-  border: 3px solid #111A41;
+  border: 3px solid #111a41;
   outline: none;
   box-shadow: 3px 0px 30px rgba(163, 163, 163, 0.4);
 }
@@ -609,81 +625,82 @@ p.account a:hover {
 
 /*Dialog Styles*/
 dialog {
-	margin: auto;
-	padding: 1rem 3rem;
-	background: white;
-	max-width: 400px;
-	padding-top: 2rem;
-	border-radius: 20px;
-	border: 0;
-	box-shadow: 0 5px 30px 0 rgb(0 0 0 / 10%);
-	animation: fadeIn 1s ease both;
-	&::backdrop {
-		animation: fadeIn .5s ease both;
-		background: rgb(255 255 255 / 40%);
-		z-index: 2;
-		backdrop-filter: blur(20px);
-	}
-	.x {
-		filter: grayscale(1);
-		border: none;
-		background: none;
-		position: absolute;
-		top: 15px;
-		right: 10px;
-		transition: ease filter, transform 0.3s;
-		cursor: pointer;
-		transform-origin: center;
-		&:hover {
-			filter: grayscale(0);
-			transform: scale(1.1);
-		}
-	}
-	h2 {
-		font-weight: 600;
-		font-size: 2rem;
-		padding-bottom: 1rem;
-	}
-	p {
-		font-size: 1rem;
-		line-height: 1.3rem;
-		padding: 0.5rem 0;
-		a {
-			&:visited {
-				color: rgb(#192DD4);
-			}
-		}
-	}
+  margin: auto;
+  padding: 3rem;
+  background: white;
+  /* max-width: 400px; */
+  padding-top: 2rem;
+  border-radius: 20px;
+  border: 0;
+  box-shadow: 0 5px 30px 0 rgb(0 0 0 / 10%);
+  animation: fadeIn 1s ease both;
+  &::backdrop {
+    animation: fadeIn 0.5s ease both;
+    background: rgb(255 255 255 / 40%);
+    z-index: 2;
+    backdrop-filter: blur(20px);
+  }
+  .x {
+    filter: grayscale(1);
+    border: none;
+    background: none;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    transition: ease filter, transform 0.3s;
+    cursor: pointer;
+    transform-origin: center;
+    &:hover {
+      filter: grayscale(0);
+      transform: scale(1.1);
+    }
+  }
+  h2 {
+    font-weight: 600;
+    font-size: 2rem;
+    padding-bottom: 1rem;
+  }
+  p {
+    font-size: 1rem;
+    line-height: 1.3rem;
+    padding: 0.5rem 0;
+    a {
+      &:visited {
+        color: rgb(#192dd4);
+      }
+    }
+  }
 }
 
 button.primary {
-	background-color: #192DD4;
-	display: inline-block;
-	font-size: 0.8rem;
-	color: #fff !important;
-	background: rgb(#192DD4 / 100%);
-	padding: 13px 25px;
-	border-radius: 17px;
-	transition: background-color 0.1s ease;
-	box-sizing: border-box;
-	transition: all 0.25s ease;
-	border: 0;
-	cursor: pointer;
-	box-shadow: 0 10px 20px -10px rgb(#192DD4 / 50%);
-	&:hover {
-		box-shadow: 0 20px 20px -10px rgb(#192DD4 / 50%);
-		transform: translateY(-5px);
-	}
+  background-color: #192dd4;
+  display: inline-block;
+  font-size: 0.8rem;
+  color: #fff !important;
+  background: rgb(#192dd4 / 100%);
+  padding: 13px 25px;
+  border-radius: 17px;
+  transition: background-color 0.1s ease;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 10px 20px -10px rgb(#192dd4 / 50%);
+  &:hover {
+    box-shadow: 0 20px 20px -10px rgb(#192dd4 / 50%);
+    transform: translateY(-5px);
+  }
 }
 
 @keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .modal {
-  margin: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
