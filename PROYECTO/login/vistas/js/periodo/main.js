@@ -33,8 +33,8 @@ $(document).ready(function(){//aqui inicializamos javascript
         let estatus = 0;
         let errores = false;
     
-        if (!/^\d{4}-\d{4}$/.test(nombre)) {
-            alert("En el campo 'Lapso' solo se permite numeros y guion ejemplo: 2020-2021, 2021-2023");
+        if (!/^\d{4}-\d{1}$/.test(nombre)) {
+            alert("En el campo 'Lapso' solo se permite numeros y guion ejemplo: 2020-I, 2021-II");
             errores = true;
         }
     
