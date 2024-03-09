@@ -1,6 +1,6 @@
 <?php
 
-require("../../model/model_lapso/UserModel.php");
+require("../../model/periodo.php");
 
 if(isset($_POST)){//si el js me manda yo hago:
     $nombre =  $_POST["nombre"];

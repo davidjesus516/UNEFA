@@ -18,7 +18,7 @@ class Usuario
     //creo la clase que me va a consultar todos los datos que exista y me los traera y guardarlos en una variable
     public function buscarUsuario($periodo){
         $consulta = "SELECT * FROM periodo WHERE STATUS = 1
-         AND periodo LIKE :periodo";
+        AND periodo LIKE :periodo";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':periodo', '%' . $periodo . '%');
         $statement->execute();
@@ -36,8 +36,7 @@ class Usuario
     }
     
     //creo la clase que me va a insertar un nuevo usuario
-    public function insertarUsuario($periodo, $fecha_inicio,
-     $fecha_fin, $estatus){
+    public function insertarUsuario($periodo, $fecha_inicio,$fecha_fin, $estatus){
 
         $consulta = "INSERT INTO periodo (PERIODO, FECHA_INICIO,
         FECHA_FIN, STATUS) VALUES (:periodo, :fecha_inicio, 
@@ -52,7 +51,7 @@ class Usuario
     
     //creo la clase que me va a listar todos los usuarios
     public function listarUsuarios(){
-        $consulta = "SELECT * FROM lapso_academico";
+        $consulta = "SELECT * FROM periodo where STATUS=1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();
@@ -80,7 +79,7 @@ class Usuario
     public function activarUsuario($estatus, $id)
     {
         $consultaDesactivar = "UPDATE periodo SET estatus = 0
-         WHERE estatus = 1";
+        WHERE estatus = 1";
         $statementDesactivar = $this->pdo->prepare($consultaDesactivar);
         $statementDesactivar->execute();
     
@@ -96,7 +95,7 @@ class Usuario
     public function desactivarLapsos()
     {
         $consultaDesactivar = "UPDATE lapso_academico SET estatus = 0
-         WHERE estatus = 1";
+        WHERE estatus = 1";
         $statementDesactivar = $this->pdo->prepare($consultaDesactivar);
         $statementDesactivar->execute();
     }

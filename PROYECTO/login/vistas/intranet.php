@@ -122,7 +122,8 @@ require 'header.php';
     <div class="name">Has el php que lo muestre</div>
   </div>
 </div>
-
+<script src="js/intranet/jquery-3.7.0.min.js"></script>
+<script src="js/intranet/main.js"></script> 
 <?php
 require 'footer.php';
 ?>

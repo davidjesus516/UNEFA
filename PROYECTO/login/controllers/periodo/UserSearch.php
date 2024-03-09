@@ -1,13 +1,15 @@
-<?php 
+<?php
+require("../../model/periodo.php");
+$codigo = $_POST["search"];
 
 // incluir la clase Usuario
-require_once("../../model/model_lapso/UserModel.php");
+require_once("../../model/periodo.php");
 
 // crear una instancia de la clase Usuario
 $usuario = new Usuario();
 
-// llamar al método listarUsuario() para que me retorne todo lo que tiene la bd
-$json = $usuario->listarUsuarios();
+// llamar al método buscarUsuario() para buscar un usuario por su cédula
+$json = $usuario->buscarUsuario("$codigo");
 
 // convertir el resultado a formato JSON
 $jsonstring = json_encode($json);

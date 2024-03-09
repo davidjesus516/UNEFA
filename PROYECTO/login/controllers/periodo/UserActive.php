@@ -1,6 +1,6 @@
 <?php
 
-require("../../model/model_lapso/UserModel.php");
+require("../../model/lapso.php");
 
 if(isset($_POST)){// si js me manda datos yo hago:
     $codigo = $_POST["id"];//guardo lo que mando

@@ -1,6 +1,6 @@
 <?php
 
-require("../../model/model_lapso/UserModel.php");
+require("../../model/periodo.php");
 
 if(isset($_POST)){
     $codigo = $_POST["codigo"];
