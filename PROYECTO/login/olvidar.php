@@ -40,7 +40,10 @@ if (isset($_SESSION['username'])) {
 </head>
 
 <body>
-  <?php if (!isset($_POST['username'])) {
+  <?php if (!isset($_POST['username'])  or !isset($row["ID"])) {
+    if (isset($_POST['username'])){
+      echo "<script>alert('El nombre de usuario  no existe') </script>";
+    }
     echo '
     <div class="login-form">
     <!-- <h1>Recuperar Usuario</h1> -->
