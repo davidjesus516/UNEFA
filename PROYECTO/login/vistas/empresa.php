@@ -25,7 +25,7 @@ require 'header.php';
         <!-- Grupo: Usuario -->
         <input type="hidden" id="id">
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">RIF</label>
+            <label for="" class="formulario__label">RIF <span class="obligatorio">*</span></label>
             <select id="" class="formulario__input" name="tipo-cedula">
                 <option value="">V-</option>
                 <option value="">E-</option>
@@ -42,7 +42,7 @@ require 'header.php';
 
         <!-- Grupo:  -->
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Nombre de la Empresa</label>
+            <label for="" class="formulario__label">Nombre de la Empresa <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese la Nombre de la Empresa">
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -51,7 +51,7 @@ require 'header.php';
         </div>
 
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Dirección de la Empresa</label>
+            <label for="" class="formulario__label">Dirección de la Empresa <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese la Dirección de la Empresa">
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -60,7 +60,7 @@ require 'header.php';
         </div>
 
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Nombre del Contacto</label>
+            <label for="" class="formulario__label">Nombre del Contacto <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese la Nombre del Contacto">
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -69,7 +69,7 @@ require 'header.php';
         </div>
 
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Telefono del Contacto</label>
+            <label for="" class="formulario__label">Telefono del Contacto <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <select class="formulario__input" id="telefono_contacto">
                     <option value="0412-">0412-</option>
@@ -85,7 +85,7 @@ require 'header.php';
         </div>
 
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Telefono de la Empresa</label>
+            <label for="" class="formulario__label">Telefono de la Empresa <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <select class="formulario__input" id="telefono_Empresa">
                     <option value="0412-">0412-</option>

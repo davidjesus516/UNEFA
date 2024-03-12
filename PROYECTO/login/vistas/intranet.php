@@ -8,7 +8,7 @@ require 'header.php';
     box-shadow: 0px 8px 28px -9px rgba(0, 0, 0, 0.45);
     position: relative;
     width: 160PX;
-    height: 225px;
+    height: 260px;
     border-radius: 16px;
     overflow: hidden;
   }
@@ -34,7 +34,7 @@ require 'header.php';
     text-align: center;
     font-size: 17px;
     position: absolute;
-    top: 5rem;
+    top: 2rem;
     left: 0;
     right: 0;
     color: rgb(255, 255, 255);
@@ -42,11 +42,16 @@ require 'header.php';
   }
 
   .name {
-    font-size: 14px;
+    font-size: 8px;
     font-weight: 100;
     position: relative;
     top: 1em;
     text-transform: lowercase;
+    scale: 0.9;
+  }
+
+  .name p {
+    color: #fff;
   }
 
   .wave:nth-child(2),
@@ -119,7 +124,7 @@ require 'header.php';
     <br>
     Periodo Actual
     <br>
-    <div class="name">Has el php que lo muestre</div>
+    <div class="name" style="color: #fff;">Has el php que lo muestre</div>
   </div>
 </div>
 <script src="js/intranet/jquery-3.7.0.min.js"></script>

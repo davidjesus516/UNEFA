@@ -21,7 +21,7 @@ require 'header.php';
     <input type="hidden" id="id">
         <!-- Grupo: Usuario -->
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Codigo</label>
+            <label for="" class="formulario__label">Codigo <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese el codigo de la Profesión">
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -31,7 +31,7 @@ require 'header.php';
 
         <!-- Grupo:  -->
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Profesión</label>
+            <label for="" class="formulario__label">Profesión <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese la Profesión">
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>

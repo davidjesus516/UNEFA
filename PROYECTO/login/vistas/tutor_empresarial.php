@@ -25,7 +25,7 @@ require 'header.php';
     <form action="" class="formulario" id="formulario">
         <!-- Grupo: Usuario -->
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Cedula</label>
+            <label for="" class="formulario__label">Cedula <span class="obligatorio">*</span></label>
             <select id="" class="formulario__input" name="tipo-cedula">
                 <option value="">V-</option>
                 <option value="">E-</option>
@@ -40,7 +40,7 @@ require 'header.php';
 
         <!-- Grupo:  -->
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Nombre</label>
+            <label for="" class="formulario__label">Nombre <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese la Nombre">
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -49,7 +49,7 @@ require 'header.php';
         </div>
 
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Apellido</label>
+            <label for="" class="formulario__label">Apellido <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese la Apellido">
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -58,7 +58,7 @@ require 'header.php';
         </div>
 
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Género</label>
+            <label for="" class="formulario__label">Género <span class="obligatorio">*</span></label>
             <select id="genero" aria-placeholder="Genero" class="selector formulario__input" required>
                 <option value="" disabled selected>Seleccione una opción</option>
                 <option value="Hombre">Hombre</option>
@@ -70,7 +70,7 @@ require 'header.php';
         </div>
 
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Dirección</label>
+            <label for="" class="formulario__label">Dirección <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese la Dirección">
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -79,7 +79,7 @@ require 'header.php';
         </div>
 
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Profesión</label>
+            <label for="" class="formulario__label">Profesión <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <select id="profesion" class="selector formulario__input" required>
                     <option value="" disabled selected>Seleccione una opción</option>
@@ -90,7 +90,7 @@ require 'header.php';
         </div>
 
         <div class="formulario__grupo" id="">
-            <label for="" class="formulario__label">Empresa</label>
+            <label for="" class="formulario__label">Empresa <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <select id="empresa" class="selector formulario__input" required>
                     <option value="" disabled selected>Seleccione una Empresa</option>>

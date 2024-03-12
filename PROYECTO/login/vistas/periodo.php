@@ -50,8 +50,8 @@ require 'header.php';
   </form> -->
 
 
-  <div id="modal" class="modal">
-  <button class="primary" onclick="window.dialog.showModal();">Nuevo</button>
+<div id="modal" class="modal">
+<button class="primary" onclick="window.dialog.showModal();">Nuevo</button>
 
   <dialog id="dialog">
     <h2>Registar Periodo.</h2>
@@ -60,7 +60,7 @@ require 'header.php';
   <input type="hidden" id="id">
     <!-- Grupo: Usuario -->
     <div class="formulario__grupo" id="">
-      <label for="" class="formulario__label">Codigo</label>
+      <label for="" class="formulario__label">Codigo <span class="obligatorio">*</span></label>
       <div class="formulario__grupo-input">
         <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese el codigo del nuevo periodo">
         <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -70,7 +70,7 @@ require 'header.php';
 
     <!-- Grupo:  -->
     <div class="formulario__grupo" id="">
-      <label for="" class="formulario__label">Lapso Académico</label>
+      <label for="" class="formulario__label">Lapso Académico <span class="obligatorio">*</span></label>
       <div class="formulario__grupo-input">
         <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese Lapso Académico">
         <i class="formulario__validacion-estado fas fa-times-circle"></i>
