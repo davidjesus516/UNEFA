@@ -19,7 +19,7 @@ class Usuario
     public function buscarUsuario($CI){
         $consulta = "SELECT t.ID,t.NOMBRE, t.APELLIDO,
         CONCAT(t.NACIONALIDAD,'-',t.CI) CEDULA, t.GENERO, t.TELEFONO,
-         t.E_MAIL, t.CARRERA ID_CARRERA, c.NOMBRE CARRERA, t.STATUS
+        t.E_MAIL, t.CARRERA ID_CARRERA, c.NOMBRE CARRERA, t.STATUS
         FROM tutor_a t 
         left join carrera c on c.id = t.carrera
         WHERE t.STATUS = 1 
@@ -84,11 +84,11 @@ class Usuario
     //creo la clase que me va a listar todos los usuarios
     public function listarUsuarios(){
         $consulta ="SELECT t.ID,t.NOMBRE, t.APELLIDO,
-         CONCAT(t.NACIONALIDAD,'-',t.CI) CEDULA, t.GENERO, t.TELEFONO,
-          t.E_MAIL, t.CARRERA ID_CARRERA, c.NOMBRE CARRERA, t.STATUS
-         FROM tutor_a t 
-         left join carrera c on c.id = t.carrera
-         WHERE t.STATUS = 1";
+        CONCAT(t.NACIONALIDAD,'-',t.CI) CEDULA, t.GENERO, t.TELEFONO,
+        t.E_MAIL, t.CARRERA ID_CARRERA, c.NOMBRE CARRERA, t.STATUS
+        FROM tutor_a t 
+        left join carrera c on c.id = t.carrera
+        WHERE t.STATUS = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();

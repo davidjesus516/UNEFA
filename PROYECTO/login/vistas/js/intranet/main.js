@@ -8,18 +8,11 @@ $(document).ready(function(){
             let template = "";//creo la plantilla donde imprimire los datos
             task.forEach(task =>{//hago un array que me recorra el json y me lo imprima en el tbody
                 template +=`<H1>${task.PERIODO}</H1>
-                <p>Inicio${task.FECHA_INICIO}</p>
-                <p>Fin${task.FECHA_FIN}</p>
+                <p>Inicio ${task.FECHA_INICIO}</p>
+                <p>Fin ${task.FECHA_FIN}</p>
                 `
             })
             $('.name').html(template);//los imprimo en el html
         }
     })
-    $("#openDialogBtn").click(function() {
-        $("#dialog").dialog("open");
-    });
-    
-      // Initialize the dialog and set its options
-    $("#dialog").dialog({
-        autoOpen: false,})
 })

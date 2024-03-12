@@ -63,9 +63,19 @@ $(document).ready(function () {
             data: { codigo: codigo },
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if (Object.keys(data).length === 0) {
+                if (Object.keys(data).length === 0 ) {
                     // Verificamos si el objeto está vacío
                     console.log("no existe");
+                    $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+                    $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
+                    $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
+                    errores = false
+                } 
+                if(edit === true){
+                    $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+                    $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
+                    $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
+                    errores = false
                 } else {
                     $("#grupo__codigo")
                         .addClass("formulario__grupo-incorrecto")
@@ -91,10 +101,12 @@ $(document).ready(function () {
         const codigo = $("#codigo").val();
         const nombre = $("#nombre").val();
 
-        if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+$/.test(nombre)) {
-            // Validating "nombre" field
-            alert("El campo de nombre solo puede contener letras");
-            errores = true; // Se marca que hay errores
+        if (/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+$/.test(nombre)) {
+            $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+            $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
+            $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
+    
+            errores = false
         }
 
         if (errores) {
@@ -170,10 +182,7 @@ $(document).ready(function () {
 
         // Agregamos la alerta de confirmación
         if (confirm("¿Está seguro de eliminar este registro?")) {
-            $.post(
-                "../controllers/carrera/UserDelete.php",
-                { id },
-                function (response) {
+            $.post("../controllers/carrera/UserDelete.php", { id }, function (response) {
                     //mando los datos al controlador
                     alert("usuario eliminado");
                     fetchTask(); //vuelvo a llamar a la funcion de la tabla para que actualize los datos
@@ -195,7 +204,7 @@ $(document).ready(function () {
             function (response) {
                 //mando los datos al controlador
                 const task = JSON.parse(response)[0]; // accede al primer objeto en el array
-                $("#codigo").val(task.codigo).prop("readonly", true); //añado los elementos al formulario y lo hago de solo lectura
+                $("#codigo").val(task.codigo); //añado los elementos al formulario y lo hago de solo lectura
                 $("#nombre").val(task.nombre);
                 edit = true; //valido la variable que esta por encima de todo para que en vez de guardar un nuevo usuario lo edite
             }

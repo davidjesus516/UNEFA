@@ -2,7 +2,7 @@
 require("../../model/tutor_a.php");
 if(isset($_POST)){//si js me manda datos yo hago:
     // $id = $_POST["id"];//guardo lo q mando
-    $id = 1;
+    $id = $_POST["id"];
     // incluir la clase Usuario
     require_once("../../model/tutor_a.php");
 
