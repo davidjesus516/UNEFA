@@ -1,7 +1,7 @@
 <?php
 require 'header.php';
 ?>
-<span class="text">Tutor Empresarial</span>
+<span class="text">Tutor Institucional</span>
 <div class="page-content">
 
 
@@ -9,7 +9,7 @@ require 'header.php';
     <button class="primary" onclick="window.dialog.showModal();">Nuevo</button>
 
     <dialog id="dialog">
-        <h2>Registrar Tutor Empresarial.</h2>
+        <h2>Registrar Tutor Institucional.</h2>
 
 
         <form action="" class="formulario" id="formulario">
@@ -144,8 +144,8 @@ require 'header.php';
     </table>
 
 </div>
-<script src="js/tutor_empresarial/jquery-3.7.0.min.js"></script>
-<script src="js/tutor_empresarial/main.js"></script>    
+<script src="js/tutor_institucional/jquery-3.7.0.min.js"></script>
+<script src="js/tutor_institucional/main.js"></script>    
 <?php
 require 'footer.php';
 ?>
