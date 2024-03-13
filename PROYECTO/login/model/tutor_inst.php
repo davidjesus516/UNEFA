@@ -152,11 +152,8 @@ class Usuario
     public function searcheditUsuario($id){
         $consulta = "SELECT t.ID,t.NOMBRE, t.APELLIDO,
         CONCAT(t.NACIONALIDAD,'-',t.CI) CEDULA, t.GENERO, t.TELEFONO,
-        t.E_MAIL,t.Cargo,t.PROFESION t.ID_empresa, e.NOMBRE EMPRESA , 
-        t.STATUS
-         FROM tutor_inst t 
-         left join empresa e on e.id = t.ID_empresa
-         WHERE t.STATUS = 1 
+        t.E_MAIL,t.CARGO,t.PROFESION, t.ID_empresa, e.NOMBRE EMPRESA , 
+        t.STATUS FROM tutor_inst t  left join empresa e on e.id = t.ID_empresa WHERE t.STATUS = 1 
         AND t.ID = :id";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':id', $id);
@@ -195,12 +192,12 @@ class Usuario
         $statement = $this->pdo->prepare($consulta);       
         $statement->bindValue(':id', $id);
         $statement->bindValue(':CI', $cedula);
-        $statement->bindValue(':NACIONALIDAD', $nacionalidad);
-        $statement->bindValue(':NOMBRE', $nombre);
-        $statement->bindValue(':APELLIDO', $apellido);
-        $statement->bindValue(':GENERO', $genero);
-        $statement->bindValue(':TELEFONO', $tlf);
-        $statement->bindValue(':E_MAIL', $e_mail);
+        $statement->bindValue(':nacionalidad', $nacionalidad);
+        $statement->bindValue(':nombre', $nombre);
+        $statement->bindValue(':apellido', $apellido);
+        $statement->bindValue(':genero', $genero);
+        $statement->bindValue(':telefono', $tlf);
+        $statement->bindValue(':e_mail', $e_mail);
         $statement->bindValue(':cargo', $cargo);
         $statement->bindValue(':profesion', $profesion);
         $statement->bindValue(':empresa', $empresa);

@@ -127,7 +127,7 @@ $(document).ready(function(){//aqui inicializamos javascript
         })
     })
 
-    $('#task-form').submit(function(e){//reviso del formulario task el evento submit
+    $('#formulario').submit(function(e){//reviso del formulario task el evento submit
 
         // Agregamos la alerta de confirmación
         if (!confirm('¿Quieres proceder con el registro?')) {
@@ -137,12 +137,14 @@ $(document).ready(function(){//aqui inicializamos javascript
         const id = $('#id').val();
         const cedula = $('#cedula').val();
         const nombre = $('#nombre').val();
+        const nacionalidad = $('#nacionalidad').val();
         const apellido = $('#apellido').val();
         const genero = $('#genero').val();
-        const correo = $('#correo').val();
-        const telefono = $('#tlf').val();
+        const correo = $('#e_mail').val();
+        const tlf = $('#tlf').val();
         const profesion = $('#profesion').val();
         const empresa = $('#empresa').val();
+        const cargo = $('#Cargo').val();
         
     
         
@@ -155,12 +157,14 @@ $(document).ready(function(){//aqui inicializamos javascript
             id: id,
             nombre: nombre,
             cedula: cedula,
-            correo: correo,
-            telefono: telefono,
+            nacionalidad: nacionalidad,
+            email: correo,
+            tlf: tlf,
             apellido: apellido,
             genero: genero,
             profesion: profesion,
-            empresa: empresa
+            empresa: empresa,
+            cargo: cargo
     
         };
         if (edit === false) {
@@ -237,7 +241,6 @@ $(document).ready(function(){//aqui inicializamos javascript
         let element = $(this)[0].parentElement.parentElement;// accedo al elemento padre de este hasta conseguir el ID de la fila
         let id = $(element).attr('taskid');//accedo al tributo que cree que contiene la cedula que busco
         $.post('../controllers/tutor_inst/UserDelete.php',{id}, function (response) {//mando los datos al controlador
-            alert(response)
             fetchTask();//vuelvo a llamar a la funcion de la tabla para que actualize los datos
         })
     })
@@ -246,18 +249,19 @@ $(document).ready(function(){//aqui inicializamos javascript
         let element = $(this)[0].parentElement.parentElement;// accedo al elemento padre de este hasta conseguir el ID de la fila
         let id = $(element).attr('taskid');//accedo al tributo que cree que contiene la cedula que busco
         $.post('../controllers/tutor_inst/UserEditSearch.php', {id}, function(response){//mando los datos al controlador
-            alert(response)
             const task = JSON.parse(response)[0]; // accede al primer objeto en el array
             const cedula = task.CEDULA.split("-");
             $('#id').val(task.ID).prop('readonly', true);//añado los elementos al formulario y lo hago de solo lectura
-            $('#nacionalida').val(cedula[0]).prop('readonly', true);
+            $('#nacionalidad').val(cedula[0]).prop('readonly', true);
             $('#cedula').val(cedula[1]).prop('readonly', true);
             $('#nombre').val(task.NOMBRE);
             $('#apellido').val(task.APELLIDO);
             $('#genero').val(task.GENERO);
             $('#tlf').val(task.TELEFONO);
             $('#e_mail').val(task.E_MAIL);
-            $('#carrera').val(task.ID_CARRERA);
+            $('#Cargo').val(task.CARGO);
+            $('#profesion').val(task.PROFESION);
+            $('#empresa').val(task.ID_empresa);
             edit = true;//valido la variable que esta por encima de todo para que en vez de guardar un nuevo usuario lo edite
         });
     })

@@ -1,11 +1,11 @@
 <?php
 
-// session_start();
+session_start();
 
 
-// if(!isset($_SESSION['username'])){
-//   header("Location: ../index.php");
-// }
+if(!isset($_SESSION['username'])){
+  header("Location: ../index.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +67,7 @@
                         <li><a href="carrera.php">Carrera</a></li>
                         <li><a href="profesion.php">Profesión</a></li>
                         <li><a href="tutor_academico.php">Tutor Academico</a></li>
-                        <li><a href="tutor_empresarial.php">Tutor Empresarial</a></li>
+                        <li><a href="tutor_institucional.php">Tutor Institucional</a></li>
                         <li><a href="estudiante.php">Estudiante</a></li>
                         <li><a href="empresa.php">Empresa</a></li>
                     </ul>
