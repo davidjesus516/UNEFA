@@ -1,8 +1,8 @@
 $(document).ready(function(){//aqui inicializamos javascript
     let edit = false;// esta variable de lectura la inicializo para que el form de enviar pueda volverse en un editar si es True
     console.log("jquery is working");// para saber que jquery este funcionando
+    let errores = false;
     fetchTask();//inicializo la funcion que cada vez que cargue la pagina le pida al servidor que me de los campos
-    combolist();//inicializo la funcion que cada vez que cargue la pagina le pida al servidor que me de las Profesiones Existentes
     $.ajax({//realizo una peticion ajax
         url: '../controllers/carrera/UserList.php',//al url que trae la lista
         type: 'GET',//le pido una peticion GET
@@ -16,6 +16,93 @@ $(document).ready(function(){//aqui inicializamos javascript
             $('#carrera').html(template);//los imprimo en el html
         }
     }) 
+    const expresiones = {
+        usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
+        solo_letras: /^[a-zA-ZÀ-ÿ\s]+$/, // Letras y espacios, pueden llevar acentos.
+        correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_.+-]*$/, // formato correo ejemplo@mail.com
+        cedula: /^\d{1,8}$/, // cedula debe ser un numero de maximo 9 digitos
+        telefono: /^\d{11}$/ // telefono debe ser un numero de 11 digitos 
+    }
+
+    $('#nombre').keyup(function(e){
+    if (expresiones.solo_letras.test($('#nombre').val())) {
+        $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+        $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
+        $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
+
+        errores = false
+    }
+    else {
+        $('#grupo__nombre').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+        $('#grupo__nombre i').addClass("fa-times-circle").removeClass("fa-check-circle");
+        $(`#grupo__nombre .formulario__input-error`).addClass('formulario__input-error-activo');
+        errores = true
+    }
+})
+    $('#apellido').keyup(function(e){
+    if (expresiones.solo_letras.test($('#apellido').val())) {
+        $('#grupo__apellido').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+        $('#grupo__apellido i').addClass("fa-check-circle").removeClass("fa-times-circle")
+        $(`#grupo__apellido .formulario__input-error`).removeClass('formulario__input-error-activo');
+
+        errores = false
+    }
+    else {
+        $('#grupo__apellido').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+        $('#grupo__apellido i').addClass("fa-times-circle").removeClass("fa-check-circle");
+        $(`#grupo__apellido .formulario__input-error`).addClass('formulario__input-error-activo');
+        errores = true
+    }
+})
+    $('#cedula').keyup(function(e){
+    if (expresiones.cedula.test($('#cedula').val())) {
+        $('#grupo__cedula').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+        $('#grupo__cedula i').addClass("fa-check-circle").removeClass("fa-times-circle")
+        $(`#grupo__cedula .formulario__input-error`).removeClass('formulario__input-error-activo');
+
+        errores = false
+    }
+    else {
+        $('#grupo__cedula').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+        $('#grupo__cedula i').addClass("fa-times-circle").removeClass("fa-check-circle");
+        $(`#grupo__cedula .formulario__input-error`).addClass('formulario__input-error-activo');
+        $('#grupo__cedula p').text("Este campo solo puede contener numeros.");
+        errores = true
+    }
+    
+    })
+    $('#tlf').keyup(function(e){
+    if (expresiones.telefono.test($('#tlf').val())) {
+        $('#grupo__telefono').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+        $('#grupo__telefono i').addClass("fa-check-circle").removeClass("fa-times-circle")
+        $(`#grupo__telefono .formulario__input-error`).removeClass('formulario__input-error-activo');
+
+        errores = false
+    }
+    else {
+        $('#grupo__telefono').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+        $('#grupo__telefono i').addClass("fa-times-circle").removeClass("fa-check-circle");
+        $(`#grupo__telefono .formulario__input-error`).addClass('formulario__input-error-activo');
+        errores = true
+    }
+    
+    })
+    $('#e_mail').keyup(function(e){
+        if (expresiones.correo.test($('#e_mail').val())) {
+            $('#grupo__correo').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+            $('#grupo__correo i').addClass("fa-check-circle").removeClass("fa-times-circle")
+            $(`#grupo__correo .formulario__input-error`).removeClass('formulario__input-error-activo');
+    
+            errores = false
+        }
+        else {
+            $('#grupo__correo').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+            $('#grupo__correo i').addClass("fa-times-circle").removeClass("fa-check-circle");
+            $(`#grupo__correo .formulario__input-error`).addClass('formulario__input-error-activo');
+            errores = true
+        }
+        
+        })
     $('#cedula').change(function(e){
         let search = $('#cedula').val();
         $.ajax({
@@ -27,7 +114,11 @@ $(document).ready(function(){//aqui inicializamos javascript
                 if (Object.keys(data).length === 0) { // Verificamos si el objeto está vacío
                     console.log('no existe');
                 } else {
-                    alert("El Docente con esta Cedula ya existe");
+                    $('#grupo__cedula').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+                    $('#grupo__cedula i').addClass("fa-times-circle").removeClass("fa-check-circle");
+                    $(`#grupo__cedula .formulario__input-error`).addClass('formulario__input-error-activo');
+                    $('#grupo__cedula p').text("Cedula ya existe");
+                    errores = true
                 }
             },
             error: function(error) {
@@ -35,8 +126,6 @@ $(document).ready(function(){//aqui inicializamos javascript
             } 
         })
     })
-    
-    
 
     $('#formulario').submit(function(e){
         // Agregamos la alerta de confirmación
@@ -54,24 +143,10 @@ $(document).ready(function(){//aqui inicializamos javascript
         const tlf = $('#tlf').val();
         const e_mail = $('#e_mail').val();
         const carrera = $('#carrera').val();
-        let errores = false;
+        
         
     
-        if (!/^\d{8}$/.test(cedula)) { // Validating "telefono_empresa" field
-            alert("El campo 'Cedula' debe contener 8 numeros");
-            errores = true; // Se marca que hay errores
-        }
         
-    
-        if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+$/.test(nombre)) { // Validating "nombre" field
-            alert("El campo 'Nombre' solo puede contener letras");
-            errores = true; // Se marca que hay errores
-        }
-    
-        if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+$/.test(apellido)) { // Validating "nombre_contacto" field
-            alert("El campo 'Apellido' solo puede contener letras");
-            errores = true; // Se marca que hay errores
-        }
     
         if (errores) { // Se comprueba si hay errores
             e.preventDefault(); // Cancela el envío del formulario si hay errores
