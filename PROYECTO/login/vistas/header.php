@@ -83,6 +83,8 @@
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Transacciones</a></li>
                         <li><a href="transaccion_estudiante.php">Estudiante</a></li>
+                        <li><a href="transaccion_seguimiento.php">Seguimiento</a></li>
+                        <li><a href="transaccion_notas.php">Carga de Notas</a></li>
                         <li><a href="#">Cierre de Periodo</a></li>
                     </ul>
                 </li>
