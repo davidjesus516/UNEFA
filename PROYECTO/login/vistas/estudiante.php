@@ -64,7 +64,7 @@ require 'header.php';
         <div class="formulario__grupo" id="grupo__correo">
 			<label for="telefono" class="formulario__label">Correo <span class="obligatorio">*</span></label>
 			<div class="formulario__grupo-input">
-				<input type="text" class="formulario__input" name="correo" id="e_mail" placeholder="Ingrese su correo electronico">
+				<input type="email" class="formulario__input" name="correo" id="e_mail" placeholder="Ingrese su correo electronico">
 				<i class="formulario__validacion-estado fas fa-times-circle"></i>
 			</div>
 			<p class="formulario__input-error"></p>
