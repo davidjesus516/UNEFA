@@ -25,7 +25,7 @@ require 'header.php';
     <form action="#" class="formulario" id="formulario">
     <input type="hidden" id="id">
         <!-- Grupo: Usuario -->
-        <div class="formulario__grupo" id="">
+        <div class="formulario__grupo" id="grupo__cedula">
             <label for="" class="formulario__label">Cedula <span class="obligatorio">*</span></label>
             <select id="nacionalidad" class="formulario__input" name="tipo-cedula">
                 <option value="V">V-</option>
@@ -40,7 +40,7 @@ require 'header.php';
         </div>
 
         <!-- Grupo:  -->
-        <div class="formulario__grupo" id="">
+        <div class="formulario__grupo" id="grupo__nombre">
             <label for="" class="formulario__label">Nombre <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre">
@@ -49,7 +49,7 @@ require 'header.php';
             <p class="formulario__input-error">Validacion</p>
         </div>
 
-        <div class="formulario__grupo" id="">
+        <div class="formulario__grupo" id="#grupo__apellido">
             <label for="" class="formulario__label">Apellido <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="apellido" placeholder="Ingrese la Apellido">
@@ -70,7 +70,7 @@ require 'header.php';
             <p class="formulario__input-error">Validacion</p>
         </div>
 
-          <div class="formulario__grupo" id="grupo__">
+          <div class="formulario__grupo" id="grupo__telefono">
             <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="telefono" id="tlf" placeholder="Ingrese su numero telefonico">
@@ -79,10 +79,10 @@ require 'header.php';
             <p class="formulario__input-error">El telefono solo puede contener numeros y el maximo son 14 dígitos.</p>
         </div>
 
-        <div class="formulario__grupo" id="grupo__">
+        <div class="formulario__grupo" id="grupo__correo">
             <label for="telefono" class="formulario__label">Correo <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
-                <input type="text" class="formulario__input" name="correo" id="e_mail" placeholder="Ingrese su correo electronico">
+                <input type="email" class="formulario__input" name="correo" id="e_mail" placeholder="Ingrese su correo electronico">
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
             </div>
             <p class="formulario__input-error"></p>
@@ -91,7 +91,6 @@ require 'header.php';
         <div class="formulario__grupo" id="">
             <label for="" class="formulario__label">Carrera <span class="obligatorio">*</span></label>
             <select id="carrera" aria-placeholder="carrera" class="selector formulario__input" required>
-               
             </select>
             <i class="formulario__validacion-estado fas fa-times-circle"></i>
             <p class="formulario__input-error">Validacion</p>
