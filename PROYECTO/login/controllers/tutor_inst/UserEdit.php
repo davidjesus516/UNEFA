@@ -1,6 +1,6 @@
 <?php
 
-require("../../model/model_tutor_empresarial/UserModel.php");
+require("../../model/tutor_inst.php");
 
 if(isset($_POST)){
     $id = $_POST["id"];//guardo los datos que envio

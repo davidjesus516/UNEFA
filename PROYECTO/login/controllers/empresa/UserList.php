@@ -1,13 +1,13 @@
 <?php 
 
 // incluir la clase Usuario
-require_once("../../model/model_empresa/UserModel.php");
+require_once("../../model/empresa.php");
 
 // crear una instancia de la clase Usuario
 $usuario = new Usuario();
 
 // llamar al método listarUsuario() para que me retorne todo lo que tiene la bd
-$json = $usuario->listarUsuarios();
+$json = $usuario->listar_a();
 
 // convertir el resultado a formato JSON
 $jsonstring = json_encode($json);

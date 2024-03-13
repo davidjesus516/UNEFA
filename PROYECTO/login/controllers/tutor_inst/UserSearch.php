@@ -1,9 +1,9 @@
 <?php
-require("../../model/model_tutor_empresarial/UserModel.php");
+require("../../model/tutor_inst.php");
 $rif = $_POST["search"];
 
 // incluir la clase Usuario
-require_once("../../model/model_tutor_empresarial/UserModel.php");
+require_once("../../model/tutor_inst.php");
 
 // crear una instancia de la clase Usuario
 $usuario = new Usuario();

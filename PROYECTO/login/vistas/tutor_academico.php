@@ -70,7 +70,7 @@ require 'header.php';
             <p class="formulario__input-error">Validacion</p>
         </div>
 
-          <div class="formulario__grupo" id="grupo__telefono">
+        <div class="formulario__grupo" id="grupo__telefono">
             <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="telefono" id="tlf" placeholder="Ingrese su numero telefonico">

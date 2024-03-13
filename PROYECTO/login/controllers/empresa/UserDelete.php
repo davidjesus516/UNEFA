@@ -1,6 +1,6 @@
 <?php
 
-require("../../model/model_empresa/UserModel.php");
+require("../../model/empresa.php");
 
 if(isset($_POST)){// si js me manda datos yo hago:
     $id = $_POST["id"];//guardo lo que mando

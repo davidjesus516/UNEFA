@@ -1,6 +1,6 @@
 <?php
 
-require("../../model/model_empresa/UserModel.php");
+require("../../model/empresa.php");
 
 if(isset($_POST)){//si el js me manda yo hago:
     $rif = $_POST["rif"] . $_POST["rif2"];//guardo los datos que envio

@@ -88,13 +88,7 @@ class Usuario
     
     //creo la clase que me va a listar todos los usuarios
     public function listarUsuarios(){
-        $consulta ="SELECT t.ID,t.NOMBRE, t.APELLIDO,
-        CONCAT(t.NACIONALIDAD,'-',t.CI) CEDULA, t.GENERO, t.TELEFONO,
-        t.E_MAIL,t.Cargo,t.PROFESION t.ID_empresa, e.NOMBRE EMPRESA , 
-        t.STATUS
-         FROM tutor_inst t 
-         left join empresa e on e.id = t.ID_empresa
-         WHERE t.STATUS = 1";
+        $consulta ="SELECT t.ID,t.NOMBRE, t.APELLIDO, CONCAT(t.NACIONALIDAD,'-',t.CI) CEDULA, t.GENERO, t.TELEFONO,t.E_MAIL, t.CARGO,t.PROFESION ,t.ID_empresa, e.NOMBRE EMPRESA , t.STATUS FROM tutor_inst t left join empresa e on e.id = t.ID_empresa WHERE t.STATUS = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();
@@ -189,7 +183,7 @@ class Usuario
     }
     
     //creo la clase que me va a editar un usuario
-    public function editarUsuario($cedula,$nacionalidad,$nombre,
+    public function editarUsuario($id,$cedula,$nacionalidad,$nombre,
     $apellido,$genero,$tlf,$e_mail,$cargo,$profesion,$empresa){
 
         $consulta = "UPDATE tutor_inst SET

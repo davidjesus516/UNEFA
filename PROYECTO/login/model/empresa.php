@@ -74,11 +74,7 @@ class Usuario
     
     //creo la funcion que me va a listar todos las empresas activos
     public function listar_a(){
-        $consulta = "SELECT e.ID, e.NOMBRE, CONCAT(e.L_RIF,'-',e.RIF) 
-        RIF, e.TELEFONO, e.DIRECCION, e.N_PASANTES, c.id C_ID,c.NOMBRE
-        CARRERA, c.CODIGO C_CODIGO FROM FROM empresa as e 
-        left join carrera as c on e.carrera = c.id
-        WHERE e.STATUS = 1";
+        $consulta = "SELECT e.ID, e.NOMBRE, CONCAT(e.L_RIF,'-',e.RIF)  RIF, e.TELEFONO, e.DIRECCION, e.N_PASANTES, c.id C_ID,c.NOMBRE CARRERA, c.CODIGO C_CODIGO FROM empresa as e left join carrera as c on e.carrera = c.id WHERE e.STATUS = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();

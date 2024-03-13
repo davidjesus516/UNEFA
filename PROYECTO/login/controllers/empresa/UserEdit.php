@@ -1,6 +1,6 @@
 <?php
 
-require("../../model/model_empresa/UserModel.php");
+require("../../model/empresa.php");
 
 if(isset($_POST)){
     $id = $_POST["id"];
