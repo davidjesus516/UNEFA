@@ -8,7 +8,7 @@ require 'header.php';
     <button class="primary" onclick="window.dialog.showModal();">Nuevo</button>
 
     <dialog id="dialog">
-        <h2>Registar Carrera.</h2>
+        <h2>Registrar Carrera.</h2>
 
         <form action="" class="formulario" id="formulario">
         <!-- Grupo: Usuario -->

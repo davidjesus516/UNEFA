@@ -450,7 +450,7 @@ p.account a:hover {
 }
 
 .formulario__input {
-  width: 100%;
+  width: auto;
   background: #fff;
   border: 3px solid transparent;
   border-radius: 3px;

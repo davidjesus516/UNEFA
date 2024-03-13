@@ -1,7 +1,7 @@
 <?php
 require 'header.php';
 ?>
-<span class="text">Periodo</span>
+<span class="text">Carga de Notas</span>
 <div class="page-content">
 
 
@@ -9,25 +9,25 @@ require 'header.php';
 	<button class="primary" onclick="window.dialog.showModal();">Nuevo</button>
 
 	<dialog id="dialog">
-		<h2>Registrar Periodo.</h2>
+		<h2>Carga de Notas.</h2>
 
 		<form action="" class="formulario" id="formulario">
 			<input type="hidden" id="id">
 			<!-- Grupo: Usuario -->
 			<div class="formulario__grupo" id="">
-			<label for="" class="formulario__label">Codigo <span class="obligatorio">*</span></label>
+			<label for="" class="formulario__label">Observación <span class="obligatorio">*</span></label>
 			<div class="formulario__grupo-input">
-				<input type="text" class="formulario__input" name="" id="" placeholder="Ingrese el codigo del nuevo periodo">
+				<input type="text" class="formulario__input" name="" id="" placeholder="">
 				<i class="formulario__validacion-estado fas fa-times-circle"></i>
 			</div>
-			<p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
+			<p class="formulario__input-error"></p>
 			</div>
 
 			<!-- Grupo:  -->
 			<div class="formulario__grupo" id="">
-			<label for="" class="formulario__label">Lapso Académico <span class="obligatorio">*</span></label>
+			<label for="" class="formulario__label">Fecha <span class="obligatorio">*</span></label>
 			<div class="formulario__grupo-input">
-				<input type="text" class="formulario__input" name="" id="" placeholder="Ingrese Lapso Académico">
+				<input type="date" class="formulario__input" name="" id="" placeholder="">
 				<i class="formulario__validacion-estado fas fa-times-circle"></i>
 			</div>
 			<p class="formulario__input-error">Validacion</p>
@@ -56,8 +56,10 @@ require 'header.php';
 	<table class="w3-table-all w3-hoverable">
     <thead>
         <tr class="w3-light-grey">
-        <th>Codigo</th>
-        <th>Lapso Academico</th>
+        <th>Nombre del Estudiante</th>
+        <th>Notas del Tutor institucional</th>
+        <th>Notas del Tutor Academico</th>
+        <th>Notas del Comite</th>
         <th colspan="2">Acciones</th>
         </tr>
     </thead>
@@ -65,8 +67,8 @@ require 'header.php';
 </table>
 
 
-<script src="js/periodo/jquery-3.7.0.min.js"></script>    
-<script src="js/periodo/main.js"></script>
+<script src="js//jquery-3.7.0.min.js"></script>    
+<script src="js//main.js"></script>
 <?php
 require 'footer.php';
 ?>
