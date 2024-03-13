@@ -27,11 +27,7 @@ require 'header.php';
         <div class="formulario__grupo" id="">
             <label for="" class="formulario__label">RIF <span class="obligatorio">*</span></label>
             <select id="" class="formulario__input" name="tipo-cedula">
-                <option value="">V-</option>
-                <option value="">E-</option>
-                <option value="">J-</option>
-                <option value="">G-</option>
-                <option value="">P-</option>
+                <option value="G" selected>G-</option>
             </select>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese el RIF">

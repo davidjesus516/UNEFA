@@ -31,7 +31,6 @@ $(document).ready(function(){//aqui inicializamos javascript
                     $.post(url,postData,function(response){
                         alert(response);
                         location = "index.php";
-                        e.preventDefault;
                     })
         } else {
             // Si el usuario hace clic en "Cancelar", no se envía la solicitud de registro

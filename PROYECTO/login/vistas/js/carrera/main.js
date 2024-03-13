@@ -25,7 +25,7 @@ $(document).ready(function () {
             $("#task-result").hide();
         }
     });
-    $("#nombre").change(function (e) {
+    $("#nombre").keyup(function (e) {
         let nombre = $("#nombre").val();
         $.ajax({
             url: "../controllers/carrera/UserSearch.php",
@@ -33,10 +33,15 @@ $(document).ready(function () {
             data: { nombre: nombre },
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if (Object.keys(data).length === 0) {
+                if (Object.keys(data).length === 0 || edit === true) {
                     // Verificamos si el objeto está vacío
                     console.log("no existe");
-                } else {
+                    $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+                    $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
+                    $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
+                    errores = false
+                } 
+                else {
                     $("#grupo__nombre")
                         .addClass("formulario__grupo-incorrecto")
                         .removeClass("formulario__grupo-correcto");
@@ -55,7 +60,7 @@ $(document).ready(function () {
             },
         });
     });
-    $("#codigo").change(function (e) {
+    $("#codigo").keyup(function (e) {
         let codigo = $("#codigo").val();
         $.ajax({
             url: "../controllers/carrera/UserSearch.php",
@@ -63,20 +68,15 @@ $(document).ready(function () {
             data: { codigo: codigo },
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if (Object.keys(data).length === 0 ) {
+                if (Object.keys(data).length === 0 || edit === true ) {
                     // Verificamos si el objeto está vacío
                     console.log("no existe");
-                    $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-                    $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
-                    $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
+                    $('#grupo__codigo').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+                    $('#grupo__codigo i').addClass("fa-check-circle").removeClass("fa-times-circle")
+                    $(`#grupo__codigo .formulario__input-error`).removeClass('formulario__input-error-activo');
                     errores = false
                 } 
-                if(edit === true){
-                    $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-                    $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
-                    $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
-                    errores = false
-                } else {
+                else {
                     $("#grupo__codigo")
                         .addClass("formulario__grupo-incorrecto")
                         .removeClass("formulario__grupo-correcto");

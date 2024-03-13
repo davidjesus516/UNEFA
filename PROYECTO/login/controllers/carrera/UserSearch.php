@@ -24,13 +24,13 @@ $json = $usuario->buscarCodigo("$codigo");
 if (isset($_POST['nombre'])){ 
     $codigo = $_POST["nombre"];
     // incluir la clase Usuario
-    require_once("../../model\carrera.php");
+    require_once("../../model/carrera.php");
     
     // crear una instancia de la clase Usuario
     $usuario = new Usuario();
 
     // llamar al método buscarUsuario() para buscar un usuario por su cédula
-    $json = $usuario->buscarNombre("$codigo");
+    $json = $usuario->buscarNombre($codigo);
     // verificar si la respuesta es nula o 0
     if ($json !== null && $json !== 0) {
     // convertir el resultado a formato JSON
