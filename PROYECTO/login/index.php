@@ -21,6 +21,10 @@ if (isset($_SESSION['username'])) {
 </head>
 
 <body>
+  <div class="modal">
+
+  
+  </div>
 
   <div class="login-form">
     <!-- <h1>Login</h1> -->

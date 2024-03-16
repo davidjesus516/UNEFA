@@ -96,11 +96,10 @@ require 'header.php';
   }
 </style>
 <span class="text">Inicio</span>
-<!-- <button id="open-modal-btn">Open Modal</button>
 
-<button id="open-modal-btn">Open Modal</button> -->
-
-<!-- <div id="modal" class="modal">
+<!-- A Continuacion un ejemplo del modal utilizado en el proyecto
+  
+<div id="modal" class="modal">
   <button class="primary" onclick="window.dialog.showModal();">Abrir Dialogo</button>
 
   <dialog id="dialog">

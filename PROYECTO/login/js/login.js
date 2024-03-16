@@ -10,9 +10,15 @@ $(document).ready(function(){
 			password: password
 		}
 		$.post("controllers/login/login.php",{username,password},function(response){
-
-               alert(response);
-               		})
+			// seccion de codigo que muestra el mensaje obtenido del backend
+            $(".modal").html(response);
+			dialog.showModal();
+			$('.x').on('click', function() {
+				dialog.close();
+				location.reload();
+			});
+            })
+			e.preventDefault();//previene el comportamiento por defecto
 	})
 
 })

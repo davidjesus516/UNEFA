@@ -17,7 +17,7 @@ require 'header.php';
 			<div class="formulario__grupo" id="">
 			<label for="" class="formulario__label">Codigo <span class="obligatorio">*</span></label>
 			<div class="formulario__grupo-input">
-				<input type="text" class="formulario__input" name="" id="" placeholder="Ingrese el codigo del nuevo periodo">
+				<input type="date" class="formulario__input" name="" id="periodo" placeholder="Ingrese el codigo del nuevo periodo">
 				<i class="formulario__validacion-estado fas fa-times-circle"></i>
 			</div>
 			<p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>

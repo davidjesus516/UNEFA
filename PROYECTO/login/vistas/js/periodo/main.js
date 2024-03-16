@@ -25,7 +25,10 @@ $(document).ready(function(){//aqui inicializamos javascript
             $('#task-result').hide();
         }
     })
-    
+    $('#periodo').change(function(e){
+        console.log($("#periodo").val())
+
+    })
 
     $('#task-form').submit(function(e){
         const codigo = $('#codigo').val();
