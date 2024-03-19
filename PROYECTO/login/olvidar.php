@@ -1,4 +1,5 @@
 <?php
+
 require_once 'model/conexion.php';
 if (isset($_POST['username'])) {
   $username = $_POST['username'];
@@ -17,9 +18,10 @@ while ($n1 === $n2) {
 }
 
 session_start();
-
+// codigo que comprueba la existencia de una sesion activa
 
 if (isset($_SESSION['username'])) {
+  // en caso de que exista sesion activa  redirige a la intranet
   header('location: vistas/intranet.php');
 }
 
@@ -41,10 +43,19 @@ if (isset($_SESSION['username'])) {
 
 <body>
   <?php if (!isset($_POST['username'])  or !isset($row["ID"])) {
-    if (isset($_POST['username'])){
-      echo "<script>alert('El nombre de usuario  no existe') </script>";
-    }
     echo '
+    <dialog id="dialog">
+            <h2>usuario o contraseña incorrecta </h2>
+            <div class="error-banmark">
+            <div class="ban-icon">
+                <span class="icon-line line-long-invert"></span>
+                <span class="icon-line line-long"></span>
+                <div class="icon-circle"></div>
+                <div class="icon-fix"></div>
+            </div>
+            </div>
+            <button aria-label="close" class="x">❌</button>
+            </dialog>
     <div class="login-form">
     <!-- <h1>Recuperar Usuario</h1> -->
       <div class="container">
@@ -53,7 +64,7 @@ if (isset($_SESSION['username'])) {
             
             <h2>Recuperar Usuario</h2>
             
-            <form id="task-form" action="#" method="POST">
+            <form action="#" method="POST">
               <input type="text" id="username-input" name="username" placeholder="Nombre de Usuario" required autofocus="">
               <button class="btn" type="submit" id="submit-button">Recuperar</button>
             </form>
@@ -71,6 +82,9 @@ if (isset($_SESSION['username'])) {
 
 
     ';
+    if (isset($_POST['username'])){
+      echo "<script>window.dialog.showModal(); </script>";
+    };
   }
   if (isset($_POST['username'])) {
     echo '
@@ -80,7 +94,7 @@ if (isset($_SESSION['username'])) {
         <div class="main">
           <div class="content">
             <h2>Preguntas de Seguridad</h2>
-            <form id="task-form" action="controllers\login\validar.php" method="POST">
+            <form action="controllers\login\validar.php" method="POST">
             <input type="hidden" name="ID" value=' . $row["ID"] . ' />
             <input type="hidden" name="n1" value="' . $n1 . '"/>
             <input type="hidden" name="n2" value="' . $n2 . '"/>
@@ -103,7 +117,8 @@ if (isset($_SESSION['username'])) {
 ';
   }
   ?>
-  <script src="js/jquery-3.7.0.min.js"></script>
+  <script src="js/jquery-3.7.0.min.js"></script>  
+  <script src="js/login.js"></script>
 </body>
 
 </html>

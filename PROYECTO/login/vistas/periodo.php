@@ -13,15 +13,6 @@ require 'header.php';
 
 		<form action="" class="formulario" id="formulario">
 			<input type="hidden" id="id">
-			<!-- Grupo: Usuario -->
-			<div class="formulario__grupo" id="">
-			<label for="" class="formulario__label">Codigo <span class="obligatorio">*</span></label>
-			<div class="formulario__grupo-input">
-				<input type="date" class="formulario__input" name="" id="periodo" placeholder="Ingrese el codigo del nuevo periodo">
-				<i class="formulario__validacion-estado fas fa-times-circle"></i>
-			</div>
-			<p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
-			</div>
 
 			<!-- Grupo:  -->
 			<div class="formulario__grupo" id="">
@@ -31,6 +22,25 @@ require 'header.php';
 				<i class="formulario__validacion-estado fas fa-times-circle"></i>
 			</div>
 			<p class="formulario__input-error">Validacion</p>
+			</div>
+
+			<!-- Grupo: Usuario -->
+			<div class="formulario__grupo" id="">
+			<label for="" class="formulario__label">INICIO <span class="obligatorio">*</span></label>
+			<div class="formulario__grupo-input">
+				<input type="date" class="formulario__input" name="" id="periodo" placeholder="Ingrese el codigo del nuevo periodo">
+				<i class="formulario__validacion-estado fas fa-times-circle"></i>
+			</div>
+			<p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
+			</div>
+
+			<div class="formulario__grupo" id="">
+			<label for="" class="formulario__label">FIN <span class="obligatorio">*</span></label>
+			<div class="formulario__grupo-input">
+				<input type="date" class="formulario__input" name="" id="periodo" placeholder="Ingrese el codigo del nuevo periodo">
+				<i class="formulario__validacion-estado fas fa-times-circle"></i>
+			</div>
+			<p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
 			</div>
 
 			<div class="formulario__mensaje" id="formulario__mensaje">

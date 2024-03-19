@@ -20,5 +20,8 @@ $(document).ready(function(){
             })
 			e.preventDefault();//previene el comportamiento por defecto
 	})
-
+	$('.x').on('click', function() {
+		dialog.close();
+	});
+	
 })
