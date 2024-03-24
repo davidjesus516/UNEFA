@@ -42,15 +42,9 @@ $(document).ready(function () {
                     errores = false
                 } 
                 else {
-                    $("#grupo__nombre")
-                        .addClass("formulario__grupo-incorrecto")
-                        .removeClass("formulario__grupo-correcto");
-                    $("#grupo__nombre i")
-                        .addClass("fa-times-circle")
-                        .removeClass("fa-check-circle");
-                    $(`#grupo__nombre .formulario__input-error`).addClass(
-                        "formulario__input-error-activo"
-                    );
+                    $("#grupo__nombre").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+                    $("#grupo__nombre i").addClass("fa-times-circle").removeClass("fa-check-circle");
+                    $(`#grupo__nombre .formulario__input-error`).addClass("formulario__input-error-activo");
                     $("#grupo__nombre p").text("esta carrera ya existe");
                     errores = true;
                 }
