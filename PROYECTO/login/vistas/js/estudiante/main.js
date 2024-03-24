@@ -105,7 +105,7 @@ $(document).ready(function(){//aqui inicializamos javascript
         }
         
         })
-    $('#cedula').change(function(e){
+    $('#cedula').keyup(function(e){
         let search = $('#cedula').val();
         $.ajax({
             url: '../controllers/estudiante/UserSearch.php',
