@@ -44,7 +44,16 @@ public function login($username,$password){
         $row = $statement->fetch(PDO::FETCH_ASSOC);
         return $row;
     }
-    }
+    
+    public function bucar_usuario($usuario){
 
+        $consulta = "SELECT * FROM usuarios WHERE username = :username";
+        $statement = $this->pdo->prepare($consulta);
+        $statement->bindValue(':username', $usuario);
+        $statement->execute();
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        return $row;
 
+}
+}
 ?>

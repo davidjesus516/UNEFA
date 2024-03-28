@@ -85,6 +85,7 @@ class Usuario
                 'nombre' => $row["NOMBRE"],
                 'direccion' => $row["DIRECCION"],
                 'telefono_empresa' => $row["TELEFONO"],
+                'n_pasantes' => $row['N_PASANTES'],
                 'carrera' => $row["CARRERA"],
                 'c_id' => $row["C_ID"],
                 'c_codigo' => $row["C_CODIGO"]
@@ -118,7 +119,7 @@ class Usuario
     }
     //creo la clase que me va a eliminar un usuario
     public function eliminar($id,$estatus){
-        $consulta = "UPDATE empresa SET estatus = :estatus WHERE id = :id";
+        $consulta = "UPDATE empresa SET status = :estatus WHERE id = :id";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':estatus', $estatus);
         $statement->bindValue(':id', $id);

@@ -11,9 +11,9 @@ if(isset($_POST)){//si el js me manda yo hago:
     $genero = mb_strtoupper($_POST["genero"]);   
     $tlf = $_POST["tlf"];  
     $e_mail = mb_strtoupper( $_POST["e_mail"]);  
-    $rango_militar = $_POST["rango_militar"];  
+    $rango_militar = mb_strtoupper($_POST["rango_militar"]);  
     $carrera = $_POST["carrera"];  
-    $turno = $_POST["turno"];   
+    $turno = mb_strtoupper($_POST["turno"]);   
     $estatus = 1;
     // Crear una instancia de la clase Usuario
     $usuario = new Usuario();

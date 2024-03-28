@@ -1,22 +1,6 @@
 <?php
 
-require_once 'model/conexion.php';
-if (isset($_POST['username'])) {
-  $username = $_POST['username'];
-
-  $db = new Conexion('localhost', 'unefa', 'root', '');
-  $query = $db->conectar()->prepare('SELECT *FROM usuarios WHERE username = :username');
-  $query->execute(['username' => $username]);
-
-  $row = $query->fetch(PDO::FETCH_ASSOC);
-}
-$n1 = random_int(1, 3);
-$n2 = random_int(1, 3);
-while ($n1 === $n2) {
-  $n1 = random_int(1, 3);
-  $n2 = random_int(1, 3);
-}
-
+require_once 'controllers/login/buscar_usuario.php';
 session_start();
 // codigo que comprueba la existencia de una sesion activa
 

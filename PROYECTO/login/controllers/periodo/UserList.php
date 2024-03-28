@@ -7,7 +7,7 @@ require_once("../../model/periodo.php");
 $usuario = new Usuario();
 
 // llamar al método listarUsuario() para que me retorne todo lo que tiene la bd
-$json = $usuario->listarUsuarios();
+$json = $usuario->listarActivos();
 
 // convertir el resultado a formato JSON
 $jsonstring = json_encode($json);

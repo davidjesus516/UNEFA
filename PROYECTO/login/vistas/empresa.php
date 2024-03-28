@@ -3,7 +3,9 @@ require 'header.php';
 ?>
 <span class="text">Empresa</span>
 <div class="page-content">
-
+<div class = modal>
+    <dialog id = respuesta></dialog>
+</div>
 
 <div id="modal" class="modal">
     <button class="primary" onclick="window.dialog.showModal();">Nuevo</button>
@@ -14,10 +16,10 @@ require 'header.php';
         <form action="" class="formulario" id="formulario">
 
             <!-- Grupo:  -->
-            <div class="formulario__grupo" id="">
+            <div class="formulario__grupo" id="grupo__nombre">
                 <label for="" class="formulario__label">Nombre de la Empresa <span class="obligatorio">*</span></label>
                 <div class="formulario__grupo-input">
-                    <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese la Nombre de la Empresa">
+                    <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre de la Empresa">
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                 </div>
                 <p class="formulario__input-error">Validacion</p>
@@ -25,13 +27,13 @@ require 'header.php';
 
             <!-- Grupo: Usuario -->
             <input type="hidden" id="id">
-            <div class="formulario__grupo" id="">
+            <div class="formulario__grupo" id="grupo__rif">
                 <label for="" class="formulario__label">RIF <span class="obligatorio">*</span></label>
                 <select id="" class="formulario__input" name="tipo-cedula">
                     <option value="G" selected>G-</option>
                 </select>
                 <div class="formulario__grupo-input">
-                    <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese el RIF">
+                    <input type="text" class="formulario__input" name="" id="n_rif" placeholder="Ingrese el RIF">
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                 </div>
                 <p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
@@ -68,7 +70,7 @@ require 'header.php';
             <div class="formulario__grupo" id="">
                 <label for="" class="formulario__label">Numero de Pasantes <span class="obligatorio">*</span></label>
                 <div class="formulario__grupo-input">
-                    <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese la cantidad de Pasantes">
+                    <input type="number" class="formulario__input" name="" id="" placeholder="Ingrese la cantidad de Pasantes">
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                 </div>
                 <p class="formulario__input-error">Validacion</p>
@@ -76,13 +78,12 @@ require 'header.php';
 
             <!--  -->
             <div class="formulario__grupo" id="">
-                <label for="" class="formulario__label">Carrera <span class="obligatorio">*</span></label>
-                <div class="formulario__grupo-input">
-                    <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese la Carrera">
+                    <label for="" class="formulario__label">Carrera <span class="obligatorio">*</span></label>
+                    <select id="carrera" aria-placeholder="carrera" class="selector formulario__input" required>               
+                    </select>
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    <p class="formulario__input-error">Validacion</p>
                 </div>
-                <p class="formulario__input-error">Validacion</p>
-            </div>
 
             <div class="formulario__mensaje" id="formulario__mensaje">
                 <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente. </p>
@@ -95,7 +96,7 @@ require 'header.php';
         </form>
 
         <!-- <p>You can also change the styles of the <code>::backdrop</code> from the CSS.</p> -->
-        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+        <button aria-label="close" class="x">❌</button>
     </dialog>
     </div>
 </div>

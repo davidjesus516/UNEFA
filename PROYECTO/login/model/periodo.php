@@ -20,7 +20,7 @@ class Usuario
         $consulta = "SELECT * FROM periodo WHERE STATUS = 1
         AND periodo LIKE :periodo";
         $statement = $this->pdo->prepare($consulta);
-        $statement->bindValue(':periodo', '%' . $periodo . '%');
+        $statement->bindValue(':periodo', $periodo);
         $statement->execute();
         $json = array();
         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
@@ -50,8 +50,59 @@ class Usuario
     }
     
     //creo la clase que me va a listar todos los usuarios
-    public function listarUsuarios(){
+    public function listarActivos(){
         $consulta = "SELECT * FROM periodo where STATUS=1";
+        $statement = $this->pdo->prepare($consulta);
+        $statement->execute();
+        $json = array();
+        while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+            $json[] = array(
+                'ID' => $row["ID"],
+                'PERIODO' => $row["PERIODO"],
+                'FECHA_INICIO' => $row["FECHA_INICIO"],
+                'FECHA_FIN' => $row["FECHA_FIN"],
+                'STATUS' => $row["STATUS"]
+            );
+        }
+        return $json;
+    }
+    //creo la clase que me va a listar todos los usuarios
+    public function listarFinalizados(){
+        $consulta = "SELECT * FROM periodo where STATUS=0";
+        $statement = $this->pdo->prepare($consulta);
+        $statement->execute();
+        $json = array();
+        while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+            $json[] = array(
+                'ID' => $row["ID"],
+                'PERIODO' => $row["PERIODO"],
+                'FECHA_INICIO' => $row["FECHA_INICIO"],
+                'FECHA_FIN' => $row["FECHA_FIN"],
+                'STATUS' => $row["STATUS"]
+            );
+        }
+        return $json;
+    }
+    //creo la clase que me va a listar todos los usuarios
+    public function listarProyeccion(){
+        $consulta = "SELECT * FROM periodo where STATUS=2";
+        $statement = $this->pdo->prepare($consulta);
+        $statement->execute();
+        $json = array();
+        while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+            $json[] = array(
+                'ID' => $row["ID"],
+                'PERIODO' => $row["PERIODO"],
+                'FECHA_INICIO' => $row["FECHA_INICIO"],
+                'FECHA_FIN' => $row["FECHA_FIN"],
+                'STATUS' => $row["STATUS"]
+            );
+        }
+        return $json;
+    }
+    //creo la clase que me va a listar todos los usuarios
+    public function listarProrroga(){
+        $consulta = "SELECT * FROM periodo where STATUS=3";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();

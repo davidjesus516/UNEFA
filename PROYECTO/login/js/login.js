@@ -10,7 +10,7 @@ $(document).ready(function(){
 			password: password
 		}
 		$.post("controllers/login/login.php",{username,password},function(response){
-			// seccion de codigo que muestra el mensaje obtenido del backend
+			// seccion de codigo que muestra el mensaje de respuesta del servidor
             $(".modal").html(response);
 			dialog.showModal();
 			$('.x').on('click', function() {
