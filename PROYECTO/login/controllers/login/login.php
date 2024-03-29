@@ -17,7 +17,7 @@ session_start();
             
             echo '      
             <dialog id="dialog">
-            <h2>Hello.'.ucfirst($_SESSION['username']).' </h2>
+            <h2>Bienvenido '.ucfirst($_SESSION['username']).'.</h2>
             <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
             <div class="success-checkmark">
             <div class="check-icon">
