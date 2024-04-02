@@ -46,7 +46,7 @@ class Usuario
         try {
             $this->pdo->beginTransaction();
             $consulta = "INSERT INTO empresa (l_rif, rif, nombre,
-            direccion, telefono, N_PASANTES, carrera,
+            direccion, telefono, n_pasantes, carrera,
             STATUS) VALUES (:l_rif,:rif, :nombre, :direccion, :telefono_empresa, :n_pasantes, :carrera, :estatus)";
             $statement = $this->pdo->prepare($consulta);
             $statement->bindValue(':l_rif', $l_rif);
@@ -54,7 +54,7 @@ class Usuario
             $statement->bindValue(':nombre', $nombre);
             $statement->bindValue(':direccion', $direccion);
             $statement->bindValue(':telefono_empresa', $telefono_empresa);
-            $statement->bindValue(':pasantes', $n_pasantes);
+            $statement->bindValue(':n_pasantes', $n_pasantes);
             $statement->bindValue(':carrera', $carrera);
             $statement->bindValue(':estatus', $estatus);
             $statement->execute();
@@ -135,11 +135,13 @@ class Usuario
         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
             $json[] = array(
                 'id' => $row["ID"],
+                'l_rif' => $row["L_RIF"],
                 'rif' => $row["RIF"],
                 'nombre' => $row["NOMBRE"],
                 'direccion' => $row["DIRECCION"],
                 'telefono_empresa' => $row["TELEFONO"],
                 'carrera' => $row["CARRERA"],
+                'n_pasantes' => $row['N_PASANTES'],
                 'estatus' => $row["STATUS"]
             );
         }
@@ -147,16 +149,17 @@ class Usuario
     }
     
     //creo la funcion que me va a editar una empresa
-    public function editar($id, $l_rif, $rif, $nombre, $direccion, $telefono_empresa,$n_pasantes,$estatus){
-        $consulta = "UPDATE empresa SET L_RIF = :l_rif, rif = :rif, nombre = :nombre, direccion = :direccion, telefono_empresa = :telefono_empresa, N_PASANTES = :n_pasantes, STATUS = :estatus  WHERE id = :id";
+    public function editar($id, $l_rif, $rif, $nombre, $direccion, $telefono_empresa,$n_pasantes,$carrera,$estatus){
+        $consulta = "UPDATE empresa SET L_RIF = :l_rif, rif = :rif, nombre = :nombre, direccion = :direccion, telefono = :telefono_empresa, n_pasantes = :n_pasantes, status = :estatus, carrera = :carrera  WHERE id = :id";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':l_rif', $l_rif);
         $statement->bindValue(':rif', $rif);
         $statement->bindValue(':nombre', $nombre);
         $statement->bindValue(':direccion', $direccion);
         $statement->bindValue(':telefono_empresa', $telefono_empresa);
-        $statement->bindValue(':pasantes', $n_pasantes);
+        $statement->bindValue(':n_pasantes', $n_pasantes);
         $statement->bindValue(':estatus', $estatus);
+        $statement->bindValue(':carrera', $carrera);
         $statement->bindValue(':id', $id);
         return $statement->execute();
     } 

@@ -4,16 +4,18 @@ require("../../model/empresa.php");
 
 if(isset($_POST)){
     $id = $_POST["id"];
-    $rif =  $_POST["rif"] . $_POST["rif2"];
-    $nombre = $_POST["nombre"];
-    $direccion = $_POST["direccion"];
-    $nombre_contacto = $_POST["nombre_contacto"];
-    $telefono_contacto = $_POST["telefono_contacto"] . $_POST["telefono_contacto2"];
-    $telefono_empresa = $_POST["telefono_empresa"] . $_POST["telefono_empresa2"];
+    $nombre =  $_POST["nombre"];
+    $l_rif =  $_POST["l_rif"];
+    $rif =  $_POST["rif"];
+    $direccion =  $_POST["direccion"];
+    $telefono_empresa =  $_POST["telefono"];
+    $n_pasantes =  $_POST["n_pasantes"];
+    $carrera =  $_POST["carrera"];
+    $estatus = 1;
     // crear una instancia de la clase Usuario
     $usuario = new Usuario();
     // llamar al método editarUsuario() para editar el Usuario Por Su Cedula
-    $usuario->editarUsuario($id, $rif, $nombre, $direccion, $nombre_contacto, $telefono_contacto, $telefono_empresa);
+    $usuario->editar($id, $l_rif, $rif, $nombre, $direccion, $telefono_empresa,$n_pasantes,$carrera,$estatus);
     echo "Usuario Editado";//le respondo al js
 }
 ?>

@@ -11,7 +11,7 @@ if(isset($_POST)){// si js me manda datos yo hago:
     $usuario->eliminar($id,$estatus);
     echo '
     <h1>Usuario Eliminado</h1>
-        <button aria-label="close" class="x">❌</button>
+        <button id = close aria-label="close" class="x">❌</button>
             <div class="success-checkmark">
             <div class="check-icon">
                 <span class="icon-line line-tip"></span>

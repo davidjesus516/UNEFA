@@ -4,14 +4,14 @@ $(document).ready(function(){//aqui inicializamos javascript
     console.log(edit);
     fetchTask();//inicializo la funcion que cada vez que cargue la pagina le pida al servidor que me de los campos
     function modalclose() {
-        $('.x').on('click', function(e) {
+        $('#close').on('click', function(e) {
             $('#respuesta')[0].close();
             $("#respuesta").html('');
         });
     }
     function modalopen(response) {
-        $("#respuesta").html(response);
-        $('#respuesta')[0].showModal();
+        $('#respuesta').html(response);
+        $('#repuesta').showModal();
     }
     let errores = false;
     // funcion que hara el cierre de las ventanas modal
@@ -33,12 +33,12 @@ $(document).ready(function(){//aqui inicializamos javascript
         usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
         solo_letras: /^[a-zA-ZÀ-ÿ\s]+$/, // Letras y espacios, pueden llevar acentos.
         correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_.+-]*$/, // formato correo ejemplo@mail.com
-        cedula: /^\d{1,8}$/, // cedula debe ser un numero de maximo 9 digitos
+        rif: /^\d{1,9}$/, // cedula debe ser un numero de maximo 9 digitos
         telefono: /^\d{11}$/ // telefono debe ser un numero de 11 digitos 
     }
 
     $('#n_rif').keyup(function(e){
-    if (expresiones.cedula.test($('#n_rif').val())) {
+    if (expresiones.rif.test($('#n_rif').val())) {
         $('#grupo__rif').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
         $('#grupo__rif i').addClass("fa-check-circle").removeClass("fa-times-circle")
         $(`#grupo__rif .formulario__input-error`).removeClass('formulario__input-error-activo');
@@ -148,16 +148,13 @@ $(document).ready(function(){//aqui inicializamos javascript
             return false;
         }
         const id = $('#id').val();
-        const nacionalidad = $('#nacionalidad').val();
-        const cedula = $('#cedula').val();
+        const l_rif = $('#l_rif').val();
+        const rif = $('#n_rif').val();
         const nombre = $('#nombre').val();
-        const apellido = $('#apellido').val();
-        const genero = $('#genero').val();
-        const tlf = $('#tlf').val();
-        const e_mail = $('#e_mail').val();
-        const rango_militar = "";
+        const telefono = $('#telefono_Empresa').val() + $('#telefono').val();
+        const direccion = $('#direccion').val();
+        const n_pasantes = $('#n_pasantes').val();
         const carrera = $('#carrera').val();
-        const turno = $('#turno').val();
         
     
         if (errores) { // Se comprueba si hay errores
@@ -168,20 +165,17 @@ $(document).ready(function(){//aqui inicializamos javascript
     
         const postData = {
             id: id,
-            nacionalidad: nacionalidad,
+            l_rif: l_rif,
+            rif: rif,
             nombre: nombre,
-            cedula: cedula,
-            apellido: apellido,
-            genero: genero,
-            tlf: tlf,
-            e_mail: e_mail,
-            rango_militar: rango_militar,
+            telefono: telefono,
+            direccion: direccion,
+            n_pasantes: n_pasantes,
             carrera: carrera,
-            turno: turno
-    
+
         };
         if (edit === false) {
-            let url = '../controllers/estudiante/UserAdd.php';
+            let url = '../controllers/empresa/UserAdd.php';
             $.post(url, postData, function (response) {
             console.log(response);
             console.log(edit)
@@ -198,13 +192,13 @@ $(document).ready(function(){//aqui inicializamos javascript
               alert("Error en el servidor. Por favor, intenta nuevamente."); // Mostrar mensaje de error en caso de falla en la conexión con el servidor
             });
         } else {
-            let url = '../controllers/estudiante/UserEdit.php';
+            let url = '../controllers/empresa/UserEdit.php';
             $.post(url, postData, function (response) {
                 console.log(response);
                 console.log(edit)
                 fetchTask();
                 $('#formulario').trigger('reset');
-                $('#cedula').attr('readonly', false);
+                $('#rif').attr('readonly', false);
                 edit = false;
                 alert(response); // Usuario insertado correctamente
             })
@@ -243,13 +237,11 @@ $(document).ready(function(){//aqui inicializamos javascript
     $(document).on('click','.task-delete',function(){
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('taskid');
-        $("#respuesta").html('<h1>Usuario Eliminado</h1><button aria-label="close" class="x">❌</button>');
-        $('#respuesta')[0].showModal();
         modalclose();
         // Agregamos la alerta de confirmación
         if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-            $.post('../controllers/empresa/UserDelete.php',{id}, function (response) {
-                modalopen(response);
+            $.post('../controllers/empresa/UserDelete.php',{id}, function (response) {$("#respuesta").html(response);
+            $('#respuesta')[0].showModal();
                 modalclose();
                 fetchTask();
             });}
@@ -264,13 +256,16 @@ $(document).on('click','.task-edit',function(){//escucho un click del boton task
         let id = $(element).attr('taskid');//accedo al tributo que cree que contiene la cedula que busco
         $.post('../controllers/empresa/UserEditSearch.php', {id}, function(response){//mando los datos al controlador
             const task = JSON.parse(response)[0]; // accede al primer objeto en el array
-            $('#id').val(task.ID).prop('readonly', true);//añado los elementos al formulario y lo hago de solo lectura
-            $('#cedula').val(task.CEDULA).prop('readonly', true);
+            telefono = task.telefono_empresa.split("-");
+            $('#id').val(task.id).prop('readonly', true);//añado los elementos al formulario y lo hago de solo lectura
+            $('#l_rif').val(task.l_rif);
+            $('#n_rif').val(task.rif).prop('readonly', true);
             $('#nombre').val(task.nombre);
-            $('#e_mail').val(task.rif);
-            $('#tlf').val(task.telefono_empresa);
-            $('#carrera').val(task.ID_CARRERA);
-            $('#turno').val(task.TURNO);
+            $('#direccion').val(task.direccion);
+            $('#telefono_Empresa').val(telefono[0]+'-');
+            $('#telefono').val(telefono[1]);
+            $('#n_pasantes').val(task.n_pasantes);
+            $('#carrera').val(task.carrera);
             edit = true;//valido la variable que esta por encima de todo para que en vez de guardar un nuevo usuario lo edite
         });
     })

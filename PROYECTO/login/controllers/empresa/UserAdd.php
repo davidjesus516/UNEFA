@@ -3,17 +3,18 @@
 require("../../model/empresa.php");
 
 if(isset($_POST)){//si el js me manda yo hago:
-    $rif = $_POST["rif"] . $_POST["rif2"];//guardo los datos que envio
     $nombre =  $_POST["nombre"];
-    $direccion = $_POST["direccion"];
-    $nombre_contacto = $_POST["nombre_contacto"];
-    $telefono_contacto = $_POST["telefono_contacto"] . $_POST["telefono_contacto2"];
-    $telefono_empresa = $_POST["telefono_empresa"] . $_POST["telefono_empresa2"];
+    $l_rif =  $_POST["l_rif"];
+    $rif =  $_POST["rif"];
+    $direccion =  $_POST["direccion"];
+    $telefono_empresa =  $_POST["telefono"];
+    $n_pasantes =  $_POST["n_pasantes"];
+    $carrera =  $_POST["carrera"];
     $estatus = 1;
     // crear una instancia de la clase Usuario
     $usuario = new Usuario();
     // llamar al método insertarUsuario() para insertar un nuevo Usuario
-    $result = $usuario->insertarUsuario($rif,$nombre,$direccion,$nombre_contacto,$telefono_contacto,$telefono_empresa,$estatus);
+    $result = $usuario->insertar($l_rif,$rif,$nombre,$direccion,$telefono_empresa,$n_pasantes,$carrera,$estatus);
     if ($result === true) {
         echo 1;
         return $result;

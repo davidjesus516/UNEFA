@@ -29,7 +29,7 @@ require 'header.php';
             <input type="hidden" id="id">
             <div class="formulario__grupo" id="grupo__rif">
                 <label for="" class="formulario__label">RIF <span class="obligatorio">*</span></label>
-                <select id="" class="formulario__input" name="tipo-cedula">
+                <select id="l_rif" class="formulario__input" name="tipo-cedula">
                     <option value="G" selected>G-</option>
                 </select>
                 <div class="formulario__grupo-input">
@@ -50,7 +50,7 @@ require 'header.php';
                         <option value="0426-">0426-</option>
                         <option value="0255-">0255-</option>
                     </select>
-                    <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese el Telefono de la Empresa">
+                    <input type="text" class="formulario__input" name="" id="telefono" placeholder="Ingrese el Telefono de la Empresa">
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                 </div>
                 <p class="formulario__input-error">Validacion</p>
@@ -60,7 +60,7 @@ require 'header.php';
             <div class="formulario__grupo" id="">
                 <label for="" class="formulario__label">Dirección de la Empresa <span class="obligatorio">*</span></label>
                 <div class="formulario__grupo-input">
-                    <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese la Dirección de la Empresa">
+                    <input type="text" class="formulario__input" name="" id="direccion" placeholder="Ingrese la Dirección de la Empresa">
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                 </div>
                 <p class="formulario__input-error">Validacion</p>
@@ -70,7 +70,7 @@ require 'header.php';
             <div class="formulario__grupo" id="">
                 <label for="" class="formulario__label">Numero de Pasantes <span class="obligatorio">*</span></label>
                 <div class="formulario__grupo-input">
-                    <input type="number" class="formulario__input" name="" id="" placeholder="Ingrese la cantidad de Pasantes">
+                    <input type="number" class="formulario__input" name="" id="n_pasantes" placeholder="Ingrese la cantidad de Pasantes" min = 0>
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                 </div>
                 <p class="formulario__input-error">Validacion</p>
@@ -96,7 +96,7 @@ require 'header.php';
         </form>
 
         <!-- <p>You can also change the styles of the <code>::backdrop</code> from the CSS.</p> -->
-        <button aria-label="close" class="x">❌</button>
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
     </dialog>
     </div>
 </div>
