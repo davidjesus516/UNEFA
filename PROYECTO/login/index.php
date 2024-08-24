@@ -15,19 +15,13 @@ if (isset($_SESSION['username'])) {
   <meta charset="UTF-8">
   <title>Inicio de Sesión</title>
   <link rel="stylesheet" href="vistas/css/estilos.css">
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
   <link rel="icon" href="../img/logo_unefa.ico">
-
 </head>
 
 <body>
   <div class="modal">
-
-  
   </div>
-
   <div class="login-form">
-    <!-- <h1>Login</h1> -->
     <div class="container">
       <div class="main">
         <div class="content">
