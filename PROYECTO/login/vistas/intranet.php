@@ -109,22 +109,6 @@ require 'header.php';
   </dialog>
 </div> -->
 
-<div class="e-card playing">
-  <div class="image"></div>
-
-  <div class="wave"></div>
-  <div class="wave"></div>
-  <div class="wave"></div>
-
-
-  <div class="infotop">
-    <i class='bx bx-grid-alt icon'></i>
-    <br>
-    Periodo Actual
-    <br>
-    <div class="name" style="color: #fff;">Has el php que lo muestre</div>
-  </div>
-</div>
 <script src="js/intranet/jquery-3.7.0.min.js"></script>
 <script src="js/intranet/main.js"></script> 
 <?php

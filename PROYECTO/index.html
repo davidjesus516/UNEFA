@@ -2,121 +2,222 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
+   <meta charset="UTF-8" />
 
-    <title>UNEFA Excelencia Educativa, Abierta al Pueblo</title>
+   <title>Sistema de Pasantias - UNEFA Excelencia Educativa, Abierta al Pueblo</title>
 
-    <link rel="shortcut icon" href="assets/img/1.jpg/logo/favicon.png" type="image/x-icon" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="icon" href="img/logo_unefa.ico" />
-</head>
+   <link rel="shortcut icon" href="assets/img/1.jpg/logo/favicon.png" type="image/x-icon" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+   <link rel="stylesheet" href="css/style.css" />
+   <link rel="icon" href="img/logo_unefa.ico" />
+   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+
+   <!DOCTYPE html>
+   <html lang="es">
+
+<style>
+   html {
+    scroll-behavior: smooth;
+}
+</style>
 
 <body>
-    <header>
-        <nav class="navbar">
-            <h2 class="logo">
-                <a href="#"><img src="img/logo_unefa.ico" alt="" style="height: 3rem" /></a>
-            </h2>
-            <input type="checkbox" id="menu-toggler" />
-            <label for="menu-toggler" id="hamburger-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px">
-                    <path d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 18h18v-2H3v2zm0-5h18V11H3v2zm0-7v2h18V6H3z" />
-                </svg>
-            </label>
-            <ul class="all-links">
-                <li><a href="#home">Inicio</a></li>
-                <li><a href="#historia">Historia</a></li>
-                <li><a href="#simbolos">Simbolos</a></li>
-                <li><a href="#misionYvision">Misión y Visión</a></li>
-                <li><a href="#valores">Valores</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <section class="homepage" id="home">
-        <div class="content">
-            <div class="text">
-                <h1>Sistema de Gestión de Pasantias - UNEFA</h1>
-                <p>
-                    Descubre un sistema de alta calidad para disfrutar de un placentero
-                    proceso digital.
-                </p>
+   <header class="header">
+      <nav class="nav container">
+         <div class="nav__data">
+            <a href="#" class="nav__logo">
+               <!-- <i><img src="img/logo_unefa.ico" alt="logo_unefa" width="70px"></i>  -->Logo
+            </a>
+
+            <div class="nav__toggle" id="nav-toggle">
+               <i class="ri-menu-line nav__burger"></i>
+               <i class="ri-close-line nav__close"></i>
             </div>
-            <a href="login/"><button class="btn-sys" href="login/">SISTEMA</button></a>
-        </div>
-    </section>
+         </div>
 
-    <section class="responsive-section" id="historia">
-        <div class="text-content texto" >
-            <h2>Historia</h2>
-            <p>
-                El Instituto Universitario Politécnico de las Fuerzas Armadas Nacionales
-                (IUPFAN) fue creado en 1974 por orden del Presidente Rafael Caldera. Su
-                objetivo era integrar las disciplinas universitarias impartidas en tres
-                escuelas: la Escuela de Ingeniería Militar del Ejército, que formaba
-                ingenieros civiles; la Escuela de Comunicaciones y Electrónica del
-                Ministerio de la Defensa, que formaba ingenieros electrónicos; y la
-                Escuela de Postgrado de la Armada, que formaba ingenieros mecánicos e
-                ingenieros electricistas.
-            </p>
-        </div>
-        <img src="img/6.PNG" alt="Descripción de la imagen" class="img responsive-image">
-    </section>
+         <!--=============== NAV MENU ===============-->
+         <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+               <li><a href="#home" class="nav__link">Inicio</a></li>
 
+               <li class="dropdown__item">
+                  <div class="nav__link">
+                     Información Pasantias <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                  </div>
 
-    <section class="simbolos" id="simbolos">
-        <h2>Simbolos</h2>
-        <p>Nuestros Simbolos.</p>
+                  <ul class="dropdown__menu">
+                     <li>
+                        <a href="#censo" class="dropdown__link">
+                           <i class="ri-profile-line"></i> Censo
+                        </a>
+                     </li>
 
-        <section id="img01" class="responsive-section responsive-image-section">
-            <!-- Image 1 -->
-            <a href="img/escudoDescr.png" target="_blank" rel="noopener noreferrer">
-                <img src="img/escudoDescr.png" alt="Descripción">
-            </a>
-        </section>
-    </section>
+                     <li>
+                        <a href="#pre-inscripcion" class="dropdown__link">
+                           <i class="pass-pending-line"><i class="ri-pass-pending-line"></i></i> Pre Inscripción
+                        </a>
+                     </li>
+                     <li>
+                        <a href="#inscripcion" class="dropdown__link">
+                           <i class=""><i class="ri-user-smile-fill"></i></i> inscripción
+                        </a>
+                     </li>
 
-    <section class="responsive-section-color responsive-section text-sections" id="misionYvision">
-        <div class="text-area left-text">
-            <h2>Misión</h2>
-            <p>Formar a través de la docencia, la investigación y la extensión, ciudadanos corresponsables con la
-                seguridad y Defensa Integral de la Nación, comprometidos con la Revolución Bolivariana, con competencias
-                emancipadoras y humanistas necesarias para sustentar los planes de desarrollo del país, promoviendo la
-                producción y el intercambio de saberes, como mecanismo de integración latinoamericana y caribeña.</p>
-        </div>
-        <br>
-        <div class="text-area right-text">
-            <h2>Visión</h2>
-            <p>Ser la primera universidad socialista, reconocida por su Excelencia Educativa en el territorio nacional e
-                internacional, líder en los saberes humanistas, científicos, tecnológicos y militares, inspirada en el
-                ideario bolivariano.</p>
-        </div>
-    </section>
+                     <!--=============== DROPDOWN SUBMENU ===============-->
 
-    <section class="valores" id="valores">
-        <h2>Valores</h2>
-        <section id="img2" class="responsive-section responsive-image-section">
-            <!-- Image 2 -->
-            <a href="img/valores.png" target="_blank" rel="noopener noreferrer">
-                <img src="img/valores.png" alt="Descripción">
-            </a>
-        </section>
-    </section>
+                  </ul>
+               </li>
 
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#111a41" fill-opacity="1" d="M0,64L24,74.7C48,85,96,107,144,128C192,149,240,171,288,154.7C336,139,384,85,432,74.7C480,64,528,96,576,96C624,96,672,64,720,53.3C768,43,816,53,864,90.7C912,128,960,192,1008,192C1056,192,1104,128,1152,101.3C1200,75,1248,85,1296,80C1344,75,1392,53,1416,42.7L1440,32L1440,320L1416,320C1392,320,1344,320,1296,320C1248,320,1200,320,1152,320C1104,320,1056,320,1008,320C960,320,912,320,864,320C816,320,768,320,720,320C672,320,624,320,576,320C528,320,480,320,432,320C384,320,336,320,288,320C240,320,192,320,144,320C96,320,48,320,24,320L0,320Z"></path></svg>
-    <footer>
-        <div>
-            <span>Copyright © 2023 All Rights Reserved</span>
-            <span class="link">
-                <a href="#">Inicio</a>
-            </span>
-        </div>
-    </footer>
+               <!--=============== DROPDOWN 1 ===============-->
+               <li class="dropdown__item">
+                  <div class="nav__link">
+                     Documentos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                  </div>
+
+                  <ul class="dropdown__menu">
+                     <!-- <li>
+                      <a href="#" class="dropdown__link">
+                         <i class="ri-pie-chart-line"></i> Overview
+                      </a>                          
+                   </li>
+
+                   <li>
+                      <a href="#" class="dropdown__link">
+                         <i class="ri-arrow-up-down-line"></i> Transactions
+                      </a>
+                   </li> -->
+
+                     <!--=============== DROPDOWN SUBMENU ===============-->
+                     <li class="dropdown__subitem">
+                        <div class="dropdown__link">
+                           <i class=""><i class="ri-file-download-fill"></i></i> Descargar PDFs <i
+                              class="ri-add-line dropdown__add"></i>
+                        </div>
+
+                        <ul class="dropdown__submenu">
+                           <li>
+                              <a href="docs/SOLICITUD DE CARTA DE POSTULACION PP.doc"
+                                 download="SOLICITUD DE CARTA DE POSTULACION PP.doc" class="dropdown__sublink">
+                                 <i class="ri-file-list-line"></i> Proyección
+                              </a>
+                           </li>
+
+                           <li>
+                              <a href="#" class="dropdown__sublink">
+                                 <i class=""><i class="ri-user-2-fill"></i></i> Profesores
+                              </a>
+                           </li>
+
+                           <li>
+                              <a href="#" class="dropdown__sublink">
+                                 <i class=""><i class="ri-team-fill"></i></i> Estudiantes
+                              </a>
+                           </li>
+                        </ul>
+                     </li>
+                  </ul>
+               </li>
+
+               <!-- <li><a href="#" class="nav__link">Products</a></li> -->
+
+               <!--=============== DROPDOWN 2 ===============-->
+               <li class="dropdown__item">
+                  <div class="nav__link">
+                     Users <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                  </div>
+
+                  <ul class="dropdown__menu">
+                     <li>
+                        <a href="#" class="dropdown__link">
+                           <i class="ri-user-line"></i> Perfiles
+                        </a>
+                     </li>
+
+                     <li>
+                        <a href="login/" class="dropdown__link">
+                           <i class="ri-lock-line"></i> Login
+                        </a>
+                     </li>
+
+                     <li>
+                        <a href="#" class="dropdown__link">
+                           <i class="ri-message-3-line"></i> Notificaciones
+                        </a>
+                     </li>
+                  </ul>
+               </li>
+
+               <li><a href="#" class="nav__link">Contactos</a></li>
+            </ul>
+         </div>
+      </nav>
+   </header>
+
+   <section class="home" id="home">
+
+      <h1>Gestión de Pasantias</h1>
+      <!-- <br>
+   <div class="linea"></div> -->
+
+   </section>
+
+   <section class="seccion_proceso_pasantias" id="censo">
+
+      <div class="parent">
+         <div class="div1">
+            <h3>Proceso de Censo:</h3>
+            <br>
+            <p class="parrafo">El proceso de pasantías en los campos de enfermería e ingeniería se inicia con una fase
+               de recopilación de datos a través del Censo. En esta etapa, se realiza un levantamiento exhaustivo de
+               todos los estudiantes que cumplen con los requisitos académicos y están interesados en realizar sus
+               pasantías. El censo permite obtener una visión general de la demanda y las características del grupo de
+               estudiantes postulantes.</p>
+         </div>
+         <div class="div2">
+            <div class="img-1"></div>
+         </div>
+      </div>
+
+   </section>
+   <section class="seccion_proceso_pasantias-2" id="pre-inscripcion">
+
+      <div class="parent-2">
+         <div class="div1">
+            <h3 style="text-align: center;">Proceso de Pre Inscripción:</h3>
+            <br>
+            <p class="parrafo-centrado">Una vez concluido el censo, se procede a la Preinscripción. Durante esta fase,
+               los
+               estudiantes interesados presentan su documentación requerida, como historial académico, carta de
+               motivación y disponibilidad horaria. La preinscripción sirve para verificar que los postulantes cumplan
+               con los criterios básicos establecidos y para organizar la información de manera eficiente.</p>
+         </div>
+      </div>
+
+   </section>
+   <section class="seccion_proceso_pasantias-3"  id="inscripcion">
+
+      <div class="parent">
+         <div class="div2">
+            <div class="img-2"></div>
+         </div>
+         <div class="div1">
+            <h3>Proceso de Inscripción:</h3>
+            <br>
+            <p class="parrafo">Posteriormente, se lleva a cabo la Inscripción. En esta etapa, se formaliza la
+               participación de los estudiantes en el programa de pasantías. Se asigna un número de identificación único
+               a cada postulante y se les comunica las fechas y lugares de inicio de las pasantías. Asimismo, se
+               establecen los mecanismos de comunicación entre los estudiantes, los tutores académicos y los
+               supervisores en las empresas o instituciones donde se realizarán las prácticas.</p>
+         </div>
+      </div>
+
+   </section>
+   <footer>
+
+   </footer>
+
+   <script src="assets/js/main.js"></script>
 </body>
-<script>
-
-</script>
 
 </html>
