@@ -1,7 +1,7 @@
 <?php
 require("../..\model\carrera.php");
 if(isset($_POST)){//si js me manda datos yo hago:
-    $codigo = $_POST["id"];//guardo lo q mando
+    $Id_Carrera = $_POST["Id_Carrera"];//guardo lo q mando
     $estatus = 0;
 
     // incluir la clase Usuario
@@ -11,7 +11,7 @@ if(isset($_POST)){//si js me manda datos yo hago:
     $usuario = new Usuario();
 
     // llamar al método para buscar un usuario por su codigo
-    $json = $usuario->searcheditUsuario($codigo);
+    $json = $usuario->searcheditUsuario($Id_Carrera);
 
     // convertir el resultado a formato JSON
     $jsonstring = json_encode($json);

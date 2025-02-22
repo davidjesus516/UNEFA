@@ -1,15 +1,14 @@
 <?php
 
-require("../..\model\carrera.php");
+require("..\..\model\carrera.php");
 
 if(isset($_POST)){//si el js me manda yo hago:
-    $nombre =  $_POST["nombre"];
-    $codigo =  $_POST["codigo"];
-    $estatus = 1;
+    $Nombre_Carrera =  $_POST["Nombre_Carrera"];
+    $Codigo =  $_POST["Codigo"];
     // crear una instancia de la clase Usuario
     $usuario = new Usuario();
     // llamar al método insertarUsuario() para insertar un nuevo Usuario
-    $usuario->insertarUsuario($nombre,$codigo,$estatus);
+    $usuario->insertarUsuario($Nombre_Carrera,$Codigo);
     echo "Nuevo usuario añadido";//le respondo a js
 }
 //guia de uso para insertarUsuario($nombre, $codigo, $status)

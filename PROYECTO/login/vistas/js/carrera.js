@@ -26,11 +26,11 @@ $(document).ready(function () {
         }
     });
     $("#nombre").keyup(function (e) {
-        let nombre = $("#nombre").val();
+        let Nombre_Carrera = $("#nombre").val();
         $.ajax({
             url: "../controllers/carrera/UserSearch.php",
             type: "POST",
-            data: { nombre: nombre },
+            data: { Nombre_Carrera },
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
                 if (Object.keys(data).length === 0 || edit === true) {
@@ -55,11 +55,11 @@ $(document).ready(function () {
         });
     });
     $("#codigo").keyup(function (e) {
-        let codigo = $("#codigo").val();
+        let Codigo = $("#codigo").val();
         $.ajax({
             url: "../controllers/carrera/UserSearch.php",
             type: "POST",
-            data: { codigo: codigo },
+            data: {Codigo},
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
                 if (Object.keys(data).length === 0 || edit === true ) {
@@ -91,9 +91,9 @@ $(document).ready(function () {
     });
 
     $("#formulario").submit(function (e) {
-        const id = $("#id").val();
-        const codigo = $("#codigo").val();
-        const nombre = $("#nombre").val();
+        const Id_Carrera = $("#id").val();
+        const Codigo = $("#codigo").val();
+        const Nombre_Carrera = $("#nombre").val();
 
         if (/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+$/.test(nombre)) {
             $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
@@ -113,9 +113,9 @@ $(document).ready(function () {
         // Agregamos la alerta de confirmación
         if (confirm("¿Quieres proceder con el registro?")) {
             const postData = {
-                id: id,
-                codigo: codigo,
-                nombre: nombre,
+                Id_Carrera: Id_Carrera,
+                Codigo: Codigo,
+                Nombre_Carrera: Nombre_Carrera,
             };
             if (errores) {
                 // Se comprueba si hay errores
@@ -152,9 +152,9 @@ $(document).ready(function () {
                 let template = ""; //creo la plantilla donde imprimire los datos
                 task.forEach((task) => {
                     //hago un array que me recorra el json y me lo imprima en el tbody
-                    template += `<tr taskid="${task.id}">
-                        <td>${task.codigo}</td>
-                        <td>${task.nombre}</td>
+                    template += `<tr taskid="${task.Id_Carrera}">
+                        <td>${task.Codigo}</td>
+                        <td>${task.Nombre_Carrera}</td>
                         <td>
                             <button class="task-delete "><spam class="texto">Borrar</spam><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
                         </td>
@@ -191,15 +191,16 @@ $(document).ready(function () {
     $(document).on("click", ".task-edit", function () {
         //escucho un click del boton task-edit que es una clase
         let element = $(this)[0].parentElement.parentElement; // accedo al elemento padre de este hasta conseguir el ID de la fila
-        let id = $(element).attr("taskid"); //accedo al tributo que cree que contiene la cedula que busco
+        let Id_Carrera = $(element).attr("taskid"); //accedo al tributo que cree que contiene la cedula que busco
         $.post(
             "../controllers/carrera/UserEditSearch.php",
-            { id },
+            { Id_Carrera: Id_Carrera },
             function (response) {
                 //mando los datos al controlador
                 const task = JSON.parse(response)[0]; // accede al primer objeto en el array
-                $("#codigo").val(task.codigo); //añado los elementos al formulario y lo hago de solo lectura
-                $("#nombre").val(task.nombre);
+                $('#id').val(task.Id_Carrera).prop('readonly', true);//añado los elementos al formulario y lo hago de solo lectura
+                $("#codigo").val(task.Codigo); //añado los elementos al formulario y lo hago de solo lectura
+                $("#nombre").val(task.Nombre_Carrera);
                 edit = true; //valido la variable que esta por encima de todo para que en vez de guardar un nuevo usuario lo edite
             }
         );

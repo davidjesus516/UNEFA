@@ -1,7 +1,7 @@
 <?php
-if (isset($_POST['codigo']))
+if (isset($_POST['Codigo']))
 {
-    $codigo = $_POST["codigo"];
+    $Codigo = $_POST["Codigo"];
 
 // incluir la clase Usuario
 require_once("../../model/carrera.php");
@@ -10,7 +10,7 @@ require_once("../../model/carrera.php");
 $usuario = new Usuario();
 
 // llamar al método buscarUsuario() para buscar un usuario por su cédula
-$json = $usuario->buscarCodigo("$codigo");
+$json = $usuario->buscarCodigo($Codigo);
 
     if ($json !== null && $json !== 0) {
     // convertir el resultado a formato JSON
@@ -21,8 +21,8 @@ $json = $usuario->buscarCodigo("$codigo");
 }
 }
 
-if (isset($_POST['nombre'])){ 
-    $codigo = $_POST["nombre"];
+if (isset($_POST['Nombre_Carrera'])){ 
+    $Nombre_Carrera = $_POST["Nombre_Carrera"];
     // incluir la clase Usuario
     require_once("../../model/carrera.php");
     
@@ -30,7 +30,7 @@ if (isset($_POST['nombre'])){
     $usuario = new Usuario();
 
     // llamar al método buscarUsuario() para buscar un usuario por su cédula
-    $json = $usuario->buscarNombre($codigo);
+    $json = $usuario->buscarNombre($Nombre_Carrera);
     // verificar si la respuesta es nula o 0
     if ($json !== null && $json !== 0) {
     // convertir el resultado a formato JSON

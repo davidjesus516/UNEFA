@@ -17,7 +17,7 @@ class Usuario
 
     //creo la clase que me va a consultar todos los datos que exista y me los traera y guardarlos en una variable
     public function buscarUsuario($cedula){
-        $consulta = "SELECT * FROM estudiante WHERE CI LIKE :cedula";
+        $consulta = "SELECT * FROM Estudiantes WHERE CI LIKE :cedula";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':cedula', $cedula);
         $statement->execute();
@@ -25,11 +25,13 @@ class Usuario
         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
             $json[] = array(
                 'ID' => $row["ID"],
-                'NOMBRE' => $row["NOMBRE"],
-                'APELLIDO' => $row["APELLIDO"],
+                'Primer_Nombre' => $row["Primer_Nombre"],
+                'Segundo_Nombre' => $row["Segundo_Nombre"],
+                'Primer_Apellido' => $row["Primer_Apellido"],
+                'Segundo_Apellido' => $row["Segundo_Apellido"],
                 'NACIONALIDAD' => $row["NACIONALIDAD"],
                 'GENERO' => $row["GENERO"],
-                'TELEFONO' => $row["TELEFONO"],
+                'Telefono' => $row["Telefono"],
                 'E_MAIL' => $row["E_MAIL"],
                 'RANGO_MILITAR' => $row["RANGO_MILITAR"],
                 'ID_CARRERA' => $row["ID_CARRERA"],
