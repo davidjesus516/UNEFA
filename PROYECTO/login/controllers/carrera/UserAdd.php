@@ -3,7 +3,7 @@
 require("..\..\model\carrera.php");
 
 if(isset($_POST)){//si el js me manda yo hago:
-    $Nombre_Carrera =  $_POST["Nombre_Carrera"];
+    $Nombre_Carrera =  mb_strtoupper($_POST["Nombre_Carrera"]);
     $Codigo =  $_POST["Codigo"];
     // crear una instancia de la clase Usuario
     $usuario = new Usuario();

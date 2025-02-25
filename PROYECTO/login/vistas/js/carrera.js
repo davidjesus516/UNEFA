@@ -33,7 +33,7 @@ $(document).ready(function () {
             data: { Nombre_Carrera },
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if (Object.keys(data).length === 0 || edit === true) {
+                if (Object.keys(data).length === 0 || (edit === true && data[0].Id_Carrera === parseInt($("#id").val()))) {
                     // Verificamos si el objeto está vacío
                     console.log("no existe");
                     $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
@@ -62,7 +62,7 @@ $(document).ready(function () {
             data: {Codigo},
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if (Object.keys(data).length === 0 || edit === true ) {
+                if (Object.keys(data).length === 0 || (edit === true && data[0].Id_Carrera === parseInt($("#id").val()))) {
                     // Verificamos si el objeto está vacío
                     console.log("no existe");
                     $('#grupo__codigo').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
@@ -186,6 +186,11 @@ $(document).ready(function () {
             // Si el usuario hace clic en "Cancelar", no se envía el formulario
             return false;
         }
+    });
+
+    $(document).on("click", ".primary", function () {
+        $("#formulario").trigger("reset");
+        edit = false;
     });
 
     $(document).on("click", ".task-edit", function () {
