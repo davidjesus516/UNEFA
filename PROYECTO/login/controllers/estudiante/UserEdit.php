@@ -3,21 +3,30 @@
 require("../../model/estudiante.php");
 
 if(isset($_POST)){
-    $id = $_POST["id"];//guardo los datos que envio
-    $cedula =  $_POST["cedula"];
-    $nacionalidad = mb_strtoupper($_POST["nacionalidad"]);  
-    $nombre = mb_strtoupper($_POST["nombre"]);
-    $apellido = mb_strtoupper($_POST["apellido"]);
-    $genero = mb_strtoupper($_POST["genero"]);   
-    $tlf = $_POST["tlf"];  
-    $e_mail = mb_strtoupper( $_POST["e_mail"]);  
-    $rango_militar = mb_strtoupper($_POST["rango_militar"]);  
-    $carrera = $_POST["carrera"];  
-    $turno = mb_strtoupper($_POST["turno"]);
+    $Id_Estudiantes =  ($_POST["Id_Estudiantes"]);
+    $Ci_Estudiantes =  ($_POST["Ci_Estudiantes"]);
+    $Primer_Nombre = mb_strtoupper($_POST["Primer_Nombre"]);
+    $Segundo_Nombre = mb_strtoupper($_POST["Segundo_Nombre"]);
+    $Primer_Apellido = mb_strtoupper($_POST["Primer_Apellido"]);
+    $Segundo_Apellido = mb_strtoupper($_POST["Segundo_Apellido"]);
+    $Telefono = $_POST["Telefono"];  
+    $Correo = mb_strtoupper( $_POST["Correo"]);  
+    $Id_Matricula = $_POST["Id_Matricula"];  
+    $IdPracticas_Profesionales = mb_strtoupper($_POST["IdPracticas_Profesionales"]);   
+    $Estatus = 1;
     // crear una instancia de la clase Usuario
     $usuario = new Usuario();
     // llamar al método editarUsuario() para editar el Usuario Por Su Cedula
-    $usuario->editarUsuario($id,$cedula,$nacionalidad,$nombre,$apellido,$genero,$tlf,$e_mail,$rango_militar,$carrera,$turno);
+    $usuario->editarUsuario($Ci_Estudiantes,
+    $Primer_Nombre,
+    $Segundo_Nombre,
+    $Primer_Apellido,
+    $Segundo_Apellido,
+    $Telefono,
+    $Correo,
+    $Id_Matricula,
+    $IdPracticas_Profesionales, 
+    $Estatus);
     echo "Usuario Editado";//le respondo al js
 }
 ?>

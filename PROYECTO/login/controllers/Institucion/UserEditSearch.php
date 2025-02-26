@@ -3,7 +3,7 @@ if(isset($_POST)){//si js me manda datos yo hago:
     $id = $_POST["id"];//guardo lo q mando
 
     // incluir la clase Usuario
-    require("../../model/empresa.php");
+    require("../../model/Institucion.php");
 
     // crear una instancia de la clase Usuario
     $usuario = new Usuario();

@@ -16,10 +16,10 @@ class Usuario
     }
 
     //creo la clase que me va a consultar todos los datos que exista y me los traera y guardarlos en una variable
-    public function buscarUsuario($cedula){
-        $consulta = "SELECT * FROM Estudiantes WHERE CI LIKE :cedula";
+    public function buscarUsuario($Ci_Estudiantes){
+        $consulta = "SELECT * FROM Estudiantes WHERE CI LIKE :Ci_Estudiantes";
         $statement = $this->pdo->prepare($consulta);
-        $statement->bindValue(':cedula', $cedula);
+        $statement->bindValue(':Ci_Estudiantes', $Ci_Estudiantes);
         $statement->execute();
         $json = array();
         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
@@ -29,13 +29,10 @@ class Usuario
                 'Segundo_Nombre' => $row["Segundo_Nombre"],
                 'Primer_Apellido' => $row["Primer_Apellido"],
                 'Segundo_Apellido' => $row["Segundo_Apellido"],
-                'NACIONALIDAD' => $row["NACIONALIDAD"],
-                'GENERO' => $row["GENERO"],
                 'Telefono' => $row["Telefono"],
-                'E_MAIL' => $row["E_MAIL"],
-                'RANGO_MILITAR' => $row["RANGO_MILITAR"],
-                'ID_CARRERA' => $row["ID_CARRERA"],
-                'TURNO' => $row["TURNO"],
+                'Correo' => $row["Correo"],
+                'IdPracticas_Profesionales' => $row["IdPracticas_Profesionales"],
+                '$Id_Matricula' => $row["Id_Matricula"],
                 'ESTATUS' => $row["ESTATUS"]
             );
         }
@@ -43,30 +40,30 @@ class Usuario
     }
     
     //creo la clase que me va a insertar un nuevo usuario
-    public function insertarUsuario($cedula,$nacionalidad,$nombre,
-    $apellido,$genero,$tlf,$e_mail,$rango_militar,$carrera,
-    $turno,$estatus) {
+    public function insertarUsuario($Primer_Nombre, $Segundo_Nombre, $Primer_Apellido, $Segundo_Apellido,
+    $Ci_Estudiantes, $Telefono, $Correo, $IdPracticas_Profesionales,
+    $Id_Matricula, $Estatus) {
         try {
-            $consulta = "INSERT INTO estudiante (NOMBRE, APELLIDO,
-            CI, NACIONALIDAD, GENERO, TELEFONO, E_MAIL, RANGO_MILITAR,
-            ID_CARRERA, TURNO, ESTATUS)
+            $consulta = "INSERT INTO Estudiantes (
+            Primer_Nombre, Segundo_Nombre, Primer_Apellido,
+            Ci_Estudiantes, Telefono, Correo, IdPracticas_Profesionales,
+            Id_Matricula, Estatus)
             VALUES
-            (:nombre, :apellido, :cedula, :nacionalidad, :genero, 
+            (:Primer_Nombre, :Segundo_Nombre, Primer_Apellido, :Segundo_Apellido, :cedula, :nacionalidad, :genero, 
             :telefono, :e_mail, :rango_militar, :carrera, :turno, :estatus)";
             $statement = $this->pdo->beginTransaction();
 
             $statement = $this->pdo->prepare($consulta);
-            $statement->bindValue(':cedula', $cedula);
-            $statement->bindValue(':nombre', $nombre);
-            $statement->bindValue(':apellido', $apellido);
-            $statement->bindValue(':genero', $genero);
-            $statement->bindValue(':nacionalidad', $nacionalidad);
-            $statement->bindValue(':telefono', $tlf);
-            $statement->bindValue(':e_mail', $e_mail);
-            $statement->bindValue(':rango_militar', $rango_militar);
-            $statement->bindValue(':carrera', $carrera);
-            $statement->bindValue(':turno', $turno);
-            $statement->bindValue(':estatus', $estatus);
+            $statement->bindValue(':cedula', $Ci_Estudiantes);
+            $statement->bindValue(':Primer_Nombre', $Primer_Nombre);
+            $statement->bindValue(':Segundo_Nombre', $Segundo_Nombre);
+            $statement->bindValue(':Primer_Apellido', $Primer_Apellido);
+            $statement->bindValue(':Segundo_pellido', $Segundo_Apellido);
+            $statement->bindValue(':telefono', $Telefono);
+            $statement->bindValue(':e_mail', $Correo);
+            $statement->bindValue(':IdPracticas_Profesionales', $IdPracticas_Profesionales);
+            $statement->bindValue(':Id_Matricula', $Id_Matricula);
+            $statement->bindValue(':estatus', $Estatus);
             $statement->execute();
     
             $this->pdo->commit();
@@ -84,10 +81,10 @@ class Usuario
     
     //creo la clase que me va a listar todos los usuarios
     public function listarUsuarios(){
-        $consulta = "SELECT e.ID, e.NOMBRE, e.APELLIDO,
-        CONCAT (e.NACIONALIDAD,'-',e.CI)AS CEDULA, e.GENERO, e.TELEFONO, e.E_MAIL, e.RANGO_MILITAR,
-        e.ID_CARRERA, c.nombre as CARRERA, e.TURNO, e.ESTATUS FROM estudiante e left join carrera c on e.ID_CARRERA = c.ID
-        WHERE e.estatus = 1";
+        $consulta = "SELECT e.ID, e.Primer_Nombre, e.Segundo_Nombre, e.Primer_Apellido, e.Segundo__Apellido
+        CONCAT (e.Ci_Estudiantes)AS Ci_EStudiantes, e.Telefono, e.correo, e.IdPracticas_Profesionales,
+        e.Id_Matricula, c.nombre as Id_Matricula, e.ESTATUS FROM Sstudiantes e left join Matricula c on e.Id_Matricula = c.ID
+        WHERE e.Estatus = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();

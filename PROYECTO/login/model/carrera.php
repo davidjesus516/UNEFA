@@ -32,7 +32,7 @@ class Usuario
         return $json;
     }
     public function buscarNombre($Nombre_Carrera){
-        $consulta = "SELECT * FROM carrera WHERE Nombre_Carrera LIKE :Nombre_Carrera AND Estatus = 1";
+        $consulta = "SELECT * FROM carrera WHERE Nombre_Carrera LIKE :Nombre_Carrera";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':Nombre_Carrera', $Nombre_Carrera);
         $statement->execute();

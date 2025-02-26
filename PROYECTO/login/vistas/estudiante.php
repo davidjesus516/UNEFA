@@ -31,7 +31,17 @@ require 'header.php';
 
                 <!-- Grupo:  -->
                 <div class="formulario__grupo" id="grupo__nombre">
-                    <label for="" class="formulario__label">Nombre <span class="obligatorio">*</span></label>
+                    <label for="" class="formulario__label">Primer Nombre <span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre"required>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">Este campo solo debe contener letras</p>
+                </div>
+
+                <!-- Grupo:  -->
+                <div class="formulario__grupo" id="grupo__nombre">
+                    <label for="" class="formulario__label">Segundo Nombre <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre"required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -40,7 +50,16 @@ require 'header.php';
                 </div>
 
                 <div class="formulario__grupo" id="grupo__apellido">
-                    <label for="" class="formulario__label">Apellido <span class="obligatorio">*</span></label>
+                    <label for="" class="formulario__label">Primer Apellido <span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <input type="text" class="formulario__input" name="" id="apellido" placeholder="Ingrese la Apellido" required>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">Este campo solo debe contener letras</p>
+                </div>
+
+                <div class="formulario__grupo" id="grupo__apellido">
+                    <label for="" class="formulario__label">Segundo Apellido <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <input type="text" class="formulario__input" name="" id="apellido" placeholder="Ingrese la Apellido" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -55,6 +74,19 @@ require 'header.php';
                         <option value="M">Masculino</option>
                         <option value="F">Femenino</option>
                         <option value="O">Prefiero no decirlo</option>
+                    </select>
+                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    <p class="formulario__input-error">Validacion</p>
+                </div>
+
+                <div class="formulario__grupo" id="">
+                    <label for="" class="formulario__label">Género <span class="obligatorio">*</span></label>
+                    <select id="genero" aria-placeholder="Genero" class="selector formulario__input" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                        <option value="S">Soltero</option>
+                        <option value="C">Casado</option>
+                        <option value="D">Divorciado</option>
+                        <option value="V">Viudo</option>
                     </select>
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     <p class="formulario__input-error">Validacion</p>
@@ -89,8 +121,6 @@ require 'header.php';
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
-                
-
             <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Carrera <span class="obligatorio">*</span></label>
                     <select id="carrera" aria-placeholder="carrera" class="selector formulario__input" required>               
@@ -122,14 +152,13 @@ require 'header.php';
     <table class="w3-table-all w3-hoverable">
         <thead>
             <tr class="w3-light-grey">
-                <th>Cedula</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Género</th>
-                <th>Telefono</th>
+                <th>Cédula</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Sexo</th>
+                <th>Teléfono</th>
                 <th>Correo</th>
                 <th>Carrera</th>
-                <th>Turno</th>
                 <th colspan="2">Accion</th>
             </tr>
         </thead>

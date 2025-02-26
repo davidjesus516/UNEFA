@@ -9,7 +9,7 @@ require_once("../../model/estudiante.php");
 $usuario = new Usuario();
 
 // llamar al método buscarUsuario() para buscar un usuario por su cédula
-$json = $usuario->buscarUsuario("$cedula");
+$json = $usuario->buscarUsuario("$Ci_Estudiantes");
 
 // verificar si la respuesta es nula o 0
 if ($json !== null && $json !== 0) {

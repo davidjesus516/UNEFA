@@ -1,7 +1,7 @@
 <?php
 require("../../model/estudiante.php");
 if(isset($_POST)){//si js me manda datos yo hago:
-    $cedula = $_POST["id"];//guardo lo q mando
+    $Ci_Estudaintes = $_POST["Id_Estudaintes"];//guardo lo q mando
 
     // incluir la clase Usuario
     require_once("../../model/estudiante.php");

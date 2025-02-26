@@ -11,7 +11,7 @@ class Usuario
 
     //hago el metodo constructor para usar la conexion en todo lo que va de la clase
     public function __construct() {
-        $this->conexion = new Conexion('localhost', 'unefa', 'root', '');
+        $this->conexion = new Conexion('localhost', 'registro_pasantias', 'root', '');
         $this->pdo = $this->conexion->conectar();
     }
 
@@ -39,7 +39,7 @@ class Usuario
             );
         }
         return $json;
-    }
+    } 
     
     //creo la clase que me va a insertar un nuevo usuario
     public function insertar($l_rif,$rif,$nombre,$direccion,$telefono_empresa,$n_pasantes,$carrera,$estatus){
@@ -160,14 +160,6 @@ class Usuario
         $statement->bindValue(':n_pasantes', $n_pasantes);
         $statement->bindValue(':estatus', $estatus);
         $statement->bindValue(':carrera', $carrera);
-        $statement->bindValue(':id', $id);
-        return $statement->execute();
-    } 
-    //creo la funcion que me va a asignar el numero de pasante que aceptara una empresa
-    public function n_Pasantes($id, $n_pasantes){
-        $consulta = "UPDATE empresa SET N_PASANTES = :n_pasantes WHERE id = :id";
-        $statement = $this->pdo->prepare($consulta);
-        $statement->bindValue(':pasantes', $n_pasantes);
         $statement->bindValue(':id', $id);
         return $statement->execute();
     }  

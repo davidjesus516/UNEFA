@@ -22,18 +22,41 @@ $(document).ready(function(){//aqui inicializamos javascript
             let task = JSON.parse(response);// convierto el json en string
             let template = '<option id = "carrera-option" value="" disabled selected>Seleccione una opción</option>';//creo la plantilla donde imprimire los datos
             task.forEach(task =>{//hago un array que me recorra el json y me lo imprima en el tbody
-                template +=`<option id = "carrera-option" value="${task.id}" >${task.nombre}</option>
+                template +=`<option id = "carrera-option" value="${task.Id_Carrera}" >${task.Nombre_Carrera}</option>
                 `
             })
             $('#carrera').html(template);//los imprimo en el html
         }
     }) 
+    $.ajax({//realizo una peticion ajax
+        url: '../controllers/Tipo_Institucion/UserList.php',//al url que trae la lista
+        type: 'GET',//le pido una peticion GET
+        success: function (response){// si tengo una respuesta ejecuta la funcion
+            let task = JSON.parse(response);// convierto el json en string
+            let template = '<option id = "Tipo_Institucion-option" value="" disabled selected>Seleccione una opción</option>';//creo la plantilla donde imprimire los datos
+            task.forEach(task =>{//hago un array que me recorra el json y me lo imprima en el tbody
+                template +=`<option id = "Tipo_Institucion-option" value="${task.IdTipo_Institucion}" >${task.Tipo_Institucion}</option>
+                `
+            })
+            $('#Tipo_Institucion').html(template);//los imprimo en el html
+        }
+    }) 
+    $.ajax({//realizo una peticion ajax
+        url: '../controllers/Tipo_Practica/UserList.php',//al url que trae la lista
+        type: 'GET',//le pido una peticion GET
+        success: function (response){// si tengo una respuesta ejecuta la funcion
+            let task = JSON.parse(response);// convierto el json en string
+            let template = '<option id = "Tipo_Practica-option" value="" disabled selected>Seleccione una opción</option>';//creo la plantilla donde imprimire los datos
+            task.forEach(task =>{//hago un array que me recorra el json y me lo imprima en el tbody
+                template +=`<option id = "Tipo_Practica-option" value="${task.IdTipo_Pasantias}" >${task.Nombre}</option>
+                `
+            })
+            $('#Tipo_Practica').html(template);//los imprimo en el html
+        }
+    })
         
     const expresiones = {
-        usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
-        solo_letras: /^[a-zA-ZÀ-ÿ\s]+$/, // Letras y espacios, pueden llevar acentos.
-        correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_.+-]*$/, // formato correo ejemplo@mail.com
-        rif: /^\d{1,9}$/, // cedula debe ser un numero de maximo 9 digitos
+        rif: /^\d{1,9}$/, // rif debe ser un numero de maximo 9 digitos
         telefono: /^\d{11}$/ // telefono debe ser un numero de 11 digitos 
     }
 
@@ -70,66 +93,27 @@ $(document).ready(function(){//aqui inicializamos javascript
     }
     
     })
-    $('#e_mail').keyup(function(e){
-        if (expresiones.correo.test($('#e_mail').val())) {
-            $('#grupo__correo').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-            $('#grupo__correo i').addClass("fa-check-circle").removeClass("fa-times-circle")
-            $(`#grupo__correo .formulario__input-error`).removeClass('formulario__input-error-activo');
-    
-            errores = false
-        }
-        else {
-            $('#grupo__correo').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-            $('#grupo__correo i').addClass("fa-times-circle").removeClass("fa-check-circle");
-            $(`#grupo__correo .formulario__input-error`).addClass('formulario__input-error-activo');
-            errores = true
-        }
-        
-        })
-    $('#cedula').keyup(function(e){
-        let search = $('#cedula').val();
+    $("#n_rif").keyup(function (e) {
+        let rif = $('#l_rif').val()+$('#n_rif').val();
         $.ajax({
-            url: '../controllers/estudiante/UserSearch.php',
-            type: 'POST',
-            data: {search},
-            success: function(response){
-                let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if (Object.keys(data).length === 0) { // Verificamos si el objeto está vacío
-                    console.log('no existe');
-                } else {
-                    $('#grupo__cedula').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-                    $('#grupo__cedula i').addClass("fa-times-circle").removeClass("fa-check-circle");
-                    $(`#grupo__cedula .formulario__input-error`).addClass('formulario__input-error-activo');
-                    $('#grupo__cedula p').text("Cedula ya existe");
-                    errores = true
-                }
-            },
-            error: function(error) {
-                console.log(error);
-            } 
-        })
-    })
-    $("#nombre").keyup(function (e) {
-        let nombre = $("#nombre").val();
-        $.ajax({
-            url: "../controllers/empresa/UserSearch.php",
+            url: "../controllers/Institucion/UserSearch.php",
             type: "POST",
-            data: { nombre: nombre },
+            data: { rif: rif },
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
                 if (Object.keys(data).length === 0 || edit === true) {
                     // Verificamos si el objeto está vacío
                     console.log("no existe");
-                    $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-                    $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
-                    $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
+                    $('#grupo__rif').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+                    $('#grupo__rif i').addClass("fa-check-circle").removeClass("fa-times-circle")
+                    $(`#grupo__rif .formulario__input-error`).removeClass('formulario__input-error-activo');
                     errores = false
                 } 
                 else {
                     $("#grupo__nombre").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
                     $("#grupo__nombre i").addClass("fa-times-circle").removeClass("fa-check-circle");
                     $(`#grupo__nombre .formulario__input-error`).addClass("formulario__input-error-activo");
-                    $("#grupo__nombre p").text("esta carrera ya existe");
+                    $("#grupo__nombre p").text("este rif ya existe");
                     errores = true;
                 }
             },
@@ -148,13 +132,13 @@ $(document).ready(function(){//aqui inicializamos javascript
             return false;
         }
         const id = $('#id').val();
-        const l_rif = $('#l_rif').val();
-        const rif = $('#n_rif').val();
+        const rif = $('#l_rif').val()+$('#n_rif').val();
         const nombre = $('#nombre').val();
-        const telefono = $('#telefono_Empresa').val() + $('#telefono').val();
+        const telefono = $('#telefono_Empresa').val() +$('#telefono').val();
         const direccion = $('#direccion').val();
-        const n_pasantes = $('#n_pasantes').val();
         const carrera = $('#carrera').val();
+        const Tipo_Institucion = $('#Tipo_Institucion').val();
+        const Tipo_Practica = $('#Tipo_Practica').val();
         
     
         if (errores) { // Se comprueba si hay errores
@@ -165,13 +149,13 @@ $(document).ready(function(){//aqui inicializamos javascript
     
         const postData = {
             id: id,
-            l_rif: l_rif,
             rif: rif,
             nombre: nombre,
             telefono: telefono,
             direccion: direccion,
-            n_pasantes: n_pasantes,
             carrera: carrera,
+            Tipo_Institucion: Tipo_Institucion,
+            Tipo_Practica: Tipo_Practica
 
         };
         if (edit === false) {

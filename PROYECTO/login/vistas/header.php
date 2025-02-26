@@ -1,11 +1,11 @@
 <?php
-
+/*
 session_start();
 
 
 if(!isset($_SESSION['username'])){
 header("Location: ../index.php");
-}
+}*/
 ?>
 
 <!DOCTYPE html>
@@ -62,14 +62,15 @@ header("Location: ../index.php");
                         <i class='bx bxs-chevron-down arrow'></i>
                     </div>
                     <ul class="sub-menu">
-                        <li><a class="link_name" href="#">Gestión</a></li>
+                        <li><a class="link_name" href="#">Gestión</a></li>                       
                         <li><a href="periodo.php">Periodo</a></li>
                         <li><a href="carrera.php">Carrera</a></li>
+                        <li><a href="Matrícula.php">Matrícula</a></li>
                         <li><a href="profesion.php">Profesión</a></li>
                         <li><a href="tutor_academico.php">Tutor Academico</a></li>
                         <li><a href="tutor_institucional.php">Tutor Institucional</a></li>
                         <li><a href="estudiante.php">Estudiante</a></li>
-                        <li><a href="empresa.php">Empresa</a></li>
+                        <li><a href="Institucion.php">Institución</a></li>
                     </ul>
                 </li>
                 <li>

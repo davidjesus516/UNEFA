@@ -1,10 +1,9 @@
 <?php
 
-require("../../model/empresa.php");
+require("../../model/Institucion.php");
 
 if(isset($_POST)){//si el js me manda yo hago:
     $nombre =  $_POST["nombre"];
-    $l_rif =  $_POST["l_rif"];
     $rif =  $_POST["rif"];
     $direccion =  $_POST["direccion"];
     $telefono_empresa =  $_POST["telefono"];

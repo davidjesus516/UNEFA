@@ -1,9 +1,9 @@
 <?php
-require("../../model/empresa.php");
+require("../../model/Institucion.php");
 $rif = $_POST["search"];
 
 // incluir la clase Usuario
-require_once("../../model/empresa.php");
+require_once("../../model/Institucion.php");
 
 // crear una instancia de la clase Usuario
 $usuario = new Usuario();
