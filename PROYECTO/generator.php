@@ -53,7 +53,7 @@ $a_r=explode(",", mb_strtoupper($apellidos));
 //     $m_r[random_int(0,72)]."_".
 //     $m_r[random_int(0,72)],$a_r[random_int(0,9)]."_".$a_r[random_int(0,9)],
 //     "M",$t,"estudiante@unefa.com"," ",1,"D",1);
-    
+    /*
 for ($i=0; $i <1000 ; $i++) {
     require_once "login/model/pasantia.php";
     $t = $tlf[rand(0,4)].rand(1000000,9999999);
@@ -77,4 +77,4 @@ for ($i=0; $i <1000 ; $i++) {
     
     }
 }
- ?>
+ */?>
