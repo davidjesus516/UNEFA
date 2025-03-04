@@ -3,7 +3,7 @@
 session_start();
 
 
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['USER'])) {
   header('location: vistas/intranet.php');
 }
 
@@ -34,7 +34,7 @@ if (isset($_SESSION['username'])) {
             </button>
 
           </form>
-          <p class="account">¿Olvidaste tu contraseña? <a href="olvidar.php">Recuperar contraseña</a></p>
+          <p class="account">¿Olvidaste tu contraseña? <a href="forget_password.php">Recuperar contraseña</a></p>
 
         </div>
         <div class="form-img">

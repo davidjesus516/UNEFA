@@ -6,7 +6,7 @@ if (isset($_SESSION['username'])) {
   header('location: vistas/intranet.php');
 }
 if (!isset($_GET["id"])) {
-  header("location: olvidar.php");
+  header("location: forget_password.php");
 }
 ?>
 <!DOCTYPE html>

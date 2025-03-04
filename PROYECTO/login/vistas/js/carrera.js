@@ -15,7 +15,7 @@ $(document).ready(function () {
                     let datasearch = JSON.parse(response);
                     let template = "";
                     datasearch.forEach((task) => {
-                        template += `<li>${task.codigo}</li>`;
+                        template += `<li>${task.CAREER_CODE}</li>`;
                     });
                     $("#container").html(template);
                     $("#task-result").show();
@@ -33,7 +33,7 @@ $(document).ready(function () {
             data: { Nombre_Carrera },
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if (Object.keys(data).length === 0 || (edit === true && data[0].Id_Carrera === parseInt($("#id").val()))) {
+                if (Object.keys(data).length === 0 || (edit === true && data[0].CAREER_ID === parseInt($("#id").val()))) {
                     // Verificamos si el objeto está vacío
                     console.log("no existe");
                     $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
@@ -62,7 +62,7 @@ $(document).ready(function () {
             data: {Codigo},
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if (Object.keys(data).length === 0 || (edit === true && data[0].Id_Carrera === parseInt($("#id").val()))) {
+                if (Object.keys(data).length === 0 || (edit === true && data[0].CAREER_ID === parseInt($("#id").val()))) {
                     // Verificamos si el objeto está vacío
                     console.log("no existe");
                     $('#grupo__codigo').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
@@ -152,9 +152,9 @@ $(document).ready(function () {
                 let template = ""; //creo la plantilla donde imprimire los datos
                 task.forEach((task) => {
                     //hago un array que me recorra el json y me lo imprima en el tbody
-                    template += `<tr taskid="${task.Id_Carrera}">
-                        <td>${task.Codigo}</td>
-                        <td>${task.Nombre_Carrera}</td>
+                    template += `<tr taskid="${task.CAREER_ID}">
+                        <td>${task.CAREER_CODE}</td>
+                        <td>${task.CAREER_NAME}</td>
                         <td>
                             <button class="task-delete "><spam class="texto">Borrar</spam><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
                         </td>
@@ -203,9 +203,9 @@ $(document).ready(function () {
             function (response) {
                 //mando los datos al controlador
                 const task = JSON.parse(response)[0]; // accede al primer objeto en el array
-                $('#id').val(task.Id_Carrera).prop('readonly', true);//añado los elementos al formulario y lo hago de solo lectura
-                $("#codigo").val(task.Codigo); //añado los elementos al formulario y lo hago de solo lectura
-                $("#nombre").val(task.Nombre_Carrera);
+                $('#id').val(task.CAREER_ID).prop('readonly', true);//añado los elementos al formulario y lo hago de solo lectura
+                $("#codigo").val(task.CAREER_CODE); //añado los elementos al formulario y lo hago de solo lectura
+                $("#nombre").val(task.CAREER_NAME);
                 edit = true; //valido la variable que esta por encima de todo para que en vez de guardar un nuevo usuario lo edite
             }
         );

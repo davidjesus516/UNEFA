@@ -1,11 +1,10 @@
 <?php
-/*
 session_start();
 
 
-if(!isset($_SESSION['username'])){
+if(!isset($_SESSION['USER'])){
 header("Location: ../index.php");
-}*/
+}
 ?>
 
 <!DOCTYPE html>
@@ -63,13 +62,12 @@ header("Location: ../index.php");
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Gestión</a></li>                       
-                        <li><a href="periodo.php">Periodo</a></li>
+                        <li><a href="periodo.php">Lapso Academico</a></li>
                         <li><a href="carrera.php">Carrera</a></li>
                         <li><a href="Matrícula.php">Matrícula</a></li>
                         <li><a href="profesion.php">Profesión</a></li>
                         <li><a href="tutor_academico.php">Tutor Academico</a></li>
                         <li><a href="tutor_institucional.php">Tutor Institucional</a></li>
-                        <li><a href="estudiante.php">Estudiante</a></li>
                         <li><a href="Institucion.php">Institución</a></li>
                     </ul>
                 </li>
@@ -93,24 +91,34 @@ header("Location: ../index.php");
                     <div class="iocn-link">
                         <a href="#">
                             <i class='bx bx-book-alt'></i>
-                            <span class="link_name">Reportes</span>
+                            <span class="link_name">Procesos</span>
                         </a>
                         <i class='bx bxs-chevron-down arrow'></i>
                     </div>
                     <ul class="sub-menu">
-                        <li><a class="link_name" href="#">Reportes</a></li>
-                        <li><a href="#">Estudiante</a></li>
-                        <li><a href="#">Tutores</a></li>
-                        <li><a href="#">Empresas</a></li>
+                        <li><a class="link_name" href="#">Procesos</a></li>
+                        <li><a href="#">Inscripcion</a></li>
+                        <li><a href="#">Seguimiento</a></li>
+                        <li><a href="#">Cierre Periodo</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#">
                         <i class='bx bx-cog'></i>
-                        <span class="link_name">Example Form</span>
+                        <span class="link_name">Reportes</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="formulario.php">Example Form</a></li>
+                        <li><a class="link_name" href="#">Reportes</a></li>
+                    </ul>
+                </li> 
+                <li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-cog'></i>
+                        <span class="link_name">Configuración</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="#">Configuración</a></li>
                     </ul>
                 </li> 
                 <li>

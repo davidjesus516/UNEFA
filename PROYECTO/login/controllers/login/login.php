@@ -9,15 +9,23 @@ $password = $_POST["password"];
 require_once("../../model/login.php");
 
 // crear una instancia de la clase Usuario
-$usuario = new Usuario();
+$UserData = new Usuario();
 
 // llamar al método para buscar un usuario por su codigo
-$_SESSION = $usuario->login($username, $password);
-if (isset($_SESSION['username'])) {
-
+$UserSessionData = $UserData->login($username);
+if (
+    password_verify($password, $UserSessionData['KEY'])
+) {
+    $_SESSION = array(
+        'USER' => $UserSessionData['USER'],
+        'USER_ID' => $UserSessionData['USER_ID'],
+        'CEDULA' => $UserSessionData['CEDULA'],
+        'NAME' => $UserSessionData['NAME'],
+        'SURNAME' => $UserSessionData['SURNAME']
+    );
     echo '      
             <dialog id="dialog">
-            <h2>Bienvenido ' . ucfirst($_SESSION['username']) . '.</h2>
+            <h2>Bienvenido ' . ucfirst($_SESSION['NAME']) . '.</h2>
             <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
             <div class="success-checkmark">
             <div class="check-icon">
@@ -44,3 +52,4 @@ if (isset($_SESSION['username'])) {
             <button aria-label="close" class="x">❌</button>
             </dialog>';
 }
+?>

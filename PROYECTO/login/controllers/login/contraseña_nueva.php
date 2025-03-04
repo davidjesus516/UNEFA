@@ -1,7 +1,7 @@
 <?php 
 if(isset($_POST)){
 $ID = $_POST['id'];
-$password = $_POST['password'];	
+$password = password_hash($_POST['password'], PASSWORD_DEFAULT);	
 require_once '../../model/login.php';
 $usuario = new Usuario();
 
