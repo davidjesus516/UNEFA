@@ -11,7 +11,7 @@ $(document).ready(function(){//aqui inicializamos javascript
     }
     function modalopen(response) {
         $('#respuesta').html(response);
-        $('#repuesta').showModal();
+        $('#respuesta')[0].showModal();
     }
     let errores = false;
     // funcion que hara el cierre de las ventanas modal
@@ -224,8 +224,8 @@ $(document).ready(function(){//aqui inicializamos javascript
         modalclose();
         // Agregamos la alerta de confirmación
         if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-            $.post('../controllers/empresa/UserDelete.php',{id}, function (response) {$("#respuesta").html(response);
-            $('#respuesta')[0].showModal();
+            $.post('../controllers/empresa/UserDelete.php',{id}, function (e) {
+                modalopen(response);
                 modalclose();
                 fetchTask();
             });}
