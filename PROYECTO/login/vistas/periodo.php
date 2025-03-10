@@ -68,6 +68,9 @@ require 'header.php';
         <tr class="w3-light-grey">
         <th>Codigo</th>
         <th>Lapso Academico</th>
+        <th>Inicio</th>
+        <th>Fin</th>
+        <th>Estatus</th>
         <th colspan="2">Acciones</th>
         </tr>
     </thead>
