@@ -22,7 +22,8 @@ require 'header.php';
     top: 0;
     margin-left: -50%;
     margin-top: -70%;
-    background: linear-gradient(744deg, #192dd4, #0035ff 60%, #00ddeb);  }
+    background: linear-gradient(744deg, #192dd4, #0035ff 60%, #00ddeb);
+  }
 
   .icon {
     width: 3em;
@@ -97,20 +98,44 @@ require 'header.php';
 </style>
 <span class="text">Inicio</span>
 
-<!-- A Continuacion un ejemplo del modal utilizado en el proyecto
-  
-<div id="modal" class="modal">
-  <button class="primary" onclick="window.dialog.showModal();">Abrir Dialogo</button>
+<div class="cards">
+<div class="card playing">
+  <div class="image"></div>
 
-  <dialog id="dialog">
-    <h2>Hello.</h2>
-    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
-  </dialog>
-</div> -->
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+
+
+  <div class="infotop">
+    <br>
+    T.S.U. Enfermería
+    <br>
+    <h5>N estudiantes</h5>
+  </div>
+</div>
+
+<div class="card playing">
+  <div class="image"></div>
+
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+
+
+  <div class="infotop">
+    <br>
+    T.S.U. Ingeniería
+    <br>
+    <h5>N estudiantes</h5>
+  </div>
+</div>
+</div>
+<button class="primary" onclick="window.dialog.showModal();">Listado Practicas Profesionales</button>
+<button class="primary-white" onclick="window.dialog.showModal();">Agregar Practicas Profesionales <span>+</span></button>
 
 <script src="js/intranet/jquery-3.7.0.min.js"></script>
-<script src="js/intranet/main.js"></script> 
+<script src="js/intranet/main.js"></script>
 <?php
 require 'footer.php';
 ?>
