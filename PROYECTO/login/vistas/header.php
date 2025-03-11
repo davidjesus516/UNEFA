@@ -3,9 +3,15 @@
 // session_start();
 
 
+<<<<<<< HEAD
 // if (!isset($_SESSION['username'])) {
 //     header("Location: ../index.php");
 // }
+=======
+if (!isset($_SESSION['USER'])) {
+    header("Location: ../index.php");
+}
+>>>>>>> c2a052f4f1f5e769a39ea70694f00f38eda15f63
 ?>
 
 <!DOCTYPE html>
