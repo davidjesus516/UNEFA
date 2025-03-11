@@ -1,11 +1,11 @@
 <?php
 
-session_start();
+// session_start();
 
 
-if (!isset($_SESSION['username'])) {
-    header("Location: ../index.php");
-}
+// if (!isset($_SESSION['username'])) {
+//     header("Location: ../index.php");
+// }
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +71,7 @@ if (!isset($_SESSION['username'])) {
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Gestión</a></li>
                         <li><a href="periodo.php">Periodo</a></li>
-                        <li><a href="matricula.php">Matricula</a></li>
+                        <li><a href="matrícula.php">Matricula</a></li>
                         <li><a href="carrera.php">Carrera</a></li>
                     </ul>
                 </li>
