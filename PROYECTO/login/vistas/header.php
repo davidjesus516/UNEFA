@@ -3,7 +3,7 @@
 session_start();
 
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['USER'])) {
     header("Location: ../index.php");
 }
 ?>
