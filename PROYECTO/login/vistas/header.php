@@ -1,11 +1,18 @@
 <?php
 
-session_start();
+// session_start();
 
 
 if (!isset($_SESSION['USER'])) {
+<<<<<<< HEAD
+// if (!isset($_SESSION['username'])) {
+//     header("Location: ../index.php");
+// }
+=======
+if (!isset($_SESSION['USER'])) {
     header("Location: ../index.php");
 }
+>>>>>>> c2a052f4f1f5e769a39ea70694f00f38eda15f63
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +78,7 @@ if (!isset($_SESSION['USER'])) {
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Gestión</a></li>
                         <li><a href="periodo.php">Periodo</a></li>
-                        <li><a href="matricula.php">Matricula</a></li>
+                        <li><a href="matrícula.php">Matricula</a></li>
                         <li><a href="carrera.php">Carrera</a></li>
                     </ul>
                 </li>

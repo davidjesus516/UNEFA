@@ -6,7 +6,7 @@ require 'header.php';
 
 
 <div id="modal" class="modal">
-	<button class="primary" onclick="window.dialog.showModal();">Nuevo</button>
+	<button class="primary" onclick="window.dialog.showModal();">Nuevo <span>+</span></button>
 
 	<dialog id="dialog">
 		<h2>Registrar Periodo.</h2>
@@ -23,6 +23,8 @@ require 'header.php';
 			</div>
 			<p class="formulario__input-error">Validacion</p>
 			</div>
+
+			<br>
 
 			<!-- Grupo: Usuario -->
 			<div class="formulario__grupo" id="">
