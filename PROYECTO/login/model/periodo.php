@@ -1,4 +1,6 @@
 <?php
+session_start();
+date_default_timezone_get();
 //me voy a traer la conexion
 require_once("conexion.php");
 
@@ -11,13 +13,13 @@ class Usuario
 
     //hago el metodo constructor para usar la conexion en todo lo que va de la clase
     public function __construct() {
-        $this->conexion = new Conexion('localhost', 'unefa', 'root', '');
+        $this->conexion = new Conexion('localhost', 'mydb', 'root', '');
         $this->pdo = $this->conexion->conectar();
     }
 
     //creo la clase que me va a consultar todos los datos que exista y me los traera y guardarlos en una variable
     public function buscarUsuario($periodo){
-        $consulta = "SELECT * FROM periodo WHERE STATUS = 1
+        $consulta = "SELECT * FROM `T-INTERNSHIP_PERIOD` WHERE STATUS = 1
         AND periodo LIKE :periodo";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':periodo', $periodo);

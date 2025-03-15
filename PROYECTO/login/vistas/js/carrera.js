@@ -36,11 +36,11 @@ $(document).ready(function () {
                 if (Object.keys(data).length === 0 || (edit === true && data[0].CAREER_ID === parseInt($("#id").val()))) {
                     // Verificamos si el objeto está vacío
                     console.log("no existe");
-                    $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+                    $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
                     $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
                     $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
                     errores = false
-                } 
+                }
                 else {
                     $("#grupo__nombre").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
                     $("#grupo__nombre i").addClass("fa-times-circle").removeClass("fa-check-circle");
@@ -59,17 +59,17 @@ $(document).ready(function () {
         $.ajax({
             url: "../controllers/carrera/UserSearch.php",
             type: "POST",
-            data: {Codigo},
+            data: { Codigo },
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
                 if (Object.keys(data).length === 0 || (edit === true && data[0].CAREER_ID === parseInt($("#id").val()))) {
                     // Verificamos si el objeto está vacío
                     console.log("no existe");
-                    $('#grupo__codigo').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+                    $('#grupo__codigo').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
                     $('#grupo__codigo i').addClass("fa-check-circle").removeClass("fa-times-circle")
                     $(`#grupo__codigo .formulario__input-error`).removeClass('formulario__input-error-activo');
                     errores = false
-                } 
+                }
                 else {
                     $("#grupo__codigo")
                         .addClass("formulario__grupo-incorrecto")
@@ -96,10 +96,10 @@ $(document).ready(function () {
         const Nombre_Carrera = $("#nombre").val();
 
         if (/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+$/.test(nombre)) {
-            $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
+            $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
             $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
-    
+
             errores = false
         }
 
@@ -177,10 +177,10 @@ $(document).ready(function () {
         // Agregamos la alerta de confirmación
         if (confirm("¿Está seguro de eliminar este registro?")) {
             $.post("../controllers/carrera/UserDelete.php", { id }, function (response) {
-                    //mando los datos al controlador
-                    alert("usuario eliminado");
-                    fetchTask(); //vuelvo a llamar a la funcion de la tabla para que actualize los datos
-                }
+                //mando los datos al controlador
+                alert("usuario eliminado");
+                fetchTask(); //vuelvo a llamar a la funcion de la tabla para que actualize los datos
+            }
             );
         } else {
             // Si el usuario hace clic en "Cancelar", no se envía el formulario
