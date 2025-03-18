@@ -62,14 +62,23 @@ span.obligatorio {
 }
 
 .content {
-  flex-basis: 50%;
+  /* flex-basis: 50%; */
   padding: 3em 3em;
   background: #fff;
   box-shadow: 2px 9px 49px -17px rgba(0, 0, 0, 0.1);
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
   display: grid;
   align-content: center;
+}
+
+.content_user {
+  /* flex-basis: 50%; */
+  padding: 3em 3em;
+  background: #fff;
+  box-shadow: 2px 9px 49px -17px rgba(0, 0, 0, 0.1);
+  display: grid;
+  align-content: stretch;
+  margin: auto;
+  width: 100%;
 }
 
 .form-img {
@@ -79,8 +88,6 @@ span.obligatorio {
   /* background: #dfe5ea; */
   background-size: cover;
   padding: 40px;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
   align-items: center;
   display: grid;
 }
@@ -92,14 +99,17 @@ span.obligatorio {
   /* background: #dfe5ea; */
   background-size: cover;
   padding: 40px;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
   align-items: center;
   display: grid;
 }
 
 .form-img img {
   max-width: 100%;
+}
+
+.form_terms {
+  display: grid;
+  justify-content: center;
 }
 
 p {
@@ -183,16 +193,12 @@ p.account a:hover {
 
   .form-img {
     border-radius: 0;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
     order: 2;
   }
 
   .content {
     order: 1;
     border-radius: 0;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
   }
 }
 
@@ -1243,7 +1249,7 @@ button.primary-white {
   top: 0;
   margin-left: -50%;
   margin-top: -70%;
-  background: linear-gradient(744deg,#af40ff,#5b42f3 60%,#00ddeb);
+  background: linear-gradient(744deg, #af40ff, #5b42f3 60%, #00ddeb);
 }
 
 .icon {

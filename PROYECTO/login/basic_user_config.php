@@ -27,7 +27,7 @@ if (!isset($_SESSION['USER_ID'])) {
     <!-- <h1>Login</h1> -->
     <div class="container">
       <div class="main">
-        <div class="content">
+        <div class="content_user content">
           <h2>Nueva Contraseña</h2>
           <form id="task-form" method="post" action="#">
             <input type="hidden" id="id" name="id" value=<?php echo $_SESSION["USER_ID"]; ?>>
@@ -47,6 +47,8 @@ if (!isset($_SESSION['USER_ID'])) {
               <p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
             </div>
 
+            <h4>Preguntas de recuperacion:</h4>
+            
             <div class="formulario__grupo" id="grupo__question1">
               <select id="question1" class="selector formulario__input" required>
                 <option value="" disabled selected>Seleccione una opción</option>
@@ -112,9 +114,9 @@ if (!isset($_SESSION['USER_ID'])) {
           <p class="account"><a href="logout.php">¿Volver al inicio?</a></p>
 
         </div>
-        <div class="form-img-2">
+        <!-- <div class="form-img-2">
           <img src="" alt="">
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

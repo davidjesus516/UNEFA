@@ -10,7 +10,7 @@ if ($_SESSION['STATUS_SESSION'] == 2) {
 
 <head>
     <meta charset="utf-8">
-    <title>Recuperar</title>
+    <title>Acceso</title>
     <link rel="stylesheet" href="vistas/css/estilos.css">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <link rel="icon" href="../img/logo_unefa.ico">
@@ -28,9 +28,15 @@ if ($_SESSION['STATUS_SESSION'] == 2) {
                     <h2>BIENVENIDO ' . $_SESSION['NAME'] . '</h2>
                     <p>Para continuar por favor acepte los <a href="PurpleOrangeGradientFormalAgreementLetterA4Document.pdf" target="_blank">terminos y condiciones</a>.</p>
                     <form action="basic_user_config.php" method="POST">
-                        <input type="checkbox" name="terms" id="terms" required>
-                        <label for="terms">Acepto los terminos y condiciones</label>
-                        <input type="submit" value="Aceptar">
+
+                    <div class:"form_terms"> 
+                    <label for="terms">Acepto los terminos y condiciones
+                    <input type="checkbox" name="terms" id="terms" required>
+                    </label>
+                    </div>
+                    <button class="primary btn" type="submit" value="Aceptar">
+                    Aceptar
+                    </button>
                     <p class="account"><a href="logout.php">¿Volver al inicio?</a></p>
 
                 </div>
