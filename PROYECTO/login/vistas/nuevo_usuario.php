@@ -1,7 +1,7 @@
 <?php
 require 'header.php';
 ?>
-<span class="text">Ventana -> Usuario -> Nuevo Usuario</span>
+<span class="text">Ventana -> <a href="usuario.php">Usuario</a> -> Nuevo Usuario</span>
 <div class="page-content">
 
     <div id="modal" class="modal">

@@ -790,6 +790,37 @@ button.primary {
   }
 }
 
+.contenedor-botones {
+  position: relative;
+  display: inline-block;
+}
+
+.botones-adicionales {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+}
+
+.contenedor-botones:hover .botones-adicionales {
+  display: flex;
+  transition: all ease-in-out;
+}
+
+.secundario {
+  background-color: #e7e7e7;
+  border: none;
+  color: black;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+  margin: 4px 0;
+  cursor: pointer;
+  border-radius: 4px;
+}
 
 button.primary-white {
   background-color: #ffffff;

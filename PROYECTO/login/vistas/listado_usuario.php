@@ -1,7 +1,7 @@
 <?php
 require 'header.php';
 ?>
-<span class="text">Ventana -> Usuario -> Listado Usuario</span>
+<span class="text">Ventana -> <a href="usuario.php">Usuario</a> -> Listado Usuario</span>
 <div class="page-content">
 
 

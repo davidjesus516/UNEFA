@@ -48,6 +48,7 @@ require 'header.php';
                     <label for="" class="formulario__label">Tipo de Practica<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <select class="formulario__input" id="telefono_Empresa">
+                            <option value="">seleccione una opcion</option>
                             <option value="Hospitalaria">Hospitalaria</option>
                             <option value="Comunitaria">Comunitaria</option>
                             <option value="Otro">Otro</option>

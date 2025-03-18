@@ -131,11 +131,20 @@ require 'header.php';
   </div>
 </div>
 </div>
-<button class="primary" onclick="window.dialog.showModal();">Listado Practicas Profesionales</button>
-<button class="primary-white" onclick="window.dialog.showModal();">Agregar Practicas Profesionales <span>+</span></button>
+
+<div class="contenedor-botones">
+  <button class="primary" onclick="window.dialog.showModal();">Listado Practicas Profesionales</button>
+  <div class="botones-adicionales">
+    <button class="primary secundario">Enfermería</button>
+    <button class="primary secundario">Ingeniería</button>
+  </div>
+</div>
+
+<button class="primary-white">Agregar Practicas Profesionales <span>+</span></button>
 
 <script src="js/intranet/jquery-3.7.0.min.js"></script>
 <script src="js/intranet/main.js"></script>
+
 <?php
 require 'footer.php';
 ?>
