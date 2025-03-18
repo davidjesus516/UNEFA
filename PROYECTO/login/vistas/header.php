@@ -86,9 +86,9 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Registro</a></li>
-                        <li><a href="#">Estudiante</a></li>
-                        <li><a href="#">Tutores</a></li>
-                        <li><a href="#">Instituciones</a></li>
+                        <li><a href="estudiante.php">Estudiante</a></li>
+                        <li><a href="tutores.php">Tutores</a></li>
+                        <li><a href="Institucion.php">Instituciones</a></li>
                     </ul>
                 </li>
 
@@ -104,8 +104,8 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Practicas Profesionales</a></li>
-                        <li><a href="#">Pre Inscripcion</a></li>
-                        <li><a href="#">Inscripcion</a></li>
+                        <li><a href="preinscripcion.php">Pre Inscripcion</a></li>
+                        <li><a href="inscripcion.php">Inscripcion</a></li>
                         <li><a href="#">Seguimiento</a></li>
                         <li><a href="#">Culminacion de Pasantia</a></li>
                     </ul>
@@ -142,7 +142,7 @@ if (!isset($_SESSION['USER'])) {
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Configuracion</a></li>
                         <li><a href="#">Registros Inactivos</a></li>
-                        <li><a href="#">Usuarios</a></li>
+                        <li><a href="usuario.php">Usuarios</a></li>
                         <li><a href="#">Combos</a></li>
                     </ul>
                 </li>
