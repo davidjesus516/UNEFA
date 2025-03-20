@@ -8,11 +8,12 @@ class Conexion {
     private $password;
     private $charset;
 //creo un metodo constructor para desarrollar la conexion
-    public function __construct($host, $db, $user, $password, $charset = 'utf8') {
-        $this->host = $host;
-        $this->db = $db;
-        $this->user = $user;
-        $this->password = $password;
+    public function __construct($charset = 'utf8mb4') {
+    	//le asigno los valores a las variables
+        $this->host = 'localhost';
+        $this->db = 'mydb';
+        $this->user = 'root';
+        $this->password = '';
         $this->charset = $charset;
     }
 //creo la funcion conectar donde se va intentar crear una conexion

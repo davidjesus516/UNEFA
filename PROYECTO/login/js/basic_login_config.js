@@ -222,9 +222,9 @@ $(document).ready(function () {//aqui inicializamos javascript
             let url = "controllers/login/basic_user_config.php";
             $.post(url, postData, function (response) {
                 console.log(response);
-                if (response === 1) {
+                if (parseInt(response) === 1) {
                     alert('Registro exitoso');
-                    window.location.href = 'login.php';
+                    location.replace('logout.php');
                 } else {
                     alert('Error en el registro');
                 }

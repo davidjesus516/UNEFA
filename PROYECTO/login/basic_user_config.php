@@ -29,7 +29,7 @@ if (!isset($_SESSION['USER_ID'])) {
       <div class="main">
         <div class="content_user content">
           <h2>Nueva Contraseña</h2>
-          <form id="task-form" method="post" action="#">
+          <form id="task-form">
             <input type="hidden" id="id" name="id" value=<?php echo $_SESSION["USER_ID"]; ?>>
             <div class="fo"></div>
             <div class="formulario__grupo" id="grupo__password1">

@@ -13,7 +13,7 @@ class Usuario
 
     //hago el metodo constructor para usar la conexion en todo lo que va de la clase
     public function __construct() {
-        $this->conexion = new Conexion('localhost', 'mydb', 'root', '');
+        $this->conexion = new Conexion();
         $this->pdo = $this->conexion->conectar();
     }
 

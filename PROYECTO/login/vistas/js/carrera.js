@@ -26,86 +26,19 @@ $(document).ready(function () {
         }
     });
     $("#nombre").keyup(function (e) {
-        let Nombre_Carrera = $("#nombre").val();
-        $.ajax({
-            url: "../controllers/carrera/UserSearch.php",
-            type: "POST",
-            data: { Nombre_Carrera },
-            success: function (response) {
-                let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if (Object.keys(data).length === 0 || (edit === true && data[0].CAREER_ID === parseInt($("#id").val()))) {
-                    // Verificamos si el objeto está vacío
-                    console.log("no existe");
-                    $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
-                    $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
-                    $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
-                    errores = false
-                }
-                else {
-                    $("#grupo__nombre").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-                    $("#grupo__nombre i").addClass("fa-times-circle").removeClass("fa-check-circle");
-                    $(`#grupo__nombre .formulario__input-error`).addClass("formulario__input-error-activo");
-                    $("#grupo__nombre p").text("esta carrera ya existe");
-                    errores = true;
-                }
-            },
-            error: function (error) {
-                console.log(error);
-            },
-        });
+        validarNombre();
     });
     $("#codigo").keyup(function (e) {
-        let Codigo = $("#codigo").val();
-        $.ajax({
-            url: "../controllers/carrera/UserSearch.php",
-            type: "POST",
-            data: { Codigo },
-            success: function (response) {
-                let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if (Object.keys(data).length === 0 || (edit === true && data[0].CAREER_ID === parseInt($("#id").val()))) {
-                    // Verificamos si el objeto está vacío
-                    console.log("no existe");
-                    $('#grupo__codigo').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
-                    $('#grupo__codigo i').addClass("fa-check-circle").removeClass("fa-times-circle")
-                    $(`#grupo__codigo .formulario__input-error`).removeClass('formulario__input-error-activo');
-                    errores = false
-                }
-                else {
-                    $("#grupo__codigo")
-                        .addClass("formulario__grupo-incorrecto")
-                        .removeClass("formulario__grupo-correcto");
-                    $("#grupo__codigo i")
-                        .addClass("fa-times-circle")
-                        .removeClass("fa-check-circle");
-                    $(`#grupo__codigo .formulario__input-error`).addClass(
-                        "formulario__input-error-activo"
-                    );
-                    $("#grupo__codigo p").text("este codigo ya existe");
-                    errores = true;
-                }
-            },
-            error: function (error) {
-                console.log(error);
-            },
-        });
+        validarCodigo();
     });
 
     $("#formulario").submit(function (e) {
         const Id_Carrera = $("#id").val();
         const Codigo = $("#codigo").val();
         const Nombre_Carrera = $("#nombre").val();
-
-        if (/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+$/.test(nombre)) {
-            $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
-            $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
-            $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
-
-            errores = false
-        }
-
-        if (errores) {
+        if (!validarFormulario()) {
             // Se comprueba si hay errores
-            e.preventDefault(); // Cancela el envío del formulario si hay errores
+            e.preventDefault(); // C    ancela el envío del formulario si hay errores
             alert("debe llenar correctamente el formulario");
             return false;
         }
@@ -210,4 +143,71 @@ $(document).ready(function () {
             }
         );
     });
+    function validarNombre() {
+        let Nombre_Carrera = $("#nombre").val();
+        let validacion = false;
+        $.ajax({
+            url: "../controllers/carrera/UserSearch.php",
+            type: "POST",
+            data: { Nombre_Carrera },
+            success: function (response) {
+                let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
+                if (!(Object.keys(data).length === 0 || (edit === true && data[0].CAREER_ID === parseInt($("#id").val())))) {
+                    $("#grupo__nombre").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+                    $("#grupo__nombre i").addClass("fa-times-circle").removeClass("fa-check-circle");
+                    $(`#grupo__nombre .formulario__input-error`).addClass("formulario__input-error-activo");
+                    $("#grupo__nombre p").text("esta carrera ya existe");
+                    validacion = false;
+                } else if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+$/.test(Nombre_Carrera)) {
+                    $("#grupo__nombre").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+                    $("#grupo__nombre i").addClass("fa-times-circle").removeClass("fa-check-circle");
+                    $(`#grupo__nombre .formulario__input-error`).addClass("formulario__input-error-activo");
+                    $("#grupo__nombre p").text("este campo solo permite letras");
+                    validacion = false;
+                } else {
+                    $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
+                    $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
+                    $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
+                    validacion = true;
+                }
+            }
+        });
+        return validacion;
+    }
+    function validarCodigo() {
+        let Codigo = $("#codigo").val();
+        let validacion = false;
+        $.ajax({
+            url: "../controllers/carrera/UserSearch.php",
+            type: "POST",
+            data: { Codigo },
+            success: function (response) {
+                let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
+                if (!(Object.keys(data).length === 0 || (edit === true && data[0].CAREER_ID === parseInt($("#id").val())))) {
+                    $("#grupo__codigo").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+                    $("#grupo__codigo i").addClass("fa-times-circle").removeClass("fa-check-circle");
+                    $(`#grupo__codigo .formulario__input-error`).addClass("formulario__input-error-activo");
+                    $("#grupo__codigo p").text("este codigo ya existe");
+                    validacion = false;
+                } else if (!/^\d+$/.test(Codigo)) {
+                    $("#grupo__codigo").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+                    $("#grupo__codigo i").addClass("fa-times-circle").removeClass("fa-check-circle");
+                    $(`#grupo__codigo .formulario__input-error`).addClass("formulario__input-error-activo");
+                    $("#grupo__codigo p").text("este campo solo permite numeros");
+                    validacion = false;
+                } else {
+                    $('#grupo__codigo').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
+                    $('#grupo__codigo i').addClass("fa-check-circle").removeClass("fa-times-circle")
+                    $(`#grupo__codigo .formulario__input-error`).removeClass('formulario__input-error-activo');
+                    validacion = true;
+                }
+            }
+        });
+        return validacion;
+    }
+    function validarFormulario() {
+        let isvalidname = validarNombre();
+        let isvalidcodigo = validarCodigo();
+        return isvalidcodigo && isvalidname;
+    }
 });

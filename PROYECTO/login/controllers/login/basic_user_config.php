@@ -16,7 +16,7 @@ $questions_answers = array(
     $question3 => $answer3
 );
 $row = $usuario->basic_login_config($id, $password, $questions_answers);
-if ($row == true) {
+if ($row === true) {
     echo 1;
 } else {
     echo 0;   
