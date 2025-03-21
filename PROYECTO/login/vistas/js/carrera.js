@@ -150,6 +150,7 @@ $(document).ready(function () {
             url: "../controllers/carrera/UserSearch.php",
             type: "POST",
             data: { Nombre_Carrera },
+            async: false,
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
                 if (!(Object.keys(data).length === 0 || (edit === true && data[0].CAREER_ID === parseInt($("#id").val())))) {
@@ -176,11 +177,12 @@ $(document).ready(function () {
     }
     function validarCodigo() {
         let Codigo = $("#codigo").val();
-        let validacion = false;
+        var validacion = false;
         $.ajax({
             url: "../controllers/carrera/UserSearch.php",
             type: "POST",
             data: { Codigo },
+            async: false,
             success: function (response) {
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
                 if (!(Object.keys(data).length === 0 || (edit === true && data[0].CAREER_ID === parseInt($("#id").val())))) {
