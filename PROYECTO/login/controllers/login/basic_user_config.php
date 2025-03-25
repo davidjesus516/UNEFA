@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST['id'])) {
-require_once '..\..\model\login.php';
+require_once '..\..\model\usuario.php';
 $usuario = new Usuario();
 $id = $_POST['id'];
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);

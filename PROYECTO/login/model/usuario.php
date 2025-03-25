@@ -1,6 +1,8 @@
 <?php
+session_start();
 //me voy a traer la conexion
 require_once("conexion.php");
+date_default_timezone_get();
 
 //instancio la clase usuario
 class Usuario
@@ -15,24 +17,33 @@ class Usuario
         $this->conexion = new Conexion();
         $this->pdo = $this->conexion->conectar();
     }
-    public function contraseñanueva($id, $password)
+    public function userSecurityQuestionSearchByID($user_id)
     {
-        $sql = "UPDATE `usuarios` SET `password`= :password WHERE ID = :id";
-        $statement = $this->pdo->prepare($sql);
-        $statement->bindValue(':id', $id);
-        $statement->bindValue(':password', $password);
-        $statement->execute();
+        $sql5 = "SELECT c.USER_ID, b.PRESET_QUESTION_ID ,b.DESCRIPTION, b.ANSWER FROM `t-user` c LEFT join `t-security_questions` a on c.USER_ID = a.USER_ID INNER join `t-preset_questions` b ON a.PRESET_QUESTION_ID = b.PRESET_QUESTION_ID WHERE c.USER_ID = :user_id AND c.STATUS_SESSION = 1 AND c.STATUS = 1 AND b.STATUS = 1";
+        $statement5 = $this->pdo->prepare($sql5);
+        $statement5->bindValue(':user_id', $user_id);
+        $statement5->execute();
+        while ($row2 = $statement5->fetch(PDO::FETCH_ASSOC)) {
+            $json[$row2["PRESET_QUESTION_ID"]] = $row2["ANSWER"];
+        }
+        return $json;
     }
-
-    public function validar($ID)
+    public function userSecurityQuestionSearch($username)
     {
-
-        $sql = 'SELECT *FROM `t-user` WHERE ID = :ID';
-        $statement = $this->pdo->prepare($sql);
-        $statement->bindValue(':ID', $ID);
-        $statement->execute();
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
-        return $row;
+        $sql5 = "SELECT c.USER_ID, b.PRESET_QUESTION_ID ,b.DESCRIPTION, b.ANSWER FROM `t-user` c LEFT join `t-security_questions` a on c.USER_ID = a.USER_ID INNER join `t-preset_questions` b ON a.PRESET_QUESTION_ID = b.PRESET_QUESTION_ID WHERE c.USER = :username AND c.STATUS_SESSION = 1 AND c.STATUS = 1 AND b.STATUS = 1";
+        $statement5 = $this->pdo->prepare($sql5);
+        $statement5->bindValue(':username', $username);
+        $statement5->execute();
+        $json = array();
+        while ($row2 = $statement5->fetch(PDO::FETCH_ASSOC)) {
+            $json[] = array(
+                'USER_ID' => $row2["USER_ID"],
+                'PRESET_QUESTION_ID' => $row2["PRESET_QUESTION_ID"],
+                'DESCRIPTION' => $row2["DESCRIPTION"],
+                'ANSWER' => $row2["ANSWER"]
+            );
+        }
+        return $json;
     }
     public function UserCreate($USER, $USER_CI, $NAME, $SECOND_NAME, $SURNAME, $SECOND_SURNAME, $EMAIL, $PHONE_NUMBER, $KEY)
     {
@@ -167,6 +178,36 @@ class Usuario
                 $statement8->execute();
             }
             $this->pdo->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            throw $e;
+        }
+    }
+    function NewPassword($id, $password)
+    {
+        try {
+            $sql2 = "SELECT * FROM `T-USER_KEY` WHERE `USER_ID` = :id AND STATUS = 1";
+            $statement2 = $this->pdo->prepare($sql2);
+            $statement2->bindValue(':id', $id);
+            $statement2->execute();
+            $row = $statement2->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                $sql3 = "UPDATE `t-user_key` SET `STATUS`= 0, END_DATE = :END_DATE WHERE USER_KEY_ID = :id";
+                $statement3 = $this->pdo->prepare($sql3);
+                $statement3->bindValue(':id', $row['USER_KEY_ID']);
+                $statement3->bindValue(':END_DATE', date("Y-m-d H:i:s"));
+                $statement3->execute();
+            }
+            $sql4 = "INSERT INTO `t-user_key`( `USER_ID`, `KEY`, `START_DATE`, `END_DATE`, `STATUS`) VALUES (:USER_ID, :KEY, :START_DATE, :END_DATE, :STATUS)";
+            $end_date = date('Y-m-d H:i:s', strtotime('+90 days'));
+            $statement4 = $this->pdo->prepare($sql4);
+            $statement4->bindValue(':USER_ID', $id);
+            $statement4->bindValue(':KEY', $password);
+            $statement4->bindValue(':START_DATE', date("Y-m-d H:i:s"));
+            $statement4->bindValue(':END_DATE', $end_date);
+            $statement4->bindValue(':STATUS', 1);
+            $statement4->execute();
             return true;
         } catch (Exception $e) {
             $this->pdo->rollBack();

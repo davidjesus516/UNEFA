@@ -233,7 +233,8 @@ $(document).ready(function () {//aqui inicializamos javascript
             // Si el usuario hace clic en "Cancelar", no se envía la solicitud de registro
             return false;
         }
-
+        
+        e.preventDefault();
 
     });
 

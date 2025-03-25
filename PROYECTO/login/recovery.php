@@ -31,7 +31,7 @@ if (!isset($_GET["id"])) {
         <div class="content">
           <h2>Nueva Contraseña</h2>
           <form id="task-form" method="post" action="#">
-            <input type="hidden" id="id" name="id" value=<?php echo $_GET["id"]; ?>>
+            <input type="hidden" id="id" name="id" >
             <input type="password" id="password-input1" name="password" required placeholder="Ingrese la nueva contraseña" required autofocus="">
             <input type="password" id="password-input2" name="password2" placeholder="Repita la nueva contraseña" required autofocus="">
             <button class="btn" type="submit" id="submit-button">

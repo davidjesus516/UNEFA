@@ -23,7 +23,7 @@ if (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 1) {
 </head>
 
 <body>
-  <div class="modal">
+  <div class="modal"></div>
 
     <div class="login-form">
       <div class="container">

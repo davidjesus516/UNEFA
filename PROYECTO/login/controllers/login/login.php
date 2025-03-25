@@ -6,14 +6,28 @@ $username = $_POST["username"]; //guardo lo q mando
 $password = $_POST["password"];
 
 // incluir la clase Usuario
-require_once("../../model/login.php");
+require_once("../../model/usuario.php");
 
 // crear una instancia de la clase Usuario
 $UserData = new Usuario();
 
 // llamar al método para buscar un usuario por su codigo
 $UserSessionData = $UserData->login($username);
-if ($UserSessionData['STATUS_SESSION'] == 0) {
+if ($UserSessionData == null) {
+    echo '       
+            <dialog id="dialog">
+            <h2>usuario o contraseña incorrecta </h2>
+            <div class="error-banmark">
+            <div class="ban-icon">
+                <span class="icon-line line-long-invert"></span>
+                <span class="icon-line line-long"></span>
+                <div class="icon-circle"></div>
+                <div class="icon-fix"></div>
+            </div>
+            </div>
+            <button aria-label="close" class="x">❌</button>
+            </dialog>';
+}   elseif ($UserSessionData['STATUS_SESSION'] == 0) {
     echo '      
             <dialog id="dialog">
             <h2>Usuario bloqueado, contacte al administrador.</h2>
