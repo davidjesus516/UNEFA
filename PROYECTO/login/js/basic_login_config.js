@@ -43,15 +43,15 @@ $(document).ready(function () {//aqui inicializamos javascript
             $(`#grupo__question1 .formulario__input-error`).addClass("formulario__input-error-activo");
             $("#grupo__question1 p").text("Las preguntas no deben ser iguales");
             errores = true;
-        }else{
+        } else {
             $('#grupo__question1').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
             $('#grupo__question1 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__question1 .formulario__input-error`).removeClass('formulario__input-error-activo');
-            
+
             $('#grupo__question2').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
             $('#grupo__question2 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__question2 .formulario__input-error`).removeClass('formulario__input-error-activo');
-            
+
             $('#grupo__question3').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
             $('#grupo__question3 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__question3 .formulario__input-error`).removeClass('formulario__input-error-activo');
@@ -68,15 +68,15 @@ $(document).ready(function () {//aqui inicializamos javascript
             $(`#grupo__question2 .formulario__input-error`).addClass("formulario__input-error-activo");
             $("#grupo__question2 p").text("Las preguntas no deben ser iguales");
             errores = true;
-        }else{
+        } else {
             $('#grupo__question1').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
             $('#grupo__question1 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__question1 .formulario__input-error`).removeClass('formulario__input-error-activo');
-            
+
             $('#grupo__question2').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
             $('#grupo__question2 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__question2 .formulario__input-error`).removeClass('formulario__input-error-activo');
-            
+
             $('#grupo__question3').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
             $('#grupo__question3 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__question3 .formulario__input-error`).removeClass('formulario__input-error-activo');
@@ -93,15 +93,15 @@ $(document).ready(function () {//aqui inicializamos javascript
             $(`#grupo__question3 .formulario__input-error`).addClass("formulario__input-error-activo");
             $("#grupo__question3 p").text("Las preguntas no deben ser iguales");
             errores = true;
-        }else{
+        } else {
             $('#grupo__question1').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
             $('#grupo__question1 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__question1 .formulario__input-error`).removeClass('formulario__input-error-activo');
-            
+
             $('#grupo__question2').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
             $('#grupo__question2 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__question2 .formulario__input-error`).removeClass('formulario__input-error-activo');
-            
+
             $('#grupo__question3').addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
             $('#grupo__question3 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__question3 .formulario__input-error`).removeClass('formulario__input-error-activo');
@@ -117,19 +117,19 @@ $(document).ready(function () {//aqui inicializamos javascript
             $('#grupo__answer1 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__answer1 .formulario__input-error`).removeClass('formulario__input-error-activo');
             errores = false
-        }if (answer1.length < 3) {
+        } if (answer1.length < 3) {
             $("#grupo__answer1").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
             $("#grupo__answer1 i").addClass("fa-times-circle").removeClass("fa-check-circle");
             $(`#grupo__answer1 .formulario__input-error`).addClass("formulario__input-error-activo");
             $("#grupo__answer1 p").text("La respuesta debe tener al menos 3 caracteres");
             errores = true;
-        }if (answer1 === answer2 || answer1 === answer3 ) {
+        } if (answer1 === answer2 || answer1 === answer3) {
             $("#grupo__answer1").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
             $("#grupo__answer1 i").addClass("fa-times-circle").removeClass("fa-check-circle");
             $(`#grupo__answer1 .formulario__input-error`).addClass("formulario__input-error-activo");
             $("#grupo__answer1 p").text("Las respuestas no deben ser iguales");
             errores = true;
-        }if (!(/^[a-z-A-Z0-9]*$/.test(answer1))) {
+        } if (!(/^[a-z-A-Z0-9]*$/.test(answer1))) {
             $("#grupo__answer1").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
             $("#grupo__answer1 i").addClass("fa-times-circle").removeClass("fa-check-circle");
             $(`#grupo__answer1 .formulario__input-error`).addClass("formulario__input-error-activo");
@@ -146,19 +146,19 @@ $(document).ready(function () {//aqui inicializamos javascript
             $('#grupo__answer2 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__answer2 .formulario__input-error`).removeClass('formulario__input-error-activo');
             errores = false
-        }if (answer2.length < 3) {
+        } if (answer2.length < 3) {
             $("#grupo__answer2").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
             $("#grupo__answer2 i").addClass("fa-times-circle").removeClass("fa-check-circle");
             $(`#grupo__answer2 .formulario__input-error`).addClass("formulario__input-error-activo");
             $("#grupo__answer2 p").text("La respuesta debe tener al menos 3 caracteres");
             errores = true;
-        }if (answer1 === answer2 || answer2 === answer3) {
+        } if (answer1 === answer2 || answer2 === answer3) {
             $("#grupo__answer2").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
             $("#grupo__answer2 i").addClass("fa-times-circle").removeClass("fa-check-circle");
             $(`#grupo__answer2 .formulario__input-error`).addClass("formulario__input-error-activo");
             $("#grupo__answer2 p").text("Las respuestas no deben ser iguales");
             errores = true;
-        }if (!(/^[a-z-A-Z0-9]*$/.test(answer2))) {
+        } if (!(/^[a-z-A-Z0-9]*$/.test(answer2))) {
             $("#grupo__answer2").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
             $("#grupo__answer2 i").addClass("fa-times-circle").removeClass("fa-check-circle");
             $(`#grupo__answer2 .formulario__input-error`).addClass("formulario__input-error-activo");
@@ -175,19 +175,19 @@ $(document).ready(function () {//aqui inicializamos javascript
             $('#grupo__answer3 i').addClass("fa-check-circle").removeClass("fa-times-circle")
             $(`#grupo__answer3 .formulario__input-error`).removeClass('formulario__input-error-activo');
             errores = false
-        }if (answer3.length < 3) {
+        } if (answer3.length < 3) {
             $("#grupo__answer3").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
             $("#grupo__answer3 i").addClass("fa-times-circle").removeClass("fa-check-circle");
             $(`#grupo__answer3 .formulario__input-error`).addClass("formulario__input-error-activo");
             $("#grupo__answer3 p").text("La respuesta debe tener al menos 3 caracteres");
             errores = true;
-        }if (answer1 === answer3 || answer2 === answer3) {
+        } if (answer1 === answer3 || answer2 === answer3) {
             $("#grupo__answer3").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
             $("#grupo__answer3 i").addClass("fa-times-circle").removeClass("fa-check-circle");
             $(`#grupo__answer3 .formulario__input-error`).addClass("formulario__input-error-activo");
             $("#grupo__answer3 p").text("Las respuestas no deben ser iguales");
             errores = true;
-        }if (!(/^[a-z-A-Z0-9]*$/.test(answer3))) {
+        } if (!(/^[a-z-A-Z0-9]*$/.test(answer3))) {
             $("#grupo__answer3").addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
             $("#grupo__answer3 i").addClass("fa-times-circle").removeClass("fa-check-circle");
             $(`#grupo__answer3 .formulario__input-error`).addClass("formulario__input-error-activo");
@@ -197,6 +197,7 @@ $(document).ready(function () {//aqui inicializamos javascript
     });
     $('#task-form').submit(function (e) {
         const id = $("#id").val();
+        const passwordinput0 = $('#password-input0').val();
         const passwordinput1 = $('#password-input1').val();
         const question1 = $('#question1').val();
         const answer1 = $('#answer1').val();
@@ -209,6 +210,7 @@ $(document).ready(function () {//aqui inicializamos javascript
         }
         const postData = {
             id: id,
+            passwordinput0: passwordinput0,
             password: passwordinput1,
             question1: question1,
             answer1: answer1,
@@ -225,6 +227,8 @@ $(document).ready(function () {//aqui inicializamos javascript
                 if (parseInt(response) === 1) {
                     alert('Registro exitoso');
                     location.replace('logout.php');
+                } else if (parseInt(response) === 2) {
+                    alert('Error: la contraseña actual no es correcta');
                 } else {
                     alert('Error en el registro');
                 }
@@ -233,7 +237,7 @@ $(document).ready(function () {//aqui inicializamos javascript
             // Si el usuario hace clic en "Cancelar", no se envía la solicitud de registro
             return false;
         }
-        
+
         e.preventDefault();
 
     });
