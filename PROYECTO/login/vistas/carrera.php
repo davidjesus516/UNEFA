@@ -1,6 +1,12 @@
 <?php
 require 'header.php';
 ?>
+
+<style>
+    .icon {
+        margin-top: 13px;
+    }
+</style>
 <span class="text">Carrera</span>
 <div class="page-content">
 

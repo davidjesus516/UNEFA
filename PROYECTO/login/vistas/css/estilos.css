@@ -855,7 +855,7 @@ button.primary-white {
 }
 
 .modal {
-  /* margin: 20px; */
+  margin: 20px;
 }
 
 .task-delete {
@@ -891,6 +891,11 @@ button.primary-white {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 13px;
+}
+
+.icon {
+  margin-top: 13px;
 }
 
 .task-delete svg {
@@ -934,6 +939,7 @@ button.primary-white {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
   background: #192DD4;
   transition: 200ms;
+  margin-top: 13px;
 }
 
 .task-edit,
@@ -1286,8 +1292,8 @@ button.primary-white {
 
 .icon {
   width: 3em;
-  margin-top: -1em;
-  padding-bottom: 1em;
+  /* margin-top: -1em;
+  padding-bottom: 1em; */
 }
 
 .infotop {
