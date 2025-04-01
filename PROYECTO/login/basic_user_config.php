@@ -13,13 +13,18 @@ if (!isset($_SESSION['USER_ID'])) {
 
 <head>
   <meta charset="utf-8">
-  <title>Recuperar</title>
+  <title>Actualizar Contraseña</title>
   <link rel="stylesheet" href="vistas/css/estilos.css">
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
   <link rel="icon" href="../img/logo_unefa.ico">
 
 
 </head>
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
 
 <body>
 
@@ -31,8 +36,26 @@ if (!isset($_SESSION['USER_ID'])) {
           <h2>Nueva Contraseña</h2>
           <form id="task-form">
             <input type="hidden" id="id" name="id" value=<?php echo $_SESSION["USER_ID"]; ?>>
-            <div class="fo"></div>
+
+            <div class="formulario__grupo" id="grupo__password0">
+              <h5>Contraseña Actual:</h5>
+              <div class="formulario__grupo-input">
+                <input type="password" id="password-input0" name="password" required placeholder="Ingrese la contraseña actual" required autofocus="">
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+              </div>
+              <p class="formulario__input-error">La Contraseña no es valida</p>
+            </div>
+
+            <div class="formulario__grupo" id="grupo__password01">
+              <div class="formulario__grupo-input">
+                <input type="password" id="password-input01" name="password" required placeholder="Repita la contraseña actual" required autofocus="">
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+              </div>
+              <p class="formulario__input-error">La Contraseña no coincide</p>
+            </div>
+
             <div class="formulario__grupo" id="grupo__password1">
+              <h5>Contraseña Nueva:</h5>
               <div class="formulario__grupo-input">
                 <input type="password" id="password-input1" name="password" required placeholder="Ingrese la nueva contraseña" required autofocus="">
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -41,15 +64,17 @@ if (!isset($_SESSION['USER_ID'])) {
             </div>
             <div class="formulario__grupo" id="grupo__password2">
               <div class="formulario__grupo-input">
-              <input type="password" id="password-input2" name="password2" placeholder="Repita la nueva contraseña" required>
-              <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                <input type="password" id="password-input2" name="password2" placeholder="Repita la nueva contraseña" required>
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
               </div>
               <p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
             </div>
 
-            <h4>Preguntas de recuperacion:</h4>
+
+            <br>
             
             <div class="formulario__grupo" id="grupo__question1">
+              <h4>Preguntas de recuperacion:</h4>
               <select id="question1" class="selector formulario__input" required>
                 <option value="" disabled selected>Seleccione una opción</option>
                 <option value="¿Cuál era el apodo de tu mejor amigo de la infancia?">¿Cuál era el apodo de tu mejor amigo de la infancia?</option>
@@ -63,8 +88,8 @@ if (!isset($_SESSION['USER_ID'])) {
             </div>
             <div class="formulario__grupo" id="grupo__answer1">
               <div class="formulario__grupo-input">
-              <input type="password" id="answer1" name="answer1" placeholder="ingresar respuesta" required>
-              <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                <input type="password" id="answer1" name="answer1" placeholder="ingresar respuesta" required>
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
               </div>
               <p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
             </div>
@@ -82,8 +107,8 @@ if (!isset($_SESSION['USER_ID'])) {
             </div>
             <div class="formulario__grupo" id="grupo__answer2">
               <div class="formulario__grupo-input">
-              <input type="password" id="answer2" name="answer2" placeholder="ingresar respuesta" required>
-              <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                <input type="password" id="answer2" name="answer2" placeholder="ingresar respuesta" required>
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
               </div>
               <p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
             </div>
@@ -101,8 +126,8 @@ if (!isset($_SESSION['USER_ID'])) {
             </div>
             <div class="formulario__grupo" id="grupo__answer3">
               <div class="formulario__grupo-input">
-              <input type="password" id="answer3" name="answer3" placeholder="ingresar respuesta" required>
-              <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                <input type="password" id="answer3" name="answer3" placeholder="ingresar respuesta" required>
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
               </div>
               <p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
             </div>
@@ -114,9 +139,6 @@ if (!isset($_SESSION['USER_ID'])) {
           <p class="account"><a href="logout.php">¿Volver al inicio?</a></p>
 
         </div>
-        <!-- <div class="form-img-2">
-          <img src="" alt="">
-        </div> -->
       </div>
     </div>
   </div>
@@ -124,6 +146,98 @@ if (!isset($_SESSION['USER_ID'])) {
 
   <script src="js/jquery-3.7.0.min.js"></script>
   <script src="js/basic_login_config.js"></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const password0 = document.getElementById("password-input0");  // Contraseña actual
+    const password01 = document.getElementById("password-input01"); // Confirmar contraseña actual
+    const password1 = document.getElementById("password-input1");  // Nueva contraseña
+    const password2 = document.getElementById("password-input2");  // Repetir nueva contraseña
+
+    const groupPassword1 = document.getElementById("grupo__password1");
+    const groupPassword2 = document.getElementById("grupo__password2");
+    const questions = ["grupo__question1", "grupo__answer1", "grupo__question2", "grupo__answer2", "grupo__question3", "grupo__answer3"];
+
+    // Elementos de error
+    const errorTextCurrent = document.querySelector("#grupo__password01 .formulario__input-error");
+    const errorTextNew = document.querySelector("#grupo__password1 .formulario__input-error");
+    const errorTextRepeat = document.querySelector("#grupo__password2 .formulario__input-error");
+
+    // Ocultar los campos adicionales al inicio
+    groupPassword1.style.display = "none";
+    groupPassword2.style.display = "none";
+    questions.forEach(id => document.getElementById(id).style.display = "none");
+
+    function validarCamposActuales() {
+      if (password01.value !== "") {
+        if (password0.value.length >= 6 && password01.value === password0.value) {
+          groupPassword1.style.display = "block";
+          errorTextCurrent.style.display = "none";
+        } else {
+          groupPassword1.style.display = "none";
+          groupPassword2.style.display = "none";
+          questions.forEach(id => document.getElementById(id).style.display = "none");
+          errorTextCurrent.style.display = "block";
+        }
+      } else {
+        errorTextCurrent.style.display = "none";
+      }
+    }
+
+    function validarNuevaContrasena() {
+      const nuevaContrasena = password1.value;
+      const regexMayuscula = /[A-Z]/;
+      const regexMinuscula = /[a-z]/;
+      const regexNumero = /[0-9]/;
+
+      if (nuevaContrasena !== "") {
+        if (nuevaContrasena === password0.value) {
+          errorTextNew.textContent = "La nueva contraseña no puede ser igual a la anterior.";
+          errorTextNew.style.display = "block";
+          groupPassword2.style.display = "none";
+          questions.forEach(id => document.getElementById(id).style.display = "none");
+        } else if (
+          nuevaContrasena.length < 8 || 
+          !regexMayuscula.test(nuevaContrasena) || 
+          !regexMinuscula.test(nuevaContrasena) || 
+          !regexNumero.test(nuevaContrasena)
+        ) {
+          errorTextNew.textContent = "La contraseña debe tener mínimo 8 caracteres, incluyendo mayúsculas, minúsculas y números.";
+          errorTextNew.style.display = "block";
+          groupPassword2.style.display = "none";
+          questions.forEach(id => document.getElementById(id).style.display = "none");
+        } else {
+          errorTextNew.style.display = "none";
+          groupPassword2.style.display = "block";
+        }
+      } else {
+        errorTextNew.style.display = "none";
+        groupPassword2.style.display = "none";
+        questions.forEach(id => document.getElementById(id).style.display = "none");
+      }
+    }
+
+    function validarConfirmacionNueva() {
+      if (password2.value !== "") {
+        if (password1.value === password2.value) {
+          errorTextRepeat.style.display = "none";
+          questions.forEach(id => document.getElementById(id).style.display = "block");
+        } else {
+          errorTextRepeat.style.display = "block";
+          questions.forEach(id => document.getElementById(id).style.display = "none");
+        }
+      } else {
+        errorTextRepeat.style.display = "none";
+        questions.forEach(id => document.getElementById(id).style.display = "none");
+      }
+    }
+
+    password01.addEventListener("input", validarCamposActuales);
+    password1.addEventListener("input", validarNuevaContrasena);
+    password2.addEventListener("input", validarConfirmacionNueva);
+  });
+</script>
+
 </body>
 
 </html>

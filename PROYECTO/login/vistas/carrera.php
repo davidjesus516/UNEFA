@@ -71,6 +71,53 @@ require 'header.php';
 </div>
 <script src="js/jquery-3.7.0.min.js"></script>
 <script src="js/carrera.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const dialog = document.getElementById("dialog");
+        const closeButton = document.querySelector("#dialog .x");
+        const formulario = document.getElementById("formulario");
+
+        closeButton.addEventListener("click", function() {
+            // Cerrar el modal
+            dialog.close();
+
+            // Limpiar todos los campos del formulario
+            formulario.reset();
+
+            // Ocultar mensajes de error
+            const errores = formulario.querySelectorAll(".formulario__input-error");
+            errores.forEach(error => error.style.display = "none");
+
+            // Ocultar mensaje de éxito
+            const mensajeExito = document.getElementById("formulario__mensaje-exito");
+            if (mensajeExito) {
+                mensajeExito.style.display = "none";
+            }
+
+            // Ocultar mensaje general de error
+            const mensajeError = document.getElementById("formulario__mensaje");
+            if (mensajeError) {
+                mensajeError.style.display = "none";
+            }
+
+            // Resetear estilos de validación (iconos y bordes)
+            const inputs = formulario.querySelectorAll(".formulario__input");
+            inputs.forEach(input => {
+                input.classList.remove("formulario__input--incorrecto", "formulario__input--correcto");
+            });
+
+            // Ocultar iconos de validación
+            const iconosValidacion = formulario.querySelectorAll(".formulario__validacion-estado");
+            iconosValidacion.forEach(icono => {
+                icono.style.display = "none";
+            });
+        });
+    });
+</script>
+
+
+
 <?php
 require 'footer.php';
 ?>
