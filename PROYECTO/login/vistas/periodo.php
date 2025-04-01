@@ -30,7 +30,7 @@ require 'header.php';
 			<div class="formulario__grupo" id="">
 			<label for="" class="formulario__label">INICIO <span class="obligatorio">*</span></label>
 			<div class="formulario__grupo-input">
-				<input type="date" class="formulario__input" name="" id="periodo" placeholder="Ingrese el codigo del nuevo periodo">
+				<input type="date" class="formulario__input" name="" id="periodo_inicio" placeholder="Ingrese el codigo del nuevo periodo">
 				<i class="formulario__validacion-estado fas fa-times-circle"></i>
 			</div>
 			<p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
@@ -39,7 +39,7 @@ require 'header.php';
 			<div class="formulario__grupo" id="">
 			<label for="" class="formulario__label">FIN <span class="obligatorio">*</span></label>
 			<div class="formulario__grupo-input">
-				<input type="date" class="formulario__input" name="" id="periodo" placeholder="Ingrese el codigo del nuevo periodo">
+				<input type="date" class="formulario__input" name="" id="periodo_fin" placeholder="Ingrese el codigo del nuevo periodo">
 				<i class="formulario__validacion-estado fas fa-times-circle"></i>
 			</div>
 			<p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
@@ -80,8 +80,8 @@ require 'header.php';
 </table>
 
 
-<script src="js/periodo/jquery-3.7.0.min.js"></script>    
-<script src="js/periodo/main.js"></script>
+<script src="js/jquery-3.7.0.min.js"></script>    
+<script src="js/periodo.js"></script>
 <?php
 require 'footer.php';
 ?>

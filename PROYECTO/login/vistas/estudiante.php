@@ -165,8 +165,8 @@ require 'header.php';
         <tbody id="datos"></tbody>
     </table>
 </div>
-<script src="js/estudiante/jquery-3.7.0.min.js"></script>
-<script src="js/estudiante/main.js"></script>  
+<script src="js/jquery-3.7.0.min.js"></script>
+<script src="js/estudiante.js"></script>  
 <?php
 require 'footer.php';
 ?>

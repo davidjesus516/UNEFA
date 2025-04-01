@@ -43,32 +43,34 @@ $(document).ready(function () {
       return false;
     }
 
-    // Agregamos la alerta de confirmación
-    if (confirm("¿Quieres proceder con el Registro?")) {
-      const postData = {
-        Id_Carrera: Id_Carrera,
-        Codigo: Codigo,
-        Nombre_Carrera: Nombre_Carrera,
-      };
-      if (errores) {
-        // Se comprueba si hay errores
-        e.preventDefault(); // Cancela el envío del formulario si hay errores
-        alert("Debe llenar correctamente el formulario");
-        return false;
-      }
-      let url =
-        edit === false
-          ? "../controllers/carrera/UserAdd.php"
-          : "../controllers/carrera/UserEdit.php";
-      $.post(url, postData, function (response) {
-        console.log(response);
-        fetchTask();
-        $("#formulario").trigger("reset");
-      });
-    } else {
-      // Si el usuario hace clic en "Cancelar", no se envía el formulario
-      return false;
-    }
+        // Agregamos la alerta de confirmación
+        if (confirm("¿Quieres proceder con el Registro?")) {
+            const postData = {
+                Id_Carrera: Id_Carrera,
+                Codigo: Codigo,
+                Nombre_Carrera: Nombre_Carrera,
+            };
+            if (errores) {
+                // Se comprueba si hay errores
+                e.preventDefault(); // Cancela el envío del formulario si hay errores
+                alert("Debe llenar correctamente el formulario");
+                return false;
+            }
+            let url =
+                edit === false
+                    ? "../controllers/carrera/UserAdd.php"
+                    : "../controllers/carrera/UserEdit.php";
+            $.post(url, postData, function (response) {
+                console.log(response);
+                fetchTask();
+                $("#formulario").trigger("reset");
+                dialog.close();
+                edit = false; // Reiniciar la variable edit después de guardar
+            });
+        } else {
+            // Si el usuario hace clic en "Cancelar", no se envía el formulario
+            return false;
+        }
 
     e.preventDefault();
   });

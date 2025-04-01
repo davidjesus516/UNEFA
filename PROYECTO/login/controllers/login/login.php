@@ -1,7 +1,5 @@
 <?php
-
-session_start();
-
+$_SESSION ['login_attempts'] = 0; //inicializo el contador de intentos de login
 $username = $_POST["username"]; //guardo lo q mando
 $password = $_POST["password"];
 
@@ -67,7 +65,23 @@ if ($UserSessionData == null) {
             </div>
             </dialog>';
     } else {
-        // no existe el usuario
+        $_SESSION['login_attempts'] += 1; //incremento el contador de intentos de login
+        if ($_SESSION['login_attempts'] >= 3) {
+            $UserData->UserBlock($UserSessionData['USER_ID']); //bloqueo el usuario
+            echo '      
+                <dialog id="dialog">
+                <h2>Usuario bloqueado, contacte al administrador.</h2>
+                <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+                <div class="error-banmark">
+                <div class="ban-icon">
+                    <span class="icon-line line-long-invert"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+                </div>
+                </dialog>';
+        }
         echo '       
             <dialog id="dialog">
             <h2>usuario o contraseña incorrecta </h2>

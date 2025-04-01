@@ -99,7 +99,7 @@ class Usuario
     public function SearchUserKey($UserId)
     {
 
-        $consulta = "SELECT * FROM `t-user_key` WHERE `USER_ID` = :UserId";
+        $consulta = "SELECT * FROM `t-user_key` WHERE `USER_ID` = :UserId AND STATUS = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':UserId', $UserId);
         $statement->execute();
@@ -213,5 +213,17 @@ class Usuario
             $this->pdo->rollBack();
             throw $e;
         }
+    }
+    public function UserBlock($user_id)  {
+        try {
+            $sql = "UPDATE `t-user` SET `STATUS_SESSION`= 0 WHERE USER_ID = :user_id";
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindValue(':user_id', $user_id);
+            $statement->execute();
+            return true;
+        } catch (Exception $e) {
+            throw $e;
+        }
+        
     }
 }

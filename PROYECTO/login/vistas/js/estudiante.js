@@ -11,7 +11,7 @@ $(document).ready(function(){//aqui inicializamos javascript
             let task = JSON.parse(response);// convierto el json en string
             let template = '<option id = "carrera-option" value="" disabled selected>Seleccione una opción</option>';//creo la plantilla donde imprimire los datos
             task.forEach(task =>{//hago un array que me recorra el json y me lo imprima en el tbody
-                template +=`<option id = "carrera-option" value="${task.id}" >${task.nombre}</option>
+                template +=`<option id = "carrera-option" value="${task.CAREER_ID}" >${task.CAREER_NAME}</option>
                 `
             })
             $('#carrera').html(template);//los imprimo en el html

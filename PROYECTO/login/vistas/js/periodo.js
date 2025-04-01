@@ -4,117 +4,14 @@ $(document).ready(function(){//aqui inicializamos javascript
     console.log(edit);
     fetchTask();//inicializo la funcion que cada vez que cargue la pagina le pida al servidor que me de los campos
     let errores = false;
-    const expresiones = {
-        usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
-        solo_letras: /^[a-zA-ZÀ-ÿ\s]+$/, // Letras y espacios, pueden llevar acentos.
-        correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_.+-]*$/, // formato correo ejemplo@mail.com
-        cedula: /^\d{1,8}$/, // cedula debe ser un numero de maximo 9 digitos
-        telefono: /^\d{11}$/ // telefono debe ser un numero de 11 digitos 
-    }
-
-    $('#nombre').keyup(function(e){
-    if (expresiones.solo_letras.test($('#nombre').val())) {
-        $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-        $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
-        $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
-
-        errores = false
-    }
-    else {
-        $('#grupo__nombre').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-        $('#grupo__nombre i').addClass("fa-times-circle").removeClass("fa-check-circle");
-        $(`#grupo__nombre .formulario__input-error`).addClass('formulario__input-error-activo');
-        errores = true
-    }
-})
-    $('#apellido').keyup(function(e){
-    if (expresiones.solo_letras.test($('#apellido').val())) {
-        $('#grupo__apellido').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-        $('#grupo__apellido i').addClass("fa-check-circle").removeClass("fa-times-circle")
-        $(`#grupo__apellido .formulario__input-error`).removeClass('formulario__input-error-activo');
-
-        errores = false
-    }
-    else {
-        $('#grupo__apellido').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-        $('#grupo__apellido i').addClass("fa-times-circle").removeClass("fa-check-circle");
-        $(`#grupo__apellido .formulario__input-error`).addClass('formulario__input-error-activo');
-        errores = true
-    }
-})
-    $('#cedula').keyup(function(e){
-    if (expresiones.cedula.test($('#cedula').val())) {
-        $('#grupo__cedula').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-        $('#grupo__cedula i').addClass("fa-check-circle").removeClass("fa-times-circle")
-        $(`#grupo__cedula .formulario__input-error`).removeClass('formulario__input-error-activo');
-
-        errores = false
-    }
-    else {
-        $('#grupo__cedula').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-        $('#grupo__cedula i').addClass("fa-times-circle").removeClass("fa-check-circle");
-        $(`#grupo__cedula .formulario__input-error`).addClass('formulario__input-error-activo');
-        $('#grupo__cedula p').text("Este campo solo puede contener numeros.");
-        errores = true
-    }
-    
-    })
-    $('#tlf').keyup(function(e){
-    if (expresiones.telefono.test($('#tlf').val())) {
-        $('#grupo__telefono').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-        $('#grupo__telefono i').addClass("fa-check-circle").removeClass("fa-times-circle")
-        $(`#grupo__telefono .formulario__input-error`).removeClass('formulario__input-error-activo');
-
-        errores = false
-    }
-    else {
-        $('#grupo__telefono').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-        $('#grupo__telefono i').addClass("fa-times-circle").removeClass("fa-check-circle");
-        $(`#grupo__telefono .formulario__input-error`).addClass('formulario__input-error-activo');
-        errores = true
-    }
-    
-    })
-    $('#e_mail').keyup(function(e){
-        if (expresiones.correo.test($('#e_mail').val())) {
-            $('#grupo__correo').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-            $('#grupo__correo i').addClass("fa-check-circle").removeClass("fa-times-circle")
-            $(`#grupo__correo .formulario__input-error`).removeClass('formulario__input-error-activo');
-    
-            errores = false
-        }
-        else {
-            $('#grupo__correo').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-            $('#grupo__correo i').addClass("fa-times-circle").removeClass("fa-check-circle");
-            $(`#grupo__correo .formulario__input-error`).addClass('formulario__input-error-activo');
-            errores = true
-        }
-        
-        })
-    $('#cedula').keyup(function(e){
-        let search = $('#cedula').val();
-        $.ajax({
-            url: '../controllers/periodo/UserSearch.php',
-            type: 'POST',
-            data: {search},
-            success: function(response){
-                let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if (Object.keys(data).length === 0) { // Verificamos si el objeto está vacío
-                    console.log('no existe');
-                } else {
-                    $('#grupo__cedula').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-                    $('#grupo__cedula i').addClass("fa-times-circle").removeClass("fa-check-circle");
-                    $(`#grupo__cedula .formulario__input-error`).addClass('formulario__input-error-activo');
-                    $('#grupo__cedula p').text("Cedula ya existe");
-                    errores = true
-                }
-            },
-            error: function(error) {
-                console.log(error);
-            } 
-        })
-    })
-    
+    $('#periodo_inicio').change(function(e){    
+        const fechaInicio = $('#periodo_inicio').val();
+        const numweeks = 16; // Número de semanas a sumar
+        const fechaInicioDate = new Date(fechaInicio);
+        const minDate = new Date(fechaInicioDate.getTime() + numweeks * 7 * 24 * 60 * 60 * 1000); // Sumar semanas a la fecha de inicio
+        $('#periodo_fin').val(minDate.toISOString().split('T')[0]);//asigno el valor de la fecha de inicio al campo de fecha fin
+        $('#periodo_fin').attr('min',minDate.toISOString().split('T')[0]);
+    });//valido el campo de fecha de inicio
 
     $('#formulario').submit(function(e){//reviso del formulario task el evento submit
           // Agregamos la alerta de confirmación
@@ -122,19 +19,9 @@ $(document).ready(function(){//aqui inicializamos javascript
             e.preventDefault(); // Cancela el envío del formulario si el usuario hace clic en "Cancelar"
             return false;
         }
-        const id = $('#id').val();
-        const nacionalidad = $('#nacionalidad').val();
-        const cedula = $('#cedula').val();
-        const nombre = $('#nombre').val();
-        const apellido = $('#apellido').val();
-        const genero = $('#genero').val();
-        const tlf = $('#tlf').val();
-        const e_mail = $('#e_mail').val();
-        const rango_militar = "";
-        const carrera = $('#carrera').val();
-        const turno = $('#turno').val();
+        const periodoinicio = $('#periodo_inicio').val();//asigno el valor de la fecha de inicio al campo de fecha fin
+        const periodofin = $('#periodo_fin').val();//asigno el valor de la fecha de inicio al campo de fecha fin
         
-    
         if (errores) { // Se comprueba si hay errores
             e.preventDefault(); // Cancela el envío del formulario si hay errores
             alert("debe llenar correctamente el formulario");
@@ -142,17 +29,6 @@ $(document).ready(function(){//aqui inicializamos javascript
         }
     
         const postData = {
-            id: id,
-            nacionalidad: nacionalidad,
-            nombre: nombre,
-            cedula: cedula,
-            apellido: apellido,
-            genero: genero,
-            tlf: tlf,
-            e_mail: e_mail,
-            rango_militar: rango_militar,
-            carrera: carrera,
-            turno: turno
     
         };
         if (edit === false) {
