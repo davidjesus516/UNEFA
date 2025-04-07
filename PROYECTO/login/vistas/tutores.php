@@ -6,11 +6,11 @@ require 'header.php';
 
 
 
-<div id="modal" class="modal">
-    <button class="primary" onclick="window.dialog.showModal();">Nuevo <span>+</span></button>
+    <div id="modal" class="modal">
+        <button class="primary" onclick="window.dialog.showModal();">Nuevo <span>+</span></button>
 
-    <dialog id="dialog">
-        <h2>Registrar Tutor.</h2>
+        <dialog id="dialog">
+            <h2>Registrar Tutor.</h2>
 
             <form action="#" class="formulario" id="formulario">
                 <!-- Grupo: Usuario -->
@@ -22,10 +22,8 @@ require 'header.php';
                         <option value="E">E-</option>
                         <option value="P">P-</option>
                     </select>
-                    <div class="formulario__grupo-input">
-                        <input type="text" maxlength="8" class="formulario__input" name="" id="cedula" placeholder="Ingrese la Cedula"required>
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
+                    <input type="text" maxlength="8" class="formulario__input" name="" id="cedula" placeholder="Ingrese la Cedula" required>
+                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     <p class="formulario__input-error"></p>
                 </div>
 
@@ -33,7 +31,7 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__nombre">
                     <label for="" class="formulario__label">Primer Nombre <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre"required>
+                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
@@ -43,7 +41,7 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__nombre">
                     <label for="" class="formulario__label">Segundo Nombre <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre"required>
+                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
@@ -77,7 +75,7 @@ require 'header.php';
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     <p class="formulario__input-error">Validacion</p>
                 </div>
-                
+
                 <div class="formulario__grupo" id="grupo__telefono">
                     <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
@@ -100,8 +98,6 @@ require 'header.php';
                     <label for="" class="formulario__label">Condicion <span class="obligatorio">*</span></label>
                     <select id="condicion" aria-placeholder="condicion" class="selector formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
-                        <option value=""></option>
-                        <option value=""></option>
                     </select>
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     <p class="formulario__input-error">Validacion</p>
@@ -137,26 +133,6 @@ require 'header.php';
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
-                <div class="formulario__grupo" id="">
-                    <label for="" class="formulario__label">Matricula<span class="obligatorio">*</span></label>
-                    <select id="" aria-placeholder="" class="selector formulario__input" required>
-                        <option value="" disabled selected>Seleccione una opción</option>
-                        <option value="">Ingrese una opcion</option>
-                    </select>
-                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    <p class="formulario__input-error">Validacion</p>
-                </div>
-
-                <div class="formulario__grupo" id="">
-                    <label for="" class="formulario__label">Nucleo<span class="obligatorio">*</span></label>
-                    <select id="" aria-placeholder="" class="selector formulario__input" required>
-                        <option value="" disabled selected>Seleccione una opción</option>
-                        <option value="">Ingrese una opcion</option>
-                    </select>
-                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    <p class="formulario__input-error">Validacion</p>
-                </div>
-
                 <div class="formulario__mensaje" id="formulario__mensaje">
                     <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente. </p>
                 </div>
@@ -164,37 +140,37 @@ require 'header.php';
                     <button type="submit" class="formulario__btn">Guardar</button>
                     <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Formulario enviado exitosamente!</p>
                 </div>
-                
+
             </form>
 
-        <!-- <p>You can also change the styles of the <code>::backdrop</code> from the CSS.</p> -->
-        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
-    </dialog>
+            <!-- <p>You can also change the styles of the <code>::backdrop</code> from the CSS.</p> -->
+            <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+        </dialog>
     </div>
 </div>
 
-    <br>
-    <hr>
-    <br>
+<br>
+<hr>
+<br>
 
-    <table class="w3-table-all w3-hoverable">
-        <thead>
-            <tr class="w3-light-grey">
-                <th>Cédula</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Sexo</th>
-                <th>Teléfono</th>
-                <th>Correo</th>
-                <th>Profesion</th>
-                <th colspan="2">Accion</th>
-            </tr>
-        </thead>
-        <tbody id="datos"></tbody>
-    </table>
+<table class="w3-table-all w3-hoverable">
+    <thead>
+        <tr class="w3-light-grey">
+            <th>Cédula</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Sexo</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th>Profesion</th>
+            <th colspan="2">Accion</th>
+        </tr>
+    </thead>
+    <tbody id="datos"></tbody>
+</table>
 </div>
 <script src="js/estudiante/jquery-3.7.0.min.js"></script>
-<script src="js/estudiante/main.js"></script>  
+<script src="js/estudiante/main.js"></script>
 <?php
 require 'footer.php';
 ?>

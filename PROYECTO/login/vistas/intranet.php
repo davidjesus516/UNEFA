@@ -125,7 +125,7 @@ require 'header.php';
 
   <div class="infotop">
     <br>
-    T.S.U. Ingeniería
+    
     <br>
     <h5>N estudiantes</h5>
   </div>

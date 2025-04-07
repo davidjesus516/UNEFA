@@ -15,41 +15,41 @@ require 'header.php';
 				<input type="hidden" id="id">
 
 				<!-- Lapso  -->
-				<div class="formulario__grupo" id="">
-					<label for="" class="formulario__label">Lapso Académico <span class="obligatorio">*</span></label>
-					<div class="formulario__grupo-input">
-						<input type="text" class="formulario__input" name="" id="" placeholder="Ingrese Lapso Académico">
-						<i class="formulario__validacion-estado fas fa-times-circle"></i>
-					</div>
+				<div class="formulario__grupo" id="grupo__lapso">
+					<label for="lapso" class="formulario__label">Lapso <span class="obligatorio">*</span></label>
+					<select id="lapso" class="selector formulario__input" required>
+						<option value="" disabled selected>Seleccione una opción</option>
+					</select>
+					<i class="formulario__validacion-estado fas fa-times-circle"></i>
 					<p class="formulario__input-error">Validacion</p>
 				</div>
 
 				<!-- Carrera -->
 
-				<div class="formulario__grupo">
+				<div class="formulario__grupo" id="grupo__carrera">
 					<label for="carrera" class="formulario__label">Carrera <span class="obligatorio">*</span></label>
-					<select class="formulario__grupo-input formulario__input" name="carrera" id="carrera" multiple>
-						<option value="ingenieria">Ingeniería</option>
-						<option value="medicina">Medicina</option>
-						<option value="derecho">Derecho</option>
-						<option value="arquitectura">Arquitectura</option>
-						<option value="psicologia">Psicología</option>
-						<i class="formulario__validacion-estado fas fa-times-circle"></i>
+					<select id="carrera" class="selector formulario__input" required>
+						<option value="" disabled selected>Seleccione una opción</option>
+						<option value="Ingeniería">Ingeniería</option>
+						<option value="Medicina">Medicina</option>
 					</select>
-					<p class="formulario__input-error">Validación</p>
+					<i class="formulario__validacion-estado fas fa-times-circle"></i>
+					<p class="formulario__input-error">Validacion</p>
 				</div>
 
 				<!-- Semestre -->
 
-				<div class="formulario__grupo">
+				<div class="formulario__grupo" id="grupo__semestre">
 					<label for="semestre" class="formulario__label">Semestre <span class="obligatorio">*</span></label>
-					<select class="formulario__grupo-input formulario__input" name="semestre" id="semestre" multiple>
-						<option value="ingenieria">Semestre 1</option>
-						<i class="formulario__validacion-estado fas fa-times-circle"></i>
+					<select id="semestre" class="selector formulario__input" required>
+						<option value="" disabled selected>Seleccione una opción</option>
+						<option value="semestre1">semestre1</option>
+						<option value="semestre2">semestre2</option>
 					</select>
-					<p class="formulario__input-error">Validación</p>
+					<i class="formulario__validacion-estado fas fa-times-circle"></i>
+					<p class="formulario__input-error">Validacion</p>
 				</div>
-				
+
 				<!-- Seccion -->
 
 				<div class="formulario__grupo">
@@ -63,13 +63,16 @@ require 'header.php';
 
 				<!-- Turno -->
 
-				<div class="formulario__grupo">
+
+				<div class="formulario__grupo" id="grupo__turno">
 					<label for="turno" class="formulario__label">Turno <span class="obligatorio">*</span></label>
-					<select class="formulario__grupo-input formulario__input" name="turno" id="turno" multiple>
-						<option value="ingenieria">turno 1</option>
-						<i class="formulario__validacion-estado fas fa-times-circle"></i>
+					<select id="turno" class="selector formulario__input" required>
+						<option value="" disabled selected>Seleccione una opción</option>
+						<option value="turno1">turno1</option>
+						<option value="turno2">turno2</option>
 					</select>
-					<p class="formulario__input-error">Validación</p>
+					<i class="formulario__validacion-estado fas fa-times-circle"></i>
+					<p class="formulario__input-error">Validacion</p>
 				</div>
 
 				<div class="formulario__grupo formulario__grupo-btn-enviar">

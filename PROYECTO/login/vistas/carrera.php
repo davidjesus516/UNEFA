@@ -2,16 +2,11 @@
 require 'header.php';
 ?>
 
-<style>
-    .icon {
-        margin-top: 13px;
-    }
-</style>
 <span class="text">Carrera</span>
 <div class="page-content">
 
     <div id="modal" class="modal">
-        <button class="primary" onclick="window.dialog.showModal();">Nuevo</button>
+        <button class="primary" onclick="window.dialog.showModal();">Nuevo +</button>
 
         <dialog id="dialog">
             <h2>Registrar Carrera.</h2>

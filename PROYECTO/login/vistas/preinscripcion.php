@@ -85,7 +85,23 @@ require 'header.php';
         </dialog>
     </div>
 </div>
+<table class="w3-table-all w3-hoverable">
+    <thead>
+        <tr class="w3-light-grey">
+            <th>Cedula</th>
+            <th>Nombre</th>
+            <th>Sexo</th>
+            <th>Contacto</th>
+            <th>Carrera</th>
+            <th colspan="2">Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="datos"></tbody>
+</table>
 </div>
+
+
+
 <script src="js/estudiante/jquery-3.7.0.min.js"></script>
 <script src="js/estudiante/main.js"></script>
 <?php

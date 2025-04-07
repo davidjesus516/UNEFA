@@ -11,6 +11,15 @@ require 'header.php';
             <h2>Inscripcion.</h2>
             <form action="#" class="formulario" id="formulario">
 
+                <div class="formulario__grupo" id="grupo__cedula">
+                    <label for="" class="formulario__label">Cedula <span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <input type="text" class="formulario__input" name="" id="cedula" placeholder="Cedula del estudiante" required>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">Este campo solo debe contener numeros</p>
+                </div>
+
                 <!--  -->
                 <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Estudiante<span class="obligatorio">*</span></label>

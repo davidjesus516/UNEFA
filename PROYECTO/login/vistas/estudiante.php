@@ -7,7 +7,7 @@ require 'header.php';
 
 
 <div id="modal" class="modal">
-    <button class="primary" onclick="window.dialog.showModal();">Nuevo</button>
+    <button class="primary" onclick="window.dialog.showModal();">Nuevo +</button>
 
     <dialog id="dialog">
         <h2>Registrar Estudiante.</h2>
@@ -22,10 +22,10 @@ require 'header.php';
                         <option value="E">E-</option>
                         <option value="P">P-</option>
                     </select>
-                    <div class="formulario__grupo-input">
+
                         <input type="text" maxlength="8" class="formulario__input" name="" id="cedula" placeholder="Ingrese la Cedula"required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
+
                     <p class="formulario__input-error"></p>
                 </div>
 
