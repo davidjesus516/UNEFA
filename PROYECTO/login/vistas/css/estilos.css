@@ -291,6 +291,7 @@ p.account a:hover {
   font-size: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
+  align-content: center;
 }
 
 .sidebar .nav-links li.showMenu i.arrow {
