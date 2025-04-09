@@ -6,12 +6,25 @@ $(document).ready(function () {
 		const password = $("#password-input").val();
 		$.post("controllers/login/login.php", { username, password }, function (response) {
 			// seccion de codigo que muestra el mensaje de respuesta del servidor
-			$(".modal").html(response);
-			dialog.showModal();
-			$('.x').on('click', function () {
-				dialog.close();
-				location.reload();
-			});
+			data = JSON.parse(response);
+            if (data.status == 0) {
+                $(".modal").html(data.message);
+                dialog.showModal();
+                $('.x').on('click', function () {
+                    dialog.close();
+                });
+            } else if (data.status == 1) {
+				$(".modal").html(data.message);
+                dialog.showModal();
+                $('.x').on('click', function () {
+					location.replace(data.redirect);
+                    dialog.close();
+                });
+				$(".modal").on('close', function () {
+					dialog.close();
+					location.replace(data.redirect);
+				});
+			}
 		})
 		e.preventDefault();//previene el comportamiento por defecto
 	})

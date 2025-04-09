@@ -2,12 +2,15 @@
 session_start();
 //me voy a traer la conexion
 require_once("conexion.php");
+require_once("config.php");
+// me traigo la configuracion
 date_default_timezone_get();
 
 //instancio la clase usuario
 class Usuario
 {
-    //creo los atributos
+    //creo los atributos    
+    private $config;
     private $conexion;
     private $pdo;
 
@@ -16,6 +19,14 @@ class Usuario
     {
         $this->conexion = new Conexion();
         $this->pdo = $this->conexion->conectar();
+        $this->config = new config();
+        $this->config = $this->config->getConfig();
+    }
+    
+    private function expiration_date()
+    {
+        $date = date('Y-m-d H:i:s', strtotime('+'.$this->config['EXPIRATION_DAYS'].' days'));
+        return $date;
     }
     public function userSecurityQuestionSearchByID($user_id)
     {
@@ -69,10 +80,11 @@ class Usuario
             $id = $this->pdo->lastInsertId();
             $sql2 = "INSERT INTO `t-user_key`( `USER_ID`, `KEY`, `START_DATE`, `END_DATE`, `STATUS`) VALUES (:USER_ID, :KEY, :START_DATE, :END_DATE, :STATUS)";
             $statement2 = $this->pdo->prepare($sql2);
+            $end_date = $this->expiration_date();
             $statement2->bindValue(':USER_ID', $id);
             $statement2->bindValue(':KEY', $KEY);
             $statement2->bindValue(':START_DATE', date("Y-m-d H:i:s"));
-            $statement2->bindValue(':END_DATE', date("Y-m-d H:i:s"));
+            $statement2->bindValue(':END_DATE', $end_date);
             $statement2->bindValue(':STATUS', 1);
             $statement2->execute();
             $this->pdo->commit();
@@ -137,7 +149,7 @@ class Usuario
                 $statement3->execute();
             }
             $sql4 = "INSERT INTO `t-user_key`( `USER_ID`, `KEY`, `START_DATE`, `END_DATE`, `STATUS`) VALUES (:USER_ID, :KEY, :START_DATE, :END_DATE, :STATUS)";
-            $end_date = date('Y-m-d H:i:s', strtotime('+90 days'));
+            $end_date = $this->expiration_date();
             $statement4 = $this->pdo->prepare($sql4);
             $statement4->bindValue(':USER_ID', $id);
             $statement4->bindValue(':KEY', $password);
@@ -200,7 +212,7 @@ class Usuario
                 $statement3->execute();
             }
             $sql4 = "INSERT INTO `t-user_key`( `USER_ID`, `KEY`, `START_DATE`, `END_DATE`, `STATUS`) VALUES (:USER_ID, :KEY, :START_DATE, :END_DATE, :STATUS)";
-            $end_date = date('Y-m-d H:i:s', strtotime('+90 days'));
+            $end_date = $this->expiration_date();
             $statement4 = $this->pdo->prepare($sql4);
             $statement4->bindValue(':USER_ID', $id);
             $statement4->bindValue(':KEY', $password);
@@ -225,5 +237,55 @@ class Usuario
             throw $e;
         }
         
+    }
+    public function UserUnblock($user_id)  {
+        try {
+            $sql = "UPDATE `t-user` SET `STATUS_SESSION`= 1 WHERE USER_ID = :user_id";
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindValue(':user_id', $user_id);
+            $statement->execute();
+            return true;
+        } catch (Exception $e) {
+            throw $e;
+        }
+        
+    }
+    public function UserRestart($user_id)  {
+        try {
+            $sql = "UPDATE `t-user` SET `STATUS_SESSION`= 3 WHERE USER_ID = :user_id";
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindValue(':user_id', $user_id);
+            $statement->execute();
+            return true;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+    public function UserDelete($user_id)  {
+        try {
+            $sql = "UPDATE `t-user` SET `STATUS`= 0 WHERE USER_ID = :user_id";
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindValue(':user_id', $user_id);
+            $statement->execute();
+            return true;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+    public function UserRestore($user_id)  {
+        try {
+            $sql = "UPDATE `t-user` SET `STATUS`= 1 WHERE USER_ID = :user_id";
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindValue(':user_id', $user_id);
+            $statement->execute();
+            return true;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+    public function Viewconfig()
+    {
+        $row = $this->config;
+        return $row;
     }
 }
