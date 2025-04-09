@@ -52,26 +52,7 @@ if ($UserSessionData == null) {
         $today = date_format($today, 'Y-m-d');
         $endDate = date_create($UserSessionData['END_DATE']);
         $endDate = date_format($endDate, 'Y-m-d');
-        if ($today >= $endDate) {
-             //bloqueo el usuario
-            $row = array( 
-                'message' =>'<dialog id="dialog">
-                <h2>Contraseña Vencida.</h2>
-                <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
-                <div class="error-banmark">
-                <div class="ban-icon">
-                    <span class="icon-line line-long-invert"></span>
-                    <span class="icon-line line-long"></span>
-                    <div class="icon-circle"></div>
-                    <div class="icon-fix"></div>
-                </div>
-                </div>
-                </dialog>',
-                'status' => 1,
-                'redirect' => 'new_password.php'
-            );
-        }else{
-            $_SESSION = array(
+        $_SESSION = array(
                 'USER' => $UserSessionData['USER'],
                 'USER_ID' => $UserSessionData['USER_ID'],
                 'USER_CI' => $UserSessionData['USER_CI'],
@@ -79,6 +60,27 @@ if ($UserSessionData == null) {
                 'SURNAME' => $UserSessionData['SURNAME'],
                 'STATUS_SESSION' => $UserSessionData['STATUS_SESSION']
             );
+            $_SESSION['login_attempts'] = 0; //reinicio el contador de intentos de login
+            if ($_SESSION['STATUS_SESSION'] === 1){
+                if ($today >= $endDate) {
+                    //bloqueo el usuario
+                $row = array( 
+                    'message' =>'<dialog id="dialog">
+                    <h2>Contraseña Vencida.</h2>
+                    <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+                    <div class="error-banmark">
+                    <div class="ban-icon">
+                        <span class="icon-line line-long-invert"></span>
+                        <span class="icon-line line-long"></span>
+                        <div class="icon-circle"></div>
+                        <div class="icon-fix"></div>
+                    </div>
+                    </div>
+                    </dialog>',
+                    'status' => 1,
+                    'redirect' => 'new_password.php'
+                );
+            }else {
             $row = array(
                 'message' => '    
                 <dialog id="dialog">
@@ -94,8 +96,45 @@ if ($UserSessionData == null) {
                 </div>
                 </dialog>',
                 'status' => 1,
-                'redirect' => 'vistas/intranet.php');
-        }
+                'redirect' => 'vistas/intranet.php');}
+            }else if($_SESSION['STATUS_SESSION'] === 2){
+                $row = array(
+                    'message' => '    
+                    <dialog id="dialog">
+                    <h2>Bienvenido ' . ucfirst($_SESSION['NAME']) . '.</h2>
+                    <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+                    <div class="success-checkmark">
+                    <div class="check-icon">
+                        <span class="icon-line line-tip"></span>
+                        <span class="icon-line line-long"></span>
+                        <div class="icon-circle"></div>
+                        <div class="icon-fix"></div>
+                    </div>
+                    </div>
+                    </dialog>',
+                    'status' => 1,
+                    'redirect' => 'first_login.php');
+                
+            }else if($_SESSION['STATUS_SESSION'] === 3){
+                $row = array(
+                    'message' => '    
+                    <dialog id="dialog">
+                    <h2>Bienvenido ' . ucfirst($_SESSION['NAME']) . '.</h2>
+                    <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+                    <div class="success-checkmark">
+                    <div class="check-icon">
+                        <span class="icon-line line-tip"></span>
+                        <span class="icon-line line-long"></span>
+                        <div class="icon-circle"></div>
+                        <div class="icon-fix"></div>
+                    </div>
+                    </div>
+                    </dialog>',
+                    'status' => 1,
+                    'redirect' => 'basic_user_config.php');
+                
+            }
+        
         
     } else {
         $_SESSION['login_attempts'] += 1; //incremento el contador de intentos de login
@@ -104,17 +143,17 @@ if ($UserSessionData == null) {
             $row = array(
                 'message' =>'     
                 <dialog id="dialog">
-                <h2>Usuario bloqueado, contacte al administrador.</h2>
-                <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
-                <div class="error-banmark">
-                <div class="ban-icon">
-                    <span class="icon-line line-long-invert"></span>
-                    <span class="icon-line line-long"></span>
-                    <div class="icon-circle"></div>
-                    <div class="icon-fix"></div>
-                </div>
-                </div>
-                </dialog>',
+            <h2>Usuario bloqueado, contacte al administrador.</h2>
+            <div class="error-banmark">
+            <div class="ban-icon">
+                <span class="icon-line line-long-invert"></span>
+                <span class="icon-line line-long"></span>
+                <div class="icon-circle"></div>
+                <div class="icon-fix"></div>
+            </div>
+            </div>
+            <button aria-label="close" class="x">❌</button>
+            </dialog>',
                 'status' => 0);
         }
         $row = array(

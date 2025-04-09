@@ -17,19 +17,16 @@ $(document).ready(function () {
 				$(".modal").html(data.message);
                 dialog.showModal();
                 $('.x').on('click', function () {
-					location.replace(data.redirect);
+					location.assign(data.redirect);
                     dialog.close();
                 });
 				$(".modal").on('close', function () {
 					dialog.close();
-					location.replace(data.redirect);
+					location.assign(data.redirect);
 				});
 			}
 		})
 		e.preventDefault();//previene el comportamiento por defecto
 	})
-	$('.x').on('click', function () {
-		dialog.close();
-	});
 
 })
