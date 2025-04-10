@@ -8,7 +8,7 @@
 }
 
 html {
-  background-color: hsl(224, 54%, 93%);
+  background-color: #fff;
   transition: 200ms;
 
 }
@@ -22,7 +22,7 @@ span.obligatorio {
   position: relative;
   min-height: 100vh;
   z-index: 0;
-  background: #111A41;
+  /* background: #111A41; */
   /* padding: 30px; */
   justify-content: center;
   /* display: grid; */
@@ -65,7 +65,7 @@ span.obligatorio {
   /* flex-basis: 50%; */
   padding: 3em 3em;
   background: #fff;
-  box-shadow: 2px 9px 49px -17px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 2px 9px 49px -17px rgba(0, 0, 0, 0.1); */
   display: grid;
   align-content: center;
 }
@@ -73,16 +73,16 @@ span.obligatorio {
 .content_user {
   /* flex-basis: 50%; */
   padding: 3em 3em;
-  background: #fff;
-  box-shadow: 2px 9px 49px -17px rgba(0, 0, 0, 0.1);
+  /* background: #fff; */
+  /* box-shadow: 2px 9px 49px -17px rgba(0, 0, 0, 0.1); */
   display: grid;
   align-content: stretch;
-  margin: auto;
+  /* margin: auto; */
   width: 100%;
 }
 
 .form-img {
-  flex-basis: 50%;
+  flex-basis: 85%;
   background-image: url(../../../img/fondo-claro.jpg);
   background-attachment: fixed;
   /* background: #dfe5ea; */
@@ -121,8 +121,7 @@ p {
 }
 
 .btn,
-button,
-input {
+button {
   border-radius: 35px;
 }
 
@@ -553,10 +552,7 @@ p.account a:hover {
   border-radius: var(--nav-border-radius);
   box-shadow: var(--nav-shadow-width) var(--nav-shadow-color);
   border: var(--nav-border-width) solid var(--nav-border-color);
-  top: calc(
-    var(--burger-diameter) + var(--burger-enable-outline-width) +
-      var(--burger-enable-outline-offset)
-  );
+  top: calc(var(--burger-diameter) + var(--burger-enable-outline-width) + var(--burger-enable-outline-offset));
   left: var(--nav-position-left);
   right: var(--nav-position-right);
   transition: var(--burger-transition);
@@ -610,8 +606,7 @@ p.account a:hover {
 .popup-window hr {
   margin: var(--underline-margin-y) 0;
   border: none;
-  border-bottom: var(--underline-border-width) solid
-    var(--underline-border-color);
+  border-bottom: var(--underline-border-width) solid var(--underline-border-color);
 }
 
 /* actions */
@@ -637,23 +632,21 @@ p.account a:hover {
   outline-offset: var(--burger-enable-outline-offset);
 }
 
-.popup input:checked + .burger span:nth-child(1) {
+.popup input:checked+.burger span:nth-child(1) {
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
 }
 
-.popup input:checked + .burger span:nth-child(2) {
+.popup input:checked+.burger span:nth-child(2) {
   bottom: 50%;
   transform: translateY(50%) rotate(-45deg);
 }
 
-.popup input:checked + .burger span:nth-child(3) {
-  transform: translateX(
-    calc(var(--burger-diameter) * -1 - var(--burger-line-width))
-  );
+.popup input:checked+.burger span:nth-child(3) {
+  transform: translateX(calc(var(--burger-diameter) * -1 - var(--burger-line-width)));
 }
 
-.popup input:checked ~ nav {
+.popup input:checked~nav {
   transform: scale(var(--nav-active-scale));
   visibility: visible;
   opacity: 1;
@@ -668,6 +661,7 @@ p.account a:hover {
 
 .page-content {
   padding: 1rem;
+  background-color: #e4e9f7;
 }
 
 .home-section .home-content .bx-menu,
@@ -727,7 +721,7 @@ p.account a:hover {
 
 .formulario__grupo-input {
   position: relative;
-  display: grid;
+  display: flex;
   align-items: center;
   gap: 10px;
 }

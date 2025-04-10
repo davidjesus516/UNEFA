@@ -1,7 +1,7 @@
 <?php
 require 'header.php';
 ?>
-<span class="text">Ventana -> <a href="usuario.php">Usuario</a> -> Nuevo Usuario</span>
+<span class="text">Ventana -> <a href="usuario.php">Configuración</a> -> Nuevo Usuario</span>
 <div class="page-content">
 
     <div id="modal" class="modal">
@@ -45,6 +45,7 @@ require 'header.php';
                     <label for="" class="formulario__label">Rol<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <select class="formulario__input" id="telefono_Empresa">
+                            <option value="" disabled selected>Seleccione una opción</option>
                             <option value="rol 1">1</option>
                             <option value="rol 2">2</option>
                         </select>

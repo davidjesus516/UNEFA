@@ -25,7 +25,7 @@ if (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 1) {
 </head>
 
 <body>
-  <div class="modal"></div>
+
 
   <div class="login-form">
     <div class="container">
@@ -53,6 +53,8 @@ if (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 1) {
       </div>
     </div>
   </div>
+
+  <div class="modal"></div>
 
   <script src="js/jquery-3.7.0.min.js"></script>
   <script src="js/login.js"></script>

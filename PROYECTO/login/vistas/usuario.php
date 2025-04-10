@@ -16,11 +16,11 @@ require 'header.php';
     <br>
     <a class="primary_list" href="#"><span>-> </span>Gestion Prenguntas Preestablecidas</a>
     <br>
-    <a class="primary_list" href="#"><span>-> </span>Configuracion Usuario</a>
+    <a class="primary_list" href="config_usuario.php"><span>-> </span>Configuracion Usuario</a>
     <br>
     <a class="primary_list" href="config_contraseña.php"><span>-> </span>Configuracion Contraseña</a>
     <br>
-    <a class="primary_list" href="#"><span>-> </span>Configuracion Preguntas de Seguridad</a>
+    <a class="primary_list" href="config_preguntas.php"><span>-> </span>Configuracion Preguntas de Seguridad</a>
 
 
 </div>

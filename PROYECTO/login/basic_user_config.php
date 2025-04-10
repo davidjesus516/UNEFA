@@ -39,11 +39,10 @@ if (!isset($_SESSION['USER_ID'])) {
             <input type="hidden" id="id" name="id" value=<?php echo $_SESSION["USER_ID"]; ?>>
 
             <div class="formulario__grupo" id="grupo__password0">
-              <h5>Contraseña Actual:</h5>
+              <h5>Contraseña Actual: <span class="obligatorio">*</span></h5>
               <div class="formulario__grupo-input">
                 <input type="password" id="password-input0" name="password" required placeholder="Ingrese la contraseña actual" required autofocus="">
                 <i class="fas fa-eye toggle-password" id="toggle-password" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
               </div>
               <p class="formulario__input-error">La Contraseña no es valida</p>
             </div>
@@ -52,17 +51,15 @@ if (!isset($_SESSION['USER_ID'])) {
               <div class="formulario__grupo-input">
                 <input type="password" id="password-input01" name="password" required placeholder="Repita la contraseña actual" required autofocus="">
                 <i class="fas fa-eye toggle-password" id="toggle-password" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
               </div>
               <p class="formulario__input-error">La Contraseña no coincide</p>
             </div>
 
             <div class="formulario__grupo" id="grupo__password1">
-              <h5>Contraseña Nueva:</h5>
+              <h5>Contraseña Nueva: <span class="obligatorio">*</span></h5>
               <div class="formulario__grupo-input">
                 <input type="password" id="password-input1" name="password" required placeholder="Ingrese la nueva contraseña" required autofocus="">
                 <i class="fas fa-eye toggle-password" id="toggle-password" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
               </div>
               <p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
             </div>
@@ -70,7 +67,6 @@ if (!isset($_SESSION['USER_ID'])) {
               <div class="formulario__grupo-input">
                 <input type="password" id="password-input2" name="password2" placeholder="Repita la nueva contraseña" required>
                 <i class="fas fa-eye toggle-password" id="toggle-password" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
               </div>
               <p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
             </div>
@@ -79,7 +75,7 @@ if (!isset($_SESSION['USER_ID'])) {
             <br>
 
             <div class="formulario__grupo" id="grupo__question1">
-              <h4>Preguntas de recuperacion:</h4>
+              <h4>Preguntas de recuperacion: <span class="obligatorio">*</span></h4>
               <select id="question1" class="selector formulario__input" required>
                 <option value="" disabled selected>Seleccione una opción</option>
                 <option value="¿Cuál era el apodo de tu mejor amigo de la infancia?">¿Cuál era el apodo de tu mejor amigo de la infancia?</option>
@@ -88,13 +84,14 @@ if (!isset($_SESSION['USER_ID'])) {
                 <option value="¿Cuántas mascotas tenías a los 10 años?">¿Cuántas mascotas tenías a los 10 años?</option>
                 <option value="¿En qué mes te casaste?">¿En qué mes te casaste?</option>
               </select>
-              <i class="formulario__validacion-estado fas fa-times-circle"></i>
+              <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
               <p class="formulario__input-error">Validacion</p>
             </div>
             <div class="formulario__grupo" id="grupo__answer1">
               <div class="formulario__grupo-input">
                 <input type="password" id="answer1" name="answer1" placeholder="ingresar respuesta" required>
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                <i class="fas fa-eye toggle-password" id="toggle-password" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
+
               </div>
               <p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
             </div>
@@ -107,13 +104,14 @@ if (!isset($_SESSION['USER_ID'])) {
                 <option value="¿Cuántas mascotas tenías a los 10 años?">¿Cuántas mascotas tenías a los 10 años?</option>
                 <option value="¿En qué mes te casaste?">¿En qué mes te casaste?</option>
               </select>
-              <i class="formulario__validacion-estado fas fa-times-circle"></i>
+              <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
               <p class="formulario__input-error">Validacion</p>
             </div>
             <div class="formulario__grupo" id="grupo__answer2">
               <div class="formulario__grupo-input">
                 <input type="password" id="answer2" name="answer2" placeholder="ingresar respuesta" required>
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                <i class="fas fa-eye toggle-password" id="toggle-password" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
+
               </div>
               <p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
             </div>
@@ -126,41 +124,40 @@ if (!isset($_SESSION['USER_ID'])) {
                 <option value="¿Cuántas mascotas tenías a los 10 años?">¿Cuántas mascotas tenías a los 10 años?</option>
                 <option value="¿En qué mes te casaste?">¿En qué mes te casaste?</option>
               </select>
-              <i class="formulario__validacion-estado fas fa-times-circle"></i>
+              <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
               <p class="formulario__input-error">Validacion</p>
             </div>
             <div class="formulario__grupo" id="grupo__answer3">
               <div class="formulario__grupo-input">
                 <input type="password" id="answer3" name="answer3" placeholder="ingresar respuesta" required>
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                <i class="fas fa-eye toggle-password" id="toggle-password" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
+
               </div>
               <p class="formulario__input-error">El usuario tiene que ser de x a x dígitos y solo puede contener numeros etc.</p>
 
               <div class="formulario__grupo" id="grupo__correo">
-                <h5>Correo Electronico:</h5>
+                <h5>Correo Electronico: <span class="obligatorio">*</span></h5>
                 <div class="formulario__grupo-input">
                   <input type="email" id="correo" name="correo" required placeholder="Ingrese su correo" required autofocus="">
-                  <i class="formulario__validacion-estado fas fa-times-circle"></i>
                 </div>
                 <p class="formulario__input-error">No es valido</p>
               </div>
 
               <div class="formulario__grupo" id="grupo__telefono">
-                    <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="telefono" id="tlf" placeholder="Ingrese su numero telefonico">
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
-                    <p class="formulario__input-error">El telefono solo puede contener numeros y el maximo son 14 dígitos.</p>
+                <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
+                <div class="formulario__grupo-input">
+                  <input type="tel" class="formulario__input" name="number_tel" id="number_tel" placeholder="Ingrese su numero telefonico">
                 </div>
+                <p class="formulario__input-error">El telefono solo puede contener numeros y el maximo son 14 dígitos.</p>
+              </div>
+              <button class="btn" type="submit" id="submit-button">
+                Enviar
+              </button>
             </div>
 
-            <button class="btn" type="submit" id="submit-button">
-              Enviar
-            </button>
 
           </form>
-          <p class="account"><a href="logout.php">¿Volver al inicio?</a></p>
+          <p class="account" style="text-align: center;"><a href="logout.php">¿Volver al inicio?</a></p>
 
         </div>
       </div>

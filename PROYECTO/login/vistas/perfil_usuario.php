@@ -2,7 +2,6 @@
 require 'header.php';
 ?>
 <input type="hidden" id="name" name="name" value=<?php echo $_SESSION["NAME"]; ?>>
-<input type="hidden" id="id" name="id" value=<?php echo $_SESSION["USER"]; ?>>
 
 <span class="text">Perfil de Usuario</span>
 <div class="page-content">
@@ -10,7 +9,6 @@ require 'header.php';
     <br>
     <h5 id="name">Nombre</h5>
     <p id="name_user"><?php echo $_SESSION["NAME"]; ?></p>
-    <p id="name_user"><?php echo $_SESSION["USER"]; ?></p>
 
     <br>
 

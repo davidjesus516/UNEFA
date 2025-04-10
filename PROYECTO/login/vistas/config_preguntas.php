@@ -1,15 +1,15 @@
 <?php
 require 'header.php';
 ?>
-<span class="text">Ventana -> <a href="usuario.php">Configuración</a> -> Contraseña</span>
+<span class="text">Ventana -> <a href="usuario.php">Configuración</a> -> Preguntas Preestablecidas</span>
 <div class="page-content">
-
-    <h2>Configuracion de Contraseña</h2>
+<a href="preguntas.php">Listado de Preguntas de Seuridad</a>
+    <h2>Configuracion de Preguntas Preestablecidas</h2>
 
     <form action="#" class="formulario" id="formulario">
         <!-- Grupo: Usuario -->
         <div class="formulario__grupo" id="grupo__">
-            <label for="" class="formulario__label">Longitud minima <span class="obligatorio">*</span></label>
+            <label for="" class="formulario__label">Preguntas por Usuario <span class="obligatorio">*</span></label>
             <div class="formulario__grupo-input">
                 <input type="text" class="formulario__input" name="" id="" placeholder="" required>
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -17,6 +17,68 @@ require 'header.php';
             <p class="formulario__input-error">Este campo solo debe contener letras</p>
         </div>
 
+        <br>
+        <!-- Grupo: Usuario -->
+        <div class="formulario__grupo" id="grupo__">
+            <label for="" class="formulario__label">Preguntas Preestablecidas por Usuario <span class="obligatorio">*</span></label>
+            <div class="formulario__grupo-input">
+                <input type="text" class="formulario__input" name="" id="" placeholder="" required>
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+            </div>
+            <p class="formulario__input-error">Este campo solo debe contener letras</p>
+        </div>
+
+        <br>
+
+        <div class="formulario__grupo" id="grupo__">
+            <label for="" class="formulario__label">Longitud Minima Pregunta <span class="obligatorio">*</span></label>
+            <div class="formulario__grupo-input">
+                <input type="text" class="formulario__input" name="" id="" placeholder="" required>
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+            </div>
+            <p class="formulario__input-error">Este campo solo debe contener numeros</p>
+        </div>
+        <br>
+
+        <div class="formulario__grupo" id="grupo__">
+            <label for="" class="formulario__label">Longitud Maxima Pregunta <span class="obligatorio">*</span></label>
+            <div class="formulario__grupo-input">
+                <input type="text" class="formulario__input" name="" id="" placeholder="" required>
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+            </div>
+            <p class="formulario__input-error">Este campo solo debe contener numeros</p>
+        </div>
+        <br>
+
+        <!-- Grupo:  -->
+        <div class="formulario__grupo" id="grupo__">
+            <label for="" class="formulario__label">Respuestas por Usuario <span class="obligatorio">*</span></label>
+            <div class="formulario__grupo-input">
+                <input type="text" class="formulario__input" name="" id="" placeholder="" required>
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+            </div>
+            <p class="formulario__input-error">Este campo solo debe contener letras</p>
+        </div>
+        <br>
+
+        <div class="formulario__grupo" id="grupo__">
+            <label for="" class="formulario__label">Longitud Minima Respuesta <span class="obligatorio">*</span></label>
+            <div class="formulario__grupo-input">
+                <input type="text" class="formulario__input" name="" id="" placeholder="" required>
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+            </div>
+            <p class="formulario__input-error">Este campo solo debe contener numeros</p>
+        </div>
+        <br>
+
+        <div class="formulario__grupo" id="grupo__">
+            <label for="" class="formulario__label">Longitud Maxima Respuesta <span class="obligatorio">*</span></label>
+            <div class="formulario__grupo-input">
+                <input type="text" class="formulario__input" name="" id="" placeholder="" required>
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+            </div>
+            <p class="formulario__input-error">Este campo solo debe contener numeros</p>
+        </div>
         <br>
 
         <div class="formulario__grupo" id="grupo__">
@@ -59,52 +121,6 @@ require 'header.php';
             </div>
             <p class="formulario__input-error">Este campo solo debe contener letras</p>
         </div>
-        <br>
-
-        <!-- Grupo:  -->
-        <div class="formulario__grupo" id="grupo__">
-            <label for="" class="formulario__label">Vigencia de la Contraseña <span class="obligatorio">*</span></label>
-            <div class="formulario__grupo-input">
-                <input type="text" class="formulario__input" name="" id="" placeholder="" required>
-                <p> días</p>
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
-            </div>
-            <p class="formulario__input-error">Este campo solo debe contener letras</p>
-        </div>
-        <br>
-
-        <!-- Grupo:  -->
-        <div class="formulario__grupo" id="grupo__">
-            <label for="" class="formulario__label">Intentos para Bloqueo por Clave Errada <span class="obligatorio">*</span></label>
-            <div class="formulario__grupo-input">
-                <input type="text" class="formulario__input" name="" id="" placeholder="" required>
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
-            </div>
-            <p class="formulario__input-error">Este campo solo debe contener letras</p>
-        </div>
-        <br>
-
-        <!-- Grupo:  -->
-        <div class="formulario__grupo" id="grupo__">
-            <label for="" class="formulario__label">Dias de Bloqueo por Clave Errada <span class="obligatorio">*</span></label>
-            <div class="formulario__grupo-input">
-                <input type="text" class="formulario__input" name="" id="" placeholder="" required>
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
-            </div>
-            <p class="formulario__input-error">Este campo solo debe contener letras</p>
-        </div>
-        <br>
-
-        <!-- Grupo:  -->
-        <div class="formulario__grupo" id="grupo__">
-            <label for="" class="formulario__label">Cantidad de Números <span class="obligatorio">*</span></label>
-            <div class="formulario__grupo-input">
-                <input type="text" class="formulario__input" name="" id="" placeholder="" required>
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
-            </div>
-            <p class="formulario__input-error">Este campo solo debe contener letras</p>
-        </div>
-
 
 
 
@@ -119,7 +135,7 @@ require 'header.php';
 </div>
 </div>
 <script src="js/estudiante/jquery-3.7.0.min.js"></script>
-<script src="js/estudiante/main.js"></script>
+<!-- <script src="js/estudiante/main.js"></script> -->
 <?php
 require 'footer.php';
 ?>

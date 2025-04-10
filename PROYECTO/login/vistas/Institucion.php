@@ -20,6 +20,7 @@ require 'header.php';
             <div class="formulario__grupo" id="grupo__rif">
                 <label for="" class="formulario__label">RIF <span class="obligatorio">*</span></label>
                 <select id="l_rif" class="formulario__input" name="tipo-cedula">
+                    <option value="" disabled selected>Seleccione una opción</option>
                     <option value="G" selected>G-Gobierno</option>
                 </select>
                 <div class="formulario__grupo-input">
@@ -54,6 +55,7 @@ require 'header.php';
                 <label for="" class="formulario__label">Contacto<span class="obligatorio">*</span></label>
                 <div class="formulario__grupo-input">
                     <select class="formulario__input" id="telefono_Empresa">
+                        <option value="" disabled selected>Seleccione una opción</option>
                         <option value="0412-">0412-</option>
                         <option value="0414-">0414-</option>
                         <option value="0424-">0424-</option>
@@ -69,7 +71,8 @@ require 'header.php';
             <!--  -->
             <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Tipo Institucion <span class="obligatorio">*</span></label>
-                    <select id="Tipo_Institucion" aria-placeholder="Tipo Institucion" class="selector formulario__input" required>               
+                    <select id="Tipo_Institucion" aria-placeholder="Tipo Institucion" class="selector formulario__input" required> 
+                        <option value="" disabled selected>Seleccione una opción</option>
                     </select>
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     <p class="formulario__input-error">Validacion</p>
@@ -78,7 +81,8 @@ require 'header.php';
             <!--  -->
             <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Carrera <span class="obligatorio">*</span></label>
-                    <select id="carrera" aria-placeholder="carrera" class="selector formulario__input" required>               
+                    <select id="carrera" aria-placeholder="carrera" class="selector formulario__input" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
                     </select>
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     <p class="formulario__input-error">Validacion</p>
@@ -87,7 +91,8 @@ require 'header.php';
             <!--  -->
             <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Tipo Practica <span class="obligatorio">*</span></label>
-                    <select id="Tipo_Practica" aria-placeholder="Tipo Practica" class="selector formulario__input" required>               
+                    <select id="Tipo_Practica" aria-placeholder="Tipo Practica" class="selector formulario__input" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
                     </select>
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     <p class="formulario__input-error">Validacion</p>
