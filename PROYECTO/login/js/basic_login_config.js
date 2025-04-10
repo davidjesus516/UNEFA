@@ -205,6 +205,8 @@ $(document).ready(function () {//aqui inicializamos javascript
         const answer2 = $('#answer2').val();
         const question3 = $('#question3').val();
         const answer3 = $('#answer3').val();
+        const correo = $('#correo').val();
+        const tlf = $('#tlf').val();
         if (errores) { // Se comprueba si hay errores
             return false; // Cancela el envío del formulario
         }
@@ -217,7 +219,9 @@ $(document).ready(function () {//aqui inicializamos javascript
             question2: question2,
             answer2: answer2,
             question3: question3,
-            answer3: answer3
+            answer3: answer3,
+            correo: correo,
+            tlf: tlf
         };
         // Agregamos la alerta de confirmación
         if (confirm('¿Quieres proceder con el registro?')) {

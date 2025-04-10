@@ -10,6 +10,8 @@ $question2 = $_POST['question2'];
 $answer2 = mb_strtoupper($_POST['answer2']);   
 $question3 = $_POST['question3'];
 $answer3 = mb_strtoupper($_POST['answer3']);
+$correo = mb_strtoupper($_POST['correo']);
+$telefono = $_POST['tlf'];
 $questions_answers = array(
     $question1 => $answer1,
     $question2 => $answer2,
@@ -17,7 +19,7 @@ $questions_answers = array(
 );
 $search_actual_password = $usuario->SearchUserKey($_SESSION["USER_ID"]);
 if (password_verify($_POST['passwordinput0'], $search_actual_password['KEY'])) {
-    $row = $usuario->basic_login_config($id, $password, $questions_answers);
+    $row = $usuario->basic_login_config($id, $password, $questions_answers, $correo, $telefono);
 if ($row === true) {
     echo 1;
 } else {

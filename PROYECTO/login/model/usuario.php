@@ -128,14 +128,17 @@ class Usuario
         return $row;
     }
 
-    public function basic_login_config($id, $password, $questions_answers)
+    public function basic_login_config($id, $password, $questions_answers,$correo, $telefono)
     {
         try {
-            $sql = "UPDATE `t-user` SET `STATUS_SESSION`= 1 WHERE USER_ID = :id";
+            $sql = "UPDATE `t-user` SET `EMAIL`= :correo, `PHONE_NUMBER`= :telefono, `STATUS_SESSION`= 1 WHERE USER_ID = :id";
             $statement = $this->pdo->beginTransaction();
             $statement = $this->pdo->prepare($sql);
             $statement->bindValue(':id', $id);
+            $statement->bindValue(':correo', $correo);
+            $statement->bindValue(':telefono', $telefono);
             $statement->execute();
+
             $sql2 = "SELECT * FROM `T-USER_KEY` WHERE `USER_ID` = :id AND STATUS = 1";
             $statement2 = $this->pdo->prepare($sql2);
             $statement2->bindValue(':id', $id);
