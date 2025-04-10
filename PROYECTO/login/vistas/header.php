@@ -343,6 +343,7 @@ if (!isset($_SESSION['USER'])) {
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Configuracion</a></li>
                         <li><a href="#">Registros Inactivos</a></li>
+                        <li><a href="#">Cambio de Registros</a></li>
                         <li><a href="usuario.php">Usuarios</a></li>
                         <li><a href="#">Combos</a></li>
                     </ul>

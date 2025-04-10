@@ -21,6 +21,15 @@ require 'header.php';
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
+                <div class="formulario__grupo" id="grupo__cedula">
+                    <label for="" class="formulario__label">Cedula <span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <input type="text" class="formulario__input" name="" id="cedula" placeholder="Cedula del Usuario" required>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">Este campo solo debe contener numeros</p>
+                </div>
+
                 <!-- Grupo:  -->
                 <div class="formulario__grupo" id="grupo__nombre">
                     <label for="" class="formulario__label">Nombre <span class="obligatorio">*</span></label>

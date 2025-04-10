@@ -1,7 +1,7 @@
 <?php
 require 'header.php';
 ?>
-<span class="text">Ventana -> Usuarios</span>
+<span class="text">Ventana -> Configuración</span>
 <div class="page-content">
 
     <a class="primary_list" href="nuevo_usuario.php"><span>-> </span>Nuevo Usuario</a>
@@ -18,7 +18,7 @@ require 'header.php';
     <br>
     <a class="primary_list" href="#"><span>-> </span>Configuracion Usuario</a>
     <br>
-    <a class="primary_list" href="#"><span>-> </span>Configuracion Contraseña</a>
+    <a class="primary_list" href="config_contraseña.php"><span>-> </span>Configuracion Contraseña</a>
     <br>
     <a class="primary_list" href="#"><span>-> </span>Configuracion Preguntas de Seguridad</a>
 
