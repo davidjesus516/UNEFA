@@ -93,8 +93,8 @@ span.obligatorio {
 }
 
 .form-img-2 {
-  flex-basis: 50%;
-  background-image: url(../../../img/fondo-claro-2.jpg);
+  flex-basis: 75%;
+  background-image: url(../../../img/fondo-claro.jpg);
   background-attachment: fixed;
   /* background: #dfe5ea; */
   background-size: cover;
@@ -122,7 +122,7 @@ p {
 
 .btn,
 button {
-  border-radius: 35px;
+  border-radius: 10px;
 }
 
 .btn:hover,
@@ -147,7 +147,7 @@ a {
   color: #999;
   text-align: left;
   padding: 14px 20px;
-  width: 100%;
+  width: -webkit-fill-available;
   display: inline-block;
   box-sizing: border-box;
   border: none;
@@ -972,7 +972,6 @@ button.primary {
   background: rgb(#192DD4 / 100%);
   padding: 13px 25px;
   margin: 1rem;
-  border-radius: 17px;
   transition: background-color 0.1s ease;
   box-sizing: border-box;
   transition: all 0.25s ease;
@@ -1051,7 +1050,7 @@ button.primary-white {
 }
 
 .modal {
-  margin: 20px;
+  margin: auto;
 }
 
 .task-delete {

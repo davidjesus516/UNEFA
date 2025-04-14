@@ -25,19 +25,19 @@ if ($_SESSION['STATUS_SESSION'] == 2) {
         <div class="container">
             <div class="main">
                 <div class="content">
-                    <h2>BIENVENIDO ' . $_SESSION['NAME'] . '</h2>
+                    <h2>Bienvenido ' . $_SESSION['NAME'] . '</h2>
                     <p>Para continuar por favor acepte los <a href="PurpleOrangeGradientFormalAgreementLetterA4Document.pdf" target="_blank">terminos y condiciones</a>.</p>
                     <form action="basic_user_config.php" method="POST">
 
                     <div class:"form_terms"> 
-                    <label for="terms">Acepto los terminos y condiciones
-                    <input type="checkbox" name="terms" id="terms" required>
-                    </label>
+                        <label for="terms">Acepto los terminos y condiciones
+                            <input style="width: auto;" type="checkbox" name="terms" id="terms" required>
+                        </label>
                     </div>
                     <button class="primary btn" type="submit" value="Aceptar">
                     Aceptar
                     </button>
-                    <p class="account"><a href="logout.php">¿Volver al inicio?</a></p>
+                    <p style="aling-text: center;" class="account"><a href="logout.php">¿Volver al inicio?</a></p>
 
                 </div>
                 <div class="form-img-2">
