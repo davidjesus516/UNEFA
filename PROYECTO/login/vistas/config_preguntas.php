@@ -3,6 +3,7 @@ require 'header.php';
 ?>
 <span class="text">Ventana -> <a href="usuario.php">Configuración</a> -> Preguntas Preestablecidas</span>
 <div class="page-content">
+<a href="preguntas.php">Listado de Preguntas de Seuridad</a>
     <h2>Configuracion de Preguntas Preestablecidas</h2>
 
     <form action="#" class="formulario" id="formulario">

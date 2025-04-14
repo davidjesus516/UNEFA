@@ -2,7 +2,7 @@
 require 'header.php';
 ?>
 
-<span class="text">Ventana -> <a href="usuario.php">Configuración</a> -> Preguntas Preestablecida</span>
+<span class="text">Preguntas Preestablecida</span>
 <div class="page-content">
 
     <div id="modal" class="modal">
