@@ -14,7 +14,7 @@ require 'header.php';
     <br>
     <a class="primary_list" href="#"><span>-> </span>Gestion Permisos</a>
     <br>
-    <a class="primary_list" href="#"><span>-> </span>Gestion Prenguntas Preestablecidas</a>
+    <a class="primary_list" href="preguntas.php"><span>-> </span>Gestion Prenguntas Preestablecidas</a>
     <br>
     <a class="primary_list" href="config_usuario.php"><span>-> </span>Configuracion Usuario</a>
     <br>
