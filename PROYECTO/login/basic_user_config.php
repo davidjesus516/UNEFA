@@ -155,6 +155,7 @@ if (!isset($_SESSION['USER_ID'])) {
               </button>
             </div>
 
+            <div class="modal"></div>
 
           </form>
           <p class="account" style="text-align: center;"><a href="logout.php">¿Volver al inicio?</a></p>

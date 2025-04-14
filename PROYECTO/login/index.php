@@ -5,9 +5,9 @@ session_start();
 
 if (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 1) {
   header('location: vistas/intranet.php');
-} elseif (isset($_SESSION['USER_ID']) && $_SESSION['STATUS_SESSION'] == 2) {
+} elseif (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 2) {
   header('location: first_login.php');
-} elseif (isset($_SESSION['USER_ID']) && $_SESSION['STATUS_SESSION'] == 3) {
+} elseif (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 3) {
   header('location: basic_user_config.php');
 }
 

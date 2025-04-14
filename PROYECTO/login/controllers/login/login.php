@@ -63,7 +63,9 @@ if ($UserSessionData == null) {
             $_SESSION['login_attempts'] = 0; //reinicio el contador de intentos de login
             if ($_SESSION['STATUS_SESSION'] === 1){
                 if ($today >= $endDate) {
-                    //bloqueo el usuario
+                $_SESSION = array(
+                    'USER_ID' => $UserSessionData['USER_ID']
+                );
                 $row = array( 
                     'message' =>'<dialog id="dialog">
                     <h2>Contraseña Vencida.</h2>

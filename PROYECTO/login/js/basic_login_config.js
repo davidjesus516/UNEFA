@@ -228,15 +228,22 @@ $(document).ready(function () {//aqui inicializamos javascript
             let url = "controllers/login/basic_user_config.php";
             $.post(url, postData, function (response) {
                 console.log(response);
-                if (parseInt(response) === 1) {
-                    alert('Registro exitoso');
-                    location.replace('logout.php');
-                } else if (parseInt(response) === 2) {
-                    alert('Error: la contraseña actual no es correcta');
-                } else {
-                    alert('Error en el registro');
-                }
-            })
+                responseData = JSON.parse(response);
+            if (responseData.status == 0) {
+                $(".modal").html(responseData.message);
+                dialog.showModal();
+                $('.x').on('click', function () {
+                    dialog.close();
+                });
+            } else if (responseData.status == 1) {
+				$(".modal").html(responseData.message);
+                dialog.showModal();
+                $('.x').on('click', function () {
+					location.assign(responseData.redirect);
+                    dialog.close();
+                });
+			}
+		})
         } else {
             // Si el usuario hace clic en "Cancelar", no se envía la solicitud de registro
             return false;

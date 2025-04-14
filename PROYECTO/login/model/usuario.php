@@ -108,6 +108,20 @@ class Usuario
         $row = $statement->fetch(PDO::FETCH_ASSOC);
         return $row;
     }
+    public function SearchLastNUserKey($UserId){
+        
+        $consulta = "SELECT * FROM `t-user_key` WHERE `USER_ID` = :UserId ORDER BY USER_KEY_ID DESC LIMIT 3";
+        $statement = $this->pdo->prepare($consulta);
+        $statement->bindValue(':UserId', $UserId);
+        $statement->execute();
+        $json = array();
+        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $json[] = array(
+                'KEY' => $row["KEY"]
+            );
+        }
+        return $json;
+    }
     public function SearchUserKey($UserId)
     {
 
@@ -120,7 +134,7 @@ class Usuario
     }
     public function login($username)
     {
-        $consulta = "SELECT * FROM `t-user` u left join `t-user_key` k on u.USER_ID = k.USER_ID WHERE `USER` = :username AND u.STATUS = 1 AND k.STATUS = 1";
+        $consulta = "SELECT * FROM `t-user` u left join `t-user_key` k on u.USER_ID = k.USER_ID WHERE `USER` = :username AND u.STATUS = 1 AND k.STATUS = 1 ORDER BY k.USER_KEY_ID DESC LIMIT 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':username', $username);
         $statement->execute();
@@ -138,28 +152,7 @@ class Usuario
             $statement->bindValue(':correo', $correo);
             $statement->bindValue(':telefono', $telefono);
             $statement->execute();
-
-            $sql2 = "SELECT * FROM `T-USER_KEY` WHERE `USER_ID` = :id AND STATUS = 1";
-            $statement2 = $this->pdo->prepare($sql2);
-            $statement2->bindValue(':id', $id);
-            $statement2->execute();
-            $row = $statement2->fetch(PDO::FETCH_ASSOC);
-            if ($row) {
-                $sql3 = "UPDATE `t-user_key` SET `STATUS`= 0, END_DATE = :END_DATE WHERE USER_KEY_ID = :id";
-                $statement3 = $this->pdo->prepare($sql3);
-                $statement3->bindValue(':id', $row['USER_KEY_ID']);
-                $statement3->bindValue(':END_DATE', date("Y-m-d H:i:s"));
-                $statement3->execute();
-            }
-            $sql4 = "INSERT INTO `t-user_key`( `USER_ID`, `KEY`, `START_DATE`, `END_DATE`, `STATUS`) VALUES (:USER_ID, :KEY, :START_DATE, :END_DATE, :STATUS)";
-            $end_date = $this->expiration_date();
-            $statement4 = $this->pdo->prepare($sql4);
-            $statement4->bindValue(':USER_ID', $id);
-            $statement4->bindValue(':KEY', $password);
-            $statement4->bindValue(':START_DATE', date("Y-m-d H:i:s"));
-            $statement4->bindValue(':END_DATE', $end_date);
-            $statement4->bindValue(':STATUS', 1);
-            $statement4->execute();
+            $this->NewPassword($id, $password);
             $sql5 = "SELECT a.PRESET_QUESTION_ID FROM `t-security_questions` a INNER join `t-preset_questions` b ON a.PRESET_QUESTION_ID = b.PRESET_QUESTION_ID WHERE a.USER_ID = :id AND b.STATUS = 1";
             $statement5 = $this->pdo->prepare($sql5);
             $statement5->bindValue(':id', $id);
