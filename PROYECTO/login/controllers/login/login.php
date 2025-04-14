@@ -1,11 +1,12 @@
-<?php
-$_SESSION ['login_attempts'] = 0; //inicializo el contador de intentos de login
+<?php //inicializo el contador de intentos de login
 $username = $_POST["username"]; //guardo lo q mando
 $password = $_POST["password"];
 
 // incluir la clase Usuario
 require_once("../../model/usuario.php");
-
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0; //inicializo el contador de intentos de login
+}
 // crear una instancia de la clase Usuario
 $UserData = new Usuario();
 
@@ -157,22 +158,39 @@ if ($UserSessionData == null) {
             <button aria-label="close" class="x">❌</button>
             </dialog>',
                 'status' => 0);
-        }
-        $row = array(
-            'message' => '     
-            <dialog id="dialog">
-            <h2>usuario o contraseña incorrecta </h2>
-            <div class="error-banmark">
-            <div class="ban-icon">
-                <span class="icon-line line-long-invert"></span>
-                <span class="icon-line line-long"></span>
-                <div class="icon-circle"></div>
-                <div class="icon-fix"></div>
-            </div>
-            </div>
-            <button aria-label="close" class="x">❌</button>
-            </dialog>',
-            'status' => 0);
+        }elseif ($_SESSION['login_attempts'] > 1) {
+            $row = array(
+                'message' => '    
+                <dialog id="dialog">
+                <h2>usuario o contraseña incorrecta</h2>
+                <h3>intentos restantes: ' . (3 - $_SESSION['login_attempts']) . '</h3>
+                <div class="error-banmark">
+                <div class="ban-icon">
+                    <span class="icon-line line-long-invert"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+                </div>
+                <button aria-label="close" class="x">❌</button>
+                </dialog>',
+                'status' => 0);}
+                else {
+                    $row = array(
+                        'message' =>'      
+                            <dialog id="dialog">
+                            <h2>usuario o contraseña incorrecta </h2>
+                            <div class="error-banmark">
+                            <div class="ban-icon">
+                                <span class="icon-line line-long-invert"></span>
+                                <span class="icon-line line-long"></span>
+                                <div class="icon-circle"></div>
+                                <div class="icon-fix"></div>
+                            </div>
+                            </div>
+                            <button aria-label="close" class="x">❌</button>
+                            </dialog>',
+                        'status' => 0);}
     }
 }
 echo json_encode($row); //devuelvo el resultado en formato json

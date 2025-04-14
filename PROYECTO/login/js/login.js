@@ -20,10 +20,6 @@ $(document).ready(function () {
 					location.assign(data.redirect);
                     dialog.close();
                 });
-				$(".modal").on('close', function () {
-					dialog.close();
-					location.assign(data.redirect);
-				});
 			}
 		})
 		e.preventDefault();//previene el comportamiento por defecto
