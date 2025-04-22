@@ -27,7 +27,7 @@ foreach ($users as $key => $value) {
     }
 }
 if (!$new_password_status) {
-    $row = $usuario->basic_login_config($id, $password, $questions_answers, $correo, $telefono);
+    $row = $usuario->BasicLoginConfig($id, $password, $questions_answers, $correo, $telefono);
 if ($row === true) {
     $row = array(
         'message' => '    

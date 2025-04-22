@@ -1,8 +1,9 @@
 <?php
-session_start();
+require_once 'model/usuario.php';
+$logout = new Usuario();
+$logout->Logout($_SESSION["USER_ID"]);
+setcookie(session_name(), '', 100);
 session_unset();
-
-// destroy the session 
 session_destroy();
-
+$_SESSION = array();
 header('location: index.php');

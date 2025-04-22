@@ -48,6 +48,7 @@ if ($UserSessionData == null) {
     if (
         password_verify($password, $UserSessionData['KEY'])
     ) {
+        $UserData->LoginSucces($UserSessionData['USER_ID']); //actualizo el estado de la sesion a 1
         $today = date('Y-m-d H:i:s');
         $today = date_create($today);
         $today = date_format($today, 'Y-m-d');
@@ -140,8 +141,8 @@ if ($UserSessionData == null) {
         
         
     } else {
-        $_SESSION['login_attempts'] += 1; //incremento el contador de intentos de login
-        if ($_SESSION['login_attempts'] >= 3) {
+        $UserData->LoginFail($UserSessionData['USER_ID']); //incremento el contador de intentos de login
+        if ($UserData->CountLoginFail($UserSessionData['USER_ID']) >= 3) {
             $UserData->UserBlock($UserSessionData['USER_ID']); //bloqueo el usuario
             $row = array(
                 'message' =>'     

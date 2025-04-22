@@ -132,7 +132,7 @@ class Usuario
         $row = $statement->fetch(PDO::FETCH_ASSOC);
         return $row;
     }
-    public function login($username)
+    public function Login($username)
     {
         $consulta = "SELECT * FROM `t-user` u left join `t-user_key` k on u.USER_ID = k.USER_ID WHERE `USER` = :username AND u.STATUS = 1 AND k.STATUS = 1 ORDER BY k.USER_KEY_ID DESC LIMIT 1";
         $statement = $this->pdo->prepare($consulta);
@@ -141,8 +141,92 @@ class Usuario
         $row = $statement->fetch(PDO::FETCH_ASSOC);
         return $row;
     }
+    public function LoginSucces($UserId)
+    {
+        try {
+            $this->pdo->beginTransaction();
+            $sql = "UPDATE `t-user` SET `LOGIN`= 1 WHERE USER_ID = :UserId";
+            $sql2 = "INSERT INTO `t-session`(`USER_ID`, `LOGIN_TIME`, `STATUS`) VALUES (:USER_ID, :LOGIN_TIME, :STATUS)";
+            $sql3 = "UPDATE `t-session_attempts` SET `STATUS`= 0 WHERE USER_ID = :UserId AND STATUS = 1";
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindValue(':UserId', $UserId);
+            $statement->execute();
+            $statement2 = $this->pdo->prepare($sql2);
+            $statement2->bindValue(':USER_ID', $UserId);
+            $statement2->bindValue(':LOGIN_TIME', date("Y-m-d H:i:s"));
+            $statement2->bindValue(':STATUS', 1);
+            $statement2->execute();
+            $statement3 = $this->pdo->prepare($sql3);
+            $statement3->bindValue(':UserId', $UserId);
+            $statement3->execute();
+            $this->pdo->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            throw $e;
+        }
 
-    public function basic_login_config($id, $password, $questions_answers,$correo, $telefono)
+    }
+    public function LoginFail($UserId)
+    {
+        try {
+            $sql = "INSERT INTO `t-session_attempts`(`USER_ID`, `ATTEMPT_TIME`, `STATUS`) VALUES (:USER_ID, :ATTEMPT_TIME, :STATUS)";
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindValue(':USER_ID', $UserId);
+            $statement->bindValue(':ATTEMPT_TIME', date("Y-m-d H:i:s"));
+            $statement->bindValue(':STATUS', 1);
+            $statement->execute();
+            return true;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+    public function CountLoginFail($UserId)
+    {
+        $sql = "SELECT COUNT(*) as COUNT FROM `t-session_attempts` WHERE USER_ID = :UserId AND STATUS = 1";
+        $statement = $this->pdo->prepare($sql);
+        $statement->bindValue(':UserId', $UserId);
+        $statement->execute();
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        return $row;
+    }
+    private function getSession($UserId)
+    {
+        $sql = "SELECT * FROM `t-session` WHERE USER_ID = :UserId AND STATUS = 1";
+        $statement = $this->pdo->prepare($sql);
+        $statement->bindValue(':UserId', $UserId);
+        $statement->execute();
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        return $row;
+    }   
+    public function Logout($UserId)
+    {
+        try {
+            $this->pdo->beginTransaction();
+            $sql = "UPDATE `t-user` SET `LOGIN`= 0 WHERE USER_ID = :UserId";
+            $sql2 = "UPDATE `t-session` SET `STATUS`= 0 WHERE USER_ID = :UserId AND STATUS = 1";
+            $sql3 = "INSERT INTO `t-session_History` (`SESSION_ID`, `USER_ID`, `LOGIN_TIME`, `LOGOUT_TIME`, `STATUS`) VALUES (:SESSION_ID, :USER_ID, :LOGIN_TIME, :LOGOUT_TIME, :STATUS)";
+            $sInfo = $this->getSession($UserId);
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindValue(':UserId', $UserId);
+            $statement->execute();
+            $statement2 = $this->pdo->prepare($sql2);
+            $statement2->bindValue(':UserId', $UserId);
+            $statement2->execute();
+            $statement3 = $this->pdo->prepare($sql3);
+            $statement3->bindValue(':SESSION_ID', $sInfo['SESSION_ID']);
+            $statement3->bindValue(':USER_ID', $UserId);
+            $statement3->bindValue(':LOGIN_TIME', $sInfo['LOGIN_TIME']);
+            $statement3->bindValue(':LOGOUT_TIME', date("Y-m-d H:i:s"));
+            $statement3->bindValue(':STATUS', 1);
+            $statement3->execute();
+            $this->pdo->commit();
+            return true;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }   
+    public function BasicLoginConfig($id, $password, $questions_answers,$correo, $telefono)
     {
         try {
             $sql = "UPDATE `t-user` SET `EMAIL`= :correo, `PHONE_NUMBER`= :telefono, `STATUS_SESSION`= 1 WHERE USER_ID = :id";
