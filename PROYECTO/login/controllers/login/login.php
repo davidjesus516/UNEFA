@@ -142,7 +142,8 @@ if ($UserSessionData == null) {
         
     } else {
         $UserData->LoginFail($UserSessionData['USER_ID']); //incremento el contador de intentos de login
-        if ($UserData->CountLoginFail($UserSessionData['USER_ID']) >= 3) {
+        $fail = $UserData->CountLoginFail($UserSessionData['USER_ID']);
+        if ($fail['COUNT'] >= 3) {
             $UserData->UserBlock($UserSessionData['USER_ID']); //bloqueo el usuario
             $row = array(
                 'message' =>'     
