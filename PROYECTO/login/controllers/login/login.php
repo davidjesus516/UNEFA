@@ -160,12 +160,12 @@ if ($UserSessionData == null) {
             <button aria-label="close" class="x">❌</button>
             </dialog>',
                 'status' => 0);
-        }elseif ($_SESSION['login_attempts'] > 1) {
+        }elseif ($fail['COUNT'] > 1) {
             $row = array(
                 'message' => '    
                 <dialog id="dialog">
                 <h2>usuario o contraseña incorrecta</h2>
-                <h3>intentos restantes: ' . (3 - $_SESSION['login_attempts']) . '</h3>
+                <h3>intentos restantes: ' . (3 - $fail['COUNT']) . '</h3>
                 <div class="error-banmark">
                 <div class="ban-icon">
                     <span class="icon-line line-long-invert"></span>
