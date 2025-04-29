@@ -8,7 +8,7 @@ class PDF extends FPDF
     {
         // Logo
         if(file_exists('img/Escudo.png')) {
-            $this->Image('img/Escudo.png', 10, 6, 25, 20); // Tamaño ajustado
+            $this->Image('img/logo_unefa.png', 10, 6, 25); // Tamaño ajustado
         }
         // Fuente del título
         $this->SetFont('Arial','B',16);
@@ -42,9 +42,10 @@ if ($conexion->connect_error) {
     exit;
 }
 
-// Consulta SQL
-$sql = "SELECT CAREER_CODE, CAREER_NAME FROM `t-career`";
+// Consulta SQL (solo carreras activas)
+$sql = "SELECT CAREER_CODE, CAREER_NAME FROM `t-career` WHERE STATUS = 1";
 $resultado = $conexion->query($sql);
+
 
 // Verificar resultado
 if ($resultado === false) {
@@ -69,8 +70,8 @@ $pdf->SetFont('Arial','B',12);
 // Ancho de columnas
 $w = array(60, 120); // 60mm y 120mm
 
-$pdf->Cell($w[0],10,'Codigo Carrera',1,0,'C',true);
-$pdf->Cell($w[1],10,'Nombre Carrera',1,1,'C',true);
+$pdf->Cell($w[0],10,'Codigo',1,0,'C',true);
+$pdf->Cell($w[1],10,'Nombre',1,1,'C',true);
 
 // Restaurar colores
 $pdf->SetFillColor(224, 235, 255); // Azul claro

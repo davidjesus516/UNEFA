@@ -1,9 +1,12 @@
 <?php
 require 'header.php';
 ?>
+
 <span class="text">Ventana -> Configuración</span>
 <div class="page-content">
 
+    <a class="primary_list" href="historial_session.php"><span>-> </span>Historial de Ingreso de Usuario</a>
+    <br>
     <a class="primary_list" href="nuevo_usuario.php"><span>-> </span>Nuevo Usuario</a>
     <br>
     <a class="primary_list" href="listado_usuario.php"><span>-> </span>Listado Usuario</a>
