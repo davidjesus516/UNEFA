@@ -20,19 +20,16 @@ require 'header.php';
 					<div class="formulario__grupo-input">
 						<input type="text" class="formulario__input" name="" id="" placeholder="Ingrese Lapso Académico">
 						<i class="formulario__validacion-estado fas fa-times-circle"></i>
+						<select id="turno" class="selector formulario__input" required>
+							<option value="" disabled selected>Seleccione una opción</option>
+							<option value="I">I</option>
+							<option value="II">II</option>
+						</select>
 					</div>
 					<p class="formulario__input-error">Validacion</p>
 				</div>
-				<div class="formulario__grupo" id="grupo__turno">
-					<label for="" class="formulario__label">Turno <span class="obligatorio">*</span></label>
-					<select id="turno" class="selector formulario__input" required>
-						<option value="" disabled selected>Seleccione una opción</option>
-						<option value="I">I</option>
-						<option value="II">II</option>
-					</select>
-					<i class="formulario__validacion-estado fas fa-times-circle"></i>
-					<p class="formulario__input-error">Validacion</p>
-				</div>
+
+				<br> 
 
 				<!-- Grupo: Usuario -->
 				<div class="formulario__grupo" id="">

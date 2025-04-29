@@ -324,9 +324,7 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Reportes</a></li>
-                        <li><a href="#">Reporte 1</a></li>
-                        <li><a href="#">Reporte 2</a></li>
-                        <li><a href="#">Reporte 3</a></li>
+                        <li><a href="../PDF/listado_carrera.php" target="_blank">Listado de Carreras</a></li>
                     </ul>
                 </li>
 
