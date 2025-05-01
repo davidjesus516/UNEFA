@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Caracas'); // Establece la zona horaria a Caracas, Venezuela
 //creo una clase conexion
 class Conexion {
     //instancio las variables que usare en la clase al ser privadas son private pq no pueden ser utilizadas fuera de aqui
