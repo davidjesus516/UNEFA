@@ -1550,3 +1550,30 @@ button.primary-white {
   display: flex;
   flex-direction: row;
 }
+
+#reloj-superior {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  color: #666;
+  font-family: monospace;
+  font-size: 16px;
+  text-align: right;
+  z-index: 9999;
+  min-width: 180px;
+}
+
+#hora-actual {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#fecha-actual {
+  font-size: 12px;
+}
+
+/* 🔻 Ocultar cuando el ancho sea menor a 700px */
+@media (max-width: 699px) {
+  #reloj-superior {
+    display: none;
+  }

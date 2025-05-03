@@ -15,21 +15,25 @@ require 'header.php';
 				<input type="hidden" id="id">
 
 				<!-- Grupo:  -->
-				<div class="formulario__grupo" id="">
-					<label for="" class="formulario__label">Lapso Académico <span class="obligatorio">*</span></label>
+				<div class="formulario__grupo">
+					<label class="formulario__label">Lapso Académico <span class="obligatorio">*</span></label>
 					<div class="formulario__grupo-input">
-						<input type="text" class="formulario__input" name="" id="" placeholder="Ingrese Lapso Académico">
-						<i class="formulario__validacion-estado fas fa-times-circle"></i>
-						<select id="turno" class="selector formulario__input" required>
-							<option value="" disabled selected>Seleccione una opción</option>
+						<!-- Select dinámico de años -->
+						<select id="lapso-academico" class="formulario__input" required>
+							<option value="" disabled selected>Seleccione el año</option>
+						</select>
+
+						<!-- Select existente de Turno -->
+						<select style="width: 8rem;" id="turno" class="selector formulario__input" required>
+							<option value="" disabled selected>Turno</option>
 							<option value="I">I</option>
 							<option value="II">II</option>
 						</select>
 					</div>
-					<p class="formulario__input-error">Validacion</p>
+					<p class="formulario__input-error">Validación</p>
 				</div>
 
-				<br> 
+				<br>
 
 				<!-- Grupo: Usuario -->
 				<div class="formulario__grupo" id="">
@@ -87,6 +91,69 @@ require 'header.php';
 
 <script src="js/jquery-3.7.0.min.js"></script>
 <script src="js/periodo.js"></script>
+<script>
+	function llenarLapsoAcademico() {
+		const select = document.getElementById("lapso-academico");
+		const añoActual = new Date().getFullYear();
+
+		for (let i = 0; i <= 5; i++) {
+			const año = añoActual + i;
+			const option = document.createElement("option");
+			option.value = año;
+			option.textContent = año;
+			select.appendChild(option);
+		}
+	}
+
+	// Ejecuta al cargar la página
+	document.addEventListener("DOMContentLoaded", llenarLapsoAcademico);
+	$(document).ready(function() {
+    // Función para obtener fecha actual en formato YYYY-MM-DD
+    const getCurrentDate = () => {
+        const d = new Date();
+        return new Date(d.getTime() - (d.getTimezoneOffset() * 60000)) // Compensar zona horaria
+               .toISOString()
+               .split('T')[0];
+    };
+
+    // Establecer fecha mínima inicial
+    const currentDate = getCurrentDate();
+    $('#periodo_inicio').attr('min', currentDate);
+
+    $('#periodo_inicio').on('change', function() {
+        const selectedDate = $(this).val();
+        const inputGroup = $(this).closest('.formulario__grupo');
+        const errorMessage = inputGroup.find('.formulario__input-error');
+        const errorIcon = inputGroup.find('.formulario__validacion-estado');
+
+        // Comparación directa de strings YYYY-MM-DD
+        if (selectedDate < currentDate) {
+            // Mostrar error
+            errorMessage.text('No se puede seleccionar una fecha anterior a la actual').show();
+            errorIcon.removeClass('fa-check-circle').addClass('fa-times-circle');
+            $(this).css('border-color', '#ff0000');
+            $(this).val(currentDate); // Resetear a fecha actual
+        } else {
+            // Ocultar error
+            errorMessage.hide();
+            errorIcon.removeClass('fa-times-circle').addClass('fa-check-circle');
+            $(this).css('border-color', '#008f39');
+        }
+
+        // Actualizar fecha fin
+        if (selectedDate >= currentDate) {
+            const startDate = new Date(selectedDate);
+            const endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 112); // 16 semanas exactas (16×7=112 días)
+            
+            const endDateString = endDate.toISOString().split('T')[0];
+            $('#periodo_fin').val(endDateString).attr('min', endDateString);
+        }
+    });
+});
+</script>
+
+
 <?php
 require 'footer.php';
 ?>

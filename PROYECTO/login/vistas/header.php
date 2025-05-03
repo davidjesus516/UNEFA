@@ -352,7 +352,9 @@ if (!isset($_SESSION['USER'])) {
 
                 <li>
                     <a href="manuales.php">
-                        <i class='bx'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-640v560h560v-560h-80v280l-100-60-100 60v-280H200Zm0 560v-560 560Z"/></svg></i>
+                        <i class='bx'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-640v560h560v-560h-80v280l-100-60-100 60v-280H200Zm0 560v-560 560Z" />
+                            </svg></i>
                         <span class="link_name">Manuales</span>
                     </a>
                     <ul class="sub-menu blank">
@@ -422,3 +424,8 @@ if (!isset($_SESSION['USER'])) {
         <section class="home-section">
             <div class="home-content">
                 <i class='bx bx-menu'></i>
+                
+                <div id="reloj-superior">
+                    <div id="hora-actual">--:--:-- --</div>
+                    <div id="fecha-actual">-- -- ----</div>
+                </div>
