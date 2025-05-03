@@ -6,10 +6,13 @@ require 'header.php';
 <div class="page-content">
 
     <div id="modal" class="modal">
-        <button class="primary" onclick="window.dialog.showModal();">Nuevo +</button>
+        <button class="primary" onclick="window.dialog.showModal();" aria-label="Abrir formulario para nueva carrera">
+            Nuevo +
+        </button>
 
-        <dialog id="dialog">
-            <h2>Registrar Carrera.</h2>
+        <dialog id="dialog" aria-labelledby="dialogTitle">
+            <h2 id="dialogTitle">Registrar Carrera</h2>
+
 
             <form action="" class="formulario" id="formulario">
                 <!-- Grupo: Usuario -->
@@ -43,27 +46,32 @@ require 'header.php';
                 </div>
             </form>
 
-            <!-- <p>You can also change the styles of the <code>::backdrop</code> from the CSS.</p> -->
-            <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+            <button onclick="window.dialog.close();"
+                class="x"
+                aria-label="Cerrar formulario">
+                ❌
+            </button>
         </dialog>
     </div>
+
+    <!-- Sección de la tabla -->
+    <div class="table-container">
+        <table class="w3-table-all w3-hoverable" aria-label="Listado de carreras">
+            <thead>
+                <tr class="w3-light-grey">
+                    <th scope="col">Código</th>
+                    <th scope="col">Carrera</th>
+                    <th scope="col" colspan="2">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="datos">
+                <!-- Filas dinámicas -->
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
-<br>
-<hr>
-<br>
-<table class="w3-table-all w3-hoverable">
-    <thead>
-        <tr class="w3-light-grey">
-            <th>Codigo</th>
-            <th>Carrera</th>
-            <th colspan="2">Acciones</th>
-        </tr>
-    </thead>
-    <tbody id="datos"></tbody>
-</table>
-
-</div>
 <script src="js/jquery-3.7.0.min.js"></script>
 <script src="js/carrera.js"></script>
 

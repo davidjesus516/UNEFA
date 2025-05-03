@@ -4,13 +4,13 @@ require 'header.php';
 <span class="text">Tutores</span>
 <div class="page-content">
 
-
-
     <div id="modal" class="modal">
-        <button class="primary" onclick="window.dialog.showModal();">Nuevo <span>+</span></button>
+        <button class="primary" onclick="window.dialog.showModal();" aria-label="Abrir formulario de nuevo tutor">
+            Nuevo <span>+</span>
+        </button>
 
-        <dialog id="dialog">
-            <h2>Registrar Tutor.</h2>
+        <dialog id="dialog" aria-labelledby="dialogTitle">
+            <h2 id="dialogTitle">Registrar Tutor</h2>
 
             <form action="#" class="formulario" id="formulario">
                 <!-- Grupo: Usuario -->
@@ -22,7 +22,7 @@ require 'header.php';
                         <option value="E">E-</option>
                         <option value="P">P-</option>
                     </select>
-                    <input type="text" maxlength="8" class="formulario__input" name="" id="cedula" placeholder="Ingrese la Cedula" required>
+                    <input type="text" maxlength="8" class="formulario__input" name="" id="cedula" placeholder="Ingrese la cédula" required>
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     <p class="formulario__input-error"></p>
                 </div>
@@ -31,7 +31,7 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__nombre">
                     <label for="" class="formulario__label">Primer Nombre <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre" required>
+                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese el nombre" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
@@ -41,7 +41,7 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__nombre">
                     <label for="" class="formulario__label">Segundo Nombre <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre" required>
+                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese el segundo nombre" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
@@ -50,7 +50,7 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__apellido">
                     <label for="" class="formulario__label">Primer Apellido <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="apellido" placeholder="Ingrese la Apellido" required>
+                        <input type="text" class="formulario__input" name="" id="apellido" placeholder="Ingrese el primer apellido" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
@@ -59,7 +59,7 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__apellido">
                     <label for="" class="formulario__label">Segundo Apellido <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="apellido" placeholder="Ingrese la Apellido" required>
+                        <input type="text" class="formulario__input" name="" id="apellido" placeholder="Ingrese el segundo apellido" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
@@ -143,34 +143,37 @@ require 'header.php';
 
             </form>
 
-            <!-- <p>You can also change the styles of the <code>::backdrop</code> from the CSS.</p> -->
-            <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+            <button onclick="window.dialog.close();"
+                class="x"
+                aria-label="Cerrar formulario de tutor">
+                ❌
+            </button>
         </dialog>
     </div>
+
+    <!-- Tabla de tutores -->
+    <div class="table-container">
+        <table class="w3-table-all w3-hoverable" aria-label="Listado de tutores">
+            <thead>
+                <tr class="w3-light-grey">
+                    <th scope="col">Cédula</th>
+                    <th scope="col">Nombres</th>
+                    <th scope="col">Apellidos</th>
+                    <th scope="col">Sexo</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Profesión</th>
+                    <th scope="col" colspan="2">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="datos"></tbody>
+        </table>
+    </div>
+
 </div>
 
-<br>
-<hr>
-<br>
-
-<table class="w3-table-all w3-hoverable">
-    <thead>
-        <tr class="w3-light-grey">
-            <th>Cédula</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Sexo</th>
-            <th>Teléfono</th>
-            <th>Correo</th>
-            <th>Profesion</th>
-            <th colspan="2">Accion</th>
-        </tr>
-    </thead>
-    <tbody id="datos"></tbody>
-</table>
-</div>
 <script src="js/estudiante/jquery-3.7.0.min.js"></script>
 <script src="js/estudiante/main.js"></script>
+
 <?php
 require 'footer.php';
-?>
