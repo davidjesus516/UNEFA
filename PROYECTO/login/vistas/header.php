@@ -307,7 +307,7 @@ if (!isset($_SESSION['USER'])) {
                         <li><a class="link_name" href="#">Practicas Profesionales</a></li>
                         <li><a href="preinscripcion.php">Pre Inscripcion</a></li>
                         <li><a href="inscripcion.php">Inscripcion</a></li>
-                        <li><a href="#">Seguimiento</a></li>
+                        <li><a href="seguimiento.php">Seguimiento</a></li>
                         <li><a href="#">Culminacion de Pasantia</a></li>
                     </ul>
                 </li>
