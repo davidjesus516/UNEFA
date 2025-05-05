@@ -22,7 +22,8 @@ require 'header.php';
                     <label for="" class="formulario__label">RIF <span class="obligatorio">*</span></label>
                     <select id="l_rif" class="formulario__input" name="tipo-cedula">
                         <option value="" disabled selected>Seleccione una opción</option>
-                        <option value="G" selected>G-</option>
+                        <option value="J">J-</option>
+                        <option value="G">G-</option>
                     </select>
                     <input type="text" class="formulario__input" name="" id="n_rif" placeholder="Ingrese el RIF">
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -44,12 +45,13 @@ require 'header.php';
                 <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Dirección Fiscal<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="direccion" placeholder="Ingrese la Dirección de la Empresa">
+                        <textarea class="formulario__input formulario__textarea" name="" id="direccion" placeholder="Ingrese la Dirección de la Empresa"></textarea>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
+                
                 <!--  -->
                 <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Contacto<span class="obligatorio">*</span></label>

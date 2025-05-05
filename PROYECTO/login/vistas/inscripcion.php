@@ -24,11 +24,7 @@ require 'header.php';
                 <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Estudiante<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <select class="formulario__input" id="">
-                            <option value="">seleccione una opcion</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                        </select>
+                        <input type="NULL" class="formulario__input" name="" id="Estudiante" placeholder="Estudiante" disabled>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Validacion</p>

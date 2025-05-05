@@ -33,7 +33,7 @@ require 'header.php';
                     <label class="formulario__label">INICIO <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <input type="date" class="formulario__input" id="periodo_inicio" required
-                               aria-describedby="inicio-error">
+                            aria-describedby="inicio-error">
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error" id="inicio-error">Seleccione una fecha válida</p>
@@ -43,7 +43,7 @@ require 'header.php';
                     <label class="formulario__label">FIN <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <input type="date" class="formulario__input" id="periodo_fin" required
-                               aria-describedby="fin-error">
+                            aria-describedby="fin-error">
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error" id="fin-error">Seleccione una fecha válida</p>
@@ -93,7 +93,7 @@ require 'header.php';
             const initYearSelect = () => {
                 const select = document.getElementById('lapso-academico');
                 const currentYear = new Date().getFullYear();
-                
+
                 for (let i = 0; i <= 5; i++) {
                     const option = document.createElement('option');
                     option.value = currentYear + i;
@@ -106,12 +106,12 @@ require 'header.php';
             const setupDateValidation = () => {
                 const currentDate = getCurrentDate();
                 const $startDate = $('#periodo_inicio');
-                
+
                 $startDate.attr('min', currentDate).on('change', function() {
                     const selectedDate = $(this).val();
                     const $errorMsg = $(this).nextAll('.formulario__input-error');
                     const $icon = $(this).siblings('.formulario__validacion-estado');
-                    
+
                     if (selectedDate < currentDate) {
                         $errorMsg.show().text('No se permiten fechas anteriores');
                         $icon.removeClass('fa-check-circle').addClass('fa-times-circle');
@@ -138,5 +138,5 @@ require 'header.php';
         })();
     </script>
 
-<?php
-require 'footer.php';
+    <?php
+    require 'footer.php';
