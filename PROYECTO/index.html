@@ -2,222 +2,104 @@
 <html lang="es">
 
 <head>
-   <meta charset="UTF-8" />
-
-   <title>Sistema de Pasantias - UNEFA Excelencia Educativa, Abierta al Pueblo</title>
-
-   <link rel="shortcut icon" href="assets/img/1.jpg/logo/favicon.png" type="image/x-icon" />
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
-   <link rel="stylesheet" href="css/style.css" />
-   <link rel="icon" href="img/logo_unefa.ico" />
-   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
-
-   <!DOCTYPE html>
-   <html lang="es">
-
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Sistema de Prácticas UNEFA</title>
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <link rel="stylesheet" href="css/style.css">
    <style>
-      html {
-         scroll-behavior: smooth;
-      }
+
    </style>
+</head>
 
 <body>
-
-   <header class="header">
-      <nav class="nav container">
-         <div class="nav__data">
-            <a href="#" class="nav__logo">
-               <!-- <i><img src="img/logo_unefa.ico" alt="logo_unefa" width="70px"></i>  -->Logo
-            </a>
-
-            <div class="nav__toggle" id="nav-toggle">
-               <i class="ri-menu-line nav__burger"></i>
-               <i class="ri-close-line nav__close"></i>
-            </div>
-         </div>
-
-         <!--=============== NAV MENU ===============-->
-         <div class="nav__menu" id="nav-menu">
-            <ul class="nav__list">
-               <li><a href="#home" class="nav__link">Inicio</a></li>
-
-               <li class="dropdown__item">
-                  <div class="nav__link">
-                     Información Pasantias <i class="ri-arrow-down-s-line dropdown__arrow"></i>
-                  </div>
-
-                  <ul class="dropdown__menu">
-                     <li>
-                        <a href="#censo" class="dropdown__link">
-                           <i class="ri-profile-line"></i> Censo
-                        </a>
-                     </li>
-
-                     <li>
-                        <a href="#pre-inscripcion" class="dropdown__link">
-                           <i class="pass-pending-line"><i class="ri-pass-pending-line"></i></i> Pre Inscripción
-                        </a>
-                     </li>
-                     <li>
-                        <a href="#inscripcion" class="dropdown__link">
-                           <i class=""><i class="ri-user-smile-fill"></i></i> inscripción
-                        </a>
-                     </li>
-
-                     <!--=============== DROPDOWN SUBMENU ===============-->
-
-                  </ul>
-               </li>
-
-               <!--=============== DROPDOWN 1 ===============-->
-               <li class="dropdown__item">
-                  <div class="nav__link">
-                     Documentos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
-                  </div>
-
-                  <ul class="dropdown__menu">
-                     <!-- <li>
-                      <a href="#" class="dropdown__link">
-                         <i class="ri-pie-chart-line"></i> Overview
-                      </a>                          
-                   </li>
-
-                   <li>
-                      <a href="#" class="dropdown__link">
-                         <i class="ri-arrow-up-down-line"></i> Transactions
-                      </a>
-                   </li> -->
-
-                     <!--=============== DROPDOWN SUBMENU ===============-->
-                     <li class="dropdown__subitem">
-                        <div class="dropdown__link">
-                           <i class=""><i class="ri-file-download-fill"></i></i> Descargar PDFs <i
-                              class="ri-add-line dropdown__add"></i>
-                        </div>
-
-                        <ul class="dropdown__submenu">
-                           <li>
-                              <a href="docs/SOLICITUD DE CARTA DE POSTULACION PP.doc"
-                                 download="SOLICITUD DE CARTA DE POSTULACION PP.doc" class="dropdown__sublink">
-                                 <i class="ri-file-list-line"></i> Proyección
-                              </a>
-                           </li>
-
-                           <li>
-                              <a href="#" class="dropdown__sublink">
-                                 <i class=""><i class="ri-user-2-fill"></i></i> Profesores
-                              </a>
-                           </li>
-
-                           <li>
-                              <a href="#" class="dropdown__sublink">
-                                 <i class=""><i class="ri-team-fill"></i></i> Estudiantes
-                              </a>
-                           </li>
-                        </ul>
-                     </li>
-                  </ul>
-               </li>
-
-               <!-- <li><a href="#" class="nav__link">Products</a></li> -->
-
-               <!--=============== DROPDOWN 2 ===============-->
-               <li class="dropdown__item">
-                  <div class="nav__link">
-                     Users <i class="ri-arrow-down-s-line dropdown__arrow"></i>
-                  </div>
-
-                  <ul class="dropdown__menu">
-                     <li>
-                        <a href="#" class="dropdown__link">
-                           <i class="ri-user-line"></i> Perfiles
-                        </a>
-                     </li>
-
-                     <li>
-                        <a href="login/" class="dropdown__link">
-                           <i class="ri-lock-line"></i> Login
-                        </a>
-                     </li>
-
-                     <li>
-                        <a href="#" class="dropdown__link">
-                           <i class="ri-message-3-line"></i> Notificaciones
-                        </a>
-                     </li>
-                  </ul>
-               </li>
-
-               <li><a href="#" class="nav__link">Contactos</a></li>
-            </ul>
-         </div>
-      </nav>
+   <header>
+      <img src="img/encabezado.png" alt="UNEFA BANNER" class="encazabezado">
    </header>
 
-   <section class="home" id="home">
-
-      <h1>Gestión de Pasantias</h1>
-      <!-- <br>
-   <div class="linea"></div> -->
-
-   </section>
-
-   <section class="seccion_proceso_pasantias" id="censo">
-
-      <div class="parent">
-         <div class="div1">
-            <h3>Proceso de Censo:</h3>
-            <br>
-            <p class="parrafo">El proceso de pasantías en los campos de enfermería e ingeniería se inicia con una fase
-               de recopilación de datos a través del Censo. En esta etapa, se realiza un levantamiento exhaustivo de
-               todos los estudiantes que cumplen con los requisitos académicos y están interesados en realizar sus
-               pasantías. El censo permite obtener una visión general de la demanda y las características del grupo de
-               estudiantes postulantes.</p>
-         </div>
-         <div class="div2">
-            <div class="img-1"></div>
-         </div>
-      </div>
-
-   </section>
-   <section class="seccion_proceso_pasantias-2" id="pre-inscripcion">
-
-      <div class="parent-2">
-         <div class="div1">
-            <h3 style="text-align: center;">Proceso de Pre Inscripción:</h3>
-            <br>
-            <p class="parrafo-centrado">Una vez concluido el censo, se procede a la Preinscripción. Durante esta fase,
-               los
-               estudiantes interesados presentan su documentación requerida, como historial académico, carta de
-               motivación y disponibilidad horaria. La preinscripción sirve para verificar que los postulantes cumplan
-               con los criterios básicos establecidos y para organizar la información de manera eficiente.</p>
+   <nav>
+      <div class="nav-container">
+         <img src="img/logo_unefa.ico" alt="UNEFA Logo" class="logo">
+         <div class="nav-group">
+            <div class="nav-item">
+               <a><span class="material-icons">work</span> Prácticas Profesionales <span
+                     class="material-icons">expand_more</span></a>
+               <div class="submenu">
+                  <a href="#">Proceso</a>
+                  <a href="#">Empresas</a>
+               </div>
+            </div>
+            <div class="nav-item">
+               <a><span class="material-icons">menu_book</span> Instructivos <span
+                     class="material-icons">expand_more</span></a>
+               <div class="submenu">
+                  <a href="#">PDF</a>
+                  <a href="#">Videos</a>
+               </div>
+            </div>
+            <div class="nav-item">
+               <a><span class="material-icons">assignment</span> Requerimientos <span
+                     class="material-icons">expand_more</span></a>
+               <div class="submenu">
+                  <a href="#">Académicos</a>
+                  <a href="#">Administrativos</a>
+               </div>
+            </div>
+            <div class="nav-item">
+               <a href="login/"><span class="material-icons">login</span> Iniciar Sesión</a>
+            </div>
          </div>
       </div>
+   </nav>
 
-   </section>
-   <section class="seccion_proceso_pasantias-3" id="inscripcion">
+   <div class="banner-principal">
+      SISTEMA DE GESTIÓN DE PRÁCTICAS PROFESIONALES UNEFA
+   </div>
 
-      <div class="parent">
-         <div class="div2">
-            <div class="img-2"></div>
-         </div>
-         <div class="div1">
-            <h3>Proceso de Inscripción:</h3>
-            <br>
-            <p class="parrafo">Posteriormente, se lleva a cabo la Inscripción. En esta etapa, se formaliza la
-               participación de los estudiantes en el programa de pasantías. Se asigna un número de identificación único
-               a cada postulante y se les comunica las fechas y lugares de inicio de las pasantías. Asimismo, se
-               establecen los mecanismos de comunicación entre los estudiantes, los tutores académicos y los
-               supervisores en las empresas o instituciones donde se realizarán las prácticas.</p>
-         </div>
+   <div class="proceso-img">
+      <img src="img/proceso_pasantias.png" alt="Proceso-img" class="zoomable">
+      <div class="redes-sociales">
+         <img src="https://img.icons8.com/color/48/youtube-play.png" alt="YouTube">
+         <img src="https://img.icons8.com/color/48/instagram-new.png" alt="Instagram">
+         <img src="https://img.icons8.com/color/48/twitter--v1.png" alt="Twitter">
+         <img src="https://img.icons8.com/color/48/facebook-new.png" alt="Facebook">
       </div>
+   </div>
 
-   </section>
+   <div class="informacion">
+      Las prácticas profesionales persiguen optimizar las diferentes actividades que se llevan a cabo en cada una de las
+      áreas de trabajo de las distintas organizaciones, establecer espacios de participación a los (las) estudiantes
+      para que desarrollen competencias y habilidades, a fin de complementar su ciclo de formación académica, además de
+      su desarrollo individual y social.
+   </div>
+
+   <div class="requisitos">
+      <h2>REQUISITOS</h2>
+      <div class="imagenes-requisitos">
+         <img src="img/CHECKLIST 1.jpg" alt="Checklist 1" class="zoomable">
+         <img src="img/CHECKLIST 2.jpg" alt="Checklist 2" class="zoomable">
+      </div>
+   </div>
+
    <footer>
-
+      Universidad Nacional Experimental Politécnica de la Fuerza Armada Nacional Bolivariana | RIF G-20006297-5
    </footer>
 
-   <script src="assets/js/main.js"></script>
+   <script>
+      document.querySelectorAll('.zoomable').forEach(img => {
+         img.addEventListener('click', () => {
+            const overlay = document.createElement('div');
+            overlay.className = 'zoom-overlay';
+            const zoomImg = document.createElement('img');
+            zoomImg.src = img.src;
+            overlay.appendChild(zoomImg);
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', () => {
+               overlay.remove();
+            });
+         });
+      });
+   </script>
 </body>
 
 </html>
