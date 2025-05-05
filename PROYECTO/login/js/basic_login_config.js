@@ -206,7 +206,7 @@ $(document).ready(function () {//aqui inicializamos javascript
         const question3 = $('#question3').val();
         const answer3 = $('#answer3').val();
         const correo = $('#correo').val();
-        const tlf = $('#tlf').val();
+        const tlf = $('#number_tel').val();
         if (errores) { // Se comprueba si hay errores
             return false; // Cancela el envío del formulario
         }
