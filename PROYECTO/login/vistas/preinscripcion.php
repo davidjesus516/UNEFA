@@ -10,8 +10,17 @@ require 'header.php';
         <dialog id="dialog">
             <h2>Pre Inscripcion.</h2>
             <form action="#" class="formulario" id="formulario">
+
                 <!-- Grupo: Usuario -->
                 <input type="hidden" id="id">
+                <div class="formulario__grupo" id="grupo__periodo">
+                    <label for="" class="formulario__label">Periodo<span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <input type="num" maxlength="8" class="formulario__input" name="" id="periodo" placeholder="Periodo" required>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error"></p>
+                </div>
                 <div class="formulario__grupo" id="grupo__cedula">
                     <label for="" class="formulario__label">CI Estudiante <span class="obligatorio">*</span></label>
 
@@ -33,16 +42,6 @@ require 'header.php';
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
-                <!-- Lapso  -->
-                <div class="formulario__grupo" id="">
-                    <label for="" class="formulario__label">Matricula <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese Matricula">
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
-                    <p class="formulario__input-error">Validacion</p>
-                </div>
-
                 <!--  -->
                 <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Tipo de Practica<span class="obligatorio">*</span></label>
@@ -53,6 +52,16 @@ require 'header.php';
                             <option value="Comunitaria">Comunitaria</option>
                             <option value="Otro">Otro</option>
                         </select>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">Validacion</p>
+                </div>
+                
+                <!-- Lapso  -->
+                <div class="formulario__grupo" id="">
+                    <label for="" class="formulario__label">Matricula <span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <input type="text" class="formulario__input" name="" id="" placeholder="Ingrese Matricula">
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Validacion</p>
