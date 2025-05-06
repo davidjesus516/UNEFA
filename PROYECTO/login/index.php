@@ -31,6 +31,7 @@ if (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 1) {
     <div class="container">
       <div class="main">
         <div class="content">
+          <img src="PDF/img/logo_unefa.png" alt="" class="logo">
           <h2>Iniciar Sesión</h2>
           <form id="task-form" method="post">
             <input type="text" id="username-input" name="username" placeholder="Nombre de Usuario" required autofocus="">

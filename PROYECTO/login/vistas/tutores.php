@@ -15,16 +15,34 @@ require 'header.php';
             <form action="#" class="formulario" id="formulario">
                 <!-- Grupo: Usuario -->
                 <input type="hidden" id="id">
+
+                <!-- Grupo: Cédula -->
                 <div class="formulario__grupo" id="grupo__cedula">
-                    <label for="" class="formulario__label">Cedula <span class="obligatorio">*</span></label>
-                    <select id="nacionalidad" class="formulario__input" name="tipo-cedula">
-                        <option value="V">V-</option>
-                        <option value="E">E-</option>
-                        <option value="P">P-</option>
-                    </select>
-                    <input type="text" maxlength="8" class="formulario__input" name="" id="cedula" placeholder="Ingrese la cédula" required>
-                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    <p class="formulario__input-error"></p>
+                    <label for="cedula" class="formulario__label">Cédula <span class="obligatorio">*</span></label>
+
+                    <div class="formulario__grupo-input formulario__grupo-cedula">
+                        <div class="formulario__codigo-pais">
+                            <select class="formulario__input formulario__codigo-select" id="nacionalidad" name="nacionalidad" required>
+                                <!-- <option value="" disabled selected>Nac.</option> -->
+                                <option value="V">V-</option>
+                                <option value="E">E-</option>
+                                <option value="P">P-</option>
+                            </select>
+                        </div>
+
+                        <input type="text"
+                            class="formulario__input formulario__cedula-input"
+                            name="cedula"
+                            id="cedula"
+                            placeholder="Ej: 12345678"
+                            pattern="[VEP]-\d{1,8}"
+                            maxlength="9"
+                            required>
+
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+
+                    <p class="formulario__input-error">Formato válido: X-12345678</p>
                 </div>
 
                 <!-- Grupo:  -->
@@ -76,13 +94,26 @@ require 'header.php';
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
+                <!-- Contacto -->
                 <div class="formulario__grupo" id="grupo__telefono">
                     <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="telefono" id="tlf" placeholder="Ingrese su numero telefonico">
+
+                    <div class="formulario__grupo-input formulario__grupo-telefono">
+                        <div class="formulario__codigo-pais">
+                            <select class="formulario__input formulario__codigo-select">
+                                <option value="" selected>0412</option>
+                                <option value="">0414</option>
+                                <option value="">0416</option>
+                                <option value="">0426</option>
+                                <option value="">0255</option>
+                            </select>
+                        </div>
+
+                        <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(555) 000-000" pattern="\(\d{3}\) \d{3}-\d{4}" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
-                    <p class="formulario__input-error">El telefono solo puede contener numeros y el maximo son 14 dígitos.</p>
+
+                    <p class="formulario__input-error">Formato requerido: (XXX) XXX-XXXX</p>
                 </div>
 
                 <div class="formulario__grupo" id="grupo__correo">

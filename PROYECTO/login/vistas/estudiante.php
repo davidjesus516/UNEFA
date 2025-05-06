@@ -14,20 +14,31 @@ require 'header.php';
 
                 <!-- Grupo: Cédula -->
                 <div class="formulario__grupo" id="grupo__cedula">
-                    <label for="cedula_completa" class="formulario__label">Cédula <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <select id="nacionalidad" class="formulario__input" name="nacionalidad">
-                            <option value="" disabled selected>Seleccione una opción</option>
-                            <option value="V">V-</option>
-                            <option value="E">E-</option>
-                            <option value="P">P-</option>
-                        </select>
-                        <input type="text" maxlength="8" class="formulario__input"
-                            name="cedula" id="cedula"
-                            placeholder="Número de cédula" required>
+                    <label for="cedula" class="formulario__label">Cédula <span class="obligatorio">*</span></label>
+
+                    <div class="formulario__grupo-input formulario__grupo-cedula">
+                        <div class="formulario__codigo-pais">
+                            <select class="formulario__input formulario__codigo-select" id="nacionalidad" name="nacionalidad" required>
+                                <!-- <option value="" disabled selected>Nac.</option> -->
+                                <option value="V">V-</option>
+                                <option value="E">E-</option>
+                                <option value="P">P-</option>
+                            </select>
+                        </div>
+
+                        <input type="text"
+                            class="formulario__input formulario__cedula-input"
+                            name="cedula"
+                            id="cedula"
+                            placeholder="Ej: 12345678"
+                            pattern="[VEP]-\d{1,8}"
+                            maxlength="9"
+                            required>
+
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
-                    <p class="formulario__input-error"></p>
+
+                    <p class="formulario__input-error">Formato válido: X-12345678</p>
                 </div>
 
                 <!-- Nombres -->
@@ -101,16 +112,25 @@ require 'header.php';
                 <!-- Contacto -->
                 <div class="formulario__grupo" id="grupo__telefono">
                     <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="tel" class="formulario__input"
-                            name="telefono" id="telefono"
-                            placeholder="Ej: 04121234567"
-                            pattern="[0-9]{11}"
-                            maxlength="11" required>
+
+                    <div class="formulario__grupo-input formulario__grupo-telefono">
+                        <div class="formulario__codigo-pais">
+                            <select class="formulario__input formulario__codigo-select">
+                                <option value="" selected>0412</option>
+                                <option value="">0414</option>
+                                <option value="">0416</option>
+                                <option value="">0426</option>
+                                <option value="">0255</option>
+                            </select>
+                        </div>
+
+                        <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(555) 00-00" pattern="\(\d{3}\) \d{3}-\d{4}" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
-                    <p class="formulario__input-error">Debe contener 11 dígitos numéricos</p>
+
+                    <p class="formulario__input-error">Formato requerido: (XXX) XXX-XXXX</p>
                 </div>
+
 
                 <div class="formulario__grupo" id="grupo__correo">
                     <label for="correo" class="formulario__label">Correo <span class="obligatorio">*</span></label>
@@ -176,6 +196,30 @@ require 'header.php';
 
 <script src="js/jquery-3.7.0.min.js"></script>
 <script src="js/estudiante.js"></script>
+<script>
+    document.getElementById('telefono').addEventListener('input', function(e) {
+        const numbers = e.target.value.replace(/\D/g, '');
+        const match = numbers.match(/^(\d{0,3})(\d{0,2})(\d{0,2})$/);
+
+        e.target.value = !match[2] ? match[1] :
+            `(${match[1]}) ${match[2]}${match[3] ? `-${match[3]}` : ''}`;
+    });
+
+    // Validación en tiempo real
+    document.getElementById('telefono').addEventListener('blur', function(e) {
+        const pattern = /^\\d{3}\ \d-{2}-\d{3}$/;
+        const grupo = document.getElementById('grupo__telefono');
+
+        if (!pattern.test(e.target.value)) {
+            grupo.classList.add('invalido');
+            grupo.classList.remove('valido');
+        } else {
+            grupo.classList.remove('invalido');
+            grupo.classList.add('valido');
+        }
+    });
+
+</script>
 
 <?php
 require 'footer.php';

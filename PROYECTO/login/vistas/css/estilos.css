@@ -81,6 +81,11 @@ span.obligatorio {
   width: 100%;
 }
 
+.logo {
+  height: 5rem;
+  margin: auto;
+}
+
 .form-img {
   flex-basis: 85%;
   background-image: url(../../../img/fondo-claro.jpg);
@@ -708,7 +713,7 @@ p.account a:hover {
 /* FORMULARIO */
 .formulario {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -727,11 +732,12 @@ p.account a:hover {
 }
 
 .formulario__input {
-  width: auto;
+  width: -webkit-fill-available;
   background: #fff;
-  border: 3px solid transparent;
-  border-radius: 3px;
-  height: 45px;
+  border: 1px solid;
+  border-color: #c1c1c1;
+  border-radius: 5px;
+  height: 3rem;
   line-height: 45px;
   padding: 0 8px 0 8px;
   transition: 0.3s ease all;
@@ -740,7 +746,7 @@ p.account a:hover {
 .formulario__input:focus {
   border-color: #0075FF;
   outline: none;
-  box-shadow: 3px 0 30px rgba(163, 163, 163, 0.4);
+  /* box-shadow: 3px 0 30px rgba(163, 163, 163, 0.4); */
 }
 
 .formulario__textarea {
@@ -779,7 +785,7 @@ p.account a:hover {
 .formulario__grupo-terminos,
 .formulario__mensaje,
 .formulario__grupo-btn-enviar {
-  grid-column: span 2;
+  grid-column: span 3;
 }
 
 .formulario__mensaje {
@@ -866,6 +872,45 @@ p.account a:hover {
   .formulario__btn {
     width: 100%;
   }
+}
+
+/* Contenedor principal */
+.formulario__grupo-cedula {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Selector de nacionalidad */
+.formulario__codigo-pais {
+  position: absolute;
+  left: 12px;
+  z-index: 2;
+  border-right: 1px solid #e5e7eb;
+  padding-right: 8px;
+  height: 70%;
+  display: flex;
+  align-items: center;
+}
+
+.formulario__codigo-select {
+  border: none !important;
+  box-shadow: none !important;
+  /* padding: 0 24px 0 0 !important; */
+  background: transparent;
+  /* appearance: none; */
+}
+
+/* Input de cédula */
+.formulario__cedula-input {
+  padding-left: 6rem !important;
+  width: 100%;
+}
+
+/* Validación */
+.formulario__validacion-estado {
+  right: 12px;
+  left: auto;
 }
 
 /* Table */
@@ -1719,4 +1764,176 @@ button.primary-white {
   background-color: #f44336;
   color: white;
 }
+/* Basic reset and styling */
 
+/* Tooltip container */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  margin: 15px 0;
+  bottom: -1rem;
+}
+
+/* Icon styling */
+.icon {
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
+}
+
+/* SVG Animation: Rotate and scale effect */
+.icon svg {
+  transition: transform 0.5s ease-in-out;
+}
+
+.icon:hover svg {
+  transform: rotate(360deg) scale(1.2);
+}
+
+/* Tooltip styling */
+.tooltip {
+  visibility: hidden;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 10px;
+  position: absolute;
+  bottom: 125%; /* Position above the icon */
+  left: 50%;
+  margin-left: -100px; /* Center the tooltip */
+  opacity: 0;
+  transition:
+    opacity 0.5s,
+    transform 0.5s;
+  transform: translateY(10px);
+}
+
+/* Tooltip Arrow */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.tooltip-container:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+.tooltip-container:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  animation: bounce 0.6s ease;
+}
+
+
+
+/* Contenedor principal */
+.formulario__grupo-telefono {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* max-width: 350px; */
+}
+
+/* Selector de código de país */
+.formulario__codigo-pais {
+  position: absolute;
+  left: 12px;
+  z-index: 2;
+  border-right: 1px solid #e5e7eb;
+  padding-right: 8px;
+  height: 70%;
+  display: flex;
+  align-items: center;
+}
+
+.formulario__codigo-select {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent;
+}
+
+/* Input principal */
+.formulario__telefono-input {
+  padding-left: 6rem !important;
+  width: 100%;
+}
+
+/* Validación */
+.formulario__validacion-estado {
+  right: 12px;
+  left: auto;
+}
+
+/* Contenedor principal */
+.formulario__grupo-combinado {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+/* Elementos combinados */
+.formulario__input-combinado {
+  position: relative;
+  flex: 1;
+}
+
+/* Selects personalizados */
+.formulario__input-combinado select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Flecha dropdown */
+.formulario__input-combinado::after {
+  content: "▼";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #666;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Validación */
+.formulario__validacion-estado {
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}

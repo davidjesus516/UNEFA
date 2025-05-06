@@ -10,24 +10,36 @@ require 'header.php';
         <dialog id="dialog" aria-labelledby="dialog-title">
             <h2 id="dialog-title">Registrar Periodo</h2>
 
-            <form class="formulario" id="formulario">
+            <form class="formulario" id="formulario" style="grid-auto-columns: auto;">
                 <input type="hidden" id="id">
 
-                <div class="formulario__grupo">
+                <div class="formulario__grupo" id="grupo__lapso">
                     <label class="formulario__label">Lapso Académico <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input form-row">
-                        <select id="lapso-academico" class="formulario__input" required aria-label="Seleccionar año">
-                            <option value="" disabled selected>Seleccione el año</option>
-                        </select>
 
-                        <select id="turno" class="formulario__input turno-select" required aria-label="Seleccionar turno">
-                            <option value="" disabled selected>Turno</option>
-                            <option value="I">I</option>
-                            <option value="II">II</option>
-                        </select>
+                    <div class="formulario__grupo-input formulario__grupo-combinado" style="gap: 0;">
+                        <div class="formulario__input-combinado">
+                            <select id="lapso-academico" class="formulario__input" required
+                                style="border-radius: 4px 0 0 4px;">
+                                <option value="" disabled selected>Año</option>
+                                <!-- Opciones dinámicas -->
+                            </select>
+                        </div>
+
+                        <div class="formulario__input-combinado">
+                            <select id="turno" class="formulario__input" required
+                                style="border-left: none; border-radius: 0 4px 4px 0;">
+                                <option value="" disabled selected>Turno</option>
+                                <option value="I">I</option>
+                                <option value="II">II</option>
+                            </select>
+                        </div>
+
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
-                    <p class="formulario__input-error">Seleccione un año y turno válidos</p>
+
+                    <p class="formulario__input-error">Seleccione año y turno válidos</p>
                 </div>
+
 
                 <div class="formulario__grupo">
                     <label class="formulario__label">INICIO <span class="obligatorio">*</span></label>
