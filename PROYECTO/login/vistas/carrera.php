@@ -36,6 +36,20 @@ require 'header.php';
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
+                <!-- Grupo:  -->
+                <div class="formulario__grupo" id="grupo__">
+                    <label for="" class="formulario__label">Nota Minima<span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <input type="number" class="formulario__input" name="" id="nota" placeholder="Nota minima aprobatoria" min=0 max = 20 step= any required>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">Validacion</p>
+                </div>
+
+                <div class="formulario_grupo" id="grupo__checkbox">
+                    
+                </div>
+
                 <div class="formulario__mensaje" id="formulario__mensaje">
                     <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente. </p>
                 </div>

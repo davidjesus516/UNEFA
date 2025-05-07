@@ -4,6 +4,19 @@ $(document).ready(function () {
   let errores = false; // Variable para comprobar si hay errores
   fetchTask();
   $("task-result").hide();
+  $.ajax({
+    url: "../controllers/carrera/InternshipTypeList.php",
+    type: "GET",
+    success: function (response) {
+      let task = JSON.parse(response);
+      let template = `<label for="" class="formulario__label">Tipo pasantia<span class="obligatorio">*</span></label>`; //creo la plantilla donde imprimire los datos
+      task.forEach((task) => {
+        //hago un array que me recorra el json y me lo imprima en el tbody
+        template += `<label class="checkbox">
+        <input type="checkbox" name="my_opt[]" value=${task.INTERNSHIP_TYPE_ID} priority = ${task.PRIORITY} >${task.NAME}</label>`;
+      })
+      $("#grupo__checkbox").html(template); //los imprimo en el html
+    }}); 
   $("#search").keyup(function (e) {
     let search = $("#search").val();
     if (/^\d{1,8}$/.test(search)) {
@@ -36,6 +49,7 @@ $(document).ready(function () {
     const Id_Carrera = $("#id").val();
     const Codigo = $("#codigo").val();
     const Nombre_Carrera = $("#nombre").val();
+    const MINIMUM_GRADE = $("#nota").val();
     if (!validarFormulario()) {
       // Se comprueba si hay errores
       e.preventDefault(); // C    ancela el envío del formulario si hay errores
@@ -49,6 +63,7 @@ $(document).ready(function () {
                 Id_Carrera: Id_Carrera,
                 Codigo: Codigo,
                 Nombre_Carrera: Nombre_Carrera,
+                MINIMUM_GRADE: MINIMUM_GRADE
             };
             if (errores) {
                 // Se comprueba si hay errores
@@ -144,6 +159,7 @@ $(document).ready(function () {
         $("#id").val(task.CAREER_ID).prop("readonly", true); //añado los elementos al formulario y lo hago de solo lectura
         $("#codigo").val(task.CAREER_CODE); //añado los elementos al formulario y lo hago de solo lectura
         $("#nombre").val(task.CAREER_NAME);
+        $("#nota").val(task.MINIMUM_GRADE);
         edit = true; //valido la variable que esta por encima de todo para que en vez de guardar un nuevo usuario lo edite
       }
     );
