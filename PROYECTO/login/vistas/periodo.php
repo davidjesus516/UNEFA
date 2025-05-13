@@ -28,13 +28,13 @@ require 'header.php';
                         <div class="formulario__input-combinado">
                             <select id="turno" class="formulario__input" required
                                 style="border-left: none; border-radius: 0 4px 4px 0;">
-                                <option value="" disabled selected>Turno</option>
+                                <option value="" disabled selected>Seleccionar opción</option>
                                 <option value="I">I</option>
                                 <option value="II">II</option>
                             </select>
                         </div>
 
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                        <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
                     </div>
 
                     <p class="formulario__input-error">Seleccione año y turno válidos</p>
@@ -46,7 +46,7 @@ require 'header.php';
                     <div class="formulario__grupo-input">
                         <input type="date" class="formulario__input" id="periodo_inicio" required
                             aria-describedby="inicio-error">
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                        <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
                     </div>
                     <p class="formulario__input-error" id="inicio-error">Seleccione una fecha válida</p>
                 </div>
@@ -56,7 +56,7 @@ require 'header.php';
                     <div class="formulario__grupo-input">
                         <input type="date" class="formulario__input" id="periodo_fin" required
                             aria-describedby="fin-error">
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                        <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
                     </div>
                     <p class="formulario__input-error" id="fin-error">Seleccione una fecha válida</p>
                 </div>

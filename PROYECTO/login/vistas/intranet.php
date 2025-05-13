@@ -98,7 +98,7 @@ require 'header.php';
 </style>
 <span class="text">Inicio</span>
 
-<div class="cards">
+<!-- <div class="cards">
   <div class="card playing">
     <div class="image"></div>
 
@@ -130,8 +130,8 @@ require 'header.php';
       <h5>N estudiantes</h5>
     </div>
   </div>
-</div>
-
+</div> -->
+<br>
 <div class="contenedor-botones">
   <button class="primary" onclick="window.dialog.showModal();">Listado Practicas Profesionales</button>
   <div class="botones-adicionales">

@@ -35,7 +35,7 @@ require 'header.php';
                             maxlength="9"
                             required>
 
-z                    </div>
+                    </div>
 
                     <p class="formulario__input-error">Formato válido: X-12345678</p>
                 </div>
@@ -47,7 +47,7 @@ z                    </div>
                         <input type="text" class="formulario__input"
                             name="primer_nombre" id="primer_nombre"
                             placeholder="Ingrese el primer nombre" required>
-z                    </div>
+                    </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
@@ -57,7 +57,7 @@ z                    </div>
                         <input type="text" class="formulario__input"
                             name="segundo_nombre" id="segundo_nombre"
                             placeholder="Ingrese el segundo nombre">
-z                    </div>
+                    </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
@@ -68,7 +68,7 @@ z                    </div>
                         <input type="text" class="formulario__input"
                             name="primer_apellido" id="primer_apellido"
                             placeholder="Ingrese el primer apellido" required>
-z                    </div>
+                    </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
@@ -78,7 +78,7 @@ z                    </div>
                         <input type="text" class="formulario__input"
                             name="segundo_apellido" id="segundo_apellido"
                             placeholder="Ingrese el segundo apellido">
-z                    </div>
+                    </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
@@ -99,7 +99,7 @@ z                    </div>
                     <div class="formulario__grupo-input">
                         <input type="date" class="formulario__input" id="birthdate" required
                             aria-describedby="inicio-error">
-z                    </div>
+                    </div>
                     <p class="formulario__input-error" id="inicio-error">Seleccione una fecha válida</p>
                 </div>
 
@@ -130,7 +130,7 @@ z                    </div>
                         </div>
 
                         <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(555) 00-00" pattern="\(\d{3}\) \d{3}-\d{4}" required>
-z                    </div>
+                    </div>
 
                     <p class="formulario__input-error">Formato requerido: (XXX) XXX-XXXX</p>
                 </div>
@@ -142,7 +142,7 @@ z                    </div>
                         <input type="email" class="formulario__input"
                             name="correo" id="correo"
                             placeholder="ejemplo@correo.com" required>
-z                    </div>
+                    </div>
                     <p class="formulario__input-error">El correo debe tener un formato válido</p>
                 </div>
 
