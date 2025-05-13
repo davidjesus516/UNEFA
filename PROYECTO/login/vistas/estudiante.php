@@ -35,8 +35,7 @@ require 'header.php';
                             maxlength="9"
                             required>
 
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
+z                    </div>
 
                     <p class="formulario__input-error">Formato válido: X-12345678</p>
                 </div>
@@ -48,8 +47,7 @@ require 'header.php';
                         <input type="text" class="formulario__input"
                             name="primer_nombre" id="primer_nombre"
                             placeholder="Ingrese el primer nombre" required>
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
+z                    </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
@@ -59,8 +57,7 @@ require 'header.php';
                         <input type="text" class="formulario__input"
                             name="segundo_nombre" id="segundo_nombre"
                             placeholder="Ingrese el segundo nombre">
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
+z                    </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
@@ -71,8 +68,7 @@ require 'header.php';
                         <input type="text" class="formulario__input"
                             name="primer_apellido" id="primer_apellido"
                             placeholder="Ingrese el primer apellido" required>
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
+z                    </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
@@ -82,8 +78,7 @@ require 'header.php';
                         <input type="text" class="formulario__input"
                             name="segundo_apellido" id="segundo_apellido"
                             placeholder="Ingrese el segundo apellido">
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
+z                    </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
@@ -96,6 +91,16 @@ require 'header.php';
                         <option value="F">Femenino</option>
                         <option value="O">Otro</option>
                     </select>
+                </div>
+
+                <!-- BIRTHDATE -->
+                <div class="formulario__grupo">
+                    <label class="formulario__label">Fecha de Nacimiento <span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <input type="date" class="formulario__input" id="birthdate" required
+                            aria-describedby="inicio-error">
+z                    </div>
+                    <p class="formulario__input-error" id="inicio-error">Seleccione una fecha válida</p>
                 </div>
 
                 <div class="formulario__grupo">
@@ -125,8 +130,7 @@ require 'header.php';
                         </div>
 
                         <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(555) 00-00" pattern="\(\d{3}\) \d{3}-\d{4}" required>
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
+z                    </div>
 
                     <p class="formulario__input-error">Formato requerido: (XXX) XXX-XXXX</p>
                 </div>
@@ -138,8 +142,7 @@ require 'header.php';
                         <input type="email" class="formulario__input"
                             name="correo" id="correo"
                             placeholder="ejemplo@correo.com" required>
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
+z                    </div>
                     <p class="formulario__input-error">El correo debe tener un formato válido</p>
                 </div>
 
@@ -156,7 +159,56 @@ require 'header.php';
                 <div class="formulario__grupo">
                     <label for="carrera" class="formulario__label">Carrera <span class="obligatorio">*</span></label>
                     <select id="carrera" name="carrera" class="formulario__input" required>
-                        <option value="" disabled selected>Cargando carreras...</option>
+                        <option value="" disabled selected>Cargando...</option>
+                    </select>
+                </div>
+
+                <!-- SEMESTRE -->
+                <div class="formulario__grupo">
+                    <label for="semestre" class="formulario__label">Semestre <span class="obligatorio">*</span></label>
+                    <select id="semestre" name="semestre" class="formulario__input" required>
+                        <option value="" disabled selected>Cargando...</option>
+                    </select>
+                </div>
+
+                <!-- seccion -->
+                <div class="formulario__grupo">
+                    <label for="seccion" class="formulario__label">Sección <span class="obligatorio">*</span></label>
+                    <select id="seccion" name="seccion" class="formulario__input" required>
+                        <option value="" disabled selected>Cargando...</option>
+                    </select>
+                </div>
+
+                <!-- regimen -->
+                <div class="formulario__grupo">
+                    <label for="regimen" class="formulario__label">Regimen <span class="obligatorio">*</span></label>
+                    <select id="regimen" name="regimen" class="formulario__input" required>
+                        <option value="" disabled selected>Cargando...</option>
+                    </select>
+                </div>
+
+                <!-- tipo_estudiante -->
+                <div class="formulario__grupo">
+                    <label for="tipo_estudiante" class="formulario__label">Tipo de Estudiante <span class="obligatorio">*</span></label>
+                    <select id="tipo_estudiante" name="tipo_estudiante" class="formulario__input" required>
+                        <option value="" disabled selected>Cargando...</option>
+                    </select>
+                </div>
+
+
+                <!-- rango_militar -->
+                <div class="formulario__grupo">
+                    <label for="rango_militar" class="formulario__label">Rango Militar <span class="obligatorio">*</span></label>
+                    <select id="rango_militar" name="rango_militar" class="formulario__input" required>
+                        <option value="" disabled selected>Cargando...</option>
+                    </select>
+                </div>
+
+                <!-- trabaja -->
+                <div class="formulario__grupo">
+                    <label for="trabaja" class="formulario__label">Trabaja <span class="obligatorio">*</span></label>
+                    <select id="trabaja" name="trabaja" class="formulario__input" required>
+                        <option value="" disabled selected>...</option>
                     </select>
                 </div>
 
@@ -218,7 +270,6 @@ require 'header.php';
             grupo.classList.add('valido');
         }
     });
-
 </script>
 
 <?php
