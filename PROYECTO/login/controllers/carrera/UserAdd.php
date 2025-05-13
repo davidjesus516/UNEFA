@@ -5,10 +5,11 @@ require("..\..\model\carrera.php");
 if(isset($_POST)){//si el js me manda yo hago:
     $Nombre_Carrera =  mb_strtoupper($_POST["Nombre_Carrera"]);
     $Codigo =  $_POST["Codigo"];
+    $MINIMUM_GRADE =  $_POST["MINIMUM_GRADE"];
     // crear una instancia de la clase Usuario
     $usuario = new Usuario();
     // llamar al método insertarUsuario() para insertar un nuevo Usuario
-    $usuario->insertarUsuario($Nombre_Carrera,$Codigo);
+    $usuario->insertarUsuario($Nombre_Carrera,$Codigo,$MINIMUM_GRADE);
     echo "Nuevo usuario añadido";//le respondo a js
 }
 //guia de uso para insertarUsuario($nombre, $codigo, $status)
