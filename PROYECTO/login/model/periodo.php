@@ -27,7 +27,7 @@ class Usuario
         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
             $json[] = array(
                 'DESCRIPTION' => $row["DESCRIPTION"],
-                'DESCRIPTION' => $row["T-INTERNSHIPS_CODE"],
+                'T_INTERNSHIPS_CODE' => $row["T_INTERNSHIPS_CODE"],
                 'START_DATE' => $row["START_DATE"],
                 'END_DATE' => $row["END_DATE"]
             );
@@ -39,10 +39,10 @@ class Usuario
     public function insertarUsuario($DESCRIPTION, $T_INTERNSHIPS_CODE, $START_DATE, $END_DATE)
     {try {
         $this->pdo->beginTransaction();
-        $consulta = "INSERT INTO `T-INTERNSHIPS_PERIOD`(`DESCRIPTION`, `T-INTERNSHIPS_CODE`, `START_DATE`, 'END_DATE', `CREATION_DATE`, `PERIOD-STATUS`, `STATUS`) VALUES (:DESCRIPTION, :T-INTERNSHIPS_CODE, :START_DATE, :END_DATE, :CREATION_DATE, :PERIOD_STATUS :STATUS)";
+        $consulta = "INSERT INTO `T-INTERNSHIPS_PERIOD`(`DESCRIPTION`, `T_INTERNSHIPS_CODE`, `START_DATE`, 'END_DATE', `CREATION_DATE`, `PERIOD_STATUS`, `STATUS`) VALUES (:DESCRIPTION, :T-INTERNSHIPS_CODE, :START_DATE, :END_DATE, :CREATION_DATE, :PERIOD_STATUS :STATUS)";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(":DESCRIPTION", $DESCRIPTION);
-        $statement->bindValue(":T-INTERNSHIPS_CODE", $T_INTERNSHIPS_CODE);
+        $statement->bindValue(":T_INTERNSHIPS_CODE", $T_INTERNSHIPS_CODE);
         $statement->bindValue(":START_DATE", $START_DATE);
         $statement->bindValue(":END_DATE", $END_DATE);
         $statement->bindValue(":CREATION_DATE", date("Y-m-d H:i:s"));
@@ -70,7 +70,7 @@ class Usuario
             $json[] = array(
                 'PERIOD_ID' => $row["PERIOD_ID"],
                 'DESCRIPTION' => $row["DESCRIPTION"],
-                'T-INTERNSHIPS_CODE' => $row["T-INTERNSHIPS_CODE"],
+                'T_INTERNSHIPS_CODE' => $row["T_INTERNSHIPS_CODE"],
                 'START_DATE' => $row["START_DATE"],
                 'END_DATE' => $row["END_DATE"],
             );
@@ -87,7 +87,7 @@ class Usuario
             $json[] = array(
                 'PERIOD_ID' => $row["PERIOD_ID"],
                 'DESCRIPTION' => $row["DESCRIPTION"],
-                'T-INTERNSHIPS_CODE' => $row["T-INTERNSHIPS_CODE"],
+                'T_INTERNSHIPS_CODE' => $row["T_INTERNSHIPS_CODE"],
                 'START_DATE' => $row["START_DATE"],
                 'END_DATE' => $row["END_DATE"],
             );
@@ -104,7 +104,7 @@ class Usuario
             $json[] = array(
                 'PERIOD_ID' => $row["PERIOD_ID"],
                 'DESCRIPTION' => $row["DESCRIPTION"],
-                'T-INTERNSHIPS_CODE' => $row["T-INTERNSHIPS_CODE"],
+                'T_INTERNSHIPS_CODE' => $row["T_INTERNSHIPS_CODE"],
                 'START-DATE' => $row["START_DATE"],
                 'END_DATE' => $row["END_DATE"],
                 'STATUS' => $row["STATUS"]
@@ -122,7 +122,7 @@ class Usuario
             $json[] = array(
                 'PERIOD_ID' => $row["PERIOD_ID"],
                 'DESCRIPTION' => $row["DESCRIPTION"],
-                'T-INTERNSHIPS_CODE' => $row["T-INTERNSHIPS_CODE"],
+                'T_INTERNSHIPS_CODE' => $row["T_INTERNSHIPS_CODE"],
                 'START-DATE' => $row["START_DATE"],
                 'END_DATE' => $row["END_DATE"],
                 'STATUS' => $row["STATUS"]
@@ -182,7 +182,7 @@ class Usuario
             $json[] = array(
                 'PERIOD_ID' => $row["PERIOD_ID"],
                 'DESCRIPTION' => $row["DESCRIPTION"],
-                'T-INTERNSHIPS_CODE' => $row["T-INTERNSHIPS_CODE"],
+                'T_INTERNSHIPS_CODE' => $row["T_INTERNSHIPS_CODE"],
                 'START_DATE' => $row["START_DATE"],
                 'END_DATE' => $row["END_DATE"],
                 'STATUS' => $row["STATUS"]
@@ -194,7 +194,7 @@ class Usuario
     //creo la clase que me va a editar un usuario
     public function editarUsuario($PERIOD_ID, $DESCRIPTION, $T_INTERNSHIPS_CODE, $START_DATE, $END_DATE){
         $consulta = "UPDATE T-INTERNSHIPS_PERIOD SET DESCRIPTION = :DESCRIPTION,
-        T-INTERNSHIPS_CODE = :T_INTERNSHIPS_CODE, START_DATE = :START_DATE,
+        T_INTERNSHIPS_CODE = :T_INTERNSHIPS_CODE, START_DATE = :START_DATE,
         END_DATE = :END_DATE WHERE PERIOD_ID = :PERIOD_ID";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':PERIOD_ID', $PERIOD_ID);
