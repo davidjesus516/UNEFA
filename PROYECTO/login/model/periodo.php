@@ -17,86 +17,96 @@ class Usuario
         $this->pdo = $this->conexion->conectar();
     }
 
-    //creo la clase que me va a consultar todos los datos que exista y me los traera y guardarlos en una variable
-    public function buscarUsuario($periodo){
-        $consulta = "SELECT * FROM `T-INTERNSHIP_PERIOD` WHERE STATUS = 1
-        AND periodo LIKE :periodo";
+  //creo la funcion que me va a consultar todos los datos que exista y me los traera y guardarlos en una variable
+    public function buscarCodigo($DESCRIPTION){
+        $consulta = "SELECT * FROM `T-INTERNSHIPS_PERIOD` WHERE 'DESCRIPTION' = :'DESCRIPTION'";
         $statement = $this->pdo->prepare($consulta);
-        $statement->bindValue(':periodo', $periodo);
+        $statement->bindValue(':DESCRIPTION', $DESCRIPTION);
         $statement->execute();
         $json = array();
         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
             $json[] = array(
-                'ID' => $row["ID"],
-                'PERIODO' => $row["PERIODO"],
-                'FECHA_INICIO' => $row["FECHA_INICIO"],
-                'FECHA_FIN' => $row["FECHA_FIN"],
-                'STATUS' => $row["STATUS"]
+                'DESCRIPTION' => $row["DESCRIPTION"],
+                'DESCRIPTION' => $row["T-INTERNSHIPS_CODE"],
+                'START_DATE' => $row["START_DATE"],
+                'END_DATE' => $row["END_DATE"]
             );
         }
         return $json;
     }
     
-    //creo la clase que me va a insertar un nuevo usuario
-    public function insertarUsuario($periodo, $fecha_inicio,$fecha_fin, $estatus){
-
-        $consulta = "INSERT INTO periodo (PERIODO, FECHA_INICIO,
-        FECHA_FIN, STATUS) VALUES (:periodo, :fecha_inicio, 
-        :fecha_fin, :estatus)";
+    //creo la funcion que me va a insertar un nuevo usuario
+    public function insertarUsuario($DESCRIPTION, $T_INTERNSHIPS_CODE, $START_DATE, $END_DATE)
+    {try {
+        $this->pdo->beginTransaction();
+        $consulta = "INSERT INTO `T-INTERNSHIPS_PERIOD`(`DESCRIPTION`, `T-INTERNSHIPS_CODE`, `START_DATE`, 'END_DATE', `CREATION_DATE`, `PERIOD-STATUS`, `STATUS`) VALUES (:DESCRIPTION, :T-INTERNSHIPS_CODE, :START_DATE, :END_DATE, :CREATION_DATE, :PERIOD_STATUS :STATUS)";
         $statement = $this->pdo->prepare($consulta);
-        $statement->bindValue(':periodo', $periodo);
-        $statement->bindValue(':fecha_inicio', $fecha_inicio);
-        $statement->bindValue(':fecha_fin', $fecha_fin);
-        $statement->bindValue(':estatus', $estatus);
-        return $statement->execute();
+        $statement->bindValue(":DESCRIPTION", $DESCRIPTION);
+        $statement->bindValue(":T-INTERNSHIPS_CODE", $T_INTERNSHIPS_CODE);
+        $statement->bindValue(":START_DATE", $START_DATE);
+        $statement->bindValue(":END_DATE", $END_DATE);
+        $statement->bindValue(":CREATION_DATE", date("Y-m-d H:i:s"));
+        $statement->bindValue(":PERIOD-STATUS",1);
+        $statement->bindValue(":STATUS", 1);
+        $statement->execute();
+        $this->pdo->commit();
+          return true;
+} catch (PDOException $e) {
+    if ($e->getCode() == "23000") { // Código de error para clave duplicada
+        return false; // Usuario duplicado
+    } else {
+        $this->pdo->rollBack();
+        throw $e; // Se lanza la excepción para manejarla en otro lugar
     }
-    
-    //creo la clase que me va a listar todos los usuarios
-    public function listarActivos(){
-        $consulta = "SELECT * FROM periodo where STATUS=1";
+}
+}    
+   //creo la funcion que me va a listar todos los usuarios activos
+    public function listarUsuarios(){
+        $consulta = "SELECT * FROM `T-INTERNSHIPS_PERIOD` WHERE `STATUS` = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();
         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
             $json[] = array(
-                'ID' => $row["ID"],
-                'PERIODO' => $row["PERIODO"],
-                'FECHA_INICIO' => $row["FECHA_INICIO"],
-                'FECHA_FIN' => $row["FECHA_FIN"],
-                'STATUS' => $row["STATUS"]
+                'PERIOD_ID' => $row["PERIOD_ID"],
+                'DESCRIPTION' => $row["DESCRIPTION"],
+                'T-INTERNSHIPS_CODE' => $row["T-INTERNSHIPS_CODE"],
+                'START_DATE' => $row["START_DATE"],
+                'END_DATE' => $row["END_DATE"],
             );
         }
         return $json;
     }
-    //creo la clase que me va a listar todos los usuarios
-    public function listarFinalizados(){
-        $consulta = "SELECT * FROM periodo where STATUS=0";
+     //creo la funcion que me va a listar todos los usuarios inactivos
+    public function listarUsuariosInactivos(){
+        $consulta = "SELECT * FROM `T-INTERNSHIPS_PERIOD` WHERE `STATUS` = 0";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();
         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
             $json[] = array(
-                'ID' => $row["ID"],
-                'PERIODO' => $row["PERIODO"],
-                'FECHA_INICIO' => $row["FECHA_INICIO"],
-                'FECHA_FIN' => $row["FECHA_FIN"],
-                'STATUS' => $row["STATUS"]
+                'PERIOD_ID' => $row["PERIOD_ID"],
+                'DESCRIPTION' => $row["DESCRIPTION"],
+                'T-INTERNSHIPS_CODE' => $row["T-INTERNSHIPS_CODE"],
+                'START_DATE' => $row["START_DATE"],
+                'END_DATE' => $row["END_DATE"],
             );
         }
         return $json;
     }
     //creo la clase que me va a listar todos los usuarios
     public function listarProyeccion(){
-        $consulta = "SELECT * FROM periodo where STATUS=2";
+        $consulta = "SELECT * FROM T-INTERNSHIPS_PERIOD where PERIOD_STATUS=2";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();
         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
             $json[] = array(
-                'ID' => $row["ID"],
-                'PERIODO' => $row["PERIODO"],
-                'FECHA_INICIO' => $row["FECHA_INICIO"],
-                'FECHA_FIN' => $row["FECHA_FIN"],
+                'PERIOD_ID' => $row["PERIOD_ID"],
+                'DESCRIPTION' => $row["DESCRIPTION"],
+                'T-INTERNSHIPS_CODE' => $row["T-INTERNSHIPS_CODE"],
+                'START-DATE' => $row["START_DATE"],
+                'END_DATE' => $row["END_DATE"],
                 'STATUS' => $row["STATUS"]
             );
         }
@@ -104,69 +114,77 @@ class Usuario
     }
     //creo la clase que me va a listar todos los usuarios
     public function listarProrroga(){
-        $consulta = "SELECT * FROM periodo where STATUS=3";
+        $consulta = "SELECT * FROM T-INTERNSHIPS_PERIOD where PERIOD_STATUS=3";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();
         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
             $json[] = array(
-                'ID' => $row["ID"],
-                'PERIODO' => $row["PERIODO"],
-                'FECHA_INICIO' => $row["FECHA_INICIO"],
-                'FECHA_FIN' => $row["FECHA_FIN"],
+                'PERIOD_ID' => $row["PERIOD_ID"],
+                'DESCRIPTION' => $row["DESCRIPTION"],
+                'T-INTERNSHIPS_CODE' => $row["T-INTERNSHIPS_CODE"],
+                'START-DATE' => $row["START_DATE"],
+                'END_DATE' => $row["END_DATE"],
                 'STATUS' => $row["STATUS"]
             );
         }
         return $json;
     }
     //creo la clase que me va a eliminar un usuario
-    public function eliminarUsuario($estatus,$id){
-        $consulta = "UPDATE periodo SET estatus = :estatus
-        WHERE ID = :id";
+    public function eliminarUsuario($STATUS,$PERIOD_ID){
+        $consulta = "UPDATE T-INTERNSHIPS_PERIOD SET STATUS = :STATUS
+        WHERE PERIOD_ID = :PERIOD_ID";
         $statement = $this->pdo->prepare($consulta);
-        $statement->bindValue(':estatus', $estatus);
-        $statement->bindValue(':id', $id);
+        $statement->bindValue(':STATUS', $STATUS);
+        $statement->bindValue(':PERIOD_ID', $PERIOD_ID);
         return $statement->execute();
     }
 
-    public function activarUsuario($estatus, $id)
-    {
-        $consultaDesactivar = "UPDATE periodo SET estatus = 0
-        WHERE estatus = 1";
+    public function activarUsuario($STATUS, $PERIOD_ID){
+        $consultaDesactivar = "UPDATE T-INTERNSHIPS_PERIOD SET STATUS = 0
+        WHERE STATUS = 1";
         $statementDesactivar = $this->pdo->prepare($consultaDesactivar);
         $statementDesactivar->execute();
     
-        $consultaActivar = "UPDATE periodo SET estatus = :estatus 
-        WHERE id = :id";
+        $consultaActivar = "UPDATE T-INTERNSHIPS_PERIOD SET STATUS = :STATUS
+        WHERE PERIOD_ID = :PERIOD_ID"; 
         $statementActivar = $this->pdo->prepare($consultaActivar);
-        $statementActivar->bindValue(':estatus', $estatus);
-        $statementActivar->bindValue(':codigo', $id);
+        $statementActivar->bindValue(':STATUS', $STATUS);
+        $statementActivar->bindValue(':PERIOD_ID', $PERIOD_ID);
     
         return $statementActivar->execute();
+    }
+    public function activarLapsos()
+    {
+        $consultaActivar = "UPDATE DESCRIPTION SET STATUS = 1
+        WHERE STATUS = 0";
+        $statementActivar = $this->pdo->prepare($consultaActivar);
+        $statementActivar->execute();
     }
 
     public function desactivarLapsos()
     {
-        $consultaDesactivar = "UPDATE lapso_academico SET estatus = 0
-        WHERE estatus = 1";
+        $consultaDesactivar = "UPDATE DESCRIPTION SET STATUS = 0
+        WHERE STATUS = 1";
         $statementDesactivar = $this->pdo->prepare($consultaDesactivar);
         $statementDesactivar->execute();
     }
     
 
     //creo la clase que me va a consultar todos los datos que va a editar por el ID
-    public function searcheditUsuario($id){
-        $consulta = "SELECT * FROM lapso_academico WHERE id = :id";
+    public function searcheditUsuario($PERIOD_ID){
+        $consulta = "SELECT * FROM T-INTERNSHIPS_PERIOD WHERE PERIOD_ID = :PERIOD_ID";
         $statement = $this->pdo->prepare($consulta);
-        $statement->bindValue(':id', $id);
+        $statement->bindValue(':PERIOD_ID', $PERIOD_ID);
         $statement->execute();
         $json = array();
         while($row = $statement->fetch(PDO::FETCH_ASSOC)){
             $json[] = array(
-                'ID' => $row["ID"],
-                'PERIODO' => $row["PERIODO"],
-                'FECHA_INICIO' => $row["FECHA_INICIO"],
-                'FECHA_FIN' => $row["FECHA_FIN"],
+                'PERIOD_ID' => $row["PERIOD_ID"],
+                'DESCRIPTION' => $row["DESCRIPTION"],
+                'T-INTERNSHIPS_CODE' => $row["T-INTERNSHIPS_CODE"],
+                'START_DATE' => $row["START_DATE"],
+                'END_DATE' => $row["END_DATE"],
                 'STATUS' => $row["STATUS"]
             );
         }
@@ -174,19 +192,20 @@ class Usuario
     }
     
     //creo la clase que me va a editar un usuario
-    public function editarUsuario($id, $periodo, $fecha_inicio,
-    $fecha_fin, $estatus){
-        $consulta = "UPDATE lapso_academico SET PERIODO = :periodo,
-        FECHA_INICIO = :inicio, FECHA_FIN = :fin, STATUS = :estatus
-        WHERE id = :id";
+    public function editarUsuario($PERIOD_ID, $DESCRIPTION, $T_INTERNSHIPS_CODE, $START_DATE, $END_DATE){
+        $consulta = "UPDATE T-INTERNSHIPS_PERIOD SET DESCRIPTION = :DESCRIPTION,
+        T-INTERNSHIPS_CODE = :T_INTERNSHIPS_CODE, START_DATE = :START_DATE,
+        END_DATE = :END_DATE WHERE PERIOD_ID = :PERIOD_ID";
         $statement = $this->pdo->prepare($consulta);
-        $statement->bindValue(':id', $id);
-        $statement->bindValue(':periodo', $periodo);
-        $statement->bindValue(':inicio', $fecha_inicio);
-        $statement->bindValue(':fin', $fecha_fin);
-        $statement->bindValue(':estatus', $estatus);
+        $statement->bindValue(':PERIOD_ID', $PERIOD_ID);
+        $statement->bindValue(':DESCRIPTION', $DESCRIPTION);
+        $statement->bindValue(':T_INTERNSHIPS_CODE', $T_INTERNSHIPS_CODE);
+        $statement->bindValue(':START_DATE', $START_DATE);
+        $statement->bindValue(':END_DATE', $END_DATE);
         return $statement->execute();
+    }
     }    
-}
+//cierro la clase
+//cierro la conexion 
 
 ?>
