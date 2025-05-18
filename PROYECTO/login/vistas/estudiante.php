@@ -4,6 +4,7 @@ require 'header.php';
 <span class="text">Estudiante</span>
 <div class="page-content">
 
+    <div class="message"></div>
     <div id="modal" class="modal">
         <button class="primary" onclick="document.getElementById('dialog').showModal();">Nuevo +</button>
 
@@ -117,20 +118,7 @@ require 'header.php';
                 <!-- Contacto -->
                 <div class="formulario__grupo" id="grupo__telefono">
                     <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
-
-                    <div class="formulario__grupo-input formulario__grupo-telefono">
-                        <div class="formulario__codigo-pais">
-                            <select class="formulario__input formulario__codigo-select">
-                                <option value="" selected>0412</option>
-                                <option value="">0414</option>
-                                <option value="">0416</option>
-                                <option value="">0426</option>
-                                <option value="">0255</option>
-                            </select>
-                        </div>
-
-                        <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(555) 00-00" pattern="\(\d{3}\) \d{3}-\d{4}" required>
-                    </div>
+                        <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(0414) 000-0000" pattern="\(\d{4}\) \d{3}-\d{4}" required>
 
                     <p class="formulario__input-error">Formato requerido: (XXX) XXX-XXXX</p>
                 </div>
@@ -251,15 +239,15 @@ require 'header.php';
 <script>
     document.getElementById('telefono').addEventListener('input', function(e) {
         const numbers = e.target.value.replace(/\D/g, '');
-        const match = numbers.match(/^(\d{0,3})(\d{0,2})(\d{0,2})$/);
-
+        const match = numbers.match(/^(\d{0,4})(\d{0,3})(\d{0,4})$/);
+        console.log(match);
         e.target.value = !match[2] ? match[1] :
             `(${match[1]}) ${match[2]}${match[3] ? `-${match[3]}` : ''}`;
     });
 
     // Validación en tiempo real
     document.getElementById('telefono').addEventListener('blur', function(e) {
-        const pattern = /^\\d{3}\ \d-{2}-\d{3}$/;
+        const pattern = /^\\d{4}\ \d-{3}-\d{4}$/;
         const grupo = document.getElementById('grupo__telefono');
 
         if (!pattern.test(e.target.value)) {

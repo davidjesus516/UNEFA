@@ -1,15 +1,13 @@
 <?php
-require("../../model/estudiante.php");
 $cedula = $_POST["search"];
-
 // incluir la clase Usuario
 require_once("../../model/estudiante.php");
 
 // crear una instancia de la clase Usuario
-$usuario = new Usuario();
+$usuario = new Student();
 
-// llamar al método buscarUsuario() para buscar un usuario por su cédula
-$json = $usuario->buscarUsuario("$Ci_Estudiantes");
+// llamar al método getStudentbyCI() para buscar un usuario por su cédula
+$json = $usuario->getStudentbyCI($cedula);
 
 // verificar si la respuesta es nula o 0
 if ($json !== null && $json !== 0) {

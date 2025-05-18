@@ -4,7 +4,8 @@ require 'header.php';
 
 <span class="text">Carrera</span>
 <div class="page-content">
-
+    
+    <div class="message"></div>
     <div id="modal" class="modal">
         <button class="primary" onclick="window.dialog.showModal();" aria-label="Abrir formulario para nueva carrera">
             Nuevo +

@@ -3,30 +3,60 @@
 require("../../model/estudiante.php");
 
 if(isset($_POST)){
-    $Id_Estudiantes =  ($_POST["Id_Estudiantes"]);
-    $Ci_Estudiantes =  ($_POST["Ci_Estudiantes"]);
-    $Primer_Nombre = mb_strtoupper($_POST["Primer_Nombre"]);
-    $Segundo_Nombre = mb_strtoupper($_POST["Segundo_Nombre"]);
-    $Primer_Apellido = mb_strtoupper($_POST["Primer_Apellido"]);
-    $Segundo_Apellido = mb_strtoupper($_POST["Segundo_Apellido"]);
-    $Telefono = $_POST["Telefono"];  
-    $Correo = mb_strtoupper( $_POST["Correo"]);  
-    $Id_Matricula = $_POST["Id_Matricula"];  
-    $IdPracticas_Profesionales = mb_strtoupper($_POST["IdPracticas_Profesionales"]);   
-    $Estatus = 1;
-    // crear una instancia de la clase Usuario
-    $usuario = new Usuario();
-    // llamar al método editarUsuario() para editar el Usuario Por Su Cedula
-    $usuario->editarUsuario($Ci_Estudiantes,
-    $Primer_Nombre,
-    $Segundo_Nombre,
-    $Primer_Apellido,
-    $Segundo_Apellido,
-    $Telefono,
-    $Correo,
-    $Id_Matricula,
-    $IdPracticas_Profesionales, 
-    $Estatus);
-    echo "Usuario Editado";//le respondo al js
-}
+$STUDENTS_ID = $_POST["STUDENTS_ID"];    
+$STUDENTS_CI = $_POST["STUDENTS_CI"];
+$NAME = $_POST["NAME"];
+$SECOND_NAME = $_POST["SECOND_NAME"];
+$SURNAME = $_POST["SURNAME"];
+$SECOND_SURNAME = $_POST["SECOND_SURNAME"];
+$GENDER = $_POST["GENDER"];
+$BIRTHDATE = $_POST["BIRTHDATE"];
+$CONTACT_PHONE = $_POST["CONTACT_PHONE"];
+$EMAIL = $_POST["EMAIL"];
+$ADDRESS = $_POST["ADDRESS"];
+$MARITAL_STATUS = $_POST["MARITAL_STATUS"];
+$SEMESTER = $_POST["SEMESTER"];
+$SECTION = $_POST["SECTION"];
+$REGIME = $_POST["REGIME"];
+$STUDENT_TYPE = $_POST["STUDENT_TYPE"];
+$MILITARY_RANK = $_POST["MILITARY_RANK"];
+$EMPLOYMENT = $_POST["EMPLOYMENT"];
+$CAREER_ID = $_POST["CAREER_ID"];
+$student = new Student();
+if ($student->updateStudent($STUDENTS_ID,$STUDENTS_CI, $NAME, $SECOND_NAME, $SURNAME, $SECOND_SURNAME, $GENDER, $BIRTHDATE, $CONTACT_PHONE, $EMAIL, $ADDRESS, $MARITAL_STATUS, $SEMESTER, $SECTION, $REGIME, $STUDENT_TYPE, $MILITARY_RANK, $EMPLOYMENT, $CAREER_ID)){
+    
+    $row = array(
+        'message' => '    
+        <dialog id="dialog">
+        <h2>Registro Editado</h2>
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+        <div class="success-checkmark">
+        <div class="check-icon">
+            <span class="icon-line line-tip"></span>
+            <span class="icon-line line-long"></span>
+            <div class="icon-circle"></div>
+            <div class="icon-fix"></div>
+        </div>
+        </div>
+        </dialog>');
+    $jsonstring = json_encode($row);
+    echo $jsonstring;
+}else{
+    $row = array(
+                'message' =>'     
+                <dialog id="dialog">
+            <h2>Ha ocurrido un error en el registro.</h2>
+            <div class="error-banmark">
+            <div class="ban-icon">
+                <span class="icon-line line-long-invert"></span>
+                <span class="icon-line line-long"></span>
+                <div class="icon-circle"></div>
+                <div class="icon-fix"></div>
+            </div>
+            </div>
+            <button aria-label="close" class="x">❌</button>
+            </dialog>');
+    $jsonstring = json_encode($row);
+    echo $jsonstring;
+}}
 ?>

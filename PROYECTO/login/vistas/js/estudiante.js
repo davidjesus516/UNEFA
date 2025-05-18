@@ -17,7 +17,20 @@ $(document).ready(function(){//aqui inicializamos javascript
             $('#carrera').html(template);//los imprimo en el html
         }
     }) 
-        
+        $.ajax({//realizo una peticion ajax
+            url: '../controllers/estudiante/StudentFormCombos.php',//al url que trae la lista
+            type: 'GET',//le pido una peticion GET
+            success: function (response){// si tengo una respuesta ejecuta la funcion
+                let task = JSON.parse(response);// convierto el json en string
+                console.log(task);
+                $('#genero').html(task.gender);
+                $('#estado_civil').html(task.maritalStatus);
+                $('#regimen').html(task.regime);
+                $('#tipo_estudiante').html(task.studentType);
+                $('#rango_militar').html(task.militaryRank);
+                $('#trabaja').html(task.workingStatus);
+            }
+        })
     const expresiones = {
         usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
         solo_letras: /^[a-zA-ZÀ-ÿ\s]+$/, // Letras y espacios, pueden llevar acentos.
@@ -25,88 +38,19 @@ $(document).ready(function(){//aqui inicializamos javascript
         cedula: /^\d{1,8}$/, // cedula debe ser un numero de maximo 9 digitos
         telefono: /^\d{11}$/ // telefono debe ser un numero de 11 digitos 
     }
-
-    $('#nombre').keyup(function(e){
-    if (expresiones.solo_letras.test($('#nombre').val())) {
-        $('#grupo__nombre').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-        $('#grupo__nombre i').addClass("fa-check-circle").removeClass("fa-times-circle")
-        $(`#grupo__nombre .formulario__input-error`).removeClass('formulario__input-error-activo');
-
-        errores = false
-    }
-    else {
-        $('#grupo__nombre').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-        $('#grupo__nombre i').addClass("fa-times-circle").removeClass("fa-check-circle");
-        $(`#grupo__nombre .formulario__input-error`).addClass('formulario__input-error-activo');
-        errores = true
-    }
-})
-    $('#apellido').keyup(function(e){
-    if (expresiones.solo_letras.test($('#apellido').val())) {
-        $('#grupo__apellido').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-        $('#grupo__apellido i').addClass("fa-check-circle").removeClass("fa-times-circle")
-        $(`#grupo__apellido .formulario__input-error`).removeClass('formulario__input-error-activo');
-
-        errores = false
-    }
-    else {
-        $('#grupo__apellido').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-        $('#grupo__apellido i').addClass("fa-times-circle").removeClass("fa-check-circle");
-        $(`#grupo__apellido .formulario__input-error`).addClass('formulario__input-error-activo');
-        errores = true
-    }
-})
-    $('#cedula').keyup(function(e){
-    if (expresiones.cedula.test($('#cedula').val())) {
-        $('#grupo__cedula').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-        $('#grupo__cedula i').addClass("fa-check-circle").removeClass("fa-times-circle")
-        $(`#grupo__cedula .formulario__input-error`).removeClass('formulario__input-error-activo');
-
-        errores = false
-    }
-    else {
-        $('#grupo__cedula').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-        $('#grupo__cedula i').addClass("fa-times-circle").removeClass("fa-check-circle");
-        $(`#grupo__cedula .formulario__input-error`).addClass('formulario__input-error-activo');
-        $('#grupo__cedula p').text("Este campo solo puede contener numeros.");
-        errores = true
-    }
-    
-    })
-    $('#tlf').keyup(function(e){
-    if (expresiones.telefono.test($('#tlf').val())) {
-        $('#grupo__telefono').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-        $('#grupo__telefono i').addClass("fa-check-circle").removeClass("fa-times-circle")
-        $(`#grupo__telefono .formulario__input-error`).removeClass('formulario__input-error-activo');
-
-        errores = false
-    }
-    else {
-        $('#grupo__telefono').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-        $('#grupo__telefono i').addClass("fa-times-circle").removeClass("fa-check-circle");
-        $(`#grupo__telefono .formulario__input-error`).addClass('formulario__input-error-activo');
-        errores = true
-    }
-    
-    })
-    $('#e_mail').keyup(function(e){
-        if (expresiones.correo.test($('#e_mail').val())) {
-            $('#grupo__correo').addClass("formulario__grupo-correcto").removeClass( "formulario__grupo-incorrecto");
-            $('#grupo__correo i').addClass("fa-check-circle").removeClass("fa-times-circle")
-            $(`#grupo__correo .formulario__input-error`).removeClass('formulario__input-error-activo');
-    
-            errores = false
-        }
-        else {
-            $('#grupo__correo').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-            $('#grupo__correo i').addClass("fa-times-circle").removeClass("fa-check-circle");
-            $(`#grupo__correo .formulario__input-error`).addClass('formulario__input-error-activo');
-            errores = true
-        }
-        
-        })
-    $('#cedula').keyup(function(e){
-        let search = $('#cedula').val();
+    function isCorrect(id){ 
+                    $(`#${id}`).addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
+                    $(`#${id} i`).addClass("fa-check-circle").removeClass("fa-times-circle");
+                    $(`#${id} .formulario__input-error`).removeClass("formulario__input-error-activo");
+}
+    function isIncorrect(id,message){
+                    $(`#${id}`).addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+                    $(`#${id} i`).addClass("fa-times-circle").removeClass("fa-check-circle");
+                    $(`#${id} .formulario__input-error`).addClass('formulario__input-error-activo');
+                    $(`#${id} p`).text(message);
+                }
+    function CIisUnique() {
+        let search = $('#nacionalidad').val()+'-'+$('#cedula').val();
         $.ajax({
             url: '../controllers/estudiante/UserSearch.php',
             type: 'POST',
@@ -114,19 +58,21 @@ $(document).ready(function(){//aqui inicializamos javascript
             success: function(response){
                 let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
                 if (Object.keys(data).length === 0) { // Verificamos si el objeto está vacío
-                    console.log('no existe');
+                    isCorrect('grupo__cedula');
+                    return true; // El número de cédula es único
                 } else {
-                    $('#grupo__cedula').addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-                    $('#grupo__cedula i').addClass("fa-times-circle").removeClass("fa-check-circle");
-                    $(`#grupo__cedula .formulario__input-error`).addClass('formulario__input-error-activo');
-                    $('#grupo__cedula p').text("Cedula ya existe");
-                    errores = true
+                    isIncorrect('grupo__cedula', 'Este número de cédula ya está registrado');
+                    return false;
                 }
             },
             error: function(error) {
                 console.log(error);
             } 
         })
+    };
+    $('#cedula').keyup(function(e){
+        CIisUnique();
+
     })
     
 
@@ -136,17 +82,25 @@ $(document).ready(function(){//aqui inicializamos javascript
             e.preventDefault(); // Cancela el envío del formulario si el usuario hace clic en "Cancelar"
             return false;
         }
-        const id = $('#id').val();
-        const nacionalidad = $('#nacionalidad').val();
-        const cedula = $('#cedula').val();
-        const nombre = $('#nombre').val();
-        const apellido = $('#apellido').val();
-        const genero = $('#genero').val();
-        const tlf = $('#tlf').val();
-        const e_mail = $('#e_mail').val();
-        const rango_militar = "";
-        const carrera = $('#carrera').val();
-        const turno = $('#turno').val();
+        const STUDENTS_ID = $('#id').val();
+        const STUDENTS_CI = $('#nacionalidad').val()+'-'+$('#cedula').val();
+        const NAME = $('#primer_nombre').val();
+        const SECOND_NAME = $('#segundo_nombre').val();
+        const SURNAME = $('#primer_apellido').val();
+        const SECOND_SURNAME = $('#segundo_apellido').val();
+        const GENDER = $('#genero').val();
+        const BIRTHDATE = $('#birthdate').val();
+        const CONTACT_PHONE = $('#telefono').val();
+        const EMAIL = $('#email').val();
+        const ADDRESS = '';
+        const MARITAL_STATUS = $('#estado_civil').val();
+        const SEMESTER = $('#semestre').val();
+        const SECTION = $('#seccion').val();
+        const REGIME = $('#regimen').val();
+        const STUDENT_TYPE = $('#tipo_estudiante').val();
+        const MILITARY_RANK = $('#rango_militar').val();
+        const EMPLOYMENT = $('#trabaja').val();
+        const CAREER_ID = $('#carrera').val();
         
     
         if (errores) { // Se comprueba si hay errores
@@ -156,31 +110,36 @@ $(document).ready(function(){//aqui inicializamos javascript
         }
     
         const postData = {
-            id: id,
-            nacionalidad: nacionalidad,
-            nombre: nombre,
-            cedula: cedula,
-            apellido: apellido,
-            genero: genero,
-            tlf: tlf,
-            e_mail: e_mail,
-            rango_militar: rango_militar,
-            carrera: carrera,
-            turno: turno
-    
+            STUDENTS_ID :STUDENTS_ID,
+            STUDENTS_CI :STUDENTS_CI,
+            NAME :NAME,
+            SECOND_NAME :SECOND_NAME,
+            SURNAME :SURNAME,
+            SECOND_SURNAME :SECOND_SURNAME,
+            GENDER :GENDER,
+            BIRTHDATE :BIRTHDATE,
+            CONTACT_PHONE :CONTACT_PHONE,
+            EMAIL :EMAIL,
+            ADDRESS :ADDRESS,
+            MARITAL_STATUS :MARITAL_STATUS,
+            SEMESTER :SEMESTER,
+            SECTION :SECTION,
+            REGIME :REGIME,
+            STUDENT_TYPE :STUDENT_TYPE,
+            MILITARY_RANK :MILITARY_RANK,
+            EMPLOYMENT :EMPLOYMENT,
+            CAREER_ID :CAREER_ID
         };
         if (edit === false) {
             let url = '../controllers/estudiante/UserAdd.php';
             $.post(url, postData, function (response) {
-            console.log(response);
-            console.log(edit)
-            if(response==1){
-                alert('Este Nuevo Registro ha sido añadido');
-            } else if (response==0) {
-                alert('Ya Este Estudiante Existe Porfavor compruebe los Registros');
-            } else {
-                alert('?');
-            }
+                data = JSON.parse(response);
+                $(".message").html(data.message);
+                let message = $( "#message" ).get(0);
+                message.showModal();
+                $(".x").on("click", function () {
+                    message.close();
+                });
             fetchTask();
             $('#formulario').trigger('reset');
             }).fail(function() {
@@ -210,15 +169,14 @@ $(document).ready(function(){//aqui inicializamos javascript
                 let template = '';//creo la plantilla donde imprimire los datos
                 task.forEach(task =>{//hago un array que me recorra el json y me lo imprima en el tbody
                     
-                    template +=`<tr taskid="${task.ID}">
-                        <td>${task.CEDULA}</td>
-                        <td>${task.NOMBRE}</td>
-                        <td>${task.APELLIDO}</td>
-                        <td>${task.GENERO}</td>
-                        <td>${task.TELEFONO}</td>
-                        <td>${task.E_MAIL}</td>
-                        <td>${task.CARRERA}</td>
-                        <td>${task.TURNO}</td>
+                    template +=`<tr taskid="${task.STUDENTS_ID}">
+                        <td>${task.STUDENTS_CI}</td>
+                        <td>${task.NAME}</td>
+                        <td>${task.SURNAME}</td>
+                        <td>${task.GENDER}</td>
+                        <td>${task.CONTACT_PHONE}</td>
+                        <td>${task.EMAIL}</td>
+                        <td>${task.CAREER_NAME}</td>
                         <td>
                             <button class="task-delete "><spam class="texto">Borrar</spam><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
                         </td>
@@ -252,18 +210,32 @@ $(document).on('click','.task-edit',function(){//escucho un click del boton task
         let element = $(this)[0].parentElement.parentElement;// accedo al elemento padre de este hasta conseguir el ID de la fila
         let id = $(element).attr('taskid');//accedo al tributo que cree que contiene la cedula que busco
         $.post('../controllers/estudiante/UserEditSearch.php', {id}, function(response){//mando los datos al controlador
-            const task = JSON.parse(response)[0]; // accede al primer objeto en el array
-            $('#id').val(task.ID).prop('readonly', true);//añado los elementos al formulario y lo hago de solo lectura
-            $('#cedula').val(task.CEDULA).prop('readonly', true);
-            $('#nombre').val(task.NOMBRE);
-            $('#apellido').val(task.APELLIDO);
-            $('#e_mail').val(task.E_MAIL);
-            $('#genero').val(task.GENERO);
-            $('#nacionalidad').val(task.NACIONALIDAD);
-            $('#tlf').val(task.TELEFONO);
-            $('#carrera').val(task.ID_CARRERA);
-            $('#turno').val(task.TURNO);
+            const task = JSON.parse(response); // accede al primer objeto en el array
+            const CI = task.STUDENTS_CI.split('-');
+            $('#id').val(task.STUDENTS_ID) .prop('readonly', true);//añado los elementos al formulario y lo hago de solo lectura
+            $('#cedula').val(CI[1]).prop('readonly', true);
+            $('#nacionalidad').val(CI[0]);
+            $('#primer_nombre').val(task.NAME);
+            $('#segundo_nombre').val(task.SECOND_NAME) ;
+            $('#primer_apellido').val(task.SURNAME) ;
+            $('#segundo_apellido').val(task.SECOND_SURNAME) ;
+            $('#genero').val(task.GENDER) ;
+            $('#birthdate').val(task.BIRTHDATE) ;
+            $('#telefono').val(task.CONTACT_PHONE) ;
+            $('#correo').val(task.EMAIL) ;
+            $('#estado_civil').val(task.MARITAL_STATUS) ;
+            $('#semestre').val(task.SEMESTER) ;
+            $('#seccion').val(task.SECTION) ;
+            $('#regimen').val(task.REGIME) ;
+            $('#tipo_estudiante').val(task.STUDENT_TYPE) ;
+            $('#rango_militar').val(task.MILITARY_RANK );
+            $('#trabaja').val(task.EMPLOYMENT) ;
+            $('#carrera').val(task.CAREER_ID) ;
             edit = true;//valido la variable que esta por encima de todo para que en vez de guardar un nuevo usuario lo edite
         });
     })
+    $(document).on("click", ".primary", function () {
+    $("#formulario").trigger("reset");
+    edit = false;
+    });
 })

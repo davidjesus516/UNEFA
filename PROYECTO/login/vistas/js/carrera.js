@@ -65,18 +65,18 @@ $(document).ready(function () {
                 Nombre_Carrera: Nombre_Carrera,
                 MINIMUM_GRADE: MINIMUM_GRADE
             };
-            if (errores) {
-                // Se comprueba si hay errores
-                e.preventDefault(); // Cancela el envío del formulario si hay errores
-                alert("Debe llenar correctamente el formulario");
-                return false;
-            }
             let url =
                 edit === false
                     ? "../controllers/carrera/UserAdd.php"
                     : "../controllers/carrera/UserEdit.php";
             $.post(url, postData, function (response) {
-                console.log(response);
+                data = JSON.parse(response);
+                $(".message").html(data.message);
+                let message = $("#message").get(0);
+                message.showModal();
+                $(".x").on("click", function () {
+                    message.close();
+                });
                 fetchTask();
                 $("#formulario").trigger("reset");
                 dialog.close();
@@ -164,6 +164,17 @@ $(document).ready(function () {
       }
     );
   });
+  function isCorrect(id){ 
+                    $(`#${id}`).addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
+                    $(`#${id} i`).addClass("fa-check-circle").removeClass("fa-times-circle");
+                    $(`#${id} .formulario__input-error`).removeClass("formulario__input-error-activo");
+}
+    function isIncorrect(id,message){
+                    $(`#${id}`).addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+                    $(`#${id} i`).addClass("fa-times-circle").removeClass("fa-check-circle");
+                    $(`#${id} .formulario__input-error`).addClass('formulario__input-error-activo');
+                    $(`#${id} p`).text(message);
+                }
   function validarNombre() {
     let Nombre_Carrera = $("#nombre").val();
     let validacion = false;
@@ -180,39 +191,13 @@ $(document).ready(function () {
             (edit === true && data[0].CAREER_ID === parseInt($("#id").val()))
           )
         ) {
-          $("#grupo__nombre")
-            .addClass("formulario__grupo-incorrecto")
-            .removeClass("formulario__grupo-correcto");
-          $("#grupo__nombre i")
-            .addClass("fa-times-circle")
-            .removeClass("fa-check-circle");
-          $(`#grupo__nombre .formulario__input-error`).addClass(
-            "formulario__input-error-activo"
-          );
-          $("#grupo__nombre p").text("Esta carrera ya existe");
+          isIncorrect("grupo__nombre", "Esta carrera ya existe");
           validacion = false;
         } else if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+$/.test(Nombre_Carrera)) {
-          $("#grupo__nombre")
-            .addClass("formulario__grupo-incorrecto")
-            .removeClass("formulario__grupo-correcto");
-          $("#grupo__nombre i")
-            .addClass("fa-times-circle")
-            .removeClass("fa-check-circle");
-          $(`#grupo__nombre .formulario__input-error`).addClass(
-            "formulario__input-error-activo"
-          );
-          $("#grupo__nombre p").text("Este campo solo permite letras");
+          isIncorrect('grupo__nombre',"Este campo solo permite letras");
           validacion = false;
         } else {
-          $("#grupo__nombre")
-            .addClass("formulario__grupo-correcto")
-            .removeClass("formulario__grupo-incorrecto");
-          $("#grupo__nombre i")
-            .addClass("fa-check-circle")
-            .removeClass("fa-times-circle");
-          $(`#grupo__nombre .formulario__input-error`).removeClass(
-            "formulario__input-error-activo"
-          );
+          isCorrect("grupo__nombre");
           validacion = true;
         }
       },
@@ -235,39 +220,13 @@ $(document).ready(function () {
             (edit === true && data[0].CAREER_ID === parseInt($("#id").val()))
           )
         ) {
-          $("#grupo__codigo")
-            .addClass("formulario__grupo-incorrecto")
-            .removeClass("formulario__grupo-correcto");
-          $("#grupo__codigo i")
-            .addClass("fa-times-circle")
-            .removeClass("fa-check-circle");
-          $(`#grupo__codigo .formulario__input-error`).addClass(
-            "formulario__input-error-activo"
-          );
-          $("#grupo__codigo p").text("Este codigo ya existe");
+          isIncorrect("grupo__codigo","Este codigo ya existe");
           validacion = false;
         } else if (!/^\d+$/.test(Codigo)) {
-          $("#grupo__codigo")
-            .addClass("formulario__grupo-incorrecto")
-            .removeClass("formulario__grupo-correcto");
-          $("#grupo__codigo i")
-            .addClass("fa-times-circle")
-            .removeClass("fa-check-circle");
-          $(`#grupo__codigo .formulario__input-error`).addClass(
-            "formulario__input-error-activo"
-          );
-          $("#grupo__codigo p").text("Este campo solo permite números");
+          isIncorrect("grupo__codigo","Este campo solo permite números");
           validacion = false;
         } else {
-          $("#grupo__codigo")
-            .addClass("formulario__grupo-correcto")
-            .removeClass("formulario__grupo-incorrecto");
-          $("#grupo__codigo i")
-            .addClass("fa-check-circle")
-            .removeClass("fa-times-circle");
-          $(`#grupo__codigo .formulario__input-error`).removeClass(
-            "formulario__input-error-activo"
-          );
+          isCorrect("grupo__codigo");
           validacion = true;
         }
       },
