@@ -46,7 +46,7 @@ class Usuario
         $statement->bindValue(":START_DATE", $START_DATE);
         $statement->bindValue(":END_DATE", $END_DATE);
         $statement->bindValue(":CREATION_DATE", date("Y-m-d H:i:s"));
-        $statement->bindValue(":PERIOD-STATUS",1);
+        $statement->bindValue(":PERIOD_STATUS",1);
         $statement->bindValue(":STATUS", 1);
         $statement->execute();
         $this->pdo->commit();
