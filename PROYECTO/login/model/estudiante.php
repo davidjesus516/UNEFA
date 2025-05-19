@@ -18,7 +18,7 @@ class Student
     public function getStudentbyId($id) {
         $sql = "SELECT * FROM `t-students` WHERE `STUDENTS_ID` = :STUDENTS_ID";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':STUDENTS_ID', $id);
+        $stmt->bindValue(':STUDENTS_ID', $id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row;
@@ -27,7 +27,7 @@ class Student
     public function getStudentbyCI($ci) {
         $sql = "SELECT * FROM `t-students` WHERE `STUDENTS_CI` = :STUDENTS_CI";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':STUDENTS_CI', $ci);
+        $stmt->bindValue(':STUDENTS_CI', $ci);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row;
@@ -36,7 +36,7 @@ class Student
     public function getStudentByCareer($id) {
         $sql = "SELECT * FROM `t-students` WHERE `CAREER_ID` = :CAREER_ID";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':CAREER_ID', $id);
+        $stmt->bindValue(':CAREER_ID', $id);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $rows;
@@ -91,9 +91,9 @@ class Student
     public function deleteStudent($id) {
         try {
             $this->pdo->beginTransaction();
-            $sql = "UPDATE FROM `t-students`SET `STATUS`=':STATUS' WHERE STUDENTS_ID = :STUDENTS_ID";
+            $sql = "UPDATE `t-students`SET `STATUS`=:STATUS WHERE STUDENTS_ID = :STUDENTS_ID";
             $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':STUDENTS_ID', $id);
+            $stmt->bindValue(':STUDENTS_ID', $id);
             $stmt->bindValue(":STATUS", 0);
             $stmt->execute();
             $this->pdo->commit();
@@ -107,9 +107,9 @@ class Student
     public function recoverStudent($id) {
         try {
             $this->pdo->beginTransaction();
-            $sql = "UPDATE FROM `t-students`SET `STATUS`=':STATUS' WHERE STUDENTS_ID = :STUDENTS_ID";
+            $sql = "UPDATE `t-students`SET `STATUS`=':STATUS' WHERE STUDENTS_ID = :STUDENTS_ID";
             $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':STUDENTS_ID', $id);
+            $stmt->bindValue(':STUDENTS_ID', $id);
             $stmt->bindValue(":STATUS", 1);
             $stmt->execute();
             $this->pdo->commit();
