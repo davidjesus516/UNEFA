@@ -22,7 +22,6 @@ $(document).ready(function(){//aqui inicializamos javascript
             type: 'GET',//le pido una peticion GET
             success: function (response){// si tengo una respuesta ejecuta la funcion
                 let task = JSON.parse(response);// convierto el json en string
-                console.log(task);
                 $('#genero').html(task.gender);
                 $('#estado_civil').html(task.maritalStatus);
                 $('#regimen').html(task.regime);
