@@ -10,7 +10,6 @@
 html {
   background-color: #fff;
   transition: 200ms;
-
 }
 
 span.obligatorio {
@@ -162,14 +161,14 @@ a {
 
 .login-form input:focus {
   background: transparent;
-  border: 1px solid #111A41;
+  border: 1px solid #111a41;
 }
 
 .login-form button {
   font-size: 18px;
   color: #fff;
   width: 100%;
-  background: #111A41;
+  background: #111a41;
   border: none;
   padding: 14px 15px;
   font-weight: 600;
@@ -178,7 +177,7 @@ a {
 }
 
 p.account a {
-  color: #111A41;
+  color: #111a41;
 }
 
 p.account a:hover {
@@ -213,7 +212,7 @@ p.account a:hover {
   left: 0;
   height: 100%;
   width: 18rem;
-  background: #111A41;
+  background: #111a41;
   z-index: 100;
   transition: all 0.5s ease;
 }
@@ -227,6 +226,7 @@ p.account a:hover {
   width: 100%;
   display: flex;
   align-items: center;
+  background-color: #0000;
 }
 
 .sidebar .logo-details i {
@@ -273,7 +273,7 @@ p.account a:hover {
 }
 
 .sidebar .nav-links li:hover {
-  background: #192DD4;
+  background: #192dd4;
 }
 
 .sidebar .nav-links li .iocn-link {
@@ -327,7 +327,7 @@ p.account a:hover {
 .sidebar .nav-links li .sub-menu {
   padding: 6px 6px 14px 80px;
   margin-top: -10px;
-  background: #192DD4;
+  background: #192dd4;
   display: none;
 }
 
@@ -455,20 +455,18 @@ p.account a:hover {
   left: 18rem;
   width: calc(100% - 18rem);
   transition: all 0.5s ease;
-
 }
 
-.sidebar.close~.home-section {
+.sidebar.close ~ .home-section {
   left: 78px;
   width: calc(100% - 78px);
 }
-
 
 .popup {
   --burger-line-width: 1.125em;
   --burger-line-height: 0.125em;
   --burger-offset: 0.625em;
-  --burger-bg: #192DD4;
+  --burger-bg: #192dd4;
   --burger-color: #333;
   --burger-line-border-radius: 0.1875em;
   --burger-diameter: 3.125em;
@@ -506,7 +504,7 @@ p.account a:hover {
   --nav-button-padding-y: 0.375em;
   --nav-button-border-radius: 0.375em;
   --nav-button-font-size: 17px;
-  --nav-button-hover-bg: #192DD4;
+  --nav-button-hover-bg: #192dd4;
   --nav-button-hover-text-color: #fff;
   --nav-button-distance: 0.875em;
   /* underline */
@@ -557,7 +555,10 @@ p.account a:hover {
   border-radius: var(--nav-border-radius);
   box-shadow: var(--nav-shadow-width) var(--nav-shadow-color);
   border: var(--nav-border-width) solid var(--nav-border-color);
-  top: calc(var(--burger-diameter) + var(--burger-enable-outline-width) + var(--burger-enable-outline-offset));
+  top: calc(
+    var(--burger-diameter) + var(--burger-enable-outline-width) +
+      var(--burger-enable-outline-offset)
+  );
   left: var(--nav-position-left);
   right: var(--nav-position-right);
   transition: var(--burger-transition);
@@ -596,7 +597,7 @@ p.account a:hover {
 
 .popup-window ul li:nth-child(1) svg,
 .popup-window ul li:nth-child(2) svg {
-  color: #192DD4;
+  color: #192dd4;
 }
 
 .popup-window ul li:nth-child(4) svg,
@@ -611,7 +612,8 @@ p.account a:hover {
 .popup-window hr {
   margin: var(--underline-margin-y) 0;
   border: none;
-  border-bottom: var(--underline-border-width) solid var(--underline-border-color);
+  border-bottom: var(--underline-border-width) solid
+    var(--underline-border-color);
 }
 
 /* actions */
@@ -637,26 +639,27 @@ p.account a:hover {
   outline-offset: var(--burger-enable-outline-offset);
 }
 
-.popup input:checked+.burger span:nth-child(1) {
+.popup input:checked + .burger span:nth-child(1) {
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
 }
 
-.popup input:checked+.burger span:nth-child(2) {
+.popup input:checked + .burger span:nth-child(2) {
   bottom: 50%;
   transform: translateY(50%) rotate(-45deg);
 }
 
-.popup input:checked+.burger span:nth-child(3) {
-  transform: translateX(calc(var(--burger-diameter) * -1 - var(--burger-line-width)));
+.popup input:checked + .burger span:nth-child(3) {
+  transform: translateX(
+    calc(var(--burger-diameter) * -1 - var(--burger-line-width))
+  );
 }
 
-.popup input:checked~nav {
+.popup input:checked ~ nav {
   transform: scale(var(--nav-active-scale));
   visibility: visible;
   opacity: 1;
 }
-
 
 .home-section .home-content {
   height: 60px;
@@ -671,7 +674,7 @@ p.account a:hover {
 
 .home-section .home-content .bx-menu,
 .home-section .home-content .text {
-  color: #111A41;
+  color: #111a41;
   font-size: 35px;
 }
 
@@ -704,7 +707,7 @@ p.account a:hover {
     z-index: 100;
   }
 
-  .sidebar.close~.home-section {
+  .sidebar.close ~ .home-section {
     width: 100%;
     left: 0;
   }
@@ -744,7 +747,7 @@ p.account a:hover {
 }
 
 .formulario__input:focus {
-  border-color: #0075FF;
+  border-color: #0075ff;
   outline: none;
   /* box-shadow: 3px 0 30px rgba(163, 163, 163, 0.4); */
 }
@@ -977,7 +980,7 @@ dialog {
   width: 100%;
 
   &::backdrop {
-    animation: fadeIn .5s ease both;
+    animation: fadeIn 0.5s ease both;
     background: rgb(255 255 255 / 40%);
     z-index: 2;
     backdrop-filter: blur(20px);
@@ -1013,18 +1016,18 @@ dialog {
 
     a {
       &:visited {
-        color: rgb(#192DD4);
+        color: rgb(#192dd4);
       }
     }
   }
 }
 
 button.primary {
-  background-color: #192DD4;
+  background-color: #192dd4;
   display: inline-block;
   font-size: 0.8rem;
   color: #fff !important;
-  background: rgb(#192DD4 / 100%);
+  background: rgb(#192dd4 / 100%);
   padding: 13px 25px;
   margin: 1rem;
   transition: background-color 0.1s ease;
@@ -1032,10 +1035,10 @@ button.primary {
   transition: all 0.25s ease;
   border: 0;
   cursor: pointer;
-  box-shadow: 0 10px 20px -10px rgb(#192DD4 / 50%);
+  box-shadow: 0 10px 20px -10px rgb(#192dd4 / 50%);
 
   &:hover {
-    box-shadow: 0 20px 20px -10px rgb(#192DD4 / 50%);
+    box-shadow: 0 20px 20px -10px rgb(#192dd4 / 50%);
     transform: translateY(-5px);
   }
 }
@@ -1076,7 +1079,7 @@ button.primary-white {
   background-color: #ffffff;
   display: inline-block;
   font-size: 0.8rem;
-  color: #192DD4 !important;
+  color: #192dd4 !important;
   background: rgb(#ffffff / 100%);
   padding: 13px 25px;
   margin: 1rem;
@@ -1178,11 +1181,11 @@ button.primary-white {
   cursor: pointer;
   display: flex;
   align-items: center;
-  background: #192DD4;
+  background: #192dd4;
   border: none;
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-  background: #192DD4;
+  background: #192dd4;
   transition: 200ms;
   /* margin-top: 13px; */
 }
@@ -1197,7 +1200,6 @@ button.primary-white {
   color: white;
   font-weight: bold;
   transition: 200ms;
-
 }
 
 .task-edit .icon {
@@ -1210,26 +1212,22 @@ button.primary-white {
   align-items: center;
   justify-content: center;
   transition: 200ms;
-
 }
 
 .task-edit svg {
   width: 15px;
   fill: #eee;
   transition: 200ms;
-
 }
 
 .task-edit:hover {
-  background: #192DD4;
+  background: #192dd4;
   transition: 200ms;
-
 }
 
 .task-edit:hover .texto {
   color: transparent;
   transition: 200ms;
-
 }
 
 .task-edit:hover .icon {
@@ -1263,7 +1261,7 @@ button.primary-white {
     position: relative;
     border-radius: 50%;
     box-sizing: content-box;
-    border: 4px solid #4CAF50;
+    border: 4px solid #4caf50;
 
     &::before {
       top: 3px;
@@ -1284,16 +1282,16 @@ button.primary-white {
 
     &::before,
     &::after {
-      content: '';
+      content: "";
       height: 100px;
       position: absolute;
-      background: #FFFFFF;
+      background: #ffffff;
       transform: rotate(-45deg);
     }
 
     .icon-line {
       height: 5px;
-      background-color: #4CAF50;
+      background-color: #4caf50;
       display: block;
       border-radius: 2px;
       position: absolute;
@@ -1325,7 +1323,7 @@ button.primary-white {
       border-radius: 50%;
       position: absolute;
       box-sizing: content-box;
-      border: 4px solid rgba(76, 175, 80, .5);
+      border: 4px solid rgba(76, 175, 80, 0.5);
     }
 
     .icon-fix {
@@ -1336,7 +1334,7 @@ button.primary-white {
       height: 85px;
       position: absolute;
       transform: rotate(-45deg);
-      background-color: #FFFFFF;
+      background-color: #ffffff;
     }
   }
 }
@@ -1452,7 +1450,7 @@ button.primary-white {
 
     &::before,
     &::after {
-      content: '';
+      content: "";
       height: 100px;
       position: absolute;
       background: rgba(255, 255, 255, 0);
@@ -1509,10 +1507,8 @@ button.primary-white {
   }
 }
 
-
-
 .card {
-  margin: 20PX;
+  margin: 20px;
   background: transparent;
   box-shadow: 0px 8px 28px -9px rgba(0, 0, 0, 0.45);
   position: relative;
@@ -1521,7 +1517,6 @@ button.primary-white {
   border-radius: 16px;
   overflow: hidden;
 }
-
 
 .wave {
   position: absolute;
@@ -1605,7 +1600,6 @@ button.primary-white {
   display: flex;
   flex-direction: row;
 }
-
 
 /* Estilos generales del módulo de seguimiento */
 .seguimiento-container {
@@ -1751,12 +1745,12 @@ button.primary-white {
 }
 
 .guardar {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
 .editar {
-  background-color: #2196F3;
+  background-color: #2196f3;
   color: white;
 }
 
@@ -1781,9 +1775,7 @@ button.primary-white {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition:
-    transform 0.3s ease,
-    filter 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 /* SVG Animation: Rotate and scale effect */
@@ -1809,9 +1801,7 @@ button.primary-white {
   left: 50%;
   margin-left: -100px; /* Center the tooltip */
   opacity: 0;
-  transition:
-    opacity 0.5s,
-    transform 0.5s;
+  transition: opacity 0.5s, transform 0.5s;
   transform: translateY(10px);
 }
 
@@ -1856,8 +1846,6 @@ button.primary-white {
   transform: translateY(0);
   animation: bounce 0.6s ease;
 }
-
-
 
 /* Contenedor principal */
 .formulario__grupo-telefono {
@@ -1936,4 +1924,291 @@ button.primary-white {
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+}
+
+.tab-btn.active {
+  border-bottom: 2px solid #192dd4;
+  color: #192dd4;
+}
+
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.modal-list {
+  list-style: none;
+  padding: 0;
+}
+
+.modal-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 700px; /* Max width for the modal */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Modal Animation */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.modal-header {
+    padding: 10px 20px;
+    background-color: #111a41;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.close-button {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.modal-body {
+    padding: 20px;
+    flex-grow: 1; /* Allows body to take up available space */
+    overflow-y: auto; /* Adds scroll to body if content overflows */
+}
+
+.modal-footer {
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border-top: 1px solid #ddd;
+    text-align: right;
+}
+
+.modal-ok-button {
+    background-color: #007bff; /* Blue color for OK button */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.modal-ok-button:hover {
+    background-color: #0056b3;
+}
+
+/* Tab Styles */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+
+.tab-button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    transition: 0.3s;
+    font-size: 0.9em;
+    border-radius: 5px 5px 0 0;
+    margin-right: 2px;
+}
+
+.tab-button:hover {
+    background-color: #ddd;
+}
+
+.tab-button.active {
+    background-color: #e2e6ea; /* Lighter background for active tab */
+    border-bottom: 3px solid #007bff; /* Blue underline for active tab */
+    font-weight: bold;
+}
+
+.tab-content {
+    padding: 6px 12px;
+    border-top: none;
+}
+
+.tab-content h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.tab-content p {
+    line-height: 1.6;
+}
+
+.tab-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tab-content ul li {
+    padding: 3px 0;
+}
+
+.tab-content a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.tab-content a:hover {
+    text-decoration: underline;
+}
+
+/* Table styles for Info tab */
+.tab-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.tab-content table th,
+.tab-content table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+.tab-content table th {
+    background-color: #f2f2f2;
+}
+
+/* Checkbox and button container */
+.checkbox-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between items */
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.send-email-button {
+    background-color: #111a41; /* Green for send email button */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.send-email-button:hover {
+    background-color: #111a41;
+}
+
+/* Button to open the modal */
+.logo-details {
+    cursor: pointer;
+
 }

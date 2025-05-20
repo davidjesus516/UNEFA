@@ -242,6 +242,95 @@ if (!isset($_SESSION['USER'])) {
                 <i class="fa fa-university" aria-hidden="true"></i>
                 <span class="logo_name">Intranet</span>
             </div>
+
+            <div id="genericModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Detalles de la Aplicación</h2>
+                        <span class="close-button">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="tabs">
+                            <button class="tab-button active" onclick="openTab(event, 'about')">Acerca de</button>
+                            <button class="tab-button" onclick="openTab(event, 'contributors')">Contribuyentes</button>
+                            <button class="tab-button" onclick="openTab(event, 'logs')">Registros</button>
+                            <button class="tab-button" onclick="openTab(event, 'issues')">Problemas (0)</button>
+                        </div>
+
+                        <div id="about" class="tab-content">
+                            <h3>Sistema de Gestión</h3>
+                            <p>Versión 1.0.0 @ 2025-01-01</p>
+                            <p><a href="#" target="_blank">Documentación</a></p>
+                            <p><a href="#" target="_blank">Soporte</a></p>
+                        </div>
+
+                        <div id="contributors" class="tab-content" style="display:none;">
+                            <h3>Patrocinadores</h3>
+                            <ul>
+                                <li>Organización A</li>
+                                <li>Grupo B</li>
+                                <li>Fundación C</li>
+                                <li>Compañía D</li>
+                            </ul>
+                            <h3>Colaboradores</h3>
+                            <ul>
+                                <li>Colaborador Uno</li>
+                                <li>Colaborador Dos</li>
+                                <li>Colaborador Tres</li>
+                                <li>Colaborador Cuatro</li>
+                                <li>Colaborador Cinco</li>
+                                <li>Colaborador Seis</li>
+                            </ul>
+                        </div>
+
+                        <div id="logs" class="tab-content" style="display:none;">
+                            <h3>Registros del Sistema</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Fecha/Hora</th>
+                                        <th>Nivel</th>
+                                        <th>Módulo</th>
+                                        <th>Mensaje</th>
+                                        <th>Referencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2024-05-19 10:00:00</td>
+                                        <td>INFO</td>
+                                        <td>Login</td>
+                                        <td>Inicio de sesión exitoso</td>
+                                        <td>Usuario: admin</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024-05-19 10:05:30</td>
+                                        <td>WARN</td>
+                                        <td>Database</td>
+                                        <td>Conexión inestable</td>
+                                        <td>Código: 502</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="checkbox-container">
+                                <input type="checkbox" id="saveOnlyErrorsLogs" name="saveOnlyErrorsLogs">
+                                <label for="saveOnlyErrorsLogs">Solo errores</label>
+                                <input type="checkbox" id="saveToFileLogs" name="saveToFileLogs">
+                                <label for="saveToFileLogs">Guardar a un archivo</label>
+                                <button class="send-email-button">Enviar por email</button>
+                            </div>
+                        </div>
+
+                        <div id="issues" class="tab-content" style="display:none;">
+                            <h3>No hay problemas registrados</h3>
+                            <p>Marca la casilla "Solo errores" en la pestaña "Registros" para ver los problemas aquí si existen.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-ok-button">OK</button>
+                    </div>
+                </div>
+            </div>
             <ul class="nav-links">
                 <li>
                     <a href="intranet.php">
