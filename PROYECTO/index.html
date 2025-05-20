@@ -8,7 +8,334 @@
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    <link rel="stylesheet" href="css/style.css">
    <style>
+      /* --- Contenedor de las Checklists (Para el layout lado a lado) --- */
+      .checklists-grid-container {
+         display: flex;
+         /* Usa Flexbox para el layout */
+         gap: 20px;
+         /* Espacio entre las dos tarjetas de checklist */
+         flex-wrap: wrap;
+         /* Permite que las tarjetas se envuelvan a la siguiente línea en pantallas pequeñas */
+         width: 100%;
+         /* Asegura que el contenedor ocupe todo el ancho disponible */
+      }
 
+      /* --- Estilos para las Tarjetas de Checklist --- */
+      .checklist-card {
+         background-color: var(--card-bg);
+         border-radius: 10px;
+         box-shadow: var(--box-shadow-light);
+         /* Sombra suave para un toque elegante */
+         padding: 25px;
+         flex: 1;
+         /* Cada tarjeta ocupará el mismo espacio flexible */
+         min-width: 320px;
+         /* Asegura un ancho mínimo antes de envolver */
+         display: flex;
+         /* Añadido para mejor control del contenido interno */
+         flex-direction: column;
+         /* Apila el título y la lista */
+      }
+
+      /* Estilo para un toque más elegante */
+      .checklist-card.elegant-style {
+         border: 1px solid var(--border-color);
+         /* Borde sutil */
+         transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+
+      .checklist-card.elegant-style:hover {
+         transform: translateY(-3px);
+         /* Efecto flotante sutil al pasar el ratón */
+      }
+
+
+      .checklist-card h4 {
+         margin-top: 0;
+         margin-bottom: 15px;
+         font-size: 1.3em;
+         /* Un poco más grande para elegancia */
+         color: var(--primary-blue);
+         /* Título en azul primario */
+         font-weight: 700;
+         /* Más audaz */
+         border-bottom: 2px solid var(--accent-gray);
+         /* Línea más marcada y elegante */
+         padding-bottom: 10px;
+      }
+
+      .checklist-card .intro-text {
+         font-style: italic;
+         color: var(--text-color-light);
+         margin-bottom: 20px;
+         line-height: 1.5;
+         font-size: 0.95em;
+         padding-left: 5px;
+         /* Pequeño padding para alinear con el tick */
+      }
+
+      .checklist-items {
+         list-style: none;
+         padding: 0;
+         margin: 0;
+      }
+
+      .checklist-items li {
+         display: flex;
+         align-items: flex-start;
+         margin-bottom: 15px;
+         color: var(--text-color-dark);
+         font-size: 1em;
+         /* Ajustado para legibilidad */
+         line-height: 1.4;
+         padding-left: 5px;
+         /* Pequeño padding para alinear con el tick */
+      }
+
+      .checklist-items li:last-child {
+         margin-bottom: 0;
+      }
+
+      .checklist-items .icon-checkmark {
+         width: 22px;
+         /* Un poco más grande */
+         height: 22px;
+         margin-right: 12px;
+         /* Más espacio */
+         flex-shrink: 0;
+         background-color: var(--primary-blue);
+         /* Tick azul */
+         border-radius: 3px;
+         /* Bordes ligeramente redondeados para el tick */
+         /* Icono SVG de un tick (marca de verificación) */
+         -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height: 15px; margin: 5px;" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>') no-repeat center;
+         mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height: 15px; margin: 5px;" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>') no-repeat center;
+         mask-size: 90%;
+         /* Ajusta el tamaño del tick dentro del cuadrado */
+         display: flex;
+         /* Para centrar el SVG si fuera necesario */
+         justify-content: center;
+         align-items: center;
+      }
+
+      /* Estilos para la lista de documentación en dos columnas */
+      .checklist-items.double-column {
+         display: grid;
+         grid-template-columns: 1fr 1fr;
+         /* Dos columnas iguales */
+         gap: 15px 20px;
+         /* Espacio vertical y horizontal entre ítems */
+      }
+
+      .checklist-items.double-column li {
+         margin-bottom: 0;
+      }
+
+
+      /* --- Media Queries para Responsividad --- */
+      @media (max-width: 992px) {
+
+         /* Cambiado a 992px para tablets */
+         .user-settings-page-content {
+            flex-direction: column;
+            /* Apilar la navegación y el contenido */
+            margin: 15px;
+            padding: 15px;
+         }
+
+         .settings-nav {
+            flex: none;
+            width: 100%;
+            padding: 15px 0;
+            border-right: none;
+            border-bottom: 1px solid var(--border-color);
+         }
+
+         .settings-main-title {
+            padding: 0 15px 15px;
+            text-align: center;
+         }
+
+         .settings-menu {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 0 10px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+         }
+
+         .settings-menu::-webkit-scrollbar {
+            display: none;
+         }
+
+         .settings-menu .menu-item a {
+            padding: 10px 15px;
+            min-width: fit-content;
+            border-left: none;
+            border-bottom: 3px solid transparent;
+         }
+
+         .settings-menu .menu-item.active a {
+            border-left: none;
+            border-bottom-color: var(--primary-blue);
+         }
+
+         .settings-main-content {
+            padding: 20px 0;
+         }
+      }
+
+      @media (max-width: 768px) {
+
+         /* A partir de este tamaño, las checklists también se apilan */
+         .checklists-grid-container {
+            flex-direction: column;
+            /* Las dos checklists se apilan una debajo de la otra */
+         }
+
+         .checklist-card {
+            min-width: unset;
+            /* Quitar min-width para que ocupen todo el ancho disponible */
+         }
+
+         .checklist-card h4 {
+            font-size: 1.1em;
+         }
+
+         .checklist-card .intro-text {
+            font-size: 0.9em;
+         }
+
+         .checklist-items li {
+            font-size: 0.95em;
+         }
+
+         .checklist-items .icon-checkmark {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+         }
+
+         .checklist-items.double-column {
+            grid-template-columns: 1fr;
+            /* La lista de documentación vuelve a una sola columna */
+         }
+      }
+
+      @media (max-width: 480px) {
+
+         /* Ajustes para móviles muy pequeños */
+         .checklist-card {
+            padding: 15px;
+         }
+
+         .checklist-card h4 {
+            font-size: 1em;
+         }
+
+         .checklist-card .intro-text {
+            font-size: 0.85em;
+         }
+
+         .checklist-items li {
+            font-size: 0.88em;
+         }
+      }
+
+
+      .unefa-footer {
+         background-color: #2c3e50;
+         color: #ecf0f1;
+         padding: 40px 20px 20px;
+         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .footer-container {
+         max-width: 1200px;
+         margin: 0 auto;
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+         gap: 30px;
+      }
+
+      .footer-column h4 {
+         color: #3498db;
+         margin-bottom: 20px;
+         font-size: 1.1rem;
+         font-weight: 600;
+      }
+
+      .footer-column ul {
+         list-style: none;
+         padding: 0;
+         margin: 0;
+      }
+
+      .footer-column li {
+         margin-bottom: 12px;
+         font-size: 0.9rem;
+         line-height: 1.4;
+      }
+
+      .footer-column a {
+         color: #ecf0f1;
+         text-decoration: none;
+         transition: color 0.3s;
+      }
+
+      .footer-column a:hover {
+         color: #3498db;
+      }
+
+      .footer-bottom {
+         max-width: 1200px;
+         margin: 40px auto 0;
+         padding-top: 20px;
+         border-top: 1px solid #34495e;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         flex-wrap: wrap;
+         gap: 20px;
+      }
+
+      .footer-bottom p {
+         font-size: 0.8rem;
+         margin: 0;
+      }
+
+      .legal-links {
+         display: flex;
+         gap: 20px;
+      }
+
+      .legal-links a {
+         color: #bdc3c7;
+         text-decoration: none;
+         font-size: 0.8rem;
+         transition: color 0.3s;
+      }
+
+      .legal-links a:hover {
+         color: #3498db;
+      }
+
+      @media (max-width: 768px) {
+         .footer-container {
+            grid-template-columns: repeat(2, 1fr);
+         }
+
+         .footer-bottom {
+            flex-direction: column;
+            text-align: center;
+         }
+
+         .legal-links {
+            margin-top: 10px;
+         }
+      }
    </style>
 </head>
 
@@ -76,16 +403,180 @@
       su desarrollo individual y social.
    </div>
 
-   <div class="requisitos">
-      <h2>REQUISITOS</h2>
-      <div class="imagenes-requisitos">
-         <img src="img/CHECKLIST 1.jpg" alt="Checklist 1" class="zoomable">
-         <img src="img/CHECKLIST 2.jpg" alt="Checklist 2" class="zoomable">
-      </div>
-   </div>
+   <div class="checklists-grid-container">
 
-   <footer>
-      Universidad Nacional Experimental Politécnica de la Fuerza Armada Nacional Bolivariana | RIF G-20006297-5
+      <section class="checklist-card elegant-style">
+         <h4>Requisitos para optar por la inscripción</h4>
+         <p class="intro-text">Para optar por la inscripción de esta asignatura es necesario haber aprobado:</p>
+         <ul class="checklist-items">
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>Las unidades de créditos que establezca el plan de estudio vigente.</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>Las actividades complementarias.</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>Las asignaturas Cátedra Bolivariana y Defensa Integral de la Nación.</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>El servicio comunitario.</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>Estar inscrito en el Registro Nacional de la Juventud Trabajadora.</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>Cumplir con las disposiciones establecidas en la normativa interna de la universidad que rige la
+                  materia.</span>
+            </li>
+         </ul>
+      </section>
+
+      <section class="checklist-card elegant-style">
+         <h4>Documentación requerida para el proceso de inscripción</h4>
+         <ul class="checklist-items double-column">
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>CÉDULA</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>RIF</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>SÍNTESIS CURRICULAR</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>RÉCORD ACADÉMICO</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>CARNET MILITAR</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>PLANILLA OPSU</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>PLANILLA DE INSCRIPCIÓN</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>CARTA DE POSTULACIÓN</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>SÍNTESIS DEL TUTOR</span>
+            </li>
+            <li>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 15px; margin: 5px;">
+                  <path
+                     d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+               </svg>
+               <span>2 FOTOS TIPO CARNET</span>
+            </li>
+         </ul>
+      </section>
+
+   </div>
+   <footer class="unefa-footer">
+      <div class="footer-container">
+         <div class="footer-column">
+            <h4>Universidad</h4>
+            <ul>
+               <li>Nacional Experimental Politécnica</li>
+               <li>de la Fuerza Armada Nacional</li>
+               <li>Bolivariana</li>
+            </ul>
+         </div>
+
+         <div class="footer-column">
+            <h4>Información Legal</h4>
+            <ul>
+               <li>RIF G-20006297-5</li>
+               <li>HQ9J+R7P, Calle 6</li>
+               <li>Araure 3303</li>
+            </ul>
+         </div>
+
+         <div class="footer-column">
+            <h4>Contacto</h4>
+            <ul>
+               <li>Portuguesa</li>
+               <li>Venezuela</li>
+            </ul>
+         </div>
+
+         <div class="footer-column">
+            <h4>Accesos</h4>
+            <ul>
+               <li><a href="#">Registro</a></li>
+               <li><a href="#">Inicio de sesión</a></li>
+               <li><a href="#">Campus virtual</a></li>
+            </ul>
+         </div>
+      </div>
+
+      <div class="footer-bottom">
+         <p>Copyright © 2024 UNEFA. Todos los derechos reservados.</p>
+         <div class="legal-links">
+            <a href="#">Términos de Uso</a>
+            <a href="#">Política de Privacidad</a>
+         </div>
+      </div>
    </footer>
 
    <script>

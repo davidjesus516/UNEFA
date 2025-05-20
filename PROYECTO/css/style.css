@@ -176,13 +176,7 @@ nav {
 .zoom-overlay img {
   height: 80vh;
 }
-footer {
-  background-color: #e0e0e0;
-  text-align: center;
-  padding: 10px;
-  font-size: 0.9em;
-  margin-top: 30px;
-}
+
 @media screen and (max-width: 768px) {
   .nav-group {
     flex-direction: column;
@@ -207,5 +201,196 @@ footer {
     justify-content: center;
     padding: 10px 0;
     transform: none;
+  }
+}
+
+/* --- Estilos para las Tarjetas de Checklist --- */
+.checklist-card {
+    background-color: var(--card-bg); /* Hereda el fondo blanco de las tarjetas */
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-light); /* Sombra suave */
+    padding: 25px;
+    margin-bottom: 20px; /* Espacio entre las tarjetas si hay varias */
+}
+
+.checklist-card h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: var(--text-color-dark);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color); /* Línea debajo del título */
+    padding-bottom: 10px;
+}
+
+.checklist-card .intro-text {
+    font-style: italic;
+    color: var(--text-color-light);
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.checklist-items {
+    list-style: none; /* Elimina los puntos de lista predeterminados */
+    padding: 0;
+    margin: 0;
+}
+
+.checklist-items li {
+    display: flex;
+    align-items: flex-start; /* Alinea el ícono con la parte superior del texto si el texto es largo */
+    margin-bottom: 15px; /* Espacio entre los ítems */
+    color: var(--text-color-dark);
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+.checklist-items li:last-child {
+    margin-bottom: 0; /* Sin margen en el último ítem */
+}
+
+.checklist-items .icon-checkmark {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    flex-shrink: 0; /* Evita que el ícono se encoja */
+    background-color: var(--primary-blue); /* Color del tick de verificación */
+    /* Icono SVG de un tick (marca de verificación) */
+    -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>') no-repeat center;
+    mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>') no-repeat center;
+    mask-size: contain;
+}
+
+/* Estilos para la lista de documentación en dos columnas */
+.checklist-items.double-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+    gap: 15px 20px; /* Espacio vertical y horizontal entre ítems */
+}
+
+.checklist-items.double-column li {
+    margin-bottom: 0; /* Reiniciar margen inferior, el gap lo maneja */
+}
+
+
+/* --- Media Queries para Responsividad --- */
+@media (max-width: 768px) {
+    .checklist-card {
+        padding: 15px;
+    }
+    .checklist-card h4 {
+        font-size: 1.1em;
+        margin-bottom: 10px;
+    }
+    .checklist-card .intro-text {
+        margin-bottom: 15px;
+        font-size: 0.9em;
+    }
+    .checklist-items li {
+        font-size: 0.9em;
+        margin-bottom: 10px;
+    }
+    .checklist-items .icon-checkmark {
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+    }
+    .checklist-items.double-column {
+        grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
+        gap: 10px;
+    }
+}
+
+
+
+.unefa-footer {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 40px 20px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+}
+
+.footer-column h4 {
+  color: #3498db;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column li {
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.footer-column a {
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-column a:hover {
+  color: #3498db;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 40px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid #34495e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-bottom p {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.legal-links {
+  display: flex;
+  gap: 20px;
+}
+
+.legal-links a {
+  color: #bdc3c7;
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: color 0.3s;
+}
+
+.legal-links a:hover {
+  color: #3498db;
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .legal-links {
+    margin-top: 10px;
   }
 }
