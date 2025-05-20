@@ -50,7 +50,7 @@ class Usuario
     }
     
     //creo la funcion que me va a insertar un nuevo usuario
-    public function insertarUsuario($CAREER_NAME,$CAREER_CODE,$MINIMUM_GRADE)
+    public function insertarUsuario($CAREER_NAME,$CAREER_CODE,$MINIMUM_GRADE,$CAREER_INTERNSHIP_TYPES)
     {try {
         $this->pdo->beginTransaction();
         $consulta = "INSERT INTO `T-CAREER`(`CAREER_NAME`, `CAREER_CODE`, `MINIMUM_GRADE`, `CREATION_DATE`, `MODIF_USER_ID`, `MODIF_USER_DATE`, `ELIM_USER_ID`, `ELIM_USER_DATE`, `REST_USER_ID`, `REST_USER_DATE`, `STATUS`) VALUES (:CAREER_NAME, :CAREER_CODE, :MINIMUM_GRADE, :CREATION_DATE, :MODIF_USER_ID, :MODIF_USER_DATE, :ELIM_USER_ID, :ELIM_USER_DATE, :REST_USER_ID, :REST_USER_DATE, :STATUS)";
@@ -67,6 +67,17 @@ class Usuario
         $statement->bindValue(":REST_USER_DATE", date("Y-m-d H:i:s"));
         $statement->bindValue(":STATUS", 1);
         $statement->execute();
+        $CAREER_ID = $this->pdo->lastInsertId();
+        $consulta2 = "INSERT INTO `t-career_internship_type`(`CAREER_ID`, `INTERNSHIP_TYPE_ID`) VALUES (:CAREER_ID, :INTERNSHIP_TYPE_ID)";
+        foreach ($CAREER_INTERNSHIP_TYPES as $INTERNSHIP_TYPE_ID) {
+            $statement2 = $this->pdo->prepare($consulta2);
+            $statement2->bindValue(":CAREER_ID", $CAREER_ID);
+            $statement2->bindValue(":INTERNSHIP_TYPE_ID", $INTERNSHIP_TYPE_ID);
+            if(!$statement2->execute()){
+                $this->pdo->rollBack();
+                return false; // Error al insertar en la tabla intermedia
+            };
+        }
         $this->pdo->commit();
         return true;
 } catch (PDOException $e) {
@@ -139,14 +150,23 @@ class Usuario
                 'CAREER_ID' => $row["CAREER_ID"],
                 'CAREER_NAME' => $row["CAREER_NAME"],
                 'CAREER_CODE' => $row["CAREER_CODE"],
-                'MINIMUM_GRADE' => $row["MINIMUM_GRADE"]
+                'MINIMUM_GRADE' => $row["MINIMUM_GRADE"],
+                'CAREER_INTERNSHIP_TYPES' => $this->careerInternshipType($row["CAREER_ID"])
             );
         }
         return $json;
     }
+    public function careerInternshipType($CAREER_ID){
+        $consulta = "SELECT INTERNSHIP_TYPE_ID FROM `t-career_internship_type` WHERE CAREER_ID = :CAREER_ID";
+        $statement = $this->pdo->prepare($consulta);
+        $statement->bindValue(":CAREER_ID", $CAREER_ID);
+        $statement->execute();
+        $row = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $row;
+    }
     
     //creo la funcion que me va a editar un usuario
-    public function editarUsuario($CAREER_ID, $CAREER_NAME , $CAREER_CODE,$MINIMUM_GRADE){
+    public function editarUsuario($CAREER_ID, $CAREER_NAME , $CAREER_CODE,$MINIMUM_GRADE, $CAREER_INTERNSHIP_TYPES){
         $consulta = "UPDATE `T-CAREER` SET CAREER_NAME = :CAREER_NAME, CAREER_CODE = :CAREER_CODE, MINIMUM_GRADE = :MINIMUM_GRADE, MODIF_USER_ID = :MODIF_USER_ID , MODIF_USER_DATE = :MODIF_USER_DATE  WHERE CAREER_ID = :CAREER_ID";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(":CAREER_ID", $CAREER_ID);
@@ -155,6 +175,19 @@ class Usuario
         $statement->bindValue(":MINIMUM_GRADE", $MINIMUM_GRADE);
         $statement->bindValue(":MODIF_USER_ID", $_SESSION['USER_ID']);
         $statement->bindValue(":MODIF_USER_DATE", date("Y-m-d H:i:s"));
+        $consulta2 = "INSERT INTO `t-career_internship_type`(`CAREER_ID`, `INTERNSHIP_TYPE_ID`) VALUES (:CAREER_ID, :INTERNSHIP_TYPE_ID)";
+        $statement2 = $this->pdo->prepare("DELETE FROM `t-career_internship_type` WHERE CAREER_ID = :CAREER_ID");
+        $statement2->bindValue(":CAREER_ID", $CAREER_ID);
+        $statement2->execute();
+        foreach ($CAREER_INTERNSHIP_TYPES as $INTERNSHIP_TYPE_ID) {
+            $statement2 = $this->pdo->prepare($consulta2);
+            $statement2->bindValue(":CAREER_ID", $CAREER_ID);
+            $statement2->bindValue(":INTERNSHIP_TYPE_ID", $INTERNSHIP_TYPE_ID);
+            if(!$statement2->execute()){
+                $this->pdo->rollBack();
+                return false; // Error al insertar en la tabla intermedia
+            };
+        }
         return $statement->execute();
     }    
 

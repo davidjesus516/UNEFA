@@ -7,6 +7,7 @@ $(document).ready(function () {
   $.ajax({
     url: "../controllers/carrera/InternshipTypeList.php",
     type: "GET",
+    async: false,
     success: function (response) {
       let task = JSON.parse(response);
       let template = `<label for="" class="formulario__label">Tipo pasantia<span class="obligatorio">*</span></label>`; //creo la plantilla donde imprimire los datos
@@ -44,12 +45,31 @@ $(document).ready(function () {
   $("#codigo").keyup(function (e) {
     validarCodigo();
   });
-
+  $("input[name='my_opt[]']").change(function () {
+      const $this = $(this);
+      if ($this.attr("priority") === "0" && $this.is(":checked")) {
+          // Si el de prioridad 0 se selecciona, deselecciona los demás
+          $("input[type=checkbox]").not($this).prop("checked", false);
+      } else if ($("input[type=checkbox][priority=0]").is(":checked")) {
+          // Si el de prioridad 0 está seleccionado, deselecciona este
+          $("input[type=checkbox][priority=0]").prop("checked", false);
+          alert("No puedes seleccionar más de un tipo de pasantía cuando haz seleccionado un tipo de pasantía que es unico");
+      }
+      // Mostrar los valores seleccionados
+      const selectedValues = $("input[type=checkbox]:checked").map(function () {
+          return $(this).val();
+      }).get();
+      console.log("Valores seleccionados:", selectedValues);
+  });
+  // ...existing code...
   $("#formulario").submit(function (e) {
     const Id_Carrera = $("#id").val();
     const Codigo = $("#codigo").val();
     const Nombre_Carrera = $("#nombre").val();
     const MINIMUM_GRADE = $("#nota").val();
+    const selectedValues = $("input[type=checkbox]:checked").map(function () {
+          return $(this).val();
+      }).get();
     if (!validarFormulario()) {
       // Se comprueba si hay errores
       e.preventDefault(); // C    ancela el envío del formulario si hay errores
@@ -63,7 +83,8 @@ $(document).ready(function () {
                 Id_Carrera: Id_Carrera,
                 Codigo: Codigo,
                 Nombre_Carrera: Nombre_Carrera,
-                MINIMUM_GRADE: MINIMUM_GRADE
+                MINIMUM_GRADE: MINIMUM_GRADE,
+                CAREER_INTERNSHIP_TYPES: selectedValues
             };
             let url =
                 edit === false
@@ -160,6 +181,12 @@ $(document).ready(function () {
         $("#codigo").val(task.CAREER_CODE); //añado los elementos al formulario y lo hago de solo lectura
         $("#nombre").val(task.CAREER_NAME);
         $("#nota").val(task.MINIMUM_GRADE);
+        for (let i = 0; i < task.CAREER_INTERNSHIP_TYPES.length; i++) {
+          // Recorre el array de tipos de pasantía  
+          const internshipTypeId = task.CAREER_INTERNSHIP_TYPES[i].INTERNSHIP_TYPE_ID;
+          // Marca el checkbox correspondiente
+          $(`input[type=checkbox][value=${internshipTypeId}]`).prop("checked", true);
+        }
         edit = true; //valido la variable que esta por encima de todo para que en vez de guardar un nuevo usuario lo edite
       }
     );

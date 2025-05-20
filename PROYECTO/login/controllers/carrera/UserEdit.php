@@ -7,10 +7,11 @@ if(isset($_POST)){
     $Codigo = $_POST["Codigo"];
     $Nombre_Carrera = mb_strtoupper($_POST["Nombre_Carrera"]);
     $MINIMUM_GRADE = $_POST["MINIMUM_GRADE"];
+    $CAREER_INTERNSHIP_TYPES =  $_POST["CAREER_INTERNSHIP_TYPES"];
     // crear una instancia de la clase Usuario
     $usuario = new Usuario();
     // llamar al método editarUsuario() para editar el Usuario Por Su Cedula
-    if($usuario->editarUsuario($Id_Carrera,$Nombre_Carrera,$Codigo,$MINIMUM_GRADE)){
+    if($usuario->editarUsuario($Id_Carrera,$Nombre_Carrera,$Codigo,$MINIMUM_GRADE,$CAREER_INTERNSHIP_TYPES)){
     $row = array(
         'message' => '    
         <dialog id="message">

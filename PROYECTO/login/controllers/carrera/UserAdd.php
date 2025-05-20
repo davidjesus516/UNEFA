@@ -6,10 +6,11 @@ if(isset($_POST)){//si el js me manda yo hago:
     $Nombre_Carrera =  mb_strtoupper($_POST["Nombre_Carrera"]);
     $Codigo =  $_POST["Codigo"];
     $MINIMUM_GRADE =  $_POST["MINIMUM_GRADE"];
+    $CAREER_INTERNSHIP_TYPES =  $_POST["CAREER_INTERNSHIP_TYPES"];
     // crear una instancia de la clase Usuario
     $usuario = new Usuario();
     // llamar al método insertarUsuario() para insertar un nuevo Usuario
-    if($usuario->insertarUsuario($Nombre_Carrera,$Codigo,$MINIMUM_GRADE)){
+    if($usuario->insertarUsuario($Nombre_Carrera,$Codigo,$MINIMUM_GRADE,$CAREER_INTERNSHIP_TYPES)){
         $row = array(
         'message' => '    
         <dialog id="message">
