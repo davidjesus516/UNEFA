@@ -245,7 +245,7 @@ if (!isset($_SESSION['USER'])) {
                 <span class="logo_name">Intranet</span>
             </div>
 
-            <div id="genericModal" class="modal">
+            <div id="genericModal" class="modal-info">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h2>Detalles de la Aplicación</h2>

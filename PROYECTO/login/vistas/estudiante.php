@@ -151,20 +151,24 @@ require 'header.php';
                     </select>
                 </div>
 
-                <!-- SEMESTRE -->
-                <div class="formulario__grupo">
-                    <label for="semestre" class="formulario__label">Semestre <span class="obligatorio">*</span></label>
-                    <select id="semestre" name="semestre" class="formulario__input" required>
-                        <option value="" disabled selected>Cargando...</option>
-                    </select>
+                <!-- Grupo:  -->
+                <div class="formulario__grupo" id="grupo__nombre">
+                    <label for="" class="formulario__label">Semestre <span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese el Semestre" required>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">Validacion</p>
                 </div>
 
-                <!-- seccion -->
-                <div class="formulario__grupo">
-                    <label for="seccion" class="formulario__label">Sección <span class="obligatorio">*</span></label>
-                    <select id="seccion" name="seccion" class="formulario__input" required>
-                        <option value="" disabled selected>Cargando...</option>
-                    </select>
+                <!-- Grupo:  -->
+                <div class="formulario__grupo" id="grupo__nombre">
+                    <label for="" class="formulario__label">Sección <span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Sección" required>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">Validacion</p>
                 </div>
 
                 <!-- regimen -->

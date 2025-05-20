@@ -4,8 +4,8 @@ require 'header.php';
 <span class="text">Periodo</span>
 <div class="page-content">
 
+    <button class="primary" onclick="window.dialog.showModal();">Nuevo <span>+</span></button>
     <div id="modal" class="modal">
-        <button class="primary" onclick="window.dialog.showModal();">Nuevo <span>+</span></button>
 
         <dialog id="dialog" aria-labelledby="dialog-title">
             <h2 id="dialog-title">Registrar Periodo</h2>

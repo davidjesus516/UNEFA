@@ -1107,7 +1107,7 @@ button.primary-white {
   }
 }
 
-.modal {
+.modal-info {
   margin: auto;
 }
 
@@ -2010,7 +2010,7 @@ td {
 }
 
 /* Modal Styles */
-.modal {
+.modal-info {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1000; /* Sit on top */

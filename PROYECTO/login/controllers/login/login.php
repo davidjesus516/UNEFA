@@ -18,12 +18,12 @@ if ($UserSessionData == null) {
             <dialog id="dialog">
             <h2>usuario o contraseña incorrecta </h2>
             <div class="error-banmark">
-            <div class="ban-icon">
-                <span class="icon-line line-long-invert"></span>
-                <span class="icon-line line-long"></span>
-                <div class="icon-circle"></div>
-                <div class="icon-fix"></div>
-            </div>
+                <div class="ban-icon">
+                    <span class="icon-line line-long-invert"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
             </div>
             <button aria-label="close" class="x">❌</button>
             </dialog>',
@@ -35,12 +35,12 @@ if ($UserSessionData == null) {
             <h2>Usuario bloqueado, contacte al administrador.</h2>
             <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
             <div class="error-banmark">
-            <div class="ban-icon">
-                <span class="icon-line line-long-invert"></span>
-                <span class="icon-line line-long"></span>
-                <div class="icon-circle"></div>
-                <div class="icon-fix"></div>
-            </div>
+                <div class="ban-icon">
+                    <span class="icon-line line-long-invert"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
             </div>
             </dialog>',
         'status' => 0);
@@ -73,12 +73,12 @@ if ($UserSessionData == null) {
                     <h2>Contraseña Vencida.</h2>
                     <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
                     <div class="error-banmark">
-                    <div class="ban-icon">
-                        <span class="icon-line line-long-invert"></span>
-                        <span class="icon-line line-long"></span>
-                        <div class="icon-circle"></div>
-                        <div class="icon-fix"></div>
-                    </div>
+                        <div class="ban-icon">
+                            <span class="icon-line line-long-invert"></span>
+                            <span class="icon-line line-long"></span>
+                            <div class="icon-circle"></div>
+                            <div class="icon-fix"></div>
+                        </div>
                     </div>
                     </dialog>',
                     'status' => 1,
@@ -91,12 +91,12 @@ if ($UserSessionData == null) {
                 <h2>Bienvenido ' . ucfirst($_SESSION['NAME']) . '.</h2>
                 <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
                 <div class="success-checkmark">
-                <div class="check-icon">
-                    <span class="icon-line line-tip"></span>
-                    <span class="icon-line line-long"></span>
-                    <div class="icon-circle"></div>
-                    <div class="icon-fix"></div>
-                </div>
+                    <div class="check-icon">
+                        <span class="icon-line line-tip"></span>
+                        <span class="icon-line line-long"></span>
+                        <div class="icon-circle"></div>
+                        <div class="icon-fix"></div>
+                    </div>
                 </div>
                 </dialog>',
                 'status' => 1,
@@ -105,16 +105,16 @@ if ($UserSessionData == null) {
                 $row = array(
                     'message' => '    
                     <dialog id="dialog">
-                    <h2>Bienvenido ' . ucfirst($_SESSION['NAME']) . '.</h2>
-                    <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
-                    <div class="success-checkmark">
-                    <div class="check-icon">
-                        <span class="icon-line line-tip"></span>
-                        <span class="icon-line line-long"></span>
-                        <div class="icon-circle"></div>
-                        <div class="icon-fix"></div>
-                    </div>
-                    </div>
+                        <h2>Bienvenido ' . ucfirst($_SESSION['NAME']) . '.</h2>
+                        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+                        <div class="success-checkmark">
+                            <div class="check-icon">
+                                <span class="icon-line line-tip"></span>
+                                <span class="icon-line line-long"></span>
+                                <div class="icon-circle"></div>
+                                <div class="icon-fix"></div>
+                            </div>
+                        </div>
                     </dialog>',
                     'status' => 1,
                     'redirect' => 'first_login.php');
@@ -123,16 +123,16 @@ if ($UserSessionData == null) {
                 $row = array(
                     'message' => '    
                     <dialog id="dialog">
-                    <h2>Bienvenido ' . ucfirst($_SESSION['NAME']) . '.</h2>
-                    <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
-                    <div class="success-checkmark">
-                    <div class="check-icon">
-                        <span class="icon-line line-tip"></span>
-                        <span class="icon-line line-long"></span>
-                        <div class="icon-circle"></div>
-                        <div class="icon-fix"></div>
-                    </div>
-                    </div>
+                        <h2>Bienvenido ' . ucfirst($_SESSION['NAME']) . '.</h2>
+                        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+                        <div class="success-checkmark">
+                            <div class="check-icon">
+                                <span class="icon-line line-tip"></span>
+                                <span class="icon-line line-long"></span>
+                                <div class="icon-circle"></div>
+                                <div class="icon-fix"></div>
+                            </div>
+                        </div>
                     </dialog>',
                     'status' => 1,
                     'redirect' => 'basic_user_config.php');
@@ -148,17 +148,17 @@ if ($UserSessionData == null) {
             $row = array(
                 'message' =>'     
                 <dialog id="dialog">
-            <h2>Usuario bloqueado, contacte al administrador.</h2>
-            <div class="error-banmark">
-            <div class="ban-icon">
-                <span class="icon-line line-long-invert"></span>
-                <span class="icon-line line-long"></span>
-                <div class="icon-circle"></div>
-                <div class="icon-fix"></div>
-            </div>
-            </div>
-            <button aria-label="close" class="x">❌</button>
-            </dialog>',
+                <h2>Usuario bloqueado, contacte al administrador.</h2>
+                <div class="error-banmark">
+                    <div class="ban-icon">
+                        <span class="icon-line line-long-invert"></span>
+                        <span class="icon-line line-long"></span>
+                        <div class="icon-circle"></div>
+                        <div class="icon-fix"></div>
+                    </div>
+                </div>
+                <button aria-label="close" class="x">❌</button>
+                </dialog>',
                 'status' => 0);
         }elseif ($fail['COUNT'] > 1) {
             $row = array(
@@ -167,12 +167,12 @@ if ($UserSessionData == null) {
                 <h2>usuario o contraseña incorrecta</h2>
                 <h3>intentos restantes: ' . (3 - $fail['COUNT']) . '</h3>
                 <div class="error-banmark">
-                <div class="ban-icon">
-                    <span class="icon-line line-long-invert"></span>
-                    <span class="icon-line line-long"></span>
-                    <div class="icon-circle"></div>
-                    <div class="icon-fix"></div>
-                </div>
+                    <div class="ban-icon">
+                        <span class="icon-line line-long-invert"></span>
+                        <span class="icon-line line-long"></span>
+                        <div class="icon-circle"></div>
+                        <div class="icon-fix"></div>
+                    </div>
                 </div>
                 <button aria-label="close" class="x">❌</button>
                 </dialog>',
@@ -183,12 +183,12 @@ if ($UserSessionData == null) {
                             <dialog id="dialog">
                             <h2>usuario o contraseña incorrecta </h2>
                             <div class="error-banmark">
-                            <div class="ban-icon">
-                                <span class="icon-line line-long-invert"></span>
-                                <span class="icon-line line-long"></span>
-                                <div class="icon-circle"></div>
-                                <div class="icon-fix"></div>
-                            </div>
+                                <div class="ban-icon">
+                                    <span class="icon-line line-long-invert"></span>
+                                    <span class="icon-line line-long"></span>
+                                    <div class="icon-circle"></div>
+                                    <div class="icon-fix"></div>
+                                </div>
                             </div>
                             <button aria-label="close" class="x">❌</button>
                             </dialog>',
