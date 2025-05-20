@@ -28,6 +28,8 @@ if (!isset($_SESSION['USER'])) {
     <link rel="stylesheet" href="vistas/css/estilos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- CUSTOM JS -->
     <script src="../js/app.js" defer></script>
@@ -398,7 +400,7 @@ if (!isset($_SESSION['USER'])) {
                         <li><a href="preinscripcion.php">Pre Inscripcion</a></li>
                         <li><a href="inscripcion.php">Inscripcion</a></li>
                         <li><a href="seguimiento.php">Seguimiento</a></li>
-                        <li><a href="cul">Culminacion de Pasantia</a></li>
+                        <li><a href="404.php">Culminacion de Pasantia</a></li>
                     </ul>
                 </li>
 
@@ -430,10 +432,10 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Configuracion</a></li>
-                        <li><a href="#">Registros Inactivos</a></li>
-                        <li><a href="#">Cambio de Registros</a></li>
+                        <li><a href="404.php">Registros Inactivos</a></li>
+                        <li><a href="404.php">Cambio de Registros</a></li>
                         <li><a href="usuario.php">Usuarios</a></li>
-                        <li><a href="#">Combos</a></li>
+                        <li><a href="404.php">Combos</a></li>
                     </ul>
                 </li>
 

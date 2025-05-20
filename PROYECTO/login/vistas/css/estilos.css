@@ -2009,206 +2009,450 @@ td {
   border-bottom: 1px solid #ddd;
 }
 
-
 /* Modal Styles */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    max-width: 700px; /* Max width for the modal */
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    animation-name: animatetop;
-    animation-duration: 0.4s;
-    display: flex;
-    flex-direction: column;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 700px; /* Max width for the modal */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Modal Animation */
 @keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }
 
 .modal-header {
-    padding: 10px 20px;
-    background-color: #111a41;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
+  background-color: #111a41;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
 }
 
 .modal-header h2 {
-    margin: 0;
-    font-size: 1.2em;
+  margin: 0;
+  font-size: 1.2em;
 }
 
 .close-button {
-    color: #aaa;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: black;
-    text-decoration: none;
+  color: black;
+  text-decoration: none;
 }
 
 .modal-body {
-    padding: 20px;
-    flex-grow: 1; /* Allows body to take up available space */
-    overflow-y: auto; /* Adds scroll to body if content overflows */
+  padding: 20px;
+  flex-grow: 1; /* Allows body to take up available space */
+  overflow-y: auto; /* Adds scroll to body if content overflows */
 }
 
 .modal-footer {
-    padding: 10px 20px;
-    background-color: #f1f1f1;
-    border-top: 1px solid #ddd;
-    text-align: right;
+  padding: 10px 20px;
+  background-color: #f1f1f1;
+  border-top: 1px solid #ddd;
+  text-align: right;
 }
 
 .modal-ok-button {
-    background-color: #007bff; /* Blue color for OK button */
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9em;
+  background-color: #007bff; /* Blue color for OK button */
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
 }
 
 .modal-ok-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 /* Tab Styles */
 .tabs {
-    display: flex;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 15px;
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 15px;
 }
 
 .tab-button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 10px 15px;
-    transition: 0.3s;
-    font-size: 0.9em;
-    border-radius: 5px 5px 0 0;
-    margin-right: 2px;
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: 0.3s;
+  font-size: 0.9em;
+  border-radius: 5px 5px 0 0;
+  margin-right: 2px;
 }
 
 .tab-button:hover {
-    background-color: #ddd;
+  background-color: #ddd;
 }
 
 .tab-button.active {
-    background-color: #e2e6ea; /* Lighter background for active tab */
-    border-bottom: 3px solid #007bff; /* Blue underline for active tab */
-    font-weight: bold;
+  background-color: #e2e6ea; /* Lighter background for active tab */
+  border-bottom: 3px solid #007bff; /* Blue underline for active tab */
+  font-weight: bold;
 }
 
 .tab-content {
-    padding: 6px 12px;
-    border-top: none;
+  padding: 6px 12px;
+  border-top: none;
 }
 
 .tab-content h3 {
-    margin-top: 0;
-    color: #333;
+  margin-top: 0;
+  color: #333;
 }
 
 .tab-content p {
-    line-height: 1.6;
+  line-height: 1.6;
 }
 
 .tab-content ul {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
 .tab-content ul li {
-    padding: 3px 0;
+  padding: 3px 0;
 }
 
 .tab-content a {
-    color: #007bff;
-    text-decoration: none;
+  color: #007bff;
+  text-decoration: none;
 }
 
 .tab-content a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 /* Table styles for Info tab */
 .tab-content table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
 }
 
 .tab-content table th,
 .tab-content table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-    font-size: 0.9em;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  font-size: 0.9em;
 }
 
 .tab-content table th {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 /* Checkbox and button container */
 .checkbox-container {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Space between items */
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between items */
 }
 
 .checkbox-container input[type="checkbox"] {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .send-email-button {
-    background-color: #111a41; /* Green for send email button */
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9em;
+  background-color: #111a41; /* Green for send email button */
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
 }
 
 .send-email-button:hover {
-    background-color: #111a41;
+  background-color: #111a41;
 }
 
 /* Button to open the modal */
 .logo-details {
-    cursor: pointer;
+  cursor: pointer;
+}
 
+/* Si tu main-content ya está en header.php, no necesitas esto aquí */
+.main-content {
+  flex-grow: 1;
+  padding: 20px 40px; /* Ajusta según el padding deseado */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Si tu header ya está en header.php, no necesitas esto aquí */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.header-title {
+  font-size: 1.8em;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.header-title .menu-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+  /* Placeholder para el icono de menú, si es un SVG o mask */
+  background-color: var(--text-dark);
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>')
+    no-repeat center;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>')
+    no-repeat center;
+}
+
+.header-info {
+  font-size: 0.9em;
+  color: #666;
+  text-align: right;
+}
+
+/* --- Sección de Navegación de Ajustes (Sidebar Izquierdo de la imagen) --- */
+.settings-nav {
+  flex: 0 0 250px; /* Ancho fijo para la navegación lateral de ajustes */
+  padding: 0; /* Padding interno, lo gestionan los items de menú */
+  border-right: 1px solid var(--border-color); /* Separador entre la nav y el contenido principal */
+}
+
+.settings-main-title {
+  font-size: 1.4em;
+  font-weight: 600;
+  color: var(--text-color-dark);
+  margin: 0 0 20px 0;
+  padding: 0 25px 15px; /* Padding y espacio para el título */
+  border-bottom: 1px solid var(--border-color); /* Línea debajo del título */
+}
+
+.settings-menu {
+  list-style: none; /* Elimina los puntos de lista */
+  padding: 0;
+  margin: 0;
+}
+
+.settings-menu .menu-item {
+  /* El <a> dentro del <li> ahora será el elemento flexible */
+  display: flex; /* Añadido para el hover en todo el item */
+  padding: 0; /* Remueve el padding del li, lo maneja el <a> */
+}
+
+.settings-menu .menu-item a {
+  display: flex; /* Permite que el icono y el texto se alineen */
+  align-items: center;
+  padding: 12px 25px; /* Padding interno de cada ítem de menú */
+  cursor: pointer;
+  color: var(--text-color-light); /* Color de texto por defecto */
+  font-size: 0.95em;
+  font-weight: 500;
+  text-decoration: none; /* Quita el subrayado del enlace */
+  width: 100%; /* El enlace ocupa todo el ancho del li */
+  transition: background-color 0.2s, color 0.2s, border-left-color 0.2s;
+  border-left: 3px solid transparent; /* Para la barra azul del activo */
+  box-sizing: border-box; /* Asegura que padding no aumente el ancho */
+}
+
+.settings-menu .menu-item a:hover {
+  background-color: var(--input-bg); /* Fondo claro al pasar el ratón */
+  color: var(--text-color-dark); /* Texto más oscuro al pasar el ratón */
+}
+
+/* Clase `active` para el elemento de menú actualmente seleccionado */
+.settings-menu .menu-item.active a:hover {
+  background-color: var(--input-bg); /* Fondo del ítem activo */
+  color: var(--primary-blue); /* Texto azul del ítem activo */
+  font-weight: 600;
+  border-left-color: var(
+    --primary-blue
+  ); /* Barra azul lateral del ítem activo */
+}
+
+.settings-menu .menu-item .icon-placeholder {
+  width: 20px; /* Tamaño del icono */
+  height: 20px;
+  margin-right: 15px; /* Espacio entre icono y texto */
+  /* Usar un SVG de placeholder simple o reemplazar con tus propios SVG */
+  background-color: var(--text-color-light); /* Color por defecto del icono */
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>')
+    no-repeat center; /* Icono de usuario genérico */
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>')
+    no-repeat center;
+  mask-size: contain;
+}
+
+.settings-menu .menu-item.active .icon-placeholder {
+  background-color: var(
+    --primary-blue
+  ); /* Color del icono cuando el elemento está activo */
+}
+
+/* Estilo para "Eliminar tu cuenta" */
+.settings-menu .menu-item.delete-account a {
+  margin-top: 30px; /* Separación de los elementos anteriores */
+  color: #ef5350; /* Rojo suave */
+}
+.settings-menu .menu-item.delete-account .icon-placeholder {
+  background-color: #ef5350; /* Icono rojo */
+}
+.settings-menu .menu-item.delete-account a:hover {
+  background-color: #ffebee; /* Rojo muy claro al pasar el ratón */
+}
+
+/* --- Área de Contenido Principal de Ajustes --- */
+/* Aquí iría el contenido de la sección seleccionada (ej. "Configuración Usuario") */
+.settings-main-content {
+  flex-grow: 1; /* Ocupa el espacio restante disponible */
+  padding: 0 20px; /* Padding interno para el contenido de la derecha */
+}
+
+.form-card {
+  /* Usado para la sección de ejemplo de configuración */
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: var(--box-shadow-light);
+  padding: 25px;
+  margin-top: 0; /* Asegura que no tenga margin arriba */
+}
+
+.form-card h4 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+  color: var(--text-color-dark);
+  font-weight: 600;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 0.9em;
+  color: var(--text-color-light);
+  margin-bottom: 8px;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--input-bg);
+  font-size: 1em;
+  color: var(--text-color-dark);
+  box-sizing: border-box; /* Incluir padding y borde en el ancho/alto total */
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input[type="text"]::placeholder,
+.form-group textarea::placeholder {
+  color: var(--placeholder-color);
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); /* Sombra suave azul al enfocar */
+}
+
+/* --- Media Queries para Responsividad (móviles y tablets) --- */
+@media (max-width: 768px) {
+  .user-settings-page-content {
+    flex-direction: column; /* Apilar la navegación y el contenido en pantallas pequeñas */
+    margin: 15px;
+    padding: 15px;
+  }
+  .settings-nav {
+    flex: none; /* Eliminar ancho fijo */
+    width: 100%;
+    padding: 15px 0;
+    border-right: none; /* Quitar borde lateral */
+    border-bottom: 1px solid var(--border-color); /* Poner borde inferior */
+  }
+  .settings-main-title {
+    padding: 0 15px 15px; /* Ajustar padding del título para móviles */
+    text-align: center; /* Centrar el título en móviles */
+  }
+  .settings-menu {
+    display: flex; /* Para un menú de scroll horizontal en móviles */
+    overflow-x: auto; /* Permite el scroll horizontal si hay muchos ítems */
+    white-space: nowrap; /* Evita que los ítems se envuelvan */
+    padding: 0 10px;
+    -webkit-overflow-scrolling: touch; /* Suavizar scroll en iOS */
+    scrollbar-width: none; /* Ocultar scrollbar en Firefox */
+    -ms-overflow-style: none; /* Ocultar scrollbar en IE/Edge */
+  }
+  .settings-menu::-webkit-scrollbar {
+    display: none; /* Ocultar scrollbar en Chrome/Safari */
+  }
+  .settings-menu .menu-item a {
+    padding: 10px 15px;
+    min-width: fit-content; /* Asegura que los ítems no se encojan demasiado */
+    border-left: none; /* Quitar la barra lateral */
+    border-bottom: 3px solid transparent; /* Poner barra inferior para activo */
+  }
+  .settings-menu .menu-item.active a {
+    border-left: none; /* Asegurar que no haya barra izquierda */
+    border-bottom-color: var(--primary-blue); /* Activar barra inferior */
+  }
+
+  .settings-main-content {
+    padding: 20px 0; /* Ajustar padding del contenido principal */
+  }
+  .form-card {
+    padding: 20px;
+  }
 }

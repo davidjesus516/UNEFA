@@ -3,32 +3,65 @@ require 'header.php';
 ?>
 
 <span class="text">Ventana -> Configuración</span>
-<div class="page-content">
+<div class="user-settings-page-content">
 
-    <a class="primary_list" href="historial_session.php"><span>-> </span>Historial de Ingreso de Usuario</a>
-    <br>
-    <a class="primary_list" href="nuevo_usuario.php"><span>-> </span>Nuevo Usuario</a>
-    <br>
-    <a class="primary_list" href="listado_usuario.php"><span>-> </span>Listado Usuario</a>
-    <br>
-    <a class="primary_list" href="#"><span>-> </span>Gestion Usuario</a>
-    <br>
-    <a class="primary_list" href="#"><span>-> </span>Gestion Roles</a>
-    <br>
-    <a class="primary_list" href="#"><span>-> </span>Gestion Permisos</a>
-    <br>
-    <a class="primary_list" href="preguntas.php"><span>-> </span>Gestion Prenguntas Preestablecidas</a>
-    <br>
-    <a class="primary_list" href="config_usuario.php"><span>-> </span>Configuracion Usuario</a>
-    <br>
-    <a class="primary_list" href="config_contraseña.php"><span>-> </span>Configuracion Contraseña</a>
-    <br>
-    <a class="primary_list" href="config_preguntas.php"><span>-> </span>Configuracion Preguntas de Seguridad</a>
-
+    <aside class="settings-nav">
+        <ul class="settings-menu">
+            <li class="menu-item active">
+                <a href="historial_session.php">
+                    <i class="icon-placeholder"></i> <span>Historial de Ingreso de Usuario</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="nuevo_usuario.php">
+                    <i class="icon-placeholder"></i> <span>Nuevo Usuario</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="listado_usuario.php">
+                    <i class="icon-placeholder"></i> <span>Listado Usuario</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="#">
+                    <i class="icon-placeholder"></i> <span>Gestion Usuario</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="#">
+                    <i class="icon-placeholder"></i> <span>Gestion Roles</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="#">
+                    <i class="icon-placeholder"></i> <span>Gestion Permisos</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="preguntas.php">
+                    <i class="icon-placeholder"></i> <span>Gestion Preguntas Preestablecidas</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="config_usuario.php">
+                    <i class="icon-placeholder"></i> <span>Configuracion Usuario</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="config_contraseña.php">
+                    <i class="icon-placeholder"></i> <span>Configuracion Contraseña</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a href="config_preguntas.php">
+                    <i class="icon-placeholder"></i> <span>Configuracion Preguntas de Seguridad</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
 
 </div>
-<script src="js/estudiante/jquery-3.7.0.min.js"></script>
-<script src="js/estudiante/main.js"></script>  
+
 <?php
 require 'footer.php';
 ?>
