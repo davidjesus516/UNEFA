@@ -26,16 +26,6 @@ require 'header.php';
                                 <option value="P">P-</option>
                             </select>
                         </div>
-
-                        <input type="text"
-                            class="formulario__input formulario__cedula-input"
-                            name="cedula"
-                            id="cedula"
-                            placeholder="Ej: 12345678"
-                            pattern="[VEP]-\d{1,8}"
-                            maxlength="9"
-                            required>
-
                     </div>
 
                     <p class="formulario__input-error">Formato válido: X-12345678</p>

@@ -2,7 +2,7 @@
 require 'header.php';
 ?>
 
-<span class="text">Ventana -> Configuración</span>
+<span class="text">Ventana -> Registros Inactivos</span>
 <div class="user-settings-page-content">
 
     <aside class="settings-nav">

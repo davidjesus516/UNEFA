@@ -8,7 +8,7 @@
 }
 
 html {
-  background-color: #fff;
+  background-color: #e4e9f7;
   transition: 200ms;
 }
 
@@ -460,6 +460,7 @@ p.account a:hover {
 .sidebar.close ~ .home-section {
   left: 78px;
   width: calc(100% - 78px);
+  height: 100%;
 }
 
 .popup {
@@ -2276,8 +2277,7 @@ td {
 
 .settings-menu {
   list-style: none; /* Elimina los puntos de lista */
-  padding: 0;
-  margin: 0;
+  padding: 1rem;
 }
 
 .settings-menu .menu-item {

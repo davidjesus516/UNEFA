@@ -7,7 +7,7 @@ if (!isset($_SESSION['USER'])) {
 <input type="hidden" id="id" name="id" value=<?php echo $_SESSION["NAME"]; ?>>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background-color: #e4e9f7;">
 
 <head>
     <meta charset="UTF-8">
@@ -432,7 +432,7 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Configuracion</a></li>
-                        <li><a href="404.php">Registros Inactivos</a></li>
+                        <li><a href="registros_inactivos.php">Registros Inactivos</a></li>
                         <li><a href="404.php">Cambio de Registros</a></li>
                         <li><a href="usuario.php">Usuarios</a></li>
                         <li><a href="404.php">Combos</a></li>
