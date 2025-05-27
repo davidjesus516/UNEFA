@@ -10,14 +10,27 @@ $(document).ready(function () {
     async: false,
     success: function (response) {
       let task = JSON.parse(response);
-      let template = `<label for="" class="formulario__label">Tipo pasantia<span class="obligatorio">*</span></label>`; //creo la plantilla donde imprimire los datos
+      let template = `<label for="" class="formulario__label">Tipo pasantia<span class="obligatorio">*</span>
+                    <div class="tooltip-container">
+                        <div class="icon-circle-tooltip">
+                            <i class="fas fa-exclamation"></i>
+                        </div>
+                        <span class="tooltip-text">
+                        <h3>IMPORTANTE</h3>
+                        <h5>Prioridad de Pasantia:</h5>
+                        <h6>Ordinaria: 0</h6>
+                        <h6>Hospitalaria: 1</h6>
+                        <h6>Comunitaria: 2</h6>
+                        </span>
+                    </div></label> `; //creo la plantilla donde imprimire los datos
       task.forEach((task) => {
         //hago un array que me recorra el json y me lo imprima en el tbody
         template += `<label class="checkbox">
         <input type="checkbox" name="my_opt[]" value=${task.INTERNSHIP_TYPE_ID} priority = ${task.PRIORITY} >${task.NAME}</label>`;
       })
       $("#grupo__checkbox").html(template); //los imprimo en el html
-    }}); 
+    }
+  });
   $("#search").keyup(function (e) {
     let search = $("#search").val();
     if (/^\d{1,8}$/.test(search)) {
@@ -46,20 +59,20 @@ $(document).ready(function () {
     validarCodigo();
   });
   $("input[name='my_opt[]']").change(function () {
-      const $this = $(this);
-      if ($this.attr("priority") === "0" && $this.is(":checked")) {
-          // Si el de prioridad 0 se selecciona, deselecciona los demás
-          $("input[type=checkbox]").not($this).prop("checked", false);
-      } else if ($("input[type=checkbox][priority=0]").is(":checked")) {
-          // Si el de prioridad 0 está seleccionado, deselecciona este
-          $("input[type=checkbox][priority=0]").prop("checked", false);
-          alert("No puedes seleccionar más de un tipo de pasantía cuando haz seleccionado un tipo de pasantía que es unico");
-      }
-      // Mostrar los valores seleccionados
-      const selectedValues = $("input[type=checkbox]:checked").map(function () {
-          return $(this).val();
-      }).get();
-      console.log("Valores seleccionados:", selectedValues);
+    const $this = $(this);
+    if ($this.attr("priority") === "0" && $this.is(":checked")) {
+      // Si el de prioridad 0 se selecciona, deselecciona los demás
+      $("input[type=checkbox]").not($this).prop("checked", false);
+    } else if ($("input[type=checkbox][priority=0]").is(":checked")) {
+      // Si el de prioridad 0 está seleccionado, deselecciona este
+      $("input[type=checkbox][priority=0]").prop("checked", false);
+      alert("No puedes seleccionar más de un tipo de pasantía cuando haz seleccionado un tipo de pasantía que es unico");
+    }
+    // Mostrar los valores seleccionados
+    const selectedValues = $("input[type=checkbox]:checked").map(function () {
+      return $(this).val();
+    }).get();
+    console.log("Valores seleccionados:", selectedValues);
   });
   // ...existing code...
   $("#formulario").submit(function (e) {
@@ -68,8 +81,8 @@ $(document).ready(function () {
     const Nombre_Carrera = $("#nombre").val();
     const MINIMUM_GRADE = $("#nota").val();
     const selectedValues = $("input[type=checkbox]:checked").map(function () {
-          return $(this).val();
-      }).get();
+      return $(this).val();
+    }).get();
     if (!validarFormulario()) {
       // Se comprueba si hay errores
       e.preventDefault(); // C    ancela el envío del formulario si hay errores
@@ -77,36 +90,36 @@ $(document).ready(function () {
       return false;
     }
 
-        // Agregamos la alerta de confirmación
-        if (confirm("¿Quieres proceder con el Registro?")) {
-            const postData = {
-                Id_Carrera: Id_Carrera,
-                Codigo: Codigo,
-                Nombre_Carrera: Nombre_Carrera,
-                MINIMUM_GRADE: MINIMUM_GRADE,
-                CAREER_INTERNSHIP_TYPES: selectedValues
-            };
-            let url =
-                edit === false
-                    ? "../controllers/carrera/UserAdd.php"
-                    : "../controllers/carrera/UserEdit.php";
-            $.post(url, postData, function (response) {
-                data = JSON.parse(response);
-                $(".message").html(data.message);
-                let message = $("#message").get(0);
-                message.showModal();
-                $(".x").on("click", function () {
-                    message.close();
-                });
-                fetchTask();
-                $("#formulario").trigger("reset");
-                dialog.close();
-                edit = false; // Reiniciar la variable edit después de guardar
-            });
-        } else {
-            // Si el usuario hace clic en "Cancelar", no se envía el formulario
-            return false;
-        }
+    // Agregamos la alerta de confirmación
+    if (confirm("¿Quieres proceder con el Registro?")) {
+      const postData = {
+        Id_Carrera: Id_Carrera,
+        Codigo: Codigo,
+        Nombre_Carrera: Nombre_Carrera,
+        MINIMUM_GRADE: MINIMUM_GRADE,
+        CAREER_INTERNSHIP_TYPES: selectedValues
+      };
+      let url =
+        edit === false
+          ? "../controllers/carrera/UserAdd.php"
+          : "../controllers/carrera/UserEdit.php";
+      $.post(url, postData, function (response) {
+        data = JSON.parse(response);
+        $(".message").html(data.message);
+        let message = $("#message").get(0);
+        message.showModal();
+        $(".x").on("click", function () {
+          message.close();
+        });
+        fetchTask();
+        $("#formulario").trigger("reset");
+        dialog.close();
+        edit = false; // Reiniciar la variable edit después de guardar
+      });
+    } else {
+      // Si el usuario hace clic en "Cancelar", no se envía el formulario
+      return false;
+    }
 
     e.preventDefault();
   });
@@ -191,17 +204,17 @@ $(document).ready(function () {
       }
     );
   });
-  function isCorrect(id){ 
-                    $(`#${id}`).addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
-                    $(`#${id} i`).addClass("fa-check-circle").removeClass("fa-times-circle");
-                    $(`#${id} .formulario__input-error`).removeClass("formulario__input-error-activo");
-}
-    function isIncorrect(id,message){
-                    $(`#${id}`).addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
-                    $(`#${id} i`).addClass("fa-times-circle").removeClass("fa-check-circle");
-                    $(`#${id} .formulario__input-error`).addClass('formulario__input-error-activo');
-                    $(`#${id} p`).text(message);
-                }
+  function isCorrect(id) {
+    $(`#${id}`).addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
+    $(`#${id} i`).addClass("fa-check-circle").removeClass("fa-times-circle");
+    $(`#${id} .formulario__input-error`).removeClass("formulario__input-error-activo");
+  }
+  function isIncorrect(id, message) {
+    $(`#${id}`).addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
+    $(`#${id} i`).addClass("fa-times-circle").removeClass("fa-check-circle");
+    $(`#${id} .formulario__input-error`).addClass('formulario__input-error-activo');
+    $(`#${id} p`).text(message);
+  }
   function validarNombre() {
     let Nombre_Carrera = $("#nombre").val();
     let validacion = false;
@@ -221,7 +234,7 @@ $(document).ready(function () {
           isIncorrect("grupo__nombre", "Esta carrera ya existe");
           validacion = false;
         } else if (!/^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+$/.test(Nombre_Carrera)) {
-          isIncorrect('grupo__nombre',"Este campo solo permite letras");
+          isIncorrect('grupo__nombre', "Este campo solo permite letras");
           validacion = false;
         } else {
           isCorrect("grupo__nombre");
@@ -247,10 +260,10 @@ $(document).ready(function () {
             (edit === true && data[0].CAREER_ID === parseInt($("#id").val()))
           )
         ) {
-          isIncorrect("grupo__codigo","Este codigo ya existe");
+          isIncorrect("grupo__codigo", "Este codigo ya existe");
           validacion = false;
         } else if (!/^\d+$/.test(Codigo)) {
-          isIncorrect("grupo__codigo","Este campo solo permite números");
+          isIncorrect("grupo__codigo", "Este campo solo permite números");
           validacion = false;
         } else {
           isCorrect("grupo__codigo");
@@ -268,44 +281,128 @@ $(document).ready(function () {
 });
 
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const dialog = document.getElementById("dialog");
-    const closeButton = document.querySelector("#dialog .x");
-    const formulario = document.getElementById("formulario");
+document.addEventListener("DOMContentLoaded", function () {
+  const dialog = document.getElementById("dialog");
+  const closeButton = document.querySelector("#dialog .x");
+  const formulario = document.getElementById("formulario");
 
-    closeButton.addEventListener("click", function () {
-      // Cerrar el modal
-      dialog.close();
+  closeButton.addEventListener("click", function () {
+    // Cerrar el modal
+    dialog.close();
 
-      // Limpiar todos los campos del formulario
-      formulario.reset();
+    // Limpiar todos los campos del formulario
+    formulario.reset();
 
-      // Ocultar mensajes de error
-      const errores = formulario.querySelectorAll(".formulario__input-error");
-      errores.forEach(error => error.style.display = "none");
-      
-      // Ocultar mensaje de éxito
-      const mensajeExito = document.getElementById("formulario__mensaje-exito");
-      if (mensajeExito) {
-        mensajeExito.style.display = "none";
-      }
-      
-      // Ocultar mensaje general de error
-      const mensajeError = document.getElementById("formulario__mensaje");
-      if (mensajeError) {
-        mensajeError.style.display = "none";
-      }
+    // Ocultar mensajes de error
+    const errores = formulario.querySelectorAll(".formulario__input-error");
+    errores.forEach(error => error.style.display = "none");
 
-      // Resetear estilos de validación (iconos y bordes)
-      const inputs = formulario.querySelectorAll(".formulario__input");
-      inputs.forEach(input => {
-        input.classList.remove("formulario__input--incorrecto", "formulario__input--correcto");
-      });
+    // Ocultar mensaje de éxito
+    const mensajeExito = document.getElementById("formulario__mensaje-exito");
+    if (mensajeExito) {
+      mensajeExito.style.display = "none";
+    }
 
-      // Ocultar iconos de validación
-      const iconosValidacion = formulario.querySelectorAll(".formulario__validacion-estado");
-      iconosValidacion.forEach(icono => {
-        icono.style.display = "none";
-      });
+    // Ocultar mensaje general de error
+    const mensajeError = document.getElementById("formulario__mensaje");
+    if (mensajeError) {
+      mensajeError.style.display = "none";
+    }
+
+    // Resetear estilos de validación (iconos y bordes)
+    const inputs = formulario.querySelectorAll(".formulario__input");
+    inputs.forEach(input => {
+      input.classList.remove("formulario__input--incorrecto", "formulario__input--correcto");
+    });
+
+    // Ocultar iconos de validación
+    const iconosValidacion = formulario.querySelectorAll(".formulario__validacion-estado");
+    iconosValidacion.forEach(icono => {
+      icono.style.display = "none";
     });
   });
+});
+
+// Variables de estado
+let currentData = [...sampleData];
+let filteredData = [...sampleData];
+let currentPage = 1;
+let recordsPerPage = 10;
+let sortColumn = null;
+let sortDirection = 'asc';
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', function () {
+  renderTable();
+  setupEventListeners();
+  updatePagination();
+});
+
+// Configurar event listeners
+function setupEventListeners() {
+  // Ordenar al hacer clic en encabezados
+  document.querySelectorAll('.sortable').forEach(header => {
+    header.addEventListener('click', function () {
+      const column = this.getAttribute('data-column');
+
+      // Si ya está ordenado por esta columna, invertir la dirección
+      if (sortColumn === column) {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        sortColumn = column;
+        sortDirection = 'asc';
+      }
+
+      // Limpiar clases de ordenamiento anteriores
+      document.querySelectorAll('.sortable').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+      });
+
+      // Añadir clase al encabezado actual
+      this.classList.add(`sort-${sortDirection}`);
+
+      sortData();
+      renderTable();
+      updatePagination();
+    });
+  });
+
+  // Cambiar registros por página
+  document.getElementById('recordsPerPage').addEventListener('change', function () {
+    recordsPerPage = parseInt(this.value);
+    currentPage = 1;
+    updatePagination();
+    renderTable();
+  });
+
+  // Aplicar filtros
+  document.getElementById('applyFilters').addEventListener('click', applyFilters);
+
+  // Restablecer filtros
+  document.getElementById('resetFilters').addEventListener('click', resetFilters);
+
+  // Paginación
+  document.getElementById('prevPage').addEventListener('click', function () {
+    if (currentPage > 1) {
+      currentPage--;
+      renderTable();
+      updatePagination();
+    }
+  });
+
+  document.getElementById('nextPage').addEventListener('click', function () {
+    const totalPages = Math.ceil(filteredData.length / recordsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderTable();
+      updatePagination();
+    }
+  });
+
+  // Permitir búsqueda al presionar Enter
+  document.getElementById('searchInput').addEventListener('keyup', function (e) {
+    if (e.key === 'Enter') {
+      applyFilters();
+    }
+  });
+}
