@@ -120,6 +120,36 @@ require 'header.php';
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
+
+                <!-- Región -->
+                <div class="formulario__grupo">
+                    <label for="region" class="formulario__label">Región <span class="obligatorio">*</span></label>
+                    <select id="region" name="region" class="formulario__input" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                    </select>
+                </div>
+                <div class="formulario__mensaje" id="formulario__mensaje">
+                    <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente. </p>
+                </div>
+
+                <!-- Núcleo -->
+                <div class="formulario__grupo">
+                    <label for="nucleo" class="formulario__label">Núcleo <span class="obligatorio">*</span></label>
+                    <select id="nucleo" name="nucleo" class="formulario__input" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                    </select>
+                </div>
+                <div class="formulario__mensaje" id="formulario__mensaje">
+                    <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente. </p>
+                </div>
+
+                <!-- Extensión -->
+                <div class="formulario__grupo">
+                    <label for="extencion" class="formulario__label">Extensión <span class="obligatorio">*</span></label>
+                    <select id="extencion" name="nucleo" class="formulario__input" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                    </select>
+                </div>
                 <div class="formulario__mensaje" id="formulario__mensaje">
                     <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente. </p>
                 </div>

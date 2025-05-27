@@ -70,23 +70,21 @@ require 'header.php';
         </dialog>
     </div>
 
-
-
-    <!-- Tabla -->
-    <div class="table-container">
-        <table class="w3-table-all w3-hoverable" aria-label="Listado de carreras">
-            <thead>
-                <tr class="w3-light-grey">
-                    <th scope="col" class="sortable" data-column="CAREER_CODE">Código</th>
-                    <th scope="col" class="sortable" data-column="CAREER_NAME">Carrera</th>
-                    <th scope="col" colspan="2">Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="datos">
-                <!-- Filas dinámicas -->
-            </tbody>
-        </table>
-    </div>
+<!-- Tabla -->
+<div class="table-container">
+    <table class="w3-table-all w3-hoverable" aria-label="Listado de carreras">
+        <thead>
+            <tr class="w3-light-grey">
+                <th scope="col" class="sortable">Código</th>
+                <th scope="col" class="sortable">Carrera</th>
+                <th scope="col" colspan="2">Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="datos">
+            <!-- Filas dinámicas -->
+        </tbody>
+    </table>
+</div>
 
 </div>
 
