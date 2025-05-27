@@ -71,25 +71,6 @@ require 'header.php';
     </div>
 
 
-    <!-- Contenedor de filtros -->
-    <div class="filters-container">
-        <div class="filter-group">
-            <label for="searchInput">Buscar:</label>
-            <input type="text" id="searchInput" placeholder="Buscar por código o nombre..." class="w3-input">
-        </div>
-
-        <div class="filter-group">
-            <label for="recordsPerPage">Registros por página:</label>
-            <select id="recordsPerPage" class="w3-select">
-                <option value="5">5</option>
-                <option value="10" selected>10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-            </select>
-        </div>
-
-        <button id="applyFilters" class="w3-button w3-blue">Aplicar Filtros</button>
-    </div>
 
     <!-- Tabla -->
     <div class="table-container">
@@ -107,15 +88,6 @@ require 'header.php';
         </table>
     </div>
 
-    <!-- Paginación -->
-    <div class="w3-bar pagination">
-        <div class="page-info w3-small"></div>
-        <div class="w3-right">
-            <button id="prevPage" class="w3-button w3-green"><i class="fas fa-chevron-left"></i></button>
-            <span id="pageNumbers" class="w3-margin"></span>
-            <button id="nextPage" class="w3-button w3-green"><i class="fas fa-chevron-right"></i></button>
-        </div>
-    </div>
 </div>
 
 </div>
