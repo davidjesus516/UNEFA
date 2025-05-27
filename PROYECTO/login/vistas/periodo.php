@@ -78,7 +78,6 @@ require 'header.php';
     <table class="w3-table-all w3-hoverable" aria-label="Lista de períodos académicos">
         <thead>
             <tr class="w3-light-grey">
-                <th scope="col">Código</th>
                 <th scope="col">Lapso Académico</th>
                 <th scope="col">Inicio</th>
                 <th scope="col">Fin</th>

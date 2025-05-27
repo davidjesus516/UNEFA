@@ -1765,8 +1765,8 @@ button.primary-white {
 .tooltip-container {
   position: relative;
   display: inline-block;
-  margin: 15px 0;
-  bottom: -1rem;
+  /* margin: 15px 0;
+  bottom: -1rem; */
 }
 
 /* Icon styling */
@@ -2406,4 +2406,136 @@ td {
   outline: none;
   border-color: var(--primary-blue);
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); /* Sombra suave azul al enfocar */
+}
+
+#grupo__checkbox .grupo__checkbox {
+  display: grid;
+  gap: 5px;
+  padding-left: 10px;
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.icon-circle-tooltip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  background-color: #192dd4;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.icon-circle-tooltip:hover {
+  background-color: #192dd4;
+  transform: scale(1.1);
+}
+
+.tooltip-text {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  background-color: #192dd4;
+  color: white;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  width: max-content;
+  max-width: 250px;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+}
+
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #192dd4 transparent transparent transparent;
+}
+
+.tooltip-container:hover .tooltip-text {
+  opacity: 1;
+  visibility: visible;
+}
+
+.fa-exclamation {
+  scale: 0.7;
+}
+
+/* Estilos adicionales para los filtros */
+.filters-container {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+.filter-group {
+  margin-bottom: 10px;
+}
+.filter-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.filter-group input,
+.filter-group select {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+}
+.filter-actions {
+  margin-top: 15px;
+}
+.filter-actions button {
+  padding: 6px 12px;
+  margin-right: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.filter-actions button:hover {
+  background-color: #45a049;
+}
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-info {
+  font-size: 14px;
+}
+.sortable {
+  cursor: pointer;
+}
+.sortable:hover {
+  background-color: #e0e0e0;
+}
+.sort-asc::after {
+  content: " ↑";
+  font-size: 12px;
+}
+.sort-desc::after {
+  content: " ↓";
+  font-size: 12px;
 }

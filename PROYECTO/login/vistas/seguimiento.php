@@ -32,7 +32,7 @@ require 'header.php';
 
                 <!-- Grupo Nombre -->
                 <div class="formulario__grupo">
-                    <label class="formulario__label">Nombre Estudiante</label>
+                    <label class="formulario__label">Estudiante</label>
                     <input type="text" class="formulario__input" id="nombre-estudiante" style="width: 100%;" readonly>
                 </div>
             </div>
@@ -47,9 +47,8 @@ require 'header.php';
                 <div class="formulario__grupo">
                     <label class="formulario__label">Traslado</label>
                     <select id="traslado" class="formulario__input">
-                        <option value="interno">Interno</option>
-                        <option value="externo">Externo</option>
-                        <option value="pendiente">Pendiente</option>
+                        <option value="si">Si</option>
+                        <option value="no">No</option>
                     </select>
                 </div>
 

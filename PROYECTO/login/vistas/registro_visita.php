@@ -83,6 +83,7 @@ require 'header.php';
                 <th>Actividad Solicitada</th>
                 <th>Actividad Realizada</th>
                 <th>Observación</th>
+                <th>Tutor</th>
                 <th colspan="2">Acciones</th>
             </tr>
         </thead>

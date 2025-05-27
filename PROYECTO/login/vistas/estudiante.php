@@ -1,4 +1,6 @@
 <?php
+$maxYear = date('Y') - 18; // Asegura que el año sea al menos 18 años atrás
+
 require 'header.php';
 ?>
 <span class="text">Estudiante</span>
@@ -26,6 +28,15 @@ require 'header.php';
                                 <option value="P">P-</option>
                             </select>
                         </div>
+
+                        <input type="text"
+                            class="formulario__input formulario__cedula-input"
+                            name="cedula"
+                            id="cedula"
+                            placeholder="Ej: 12345678"
+                            pattern="[VEP]-\d{1,8}"
+                            maxlength="9"
+                            required>
                     </div>
 
                     <p class="formulario__input-error">Formato válido: X-12345678</p>
@@ -73,14 +84,13 @@ require 'header.php';
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
-                <!-- Género y Estado Civil -->
+                <!-- Sexo y Estado Civil -->
                 <div class="formulario__grupo">
-                    <label for="genero" class="formulario__label">Género <span class="obligatorio">*</span></label>
+                    <label for="genero" class="formulario__label">Sexo <span class="obligatorio">*</span></label>
                     <select id="genero" name="genero" class="formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
                         <option value="M">Masculino</option>
                         <option value="F">Femenino</option>
-                        <option value="O">Otro</option>
                     </select>
                 </div>
 
@@ -88,8 +98,7 @@ require 'header.php';
                 <div class="formulario__grupo">
                     <label class="formulario__label">Fecha de Nacimiento <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="date" class="formulario__input" id="birthdate" required
-                            aria-describedby="inicio-error">
+                        <input type="date" class="formulario__input" id="birthdate" required aria-describedby="inicio-error" max="<?php echo $maxYear . '-12-31'; ?>">
                     </div>
                     <p class="formulario__input-error" id="inicio-error">Seleccione una fecha válida</p>
                 </div>
@@ -108,30 +117,36 @@ require 'header.php';
                 <!-- Contacto -->
                 <div class="formulario__grupo" id="grupo__telefono">
                     <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
-                        <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(0414) 000-0000" pattern="\(\d{4}\) \d{3}-\d{4}" required>
+
+                    <div class="formulario__grupo-input formulario__grupo-telefono">
+                        <div class="formulario__codigo-pais">
+                            <select class="formulario__input formulario__codigo-select">
+                                <option value="0412">0412</option>
+                                <option value="0414">0414</option>
+                                <option value="0416">0416</option>
+                                <option value="0422">0422</option>
+                                <option value="0424">0424</option>
+                                <option value="0426">0426</option>
+                                <option value="0255">0255</option>
+                            </select>
+                        </div>
+
+                        <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(555) 000-000" required>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
 
                     <p class="formulario__input-error">Formato requerido: (XXX) XXX-XXXX</p>
                 </div>
 
 
                 <div class="formulario__grupo" id="grupo__correo">
-                    <label for="correo" class="formulario__label">Correo <span class="obligatorio">*</span></label>
+                    <label for="correo" class="formulario__label">Correo Electrónico <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <input type="email" class="formulario__input"
                             name="correo" id="correo"
                             placeholder="ejemplo@correo.com" required>
                     </div>
                     <p class="formulario__input-error">El correo debe tener un formato válido</p>
-                </div>
-
-                <!-- Selectores -->
-                <div class="formulario__grupo">
-                    <label for="turno" class="formulario__label">Turno <span class="obligatorio">*</span></label>
-                    <select id="turno" name="turno" class="formulario__input" required>
-                        <option value="" disabled selected>Seleccione una opción</option>
-                        <option value="D">Diurno</option>
-                        <option value="N">Nocturno</option>
-                    </select>
                 </div>
 
                 <div class="formulario__grupo">
@@ -216,9 +231,9 @@ require 'header.php';
                 <th>Cédula</th>
                 <th>Nombres</th>
                 <th>Apellidos</th>
-                <th>Género</th>
+                <th>Sexo</th>
                 <th>Teléfono</th>
-                <th>Correo</th>
+                <th>Correo Electrónico</th>
                 <th>Carrera</th>
                 <th colspan="2">Acciones</th>
             </tr>
@@ -230,29 +245,6 @@ require 'header.php';
 
 <script src="js/jquery-3.7.0.min.js"></script>
 <script src="js/estudiante.js"></script>
-<script>
-    document.getElementById('telefono').addEventListener('input', function(e) {
-        const numbers = e.target.value.replace(/\D/g, '');
-        const match = numbers.match(/^(\d{0,4})(\d{0,3})(\d{0,4})$/);
-        console.log(match);
-        e.target.value = !match[2] ? match[1] :
-            `(${match[1]}) ${match[2]}${match[3] ? `-${match[3]}` : ''}`;
-    });
-
-    // Validación en tiempo real
-    document.getElementById('telefono').addEventListener('blur', function(e) {
-        const pattern = /^\\d{4}\ \d-{3}-\d{4}$/;
-        const grupo = document.getElementById('grupo__telefono');
-
-        if (!pattern.test(e.target.value)) {
-            grupo.classList.add('invalido');
-            grupo.classList.remove('valido');
-        } else {
-            grupo.classList.remove('invalido');
-            grupo.classList.add('valido');
-        }
-    });
-</script>
 
 <?php
 require 'footer.php';

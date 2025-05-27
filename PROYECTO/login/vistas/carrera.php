@@ -4,7 +4,7 @@ require 'header.php';
 
 <span class="text">Carrera</span>
 <div class="page-content">
-    
+
     <div class="message"></div>
     <div id="modal" class="modal">
         <button class="primary" onclick="window.dialog.showModal();" aria-label="Abrir formulario para nueva carrera">
@@ -41,14 +41,15 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__">
                     <label for="" class="formulario__label">Nota Minima<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="number" class="formulario__input" name="" id="nota" placeholder="Nota minima aprobatoria" min=0 max = 20 step= any required>
+                        <input type="number" class="formulario__input" name="" id="nota" placeholder="Nota minima aprobatoria" min=0 max=20 step=any required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
-                <div class="formulario_grupo" id="grupo__checkbox">
-                    
+                <div class="formulario_grupo grupo__checkbox" id="grupo__checkbox">
+
+
                 </div>
 
                 <div class="formulario__mensaje" id="formulario__mensaje">
@@ -69,13 +70,34 @@ require 'header.php';
         </dialog>
     </div>
 
-    <!-- Sección de la tabla -->
+
+    <!-- Contenedor de filtros -->
+    <div class="filters-container">
+        <div class="filter-group">
+            <label for="searchInput">Buscar:</label>
+            <input type="text" id="searchInput" placeholder="Buscar por código o nombre..." class="w3-input">
+        </div>
+
+        <div class="filter-group">
+            <label for="recordsPerPage">Registros por página:</label>
+            <select id="recordsPerPage" class="w3-select">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+        </div>
+
+        <button id="applyFilters" class="w3-button w3-blue">Aplicar Filtros</button>
+    </div>
+
+    <!-- Tabla -->
     <div class="table-container">
         <table class="w3-table-all w3-hoverable" aria-label="Listado de carreras">
             <thead>
                 <tr class="w3-light-grey">
-                    <th scope="col">Código</th>
-                    <th scope="col">Carrera</th>
+                    <th scope="col" class="sortable" data-column="CAREER_CODE">Código</th>
+                    <th scope="col" class="sortable" data-column="CAREER_NAME">Carrera</th>
                     <th scope="col" colspan="2">Acciones</th>
                 </tr>
             </thead>
@@ -84,6 +106,17 @@ require 'header.php';
             </tbody>
         </table>
     </div>
+
+    <!-- Paginación -->
+    <div class="w3-bar pagination">
+        <div class="page-info w3-small"></div>
+        <div class="w3-right">
+            <button id="prevPage" class="w3-button w3-green"><i class="fas fa-chevron-left"></i></button>
+            <span id="pageNumbers" class="w3-margin"></span>
+            <button id="nextPage" class="w3-button w3-green"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</div>
 
 </div>
 

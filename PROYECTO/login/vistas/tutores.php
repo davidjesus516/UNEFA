@@ -57,7 +57,7 @@ require 'header.php';
 
                 <!-- Grupo:  -->
                 <div class="formulario__grupo" id="grupo__nombre">
-                    <label for="" class="formulario__label">Segundo Nombre <span class="obligatorio">*</span></label>
+                    <label for="" class="formulario__label">Segundo Nombre</label>
                     <div class="formulario__grupo-input">
                         <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese el segundo nombre" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -75,7 +75,7 @@ require 'header.php';
                 </div>
 
                 <div class="formulario__grupo" id="grupo__apellido">
-                    <label for="" class="formulario__label">Segundo Apellido <span class="obligatorio">*</span></label>
+                    <label for="" class="formulario__label">Segundo Apellido</label>
                     <div class="formulario__grupo-input">
                         <input type="text" class="formulario__input" name="" id="apellido" placeholder="Ingrese el segundo apellido" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -101,15 +101,17 @@ require 'header.php';
                     <div class="formulario__grupo-input formulario__grupo-telefono">
                         <div class="formulario__codigo-pais">
                             <select class="formulario__input formulario__codigo-select">
-                                <option value="" selected>0412</option>
-                                <option value="">0414</option>
-                                <option value="">0416</option>
-                                <option value="">0426</option>
-                                <option value="">0255</option>
+                                <option value="0412">0412</option>
+                                <option value="0414">0414</option>
+                                <option value="0416">0416</option>
+                                <option value="0422">0422</option>
+                                <option value="0424">0424</option>
+                                <option value="0426">0426</option>
+                                <option value="0255">0255</option>
                             </select>
                         </div>
 
-                        <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(555) 000-000" pattern="\(\d{3}\) \d{3}-\d{4}" required>
+                        <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(555) 000-000" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
 
@@ -117,7 +119,7 @@ require 'header.php';
                 </div>
 
                 <div class="formulario__grupo" id="grupo__correo">
-                    <label for="telefono" class="formulario__label">Correo <span class="obligatorio">*</span></label>
+                    <label for="telefono" class="formulario__label">Correo Electrónico <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <input type="email" class="formulario__input" name="correo" id="e_mail" placeholder="Ingrese su correo electronico">
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -192,7 +194,7 @@ require 'header.php';
                     <th scope="col">Apellidos</th>
                     <th scope="col">Sexo</th>
                     <th scope="col">Teléfono</th>
-                    <th scope="col">Correo</th>
+                    <th scope="col">Correo Electrónico</th>
                     <th scope="col">Profesión</th>
                     <th scope="col" colspan="2">Acciones</th>
                 </tr>

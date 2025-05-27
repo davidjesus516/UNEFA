@@ -48,7 +48,7 @@ require 'header.php';
 
                 <!-- Grupo:  -->
                 <div class="formulario__grupo" id="grupo__nombre">
-                    <label for="" class="formulario__label">Nombre de la Empresa <span class="obligatorio">*</span></label>
+                    <label for="" class="formulario__label">Nombre Institución <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre de la Empresa">
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -73,15 +73,17 @@ require 'header.php';
                     <div class="formulario__grupo-input formulario__grupo-telefono">
                         <div class="formulario__codigo-pais">
                             <select class="formulario__input formulario__codigo-select">
-                                <option value="" selected>0412</option>
-                                <option value="">0414</option>
-                                <option value="">0416</option>
-                                <option value="">0426</option>
-                                <option value="">0255</option>
+                                <option value="0412">0412</option>
+                                <option value="0414">0414</option>
+                                <option value="0416">0416</option>
+                                <option value="0422">0422</option>
+                                <option value="0424">0424</option>
+                                <option value="0426">0426</option>
+                                <option value="0255">0255</option>
                             </select>
                         </div>
 
-                        <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(555) 000-000" pattern="\(\d{3}\) \d{3}-\d{4}" required>
+                        <input type="tel" class="formulario__input formulario__telefono-input" name="telefono" id="telefono" placeholder="(555) 000-000" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
 
@@ -140,7 +142,7 @@ require 'header.php';
                 <th>RIF</th>
                 <th>Nombre</th>
                 <th>Contacto</th>
-                <th>Dirección</th>
+                <th>Responsables</th>
                 <th>Carrera</th>
                 <th>Práctica</th>
                 <th colspan="2">Acciones</th>
