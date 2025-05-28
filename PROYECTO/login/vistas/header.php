@@ -431,7 +431,7 @@ if (!isset($_SESSION['USER'])) {
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Configuracion</a></li>
                         <li><a href="registros_inactivos.php">Registros Inactivos</a></li>
-                        <li><a href="404.php">Cambio de Registros</a></li>
+                        <li><a href="cambio_registro.php">Cambio de Registros</a></li>
                         <li><a href="usuario.php">Usuarios</a></li>
                         <li><a href="404.php">Combos</a></li>
                     </ul>
