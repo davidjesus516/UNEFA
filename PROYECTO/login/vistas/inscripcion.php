@@ -78,8 +78,6 @@ require 'header.php';
                     <div class="formulario__grupo-input">
                         <select class="formulario__input" id="">
                             <option value="">seleccione una opcion</option>
-                            <option value=""></option>
-                            <option value=""></option>
                         </select>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
@@ -112,6 +110,20 @@ require 'header.php';
             <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
         </dialog>
     </div>
+
+    <table class="w3-table-all w3-hoverable">
+        <thead>
+            <tr class="w3-light-grey">
+                <th>Estudiante</th>
+                <th>Tutor Academico</th>
+                <th>Tutor Metodologico</th>
+                <th>Institución</th>
+                <th>Responsable</th>
+                <th colspan="2">Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="datos"></tbody>
+    </table>
 </div>
 </div>
 <script src="js/estudiante/jquery-3.7.0.min.js"></script>

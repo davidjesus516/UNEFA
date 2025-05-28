@@ -62,6 +62,18 @@ require 'header.php';
                     <p class="formulario__input-error">Debe especificar el motivo</p>
                 </div>
 
+                
+                <div class="formulario__grupo" id="grupo__tutor">
+                    <label for="tutor" class="formulario__label">Tutor<span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <select class="formulario__input" name="tutor" id="tutor">
+                            <option value="" disabled selected>Seleccione una opción</option>
+                        </select>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">Validacion</p>
+                </div>
+                
                 <!-- Mensajes y Botones -->
                 <div class="formulario__mensaje" id="formulario__mensaje">
                     <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor complete todos los campos requeridos </p>

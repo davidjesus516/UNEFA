@@ -92,8 +92,6 @@ if (!isset($_SESSION['USER'])) {
         --underline-margin-y: 0.3125em;
     }
 
-    /* popup settings 👆 */
-
     .popup {
         display: inline-block;
         text-rendering: optimizeLegibility;
@@ -400,7 +398,7 @@ if (!isset($_SESSION['USER'])) {
                         <li><a href="preinscripcion.php">Pre Inscripcion</a></li>
                         <li><a href="inscripcion.php">Inscripcion</a></li>
                         <li><a href="seguimiento.php">Seguimiento</a></li>
-                        <li><a href="404.php">Culminacion de Pasantia</a></li>
+                        <li><a href="culminacion_pasantias.php">Culminacion de Pasantia</a></li>
                     </ul>
                 </li>
 

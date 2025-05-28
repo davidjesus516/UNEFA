@@ -1,14 +1,16 @@
 <?php
 require 'header.php';
 ?>
-<link rel="stylesheet" href="css/style.css">
+<style>
 
-<span class="text">modal-large Estudiantil</span>
+</style>
+
+<span class="text">Culminación Pasantia</span>
 <div class="page-content">
     <!-- Sección de Formulario de modal-large -->
     <div class="modal-large-container">
         <div class="formulario-modal-large">
-            <h2>Registro Seguimiento</h2>
+            <h2>Culminación</h2>
 
             <!-- Fila de Campos Principales -->
             <div class="fila-superior">
@@ -23,7 +25,6 @@ require 'header.php';
                             autocomplete="off"
                             pattern="[0-9]*"
                             inputmode="numeric"
-                            onkeypress="return validarNumero(event)"
                             style="width: 100%;">
                         <i class="formulario__validacion-estado fas fa-search"></i>
                     </div>
@@ -38,48 +39,26 @@ require 'header.php';
             </div>
             <div class="formulario__grupo">
                 <label class="formulario__label">Título Informe <span class="obligatorio">*</span></label>
-                <textarea class="formulario__input formulario__textarea" name="" id="direccion" placeholder="Titulo del Informe"></textarea>
-            </div>
-            <br>
-            <!-- Fila de Campos Secundarios -->
-            <div class="fila-inferior">
-                <!-- Grupo Traslado -->
-                <div class="formulario__grupo">
-                    <label class="formulario__label">Traslado</label>
-                    <select id="traslado" class="formulario__input">
-                        <option value="si">Si</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-
-                <!-- Grupo Recorrido -->
-                <div class="formulario__grupo grupo-recorrido">
-                    <label class="formulario__label">Recorrido</label>
-                    <div class="recorrido-container">
-                        <textarea class="formulario__input" id="recorrido"
-                            placeholder="Describa el recorrido" rows="3"></textarea>
-                    </div>
-                </div>
+                <textarea class="formulario__input formulario__textarea" name="" id="direccion" placeholder="Titulo del Informe" readonly></textarea>
             </div>
 
-
-            <div class="formulario__grupo" style="display: flex;">
-                <div class="formulario__label" style="width: 15rem;">
-                    <a href="registro_visita.php">Registro de Visitas</a>
+            <div class="formulario__grupo" id="grupo__">
+                <label for="" class="formulario__label">Nota<span class="obligatorio">*</span></label>
+                <div class="formulario__grupo-input">
+                    <input type="number" class="formulario__input" name="" id="nota" placeholder="Nota" min=0 max=20 step=any required>
+                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
                 </div>
-                <!-- Grupo Observaciones -->
-                <div class="formulario__grupo observaciones-completas">
-                    <label class="formulario__label">Observaciones</label>
-                    <textarea class="formulario__input" id="observaciones"
-                        placeholder="Registre observaciones relevantes" rows="4"></textarea>
-                </div>
+                <p class="formulario__input-error">Validacion</p>
             </div>
+
+<div class="status aprovado">Aprovado</div>
+<!-- o -->
+<div class="status reprovado">Reprovado</div>
 
             <!-- Botonera -->
             <div class="botonera-modal-large">
                 <button type="button" class="formulario__btn guardar" id="btn-guardar">Guardar</button>
                 <button type="button" class="formulario__btn editar" id="btn-editar">Editar</button>
-                <button type="button" class="formulario__btn eliminar" id="btn-eliminar">Eliminar</button>
             </div>
         </div>
     </div>

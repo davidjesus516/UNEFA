@@ -49,7 +49,6 @@ require 'header.php';
 
                 <div class="formulario_grupo grupo__checkbox" id="grupo__checkbox">
 
-
                 </div>
 
                 <div class="formulario__mensaje" id="formulario__mensaje">

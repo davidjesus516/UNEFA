@@ -10,15 +10,15 @@ require 'header.php';
             <h2>Pre Inscripcion.</h2>
             <form action="#" class="formulario" id="formulario">
 
-                <!-- Grupo: Usuario -->
-                <input type="hidden" id="id">
-                <div class="formulario__grupo" id="grupo__periodo">
-                    <label for="periodo" class="formulario__label">Periodo<span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="text" maxlength="8" class="formulario__input" name="periodo" id="periodo" placeholder="Periodo" required>
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
-                    <p class="formulario__input-error"></p>
+                <!-- Periodo -->
+                <div class="formulario__grupo">
+                    <label for="periodo" class="formulario__label">Periodo <span class="obligatorio">*</span></label>
+                    <select id="periodo" name="periodo" class="formulario__input" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                    </select>
+                </div>
+                <div class="formulario__mensaje" id="formulario__mensaje">
+                    <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente. </p>
                 </div>
 
                 <div class="formulario__grupo" id="grupo__cedula">
@@ -34,7 +34,7 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__nombre">
                     <label for="nombre" class="formulario__label">Estudiante <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="nombre" id="nombre" placeholder="Estudiante" required>
+                        <input type="text" class="formulario__input" name="nombre" id="nombre" placeholder="Estudiante" required readonly>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
@@ -48,18 +48,20 @@ require 'header.php';
                             <option value="" disabled selected>Seleccione una opción</option>
                             <option value="Hospitalaria">Hospitalaria</option>
                             <option value="Comunitaria">Comunitaria</option>
-                            <option value="Otro">Otro</option>
+                            <option value="Ordinaria">Ordinaria</option>
                         </select>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Validacion</p>
                 </div>
+                <!-- <div class="formulario_grupo grupo__checkbox" id="grupo__checkbox">
 
+                </div> -->
                 <!-- Matricula -->
                 <div class="formulario__grupo" id="grupo__matricula">
                     <label for="matricula" class="formulario__label">Matricula <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="matricula" id="matricula" placeholder="Ingrese Matricula">
+                        <input type="text" class="formulario__input" name="matricula" id="matricula" placeholder="Ingrese Matricula" readonly>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Validacion</p>
