@@ -1,17 +1,3 @@
-<?php
-
-require("../../model/periodo.php");
-
-if(isset($_POST)){//si el js me manda yo hago:
-    $DESCRIPTION =  mb_strtoupper($_POST["DESCRIPTION"]);
-    $T_INTERNSHIPS_CODE =  $_POST["T_INTERNSHIPS_CODE"]; 
-    $START_DATE =  $_POST["START_DATE"];
-    $END_DATE =  $_POST["END_DATE"];
-    // crear una instancia de la clase Usuario
-    $usuario = new Usuario();
-    // llamar al método insertarUsuario() para insertar un nuevo Usuario
-    $usuario->insertarUsuario($DESCRIPTION,$T_INTERNSHIPS_CODE,$START_DATE,$END_DATE);
-    echo "Nuevo Periodo añadido";//le respondo a js
-}
-//guia de uso para insertarUsuario($nombre, $codigo, $status)
-?>
+?php // 🔒 Evitar que errores rompan JSON ini_set('display_errors', 0); ini_set('display_startup_errors', 0); 
+error_reporting(E_ALL); 
+// 📋 Registrar errores en archivo (opcional) ini_set('log_errors', 1); ini_set('error_log', __DIR__ . '/../../logs/php-error.log'); require("../../model/periodo.php"); header('Content-Type: application/json; charset=utf-8'); // ✅ Asegura respuesta JSON $response = []; try { if ($_SERVER["REQUEST_METHOD"] === "POST") { if ( isset($_POST["ACADEMIC_LAPSE"], $_POST["T_INTERNSHIPS_CODE"], $_POST["START_DATE"], $_POST["END_DATE"], $_POST["PERIOD_STATUS"], $_POST["STATUS"]) ) { $ACADEMIC_LAPSE = strtoupper(trim($_POST["ACADEMIC_LAPSE"])); $T_INTERNSHIPS_CODE = strtoupper(trim($_POST["T_INTERNSHIPS_CODE"])); $START_DATE = $_POST["START_DATE"]; $END_DATE = $_POST["END_DATE"]; $PERIOD_STATUS = strtoupper(trim($_POST["PERIOD_STATUS"])); $STATUS = strtoupper(trim($_POST["STATUS"])); $periodo = new Periodo(); $resultado = $periodo->insertarPeriodo( $ACADEMIC_LAPSE, $T_INTERNSHIPS_CODE, $START_DATE, $END_DATE, $PERIOD_STATUS ); if ($resultado) { $response = ["status" => "ok", "message" => "Periodo agregado exitosamente"]; } else { $response = ["status" => "error", "message" => "Ya existe un periodo con el mismo código o lapso"]; } } else { $response = ["status" => "error", "message" => "Faltan campos requeridos"]; } } else { $response = ["status" => "error", "message" => "Método no permitido"]; } } catch (Exception $e) { error_log("Error en UserAdd.php: " . $e->getMessage()); $response = ["status" => "error", "message" => "Ocurrió un error inesperado"]; } // ✅ Devolver solo JSON limpio echo json_encode($response); exit; 
