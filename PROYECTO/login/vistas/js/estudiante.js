@@ -57,8 +57,8 @@ $(document).ready(function () {//aqui inicializamos javascript
             return false; // Si la validación falla, se retorna false
         }
     }
-    $('#formulario input').keyup(function (e) {//reviso del formulario task el evento keyup
-        let input = $(this);
+    function validateForm(input) {
+        
         let id = input.attr('id');
         switch (id) {
             case 'primer_nombre':
@@ -122,6 +122,10 @@ $(document).ready(function () {//aqui inicializamos javascript
         } else {
             errores = false; // Si no hay grupos incorrectos, se establece la variable errores en false
         }
+    }
+    $('#formulario input').keyup(function (e) {//reviso del formulario task el evento keyup
+        let input = $(this);
+        validateForm(input); // Llama a la función de validación para cada input
     });
     function CIisUnique() {
         let search = $('#nacionalidad').val() + '-' + $('#cedula').val();
@@ -175,72 +179,7 @@ $(document).ready(function () {//aqui inicializamos javascript
         // Validación de todos los campos del formulario
         $('#formulario input, #formulario select').each(function () {
             let input = $(this);
-            let id = input.attr('id');
-            switch (id) {
-                case 'primer_nombre':
-                case 'segundo_nombre':
-                case 'primer_apellido':
-                case 'segundo_apellido':
-                    if (!validateInput(input, expresiones.solo_letras, `grupo__${id}`, 'El campo solo debe contener letras y espacios')) {
-                        errores = true;
-                    }
-                    break;
-                case 'cedula':
-                    if (input.val() === '') {
-                        isIncorrect('grupo__cedula', 'Debe ingresar un número de cédula');
-                        errores = true;
-                    } else if (!validateInput(input, expresiones.cedula, 'grupo__cedula', 'El número de cédula debe ser un número de máximo 8 dígitos')) {
-                        errores = true;
-                    } else {
-                        CIisUnique(); // Puedes dejarlo si es necesario, pero recuerda que es asíncrono
-                    }
-                    break;
-                case 'telefono':
-                    if (!validateInput(input, expresiones.telefono, 'grupo__telefono')) {
-                        errores = true;
-                    }
-                    break;
-                case 'correo':
-                    if (!validateInput(input, expresiones.correo, 'grupo__correo')) {
-                        errores = true;
-                    }
-                    break;
-                case 'nacionalidad':
-                    if (input.val() === '') {
-                        isIncorrect('grupo__nacionalidad', 'Debe seleccionar una nacionalidad');
-                        errores = true;
-                    } else {
-                        isCorrect('grupo__nacionalidad');
-                    }
-                    break;
-                case 'genero':
-                case 'estado_civil':
-                case 'semestre':
-                case 'seccion':
-                case 'regimen':
-                case 'tipo_estudiante':
-                case 'rango_militar':
-                case 'trabaja':
-                case 'carrera':
-                    if (input.val() === '') {
-                        isIncorrect(`grupo__${id}`, `Debe seleccionar una opción para ${input.attr('name')}`);
-                        errores = true;
-                    } else {
-                        isCorrect(`grupo__${id}`);
-                    }
-                    break;
-                case 'birthdate':
-                    if (input.val() === '') {
-                        isIncorrect('grupo__birthdate', 'Debe seleccionar una fecha de nacimiento');
-                        errores = true;
-                    } else {
-                        isCorrect('grupo__birthdate');
-                    }
-                    break;
-                default:
-                    isCorrect(`grupo__${id}`);
-                    break;
-            }
+            validateForm(input); // Llama a la función de validación para cada input
         });
 
 
