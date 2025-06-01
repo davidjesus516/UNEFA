@@ -16,6 +16,14 @@ class Periodo
         $this->pdo = $this->conexion->conectar();
     }
 
+    public function listar() //muestra todo
+    {
+        $consulta = "SELECT * FROM `T-INTERNSHIPS_PERIOD`";
+        $statement = $this->pdo->prepare($consulta);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function buscarCodigo($T_INTERNSHIPS_CODE)
     {
         $consulta = "SELECT * FROM `T-INTERNSHIPS_PERIOD` WHERE T_INTERNSHIPS_CODE = :T_INTERNSHIPS_CODE";
