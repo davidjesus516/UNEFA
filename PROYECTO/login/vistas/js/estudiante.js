@@ -164,7 +164,7 @@ $(document).ready(function () {//aqui inicializamos javascript
         const SECOND_SURNAME = $('#segundo_apellido').val();
         const GENDER = $('#genero').val();
         const BIRTHDATE = $('#birthdate').val();
-        const CONTACT_PHONE = $('#telefono').val();
+        const CONTACT_PHONE = $('#operadora').val() + '-' + $('#telefono').val();
         const EMAIL = $('#correo').val();
         const ADDRESS = '';
         const MARITAL_STATUS = $('#estado_civil').val();
@@ -297,6 +297,7 @@ $(document).ready(function () {//aqui inicializamos javascript
         $.post('../controllers/estudiante/UserEditSearch.php', { id }, function (response) {//mando los datos al controlador
             const task = JSON.parse(response); // accede al primer objeto en el array
             const CI = task.STUDENTS_CI.split('-');
+            const CONTACT_PHONE = task.CONTACT_PHONE.split('-');
             $('#id').val(task.STUDENTS_ID).prop('readonly', true);//añado los elementos al formulario y lo hago de solo lectura
             $('#cedula').val(CI[1]).prop('readonly', true);
             $('#nacionalidad').val(CI[0]).prop('disabled', true);
@@ -306,7 +307,8 @@ $(document).ready(function () {//aqui inicializamos javascript
             $('#segundo_apellido').val(task.SECOND_SURNAME);
             $('#genero').val(task.GENDER);
             $('#birthdate').val(task.BIRTHDATE);
-            $('#telefono').val(task.CONTACT_PHONE);
+            $('#operadora').val(CONTACT_PHONE[0]);
+            $('#telefono').val(CONTACT_PHONE[1]);
             $('#correo').val(task.EMAIL);
             $('#estado_civil').val(task.MARITAL_STATUS);
             $('#semestre').val(task.SEMESTER);

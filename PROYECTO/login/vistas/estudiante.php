@@ -118,7 +118,7 @@ require 'header.php';
 
                     <div class="formulario__grupo-input formulario__grupo-telefono">
                         <div class="formulario__codigo-pais">
-                            <select class="formulario__input formulario__codigo-select">
+                            <select class="formulario__input formulario__codigo-select" id="operadora" required>
                                 <option value="0412">0412</option>
                                 <option value="0414">0414</option>
                                 <option value="0416">0416</option>
