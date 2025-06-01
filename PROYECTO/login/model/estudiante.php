@@ -84,6 +84,7 @@ class Student
     } else {
         $this->pdo->rollBack();
         throw $e; // Se lanza la excepción para manejarla en otro lugar
+        return false;
     }
 }
 }
@@ -101,6 +102,7 @@ class Student
         } catch (PDOException $e) {
         $this->pdo->rollBack();
         throw $e; // Se lanza la excepción para manejarla en otro lugar
+        return false;
 }
     }
 
@@ -117,6 +119,7 @@ class Student
         } catch (PDOException $e) {
         $this->pdo->rollBack();
         throw $e; // Se lanza la excepción para manejarla en otro lugar
+        return false;
 }
     }
 
@@ -146,9 +149,11 @@ class Student
             $stmt->bindValue(":CAREER_ID", $CAREER_ID);
             $stmt->execute();
             $this->pdo->commit();
+            return true;
     }catch (PDOException $e) {
         $this->pdo->rollBack();
         throw $e; // Se lanza la excepción para manejarla en otro lugar
+        return false;
     
 }
 }

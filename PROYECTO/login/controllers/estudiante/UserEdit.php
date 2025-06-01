@@ -3,18 +3,18 @@
 require("../../model/estudiante.php");
 
 if(isset($_POST)){
-$STUDENTS_ID = $_POST["STUDENTS_ID"];    
-$STUDENTS_CI = $_POST["STUDENTS_CI"];
-$NAME = $_POST["NAME"];
-$SECOND_NAME = $_POST["SECOND_NAME"];
-$SURNAME = $_POST["SURNAME"];
-$SECOND_SURNAME = $_POST["SECOND_SURNAME"];
-$GENDER = $_POST["GENDER"];
+$STUDENTS_ID = $_POST["STUDENTS_ID"];   
+$STUDENTS_CI =mb_strtoupper( $_POST["STUDENTS_CI"]);
+$NAME = mb_strtoupper($_POST["NAME"]);
+$SECOND_NAME = mb_strtoupper($_POST["SECOND_NAME"]);
+$SURNAME = mb_strtoupper($_POST["SURNAME"]);
+$SECOND_SURNAME = mb_strtoupper($_POST["SECOND_SURNAME"]);
+$GENDER = mb_strtoupper($_POST["GENDER"]);
 $BIRTHDATE = $_POST["BIRTHDATE"];
 $CONTACT_PHONE = $_POST["CONTACT_PHONE"];
-$EMAIL = $_POST["EMAIL"];
-$ADDRESS = $_POST["ADDRESS"];
-$MARITAL_STATUS = $_POST["MARITAL_STATUS"];
+$EMAIL = mb_strtoupper($_POST["EMAIL"]);
+$ADDRESS = mb_strtoupper($_POST["ADDRESS"]);
+$MARITAL_STATUS = mb_strtoupper($_POST["MARITAL_STATUS"]);
 $SEMESTER = $_POST["SEMESTER"];
 $SECTION = $_POST["SECTION"];
 $REGIME = $_POST["REGIME"];
@@ -27,7 +27,7 @@ if ($student->updateStudent($STUDENTS_ID,$STUDENTS_CI, $NAME, $SECOND_NAME, $SUR
     
     $row = array(
         'message' => '    
-        <dialog id="dialog">
+        <dialog id="message">
         <h2>Registro Editado</h2>
         <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
         <div class="success-checkmark">
@@ -42,9 +42,8 @@ if ($student->updateStudent($STUDENTS_ID,$STUDENTS_CI, $NAME, $SECOND_NAME, $SUR
     $jsonstring = json_encode($row);
     echo $jsonstring;
 }else{
-    $row = array(
-                'message' =>'     
-                <dialog id="dialog">
+    $row = array( 'message' =>'     
+                <dialog id="message">
             <h2>Ha ocurrido un error en el registro.</h2>
             <div class="error-banmark">
             <div class="ban-icon">
@@ -54,7 +53,7 @@ if ($student->updateStudent($STUDENTS_ID,$STUDENTS_CI, $NAME, $SECOND_NAME, $SUR
                 <div class="icon-fix"></div>
             </div>
             </div>
-            <button aria-label="close" class="x">❌</button>
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
             </dialog>');
     $jsonstring = json_encode($row);
     echo $jsonstring;

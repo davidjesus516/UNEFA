@@ -59,20 +59,19 @@ $(document).ready(function () {
     validarCodigo();
   });
   $("input[name='my_opt[]']").change(function () {
-    const $this = $(this);
-    if ($this.attr("priority") === "0" && $this.is(":checked")) {
-      // Si el de prioridad 0 se selecciona, deselecciona los demás
-      $("input[type=checkbox]").not($this).prop("checked", false);
-    } else if ($("input[type=checkbox][priority=0]").is(":checked")) {
-      // Si el de prioridad 0 está seleccionado, deselecciona este
-      $("input[type=checkbox][priority=0]").prop("checked", false);
-      alert("No puedes seleccionar más de un tipo de pasantía cuando haz seleccionado un tipo de pasantía que es unico");
-    }
-    // Mostrar los valores seleccionados
-    const selectedValues = $("input[type=checkbox]:checked").map(function () {
-      return $(this).val();
-    }).get();
-    console.log("Valores seleccionados:", selectedValues);
+      const $this = $(this);
+      if ($this.attr("priority") === "0" && $this.is(":checked")) {
+          // Si el de prioridad 0 se selecciona, deselecciona los demás
+          $("input[type=checkbox]").not($this).prop("checked", false);
+      } else if ($("input[type=checkbox][priority=0]").is(":checked")) {
+          // Si el de prioridad 0 está seleccionado, deselecciona este
+          $("input[type=checkbox][priority=0]").prop("checked", false);
+          alert("No puedes seleccionar más de un tipo de pasantía cuando haz seleccionado un tipo de pasantía que es unico");
+      }
+      // Mostrar los valores seleccionados
+      const selectedValues = $("input[type=checkbox]:checked").map(function () {
+          return $(this).val();
+      }).get();
   });
   // ...existing code...
   $("#formulario").submit(function (e) {

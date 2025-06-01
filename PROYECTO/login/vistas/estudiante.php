@@ -28,13 +28,11 @@ require 'header.php';
                                 <option value="P">P-</option>
                             </select>
                         </div>
-
                         <input type="text"
                             class="formulario__input formulario__cedula-input"
                             name="cedula"
                             id="cedula"
                             placeholder="Ej: 12345678"
-                            pattern="[VEP]-\d{1,8}"
                             maxlength="9"
                             required>
                     </div>
@@ -160,7 +158,7 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__nombre">
                     <label for="" class="formulario__label">Semestre <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese el Semestre" required>
+                        <input type="text" class="formulario__input" name="" id="semestre" placeholder="Ingrese el Semestre" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Validacion</p>
@@ -170,7 +168,7 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__nombre">
                     <label for="" class="formulario__label">Sección <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Sección" required>
+                        <input type="text" class="formulario__input" name="" id="seccion" placeholder="Ingrese la Sección" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Validacion</p>
