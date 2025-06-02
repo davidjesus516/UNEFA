@@ -11,7 +11,7 @@ require 'header.php';
             <h2 id="dialog-title">Registrar Periodo</h2>
 
             <form class="formulario" id="formulario" style="grid-auto-columns: auto;">
-                <input type="hidden" id="id">
+                <input type="hidden" id="PERIOD_ID" value="">
 
                 <div class="formulario__grupo" id="grupo__lapso">
                     <label class="formulario__label">Lapso Académico <span class="obligatorio">*</span></label>

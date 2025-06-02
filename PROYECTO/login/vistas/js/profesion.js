@@ -76,10 +76,10 @@ $(document).ready(function(){//aqui inicializamos javascript
                         <td>${task.codigo}</td>
                         <td>${task.nombre}</td>
                         <td>
-                            <button class="task-delete">Delete</button>
+                            <button class="task-delete "><spam class="texto">Borrar</spam><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button>
                         </td>
                         <td>
-                            <button class="task-edit">Editar</button>
+                            <button class="task-edit" onclick="window.dialog.showModal();"><spam class="texto">Editar</spam><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button>
                         </td>
                     </tr>
                     `

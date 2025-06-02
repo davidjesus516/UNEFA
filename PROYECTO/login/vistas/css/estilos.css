@@ -1246,6 +1246,85 @@ button.primary-white {
   transform: scale(0.8);
 }
 
+
+.task-status {
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: #e2b30b;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  background: #e2b30b;
+  transition: 200ms;
+  /* margin-top: 13px; */
+}
+
+.task-status,
+.task-status span {
+  transition: 200ms;
+}
+
+.task-status .texto {
+  transform: translateX(15px);
+  color: white;
+  font-weight: bold;
+  transition: 200ms;
+}
+
+.task-status .icon {
+  position: absolute;
+  /* border-left: 1px solid #e2b30b; */
+  transform: translateX(60px);
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 200ms;
+}
+
+.task-status svg {
+  width: 15px;
+  fill: #eee;
+  transition: 200ms;
+}
+
+.task-status:hover {
+  background: #e2b30b;
+  transition: 200ms;
+}
+
+.task-status:hover .texto {
+  color: transparent;
+  transition: 200ms;
+}
+
+.task-status:hover .icon {
+  width: 100px;
+  border-left: none;
+  transform: translateX(0);
+  transition: 200ms ease;
+}
+
+.task-status:focus {
+  outline: none;
+}
+
+.task-status:active .icon svg {
+  transform: scale(0.8);
+}
+
+.status-activo {
+  background: #119200;
+}
+
+.status-inactivo {
+  background: #e2b30b;
+}
+
 /* animacion de exito */
 /**
  * Extracted from: SweetAlert
@@ -1780,13 +1859,9 @@ button.primary-white {
 }
 
 /* SVG Animation: Rotate and scale effect */
-.icon svg {
+/* .icon svg {
   transition: transform 0.5s ease-in-out;
-}
-
-.icon:hover svg {
-  transform: rotate(360deg) scale(1.2);
-}
+} */
 
 /* Tooltip styling */
 .tooltip {
