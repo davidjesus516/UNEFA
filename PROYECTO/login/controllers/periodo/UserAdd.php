@@ -1,3 +1,34 @@
-?php // 🔒 Evitar que errores rompan JSON ini_set('display_errors', 0); ini_set('display_startup_errors', 0); 
-error_reporting(E_ALL); 
-// 📋 Registrar errores en archivo (opcional) ini_set('log_errors', 1); ini_set('error_log', __DIR__ . '/../../logs/php-error.log'); require("../../model/periodo.php"); header('Content-Type: application/json; charset=utf-8'); // ✅ Asegura respuesta JSON $response = []; try { if ($_SERVER["REQUEST_METHOD"] === "POST") { if ( isset($_POST["ACADEMIC_LAPSE"], $_POST["T_INTERNSHIPS_CODE"], $_POST["START_DATE"], $_POST["END_DATE"], $_POST["PERIOD_STATUS"], $_POST["STATUS"]) ) { $ACADEMIC_LAPSE = strtoupper(trim($_POST["ACADEMIC_LAPSE"])); $T_INTERNSHIPS_CODE = strtoupper(trim($_POST["T_INTERNSHIPS_CODE"])); $START_DATE = $_POST["START_DATE"]; $END_DATE = $_POST["END_DATE"]; $PERIOD_STATUS = strtoupper(trim($_POST["PERIOD_STATUS"])); $STATUS = strtoupper(trim($_POST["STATUS"])); $periodo = new Periodo(); $resultado = $periodo->insertarPeriodo( $ACADEMIC_LAPSE, $T_INTERNSHIPS_CODE, $START_DATE, $END_DATE, $PERIOD_STATUS ); if ($resultado) { $response = ["status" => "ok", "message" => "Periodo agregado exitosamente"]; } else { $response = ["status" => "error", "message" => "Ya existe un periodo con el mismo código o lapso"]; } } else { $response = ["status" => "error", "message" => "Faltan campos requeridos"]; } } else { $response = ["status" => "error", "message" => "Método no permitido"]; } } catch (Exception $e) { error_log("Error en UserAdd.php: " . $e->getMessage()); $response = ["status" => "error", "message" => "Ocurrió un error inesperado"]; } // ✅ Devolver solo JSON limpio echo json_encode($response); exit; 
+<?php
+require_once '../../model/periodo.php';
+
+// Verifica si todos los datos necesarios están presentes
+if (
+    isset($_POST['ACADEMIC_LAPSE'], $_POST['T_INTERNSHIPS_CODE'], $_POST['START_DATE'], $_POST['END_DATE'], $_POST['PERIOD_STATUS'], $_POST['STATUS'])
+) {
+    $ACADEMIC_LAPSE = $_POST['ACADEMIC_LAPSE'];
+    $T_INTERNSHIPS_CODE = $_POST['T_INTERNSHIPS_CODE'];
+    $START_DATE = $_POST['START_DATE'];
+    $END_DATE = $_POST['END_DATE'];
+    $PERIOD_STATUS = $_POST['PERIOD_STATUS'];
+    $STATUS = $_POST['STATUS'];
+
+    $periodo = new Periodo();
+
+    // Verificamos si ya existe el mismo ACADEMIC_LAPSE para evitar duplicados
+    $existe = $periodo->buscarNombre($ACADEMIC_LAPSE);
+    if (count($existe) > 0) {
+        echo 0; // Ya existe
+        exit;
+    }
+
+    $insertado = $periodo->insertarPeriodo($ACADEMIC_LAPSE, $T_INTERNSHIPS_CODE, $START_DATE, $END_DATE, $PERIOD_STATUS, $STATUS);
+
+    if ($insertado) {
+        echo 1; // Éxito
+    } else {
+        echo -1; // Error inesperado
+    }
+} else {
+    echo 'Faltan datos obligatorios';
+}
+?>

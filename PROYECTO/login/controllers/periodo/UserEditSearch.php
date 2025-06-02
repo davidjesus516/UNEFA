@@ -1,22 +1,30 @@
 <?php
-require("../../model/periodo.php");
-if(isset($_POST)){//si js me manda datos yo hago:
-    $codigo = $_POST["id"];//guardo lo q mando
-    $estatus = 0;
+// 🔐 Iniciar sesión y cargar modelo
+session_start();
+require_once('../../model/periodo.php');
 
-    // incluir la clase Usuario
-    require_once("../../model/periodo.php");
+// 🛡️ Validar que se recibió el ID por POST
+if (isset($_POST['id']) && is_numeric($_POST['id'])) {
+    $id = $_POST['id'];
 
-    // crear una instancia de la clase Usuario
-    $usuario = new Usuario();
+    try {
+        $periodo = new Periodo();
+        $resultado = $periodo->obtenerPorID($id); // retorna array
 
-    // llamar al método para buscar un usuario por su codigo
-    $json = $usuario->searcheditUsuario($codigo);
-
-    // convertir el resultado a formato JSON
-    $jsonstring = json_encode($json);
-
-    // imprimir el resultado en formato JSON
-    echo $jsonstring;
+        // ✅ Retornar como JSON
+        header('Content-Type: application/json');
+        echo json_encode($resultado); // debe ser un array (incluso si es de 1 registro)
+    } catch (Exception $e) {
+        // ⚠️ En caso de error interno
+        http_response_code(500);
+        echo json_encode([
+            'error' => 'Error en el servidor: ' . $e->getMessage()
+        ]);
+    }
+} else {
+    // ❌ No se recibió un ID válido
+    http_response_code(400);
+    echo json_encode([
+        'error' => 'Parámetro ID inválido o no enviado'
+    ]);
 }
-?>

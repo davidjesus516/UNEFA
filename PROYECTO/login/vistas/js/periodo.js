@@ -72,13 +72,12 @@ $(document).ready(function () {
                     <td>${task.ACADEMIC_LAPSE}</td>
                     <td>${task.START_DATE}</td>
                     <td>${task.END_DATE}</td>
-                    <td>${task.STATUS == 1 ? 'Activo' : 'Inactivo'}</td>
+                    <td><button class="task-status ${task.STATUS == 1 ? 'status-activo' : 'status-inactivo'}""><spam class="texto">${task.STATUS == 1 ? 'Activo' : 'Inactivo'}</spam><span class="icon"><i class="fa-solid fa-repeat" style="color: #ffffff;"></i></span></button></td>
                     <td>
-                        <button class="task-delete "><spam class="texto">Borrar</spam><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
+                        <button class="task-delete "><spam class="texto">Borrar</spam><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button>
                     </td>
                     <td>
-                        <button class="task-edit" onclick="window.dialog.showModal();"><spam class="texto">Editar</spam><spam class="icon"><svg viewBox="0 0 512 512">
-                        <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path></svg></spam></button>
+                        <button class="task-edit" onclick="window.dialog.showModal();"><spam class="texto">Editar</spam><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button>
                     </td>
                 </tr>`;
                 });
@@ -88,11 +87,11 @@ $(document).ready(function () {
     }
 
 
-    $(document).on('click', '.task-delete', function () {
+    $(document).on('click', '.task-status', function () {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('taskid');
 
-        if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+        if (confirm('¿Estás seguro de que deseas cambiar el estatus de este registro?')) {
             $.post('../controllers/periodo/UserDelete.php', { PERIOD_ID: id }, function (response) {
                 fetchTask();
             });
@@ -100,30 +99,76 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.task-edit', function () {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('taskid');
+        const row = $(this).closest('tr');
+        const id = row.attr('taskid');
 
         $.post('../controllers/periodo/UserEditSearch.php', { id }, function (response) {
-            const task = JSON.parse(response)[0];
+            try {
+                const data = JSON.parse(response);
 
-            const [anio, turno] = task.ACADEMIC_LAPSE.split('-');
-            $('#lapso-academico').val(anio);
-            $('#turno').val(turno);
-            $('#periodo_inicio').val(task.START_DATE);
-            $('#periodo_fin').val(task.END_DATE);
+                if (!data || !data.length) {
+                    alert('No se encontraron datos para editar');
+                    return;
+                }
 
-            // Solo si usas PERIOD_ID internamente para edición
-            if (!$('#PERIOD_ID').length) {
-                $('<input>').attr({
-                    type: 'hidden',
-                    id: 'PERIOD_ID',
-                    value: task.PERIOD_ID
-                }).appendTo('#formulario');
-            } else {
+                const task = data[0];
+                const [anio, turno] = task.ACADEMIC_LAPSE.split('-');
+
+                // Asegura que las opciones ya estén renderizadas
+                document.addEventListener('DOMContentLoaded', () => {
+                    $(document).on('click', '.task-edit', function () {
+                        const row = $(this).closest('tr');
+                        const id = row.attr('taskid');
+
+                        $.post('../controllers/periodo/UserEditSearch.php', { id }, function (response) {
+                            try {
+                                const data = JSON.parse(response);
+                                const task = data[0];
+                                const [anio, turno] = task.ACADEMIC_LAPSE.split('-');
+
+                                // Esperar que el lapso esté poblado
+                                setTimeout(() => {
+                                    if ($("#lapso-academico option[value='" + anio + "']").length === 0) {
+                                        $('#lapso-academico').append(
+                                            $('<option>', {
+                                                value: anio,
+                                                text: anio
+                                            })
+                                        );
+                                    }
+                                    $('#lapso-academico').val(anio);
+                                    $('#turno').val(turno);
+                                }, 100); // Delay pequeño para asegurarse que está poblado
+
+                                $('#periodo_inicio').val(task.START_DATE);
+                                $('#periodo_fin').val(task.END_DATE);
+                                $('#PERIOD_ID').val(task.PERIOD_ID);
+
+                                window.dialog.showModal();
+                                edit = true;
+                            } catch (err) {
+                                alert('Error al cargar datos');
+                                console.error(err);
+                            }
+                        });
+                    });
+                });
+
+                $('#turno').val(turno);
+                $('#periodo_inicio').val(task.START_DATE);
+                $('#periodo_fin').val(task.END_DATE);
                 $('#PERIOD_ID').val(task.PERIOD_ID);
-            }
 
-            edit = true;
+                // ✅ Mostrar el modal después de llenar los datos
+                window.dialog.showModal();
+
+                edit = true;
+            } catch (err) {
+                console.error('Error al parsear JSON:', err, response);
+                alert('Error al procesar los datos');
+            }
         });
     });
+
+
 });

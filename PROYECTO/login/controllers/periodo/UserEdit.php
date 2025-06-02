@@ -1,37 +1,47 @@
-<?php require("../../model/periodo.php"); 
-if ($_SERVER["REQUEST_METHOD"] === "POST") { if ( isset($_POST["PERIOD_ID"], 
-$_POST["ACADEMIC_LAPSE"], 
-$_POST["T_INTERNSHIPS_CODE"], 
-$_POST["START_DATE"], 
-$_POST["END_DATE"], 
-$_POST["PERIOD_STATUS"]) ) 
-{ $PERIOD_ID = $_POST["PERIOD_ID"]; $ACADEMIC_LAPSE = strtoupper(trim($_POST["ACADEMIC_LAPSE"])); 
-$T_INTERNSHIPS_CODE =strtoupper(trim($_POST["T_INTERNSHIPS_CODE"])); $START_DATE = $_POST["START_DATE"]; 
-$END_DATE = $_POST["END_DATE"]; 
-$PERIOD_STATUS = strtoupper(trim($_POST["PERIOD_STATUS"])); 
+<?php
+session_start();
+require_once('../../model/periodo.php');
 
-// Add the missing seventh argument, e.g., $additional_param
-$ADDITIONAL_PARAM = isset($_POST["ADDITIONAL_PARAM"]) ? $_POST["ADDITIONAL_PARAM"] : null;
+// Verifica que todos los campos estén presentes
+if (
+    isset($_POST['PERIOD_ID']) &&
+    isset($_POST['ACADEMIC_LAPSE']) &&
+    isset($_POST['T_INTERNSHIPS_CODE']) &&
+    isset($_POST['START_DATE']) &&
+    isset($_POST['END_DATE']) &&
+    isset($_POST['PERIOD_STATUS']) &&
+    isset($_POST['STATUS'])
+) {
+    $PERIOD_ID = $_POST['PERIOD_ID'];
+    $ACADEMIC_LAPSE = trim($_POST['ACADEMIC_LAPSE']);
+    $T_INTERNSHIPS_CODE = trim($_POST['T_INTERNSHIPS_CODE']);
+    $START_DATE = $_POST['START_DATE'];
+    $END_DATE = $_POST['END_DATE'];
+    $PERIOD_STATUS = trim($_POST['PERIOD_STATUS']);
+    $STATUS = trim($_POST['STATUS']);
 
-$periodo = new Periodo(); 
-$resultado = $periodo->editarPeriodo( 
-	$PERIOD_ID, 
-	$ACADEMIC_LAPSE, 
-	$T_INTERNSHIPS_CODE, 
-	$START_DATE, 
-	$END_DATE, 
-	$PERIOD_STATUS, 
-	$ADDITIONAL_PARAM
-); 
-if ($resultado) { 
-	echo "Periodo editado correctamente"; 
-} else { 
-	echo "Error al editar el periodo"; 
-} 
-} else { 
-	echo "Faltan campos requeridos"; 
-} 
-} else { 
-	echo "Método no permitido"; 
+    // Validación básica (puedes extender según tus necesidades)
+    if (!is_numeric($PERIOD_ID)) {
+        echo "ID inválido";
+        exit;
+    }
+
+    $periodo = new Periodo();
+    $resultado = $periodo->editarPeriodo(
+        $PERIOD_ID,
+        $ACADEMIC_LAPSE,
+        $T_INTERNSHIPS_CODE,
+        $START_DATE,
+        $END_DATE,
+        $PERIOD_STATUS,
+        $STATUS
+    );
+
+    if ($resultado) {
+        echo 1; // Éxito
+    } else {
+        echo 0; // Error o no se editó
+    }
+} else {
+    echo "Faltan datos requeridos";
 }
-?>
