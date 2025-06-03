@@ -1,30 +1,22 @@
 <?php
-// 🔐 Iniciar sesión y cargar modelo
-session_start();
-require_once('../../model/periodo.php');
+require("../../model/periodo.php");
+if(isset($_POST)){//si js me manda datos yo hago:
+    $codigo = $_POST["PERIOD_ID"];//guardo lo q mando
+    $estatus = 0;
 
-// 🛡️ Validar que se recibió el ID por POST
-if (isset($_POST['id']) && is_numeric($_POST['id'])) {
-    $id = $_POST['id'];
+    // incluir la clase Usuario
+    require_once("../../model/periodo.php");
 
-    try {
-        $periodo = new Periodo();
-        $resultado = $periodo->obtenerPorID($id); // retorna array
+    // crear una instancia de la clase Usuario
+    $usuario = new Periodo();
 
-        // ✅ Retornar como JSON
-        header('Content-Type: application/json');
-        echo json_encode($resultado); // debe ser un array (incluso si es de 1 registro)
-    } catch (Exception $e) {
-        // ⚠️ En caso de error interno
-        http_response_code(500);
-        echo json_encode([
-            'error' => 'Error en el servidor: ' . $e->getMessage()
-        ]);
-    }
-} else {
-    // ❌ No se recibió un ID válido
-    http_response_code(400);
-    echo json_encode([
-        'error' => 'Parámetro ID inválido o no enviado'
-    ]);
+    // llamar al método para buscar un usuario por su codigo
+    $json = $usuario->obtenerPorID($codigo);
+
+    // convertir el resultado a formato JSON
+    $jsonstring = json_encode($json);
+
+    // imprimir el resultado en formato JSON
+    echo $jsonstring;
 }
+?>

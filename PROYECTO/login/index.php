@@ -19,7 +19,7 @@ if (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 1) {
   <meta charset="UTF-8">
   <title>Inicio de Sesión</title>
   <link rel="stylesheet" href="vistas/css/estilos.css">
-  <link rel="icon" href="../img/logo_unefa.ico">
+  <link rel="icon" href="../img/logo-nuevo.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>

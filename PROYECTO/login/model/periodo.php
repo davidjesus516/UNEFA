@@ -69,9 +69,9 @@ class Periodo
         }
     }
 
-    public function listarActivos()
+    public function listarActivos() //LOS TOMO DEL ESTATUS PERIODO
     {
-        $consulta = "SELECT * FROM `T-INTERNSHIPS_PERIOD` WHERE `STATUS` = 1";
+        $consulta = "SELECT * FROM `T-INTERNSHIPS_PERIOD` WHERE STATUS = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -85,7 +85,7 @@ class Periodo
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function eliminarPeriodo($PERIOD_ID)
+    public function eliminarPeriodo($PERIOD_ID) // AQUI INACTIVA
     {
         $consulta = "UPDATE `T-INTERNSHIPS_PERIOD` SET `STATUS` = 0 WHERE PERIOD_ID = :PERIOD_ID";
         $statement = $this->pdo->prepare($consulta);
@@ -93,7 +93,7 @@ class Periodo
         return $statement->execute();
     }
 
-    public function restaurarPeriodo($PERIOD_ID)
+    public function restaurarPeriodo($PERIOD_ID) // AQUI INACTIVA
     {
         $consulta = "UPDATE `T-INTERNSHIPS_PERIOD` SET `STATUS` = 1 WHERE PERIOD_ID = :PERIOD_ID";
         $statement = $this->pdo->prepare($consulta);

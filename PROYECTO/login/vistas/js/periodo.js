@@ -24,10 +24,10 @@ $(document).ready(function () {
 
         const postData = {
             ACADEMIC_LAPSE: ACADEMIC_LAPSE,
-            T_INTERNSHIPS_CODE: 'PASANTIA',       // Ajusta si necesitas otro valor
+            T_INTERNSHIPS_CODE: '',       // Ajusta si necesitas otro valor
             START_DATE: START_DATE,
             END_DATE: END_DATE,
-            PERIOD_STATUS: 'ACTIVO',              // Puedes cambiar por un input si deseas hacerlo editable
+            PERIOD_STATUS: 'PENDIENTE',              // Puedes cambiar por un input si deseas hacerlo editable
             STATUS: 'ACTIVO'
         };
 
@@ -39,19 +39,22 @@ $(document).ready(function () {
             alert("Debe llenar correctamente el formulario");
             return false;
         }
+        edit = false; // Reiniciar la variable edit después de guardar
 
         let url = edit === false ? '../controllers/periodo/UserAdd.php' : '../controllers/periodo/UserEdit.php';
         $.post(url, postData, function (response) {
             console.log(response);
-            if (response == 1) {
-                alert('Registro añadido exitosamente');
-            } else if (response == 0) {
-                alert('Ya este periodo existe. Verifique los registros.');
-            } else {
-                alert('Error: ' + response);
-            }
+        
+            data = JSON.parse(response);
+            $(".message").html(data.message);
+            let message = $("#message").get(0);
+            message.showModal();
+            $(".x").on("click", function () {
+                message.close();
+            });
             fetchTask();
-            $('#formulario').trigger('reset');
+            $("#formulario").trigger("reset");
+            dialog.close();
             $('#PERIOD_ID').prop('readonly', false);
             edit = false;
         }).fail(function () {
@@ -72,9 +75,12 @@ $(document).ready(function () {
                     <td>${task.ACADEMIC_LAPSE}</td>
                     <td>${task.START_DATE}</td>
                     <td>${task.END_DATE}</td>
-                    <td><button class="task-status ${task.STATUS == 1 ? 'status-activo' : 'status-inactivo'}""><spam class="texto">${task.STATUS == 1 ? 'Activo' : 'Inactivo'}</spam><span class="icon"><i class="fa-solid fa-repeat" style="color: #ffffff;"></i></span></button></td>
+                    <td><button class="task-status ${task.PERIOD_STATUS == 1 ? 'status-activo' : 'status-inactivo'}""><spam class="texto">${task.STATUS == 1 ? 'En Curso' : 'Pendiente'}</spam><span class="icon"><i class="fa-solid fa-repeat" style="color: #ffffff;"></i></span></button></td>
                     <td>
-                        <button class="task-delete "><spam class="texto">Borrar</spam><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button>
+                        <button class="task-delete" data-id="<?= $row['PERIOD_ID'] ?>">
+                            <span class="texto">Borrar</span>
+                            <span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span>
+                        </button>
                     </td>
                     <td>
                         <button class="task-edit" onclick="window.dialog.showModal();"><spam class="texto">Editar</spam><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button>
@@ -86,89 +92,90 @@ $(document).ready(function () {
         });
     }
 
-
-    $(document).on('click', '.task-status', function () {
+    // BORRAR EL PERIODO
+    $(document).on('click', '.task-delete', function () {
         let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('taskid');
-
-        if (confirm('¿Estás seguro de que deseas cambiar el estatus de este registro?')) {
-            $.post('../controllers/periodo/UserDelete.php', { PERIOD_ID: id }, function (response) {
+        let PERIOD_ID = $(element).attr('taskid');
+        if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+            $.post('../controllers/periodo/UserDelete.php', { PERIOD_ID }, function (response) {
                 fetchTask();
             });
+        } else {
+            // Si el usuario hace clic en "Cancelar", no se elimina el usuario
+            return false;
         }
     });
+});
 
-    $(document).on('click', '.task-edit', function () {
-        const row = $(this).closest('tr');
-        const id = row.attr('taskid');
+// EDITAR EL PERIODO
+$(document).on('click', '.task-edit', function () {
+    const row = $(this).closest('tr');
+    const PERIOD_ID = row.attr('taskid');
 
-        $.post('../controllers/periodo/UserEditSearch.php', { id }, function (response) {
-            try {
-                const data = JSON.parse(response);
+    $.post('../controllers/periodo/UserEditSearch.php', { PERIOD_ID }, function (response) {
+        try {
+            console.log(response)
+            const data = JSON.parse(response);
 
-                if (!data || !data.length) {
-                    alert('No se encontraron datos para editar');
-                    return;
-                }
+            if (!data || !data.length) {
+                alert('No se encontraron datos para editar');
+                return;
+            }
 
-                const task = data[0];
-                const [anio, turno] = task.ACADEMIC_LAPSE.split('-');
+            const task = data[0];
+            const [year, turno] = task.ACADEMIC_LAPSE.split('-');
 
-                // Asegura que las opciones ya estén renderizadas
-                document.addEventListener('DOMContentLoaded', () => {
-                    $(document).on('click', '.task-edit', function () {
-                        const row = $(this).closest('tr');
-                        const id = row.attr('taskid');
+            // Asegura que las opciones ya estén renderizadas
+            document.addEventListener('DOMContentLoaded', () => {
+                $(document).on('click', '.task-edit', function () {
+                    const row = $(this).closest('tr');
+                    const id = row.attr('taskid');
 
-                        $.post('../controllers/periodo/UserEditSearch.php', { id }, function (response) {
-                            try {
-                                const data = JSON.parse(response);
-                                const task = data[0];
-                                const [anio, turno] = task.ACADEMIC_LAPSE.split('-');
-
-                                // Esperar que el lapso esté poblado
-                                setTimeout(() => {
-                                    if ($("#lapso-academico option[value='" + anio + "']").length === 0) {
-                                        $('#lapso-academico').append(
-                                            $('<option>', {
-                                                value: anio,
-                                                text: anio
-                                            })
-                                        );
-                                    }
-                                    $('#lapso-academico').val(anio);
-                                    $('#turno').val(turno);
-                                }, 100); // Delay pequeño para asegurarse que está poblado
-
-                                $('#periodo_inicio').val(task.START_DATE);
-                                $('#periodo_fin').val(task.END_DATE);
-                                $('#PERIOD_ID').val(task.PERIOD_ID);
-
-                                window.dialog.showModal();
-                                edit = true;
-                            } catch (err) {
-                                alert('Error al cargar datos');
-                                console.error(err);
-                            }
-                        });
+                    $.post('../controllers/periodo/UserEditSearch.php', { PERIOD_ID }, function (response) {
+                        try {
+                            const data = JSON.parse(response);
+                            const task = data[0];
+                            const [year, turno] = task.ACADEMIC_LAPSE.split('-');
+                            // Esperar que el lapso esté poblado
+                            setTimeout(() => {
+                                if ($("#lapso-academico option[value=" + Number(year) + "]").length === 0) {
+                                    $('#lapso-academico').append(
+                                        $('<option>', {
+                                            value: year,
+                                            text: year
+                                        })
+                                    );
+                                }
+                                $('#lapso-academico').val(year);
+                                $('#turno').val(turno);
+                            }, 100); // Delay pequeño para asegurarse que está poblado
+                            
+                            $('#periodo_inicio').val(task.START_DATE);
+                            $('#periodo_fin').val(task.END_DATE);
+                            $('#PERIOD_ID').val(task.PERIOD_ID);
+                            
+                            window.dialog.showModal();
+                            edit = true;
+                        } catch (err) {
+                            alert('Error al cargar datos');
+                            console.error(err);
+                        }
                     });
                 });
+            });
+            
+            $('#turno').val(turno);
+            $('#periodo_inicio').val(task.START_DATE);
+            $('#periodo_fin').val(task.END_DATE);
+            $('#PERIOD_ID').val(task.PERIOD_ID);
+            
+            //  Mostrar el modal después de llenar los datos
+            window.dialog.showModal();
 
-                $('#turno').val(turno);
-                $('#periodo_inicio').val(task.START_DATE);
-                $('#periodo_fin').val(task.END_DATE);
-                $('#PERIOD_ID').val(task.PERIOD_ID);
-
-                // ✅ Mostrar el modal después de llenar los datos
-                window.dialog.showModal();
-
-                edit = true;
-            } catch (err) {
-                console.error('Error al parsear JSON:', err, response);
-                alert('Error al procesar los datos');
-            }
-        });
+            edit = true;
+        } catch (err) {
+            console.error('Error al parsear JSON:', err, response);
+            alert('Error al procesar los datos');
+        }
     });
-
-
 });

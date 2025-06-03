@@ -21,8 +21,22 @@ if (
     $STATUS = trim($_POST['STATUS']);
 
     // Validación básica (puedes extender según tus necesidades)
-    if (!is_numeric($PERIOD_ID)) {
-        echo "ID inválido";
+    if (!is_numeric($PERIOD_ID)) {$row = array(
+                'message' =>'     
+                <dialog id="message">
+            <h2>ID inválido.</h2>
+            <div class="error-banmark">
+            <div class="ban-icon">
+                <span class="icon-line line-long-invert"></span>
+                <span class="icon-line line-long"></span>
+                <div class="icon-circle"></div>
+                <div class="icon-fix"></div>
+            </div>
+            </div>
+            <button aria-label="close" class="x">❌</button>
+            </dialog>');
+    $jsonstring = json_encode($row);
+    echo $jsonstring;
         exit;
     }
 
@@ -38,10 +52,55 @@ if (
     );
 
     if ($resultado) {
-        echo 1; // Éxito
-    } else {
-        echo 0; // Error o no se editó
-    }
+         $row = array(
+        'message' => '    
+        <dialog id="message">
+        <h2>Registro Completado</h2>
+        <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+        <div class="success-checkmark">
+        <div class="check-icon">
+            <span class="icon-line line-tip"></span>
+            <span class="icon-line line-long"></span>
+            <div class="icon-circle"></div>
+            <div class="icon-fix"></div>
+        </div>
+        </div>
+        </dialog>');
+    $jsonstring = json_encode($row);
+    echo $jsonstring;
+}else{
+    $row = array(
+                'message' =>'     
+                <dialog id="message">
+            <h2>Ha ocurrido un error en el registro.</h2>
+            <div class="error-banmark">
+            <div class="ban-icon">
+                <span class="icon-line line-long-invert"></span>
+                <span class="icon-line line-long"></span>
+                <div class="icon-circle"></div>
+                <div class="icon-fix"></div>
+            </div>
+            </div>
+            <button aria-label="close" class="x">❌</button>
+            </dialog>');
+    $jsonstring = json_encode($row);
+    echo $jsonstring;
+}
 } else {
-    echo "Faltan datos requeridos";
+   $row = array(
+                'message' =>'     
+                <dialog id="message">
+            <h2>Faltan datos requeridos.</h2>
+            <div class="error-banmark">
+            <div class="ban-icon">
+                <span class="icon-line line-long-invert"></span>
+                <span class="icon-line line-long"></span>
+                <div class="icon-circle"></div>
+                <div class="icon-fix"></div>
+            </div>
+            </div>
+            <button aria-label="close" class="x">❌</button>
+            </dialog>');
+    $jsonstring = json_encode($row);
+    echo $jsonstring;
 }
