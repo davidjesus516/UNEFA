@@ -7,346 +7,19 @@
    <title>Sistema de Prácticas UNEFA</title>
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    <link rel="stylesheet" href="css/style.css">
+   <link rel="icon" href="img/logo-nuevo.ico">
    <style>
-      /* --- Contenedor de las Checklists (Para el layout lado a lado) --- */
-      .checklists-grid-container {
-         display: flex;
-         /* Usa Flexbox para el layout */
-         gap: 20px;
-         /* Espacio entre las dos tarjetas de checklist */
-         flex-wrap: wrap;
-         /* Permite que las tarjetas se envuelvan a la siguiente línea en pantallas pequeñas */
-         width: 100%;
-         /* Asegura que el contenedor ocupe todo el ancho disponible */
-      }
-
-      /* --- Estilos para las Tarjetas de Checklist --- */
-      .checklist-card {
-         background-color: var(--card-bg);
-         border-radius: 10px;
-         box-shadow: var(--box-shadow-light);
-         /* Sombra suave para un toque elegante */
-         padding: 25px;
-         flex: 1;
-         /* Cada tarjeta ocupará el mismo espacio flexible */
-         min-width: 320px;
-         /* Asegura un ancho mínimo antes de envolver */
-         display: flex;
-         /* Añadido para mejor control del contenido interno */
-         flex-direction: column;
-         /* Apila el título y la lista */
-      }
-
-      /* Estilo para un toque más elegante */
-      .checklist-card.elegant-style {
-         border: 1px solid var(--border-color);
-         /* Borde sutil */
-         transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      }
-
-      .checklist-card.elegant-style:hover {
-         transform: translateY(-3px);
-         /* Efecto flotante sutil al pasar el ratón */
-      }
-
-
-      .checklist-card h4 {
-         margin-top: 0;
-         margin-bottom: 15px;
-         font-size: 1.3em;
-         /* Un poco más grande para elegancia */
-         color: var(--primary-blue);
-         /* Título en azul primario */
-         font-weight: 700;
-         /* Más audaz */
-         border-bottom: 2px solid var(--accent-gray);
-         /* Línea más marcada y elegante */
-         padding-bottom: 10px;
-      }
-
-      .checklist-card .intro-text {
-         font-style: italic;
-         color: var(--text-color-light);
-         margin-bottom: 20px;
-         line-height: 1.5;
-         font-size: 0.95em;
-         padding-left: 5px;
-         /* Pequeño padding para alinear con el tick */
-      }
-
-      .checklist-items {
-         list-style: none;
-         padding: 0;
-         margin: 0;
-      }
-
-      .checklist-items li {
-         display: flex;
-         align-items: flex-start;
-         margin-bottom: 15px;
-         color: var(--text-color-dark);
-         font-size: 1em;
-         /* Ajustado para legibilidad */
-         line-height: 1.4;
-         padding-left: 5px;
-         /* Pequeño padding para alinear con el tick */
-      }
-
-      .checklist-items li:last-child {
-         margin-bottom: 0;
-      }
-
-      .checklist-items .icon-checkmark {
-         width: 22px;
-         /* Un poco más grande */
-         height: 22px;
-         margin-right: 12px;
-         /* Más espacio */
-         flex-shrink: 0;
-         background-color: var(--primary-blue);
-         /* Tick azul */
-         border-radius: 3px;
-         /* Bordes ligeramente redondeados para el tick */
-         /* Icono SVG de un tick (marca de verificación) */
-         -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height: 15px; margin: 5px;" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>') no-repeat center;
-         mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height: 15px; margin: 5px;" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>') no-repeat center;
-         mask-size: 90%;
-         /* Ajusta el tamaño del tick dentro del cuadrado */
-         display: flex;
-         /* Para centrar el SVG si fuera necesario */
-         justify-content: center;
-         align-items: center;
-      }
-
-      /* Estilos para la lista de documentación en dos columnas */
-      .checklist-items.double-column {
-         display: grid;
-         grid-template-columns: 1fr 1fr;
-         /* Dos columnas iguales */
-         gap: 15px 20px;
-         /* Espacio vertical y horizontal entre ítems */
-      }
-
-      .checklist-items.double-column li {
-         margin-bottom: 0;
-      }
-
-
-      /* --- Media Queries para Responsividad --- */
-      @media (max-width: 992px) {
-
-         /* Cambiado a 992px para tablets */
-         .user-settings-page-content {
-            flex-direction: column;
-            /* Apilar la navegación y el contenido */
-            margin: 15px;
-            padding: 15px;
-         }
-
-         .settings-nav {
-            flex: none;
-            width: 100%;
-            padding: 15px 0;
-            border-right: none;
-            border-bottom: 1px solid var(--border-color);
-         }
-
-         .settings-main-title {
-            padding: 0 15px 15px;
-            text-align: center;
-         }
-
-         .settings-menu {
-            display: flex;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 0 10px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-         }
-
-         .settings-menu::-webkit-scrollbar {
-            display: none;
-         }
-
-         .settings-menu .menu-item a {
-            padding: 10px 15px;
-            min-width: fit-content;
-            border-left: none;
-            border-bottom: 3px solid transparent;
-         }
-
-         .settings-menu .menu-item.active a {
-            border-left: none;
-            border-bottom-color: var(--primary-blue);
-         }
-
-         .settings-main-content {
-            padding: 20px 0;
-         }
-      }
-
-      @media (max-width: 768px) {
-
-         /* A partir de este tamaño, las checklists también se apilan */
-         .checklists-grid-container {
-            flex-direction: column;
-            /* Las dos checklists se apilan una debajo de la otra */
-         }
-
-         .checklist-card {
-            min-width: unset;
-            /* Quitar min-width para que ocupen todo el ancho disponible */
-         }
-
-         .checklist-card h4 {
-            font-size: 1.1em;
-         }
-
-         .checklist-card .intro-text {
-            font-size: 0.9em;
-         }
-
-         .checklist-items li {
-            font-size: 0.95em;
-         }
-
-         .checklist-items .icon-checkmark {
-            width: 18px;
-            height: 18px;
-            margin-right: 10px;
-         }
-
-         .checklist-items.double-column {
-            grid-template-columns: 1fr;
-            /* La lista de documentación vuelve a una sola columna */
-         }
-      }
-
-      @media (max-width: 480px) {
-
-         /* Ajustes para móviles muy pequeños */
-         .checklist-card {
-            padding: 15px;
-         }
-
-         .checklist-card h4 {
-            font-size: 1em;
-         }
-
-         .checklist-card .intro-text {
-            font-size: 0.85em;
-         }
-
-         .checklist-items li {
-            font-size: 0.88em;
-         }
-      }
-
-
-      .unefa-footer {
-         background-color: #2c3e50;
-         color: #ecf0f1;
-         padding: 40px 20px 20px;
-         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
-
-      .footer-container {
-         max-width: 1200px;
-         margin: 0 auto;
-         display: grid;
-         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-         gap: 30px;
-      }
-
-      .footer-column h4 {
-         color: #3498db;
-         margin-bottom: 20px;
-         font-size: 1.1rem;
-         font-weight: 600;
-      }
-
-      .footer-column ul {
-         list-style: none;
-         padding: 0;
-         margin: 0;
-      }
-
-      .footer-column li {
-         margin-bottom: 12px;
-         font-size: 0.9rem;
-         line-height: 1.4;
-      }
-
-      .footer-column a {
-         color: #ecf0f1;
-         text-decoration: none;
-         transition: color 0.3s;
-      }
-
-      .footer-column a:hover {
-         color: #3498db;
-      }
-
-      .footer-bottom {
-         max-width: 1200px;
-         margin: 40px auto 0;
-         padding-top: 20px;
-         border-top: 1px solid #34495e;
-         display: flex;
-         justify-content: space-between;
-         align-items: center;
-         flex-wrap: wrap;
-         gap: 20px;
-      }
-
-      .footer-bottom p {
-         font-size: 0.8rem;
-         margin: 0;
-      }
-
-      .legal-links {
-         display: flex;
-         gap: 20px;
-      }
-
-      .legal-links a {
-         color: #bdc3c7;
-         text-decoration: none;
-         font-size: 0.8rem;
-         transition: color 0.3s;
-      }
-
-      .legal-links a:hover {
-         color: #3498db;
-      }
-
-      @media (max-width: 768px) {
-         .footer-container {
-            grid-template-columns: repeat(2, 1fr);
-         }
-
-         .footer-bottom {
-            flex-direction: column;
-            text-align: center;
-         }
-
-         .legal-links {
-            margin-top: 10px;
-         }
-      }
    </style>
 </head>
 
 <body>
    <header>
-      <img src="img/encabezado.png" alt="UNEFA BANNER" class="encazabezado">
+      <img src="img/menbrete-nuevo.jpg" alt="UNEFA MENBRETE" class="encazabezado">
    </header>
 
    <nav>
       <div class="nav-container">
-         <img src="img/logo_unefa.ico" alt="UNEFA Logo" class="logo">
+         <img src="img/logo-nuevo.png" alt="UNEFA Logo" class="logo">
          <div class="nav-group">
             <div class="nav-item">
                <a><span class="material-icons">work</span> Prácticas Profesionales</a>
@@ -358,6 +31,7 @@
                   <a href="#">Reglamentos Prácticas Profesionales</a>
                   <a href="#">Estructura del Informe</a>
                   <a href="#">Constitución</a>
+                  <a href="#">Instructivo 7T</a>
                   <a href="#">Plan de Patría</a>
                   <a href="#">Metodología</a>
                   <a href="#">Presentación</a>
@@ -383,7 +57,8 @@
    </nav>
 
    <div class="banner-principal">
-      SISTEMA DE GESTIÓN DE PRÁCTICAS PROFESIONALES UNEFA
+      <img src="img/banner.png" alt="">
+      <!-- SISTEMA DE GESTIÓN DE PRÁCTICAS PROFESIONALES UNEFA -->
    </div>
 
    <div class="proceso-img">
@@ -563,9 +238,9 @@
          <div class="footer-column">
             <h4>Accesos</h4>
             <ul>
-               <li><a href="#">Registro</a></li>
-               <li><a href="#">Inicio de sesión</a></li>
-               <li><a href="#">Campus virtual</a></li>
+               <!-- <li><a href="#">Registro</a></li> -->
+               <li><a href="login/">Inicio de sesión</a></li>
+               <!-- <li><a href="#">Campus virtual</a></li> -->
             </ul>
          </div>
       </div>
