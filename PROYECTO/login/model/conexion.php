@@ -11,7 +11,7 @@ class Conexion {
 //creo un metodo constructor para desarrollar la conexion
     public function __construct($charset = 'utf8mb4') {
     	//le asigno los valores a las variables
-        $this->host = 'localhost';
+        $this->host = '127.0.0.1';
         $this->db = 'mydb';
         $this->user = 'root';
         $this->password = '';
@@ -29,5 +29,7 @@ class Conexion {
         }
     }
 }
+
+
 
 ?>

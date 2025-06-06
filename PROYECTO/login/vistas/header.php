@@ -375,6 +375,7 @@ if (!isset($_SESSION['USER'])) {
                         <li><a href="estudiante.php">Estudiante</a></li>
                         <li><a href="tutores.php">Tutores</a></li>
                         <li><a href="Institucion.php">Instituciones</a></li>
+                        <li><a href="responsables.php">Responsables</a></li>
                     </ul>
                 </li>
 
@@ -430,7 +431,7 @@ if (!isset($_SESSION['USER'])) {
                         <li><a href="registros_inactivos.php">Registros Inactivos</a></li>
                         <li><a href="cambio_registro.php">Cambio de Registros</a></li>
                         <li><a href="usuario.php">Usuarios</a></li>
-                        <li><a href="404.php">Combos</a></li>
+                        <li><a href="combo.php">Combos</a></li>
                     </ul>
                 </li>
 

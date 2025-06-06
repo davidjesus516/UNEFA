@@ -22,10 +22,10 @@ class Usuario
         $this->config = new config();
         $this->config = $this->config->getConfig();
     }
-    
+
     private function expiration_date()
     {
-        $date = date('Y-m-d H:i:s', strtotime('+'.$this->config['EXPIRATION_DAYS'].' days'));
+        $date = date('Y-m-d H:i:s', strtotime('+' . $this->config['EXPIRATION_DAYS'] . ' days'));
         return $date;
     }
     public function userSecurityQuestionSearchByID($user_id)
@@ -108,8 +108,9 @@ class Usuario
         $row = $statement->fetch(PDO::FETCH_ASSOC);
         return $row;
     }
-    public function SearchLastNUserKey($UserId){
-        
+    public function SearchLastNUserKey($UserId)
+    {
+
         $consulta = "SELECT * FROM `t-user_key` WHERE `USER_ID` = :UserId ORDER BY USER_KEY_ID DESC LIMIT 3";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':UserId', $UserId);
@@ -165,19 +166,21 @@ class Usuario
             $this->pdo->rollBack();
             throw $e;
         }
-
     }
     public function LoginFail($UserId)
     {
         try {
-            $sql = "INSERT INTO `t-session_attempts`(`USER_ID`, `ATTEMPT_TIME`, `STATUS`) VALUES (:USER_ID, :ATTEMPT_TIME, :STATUS)";
+            $sql = "INSERT INTO `t-session_attempts`(`USER_ID`, `ATTEMPT_TIME`, `STATUS`, `ACTION`) 
+                VALUES (:USER_ID, :ATTEMPT_TIME, :STATUS, :ACTION)";
             $statement = $this->pdo->prepare($sql);
             $statement->bindValue(':USER_ID', $UserId);
             $statement->bindValue(':ATTEMPT_TIME', date("Y-m-d H:i:s"));
             $statement->bindValue(':STATUS', 1);
+            $statement->bindValue(':ACTION', 1); // Valor para el campo ACTION
             $statement->execute();
             return true;
         } catch (Exception $e) {
+            error_log("Error en LoginFail: " . $e->getMessage());
             throw $e;
         }
     }
@@ -198,7 +201,7 @@ class Usuario
         $statement->execute();
         $row = $statement->fetch(PDO::FETCH_ASSOC);
         return $row;
-    }   
+    }
     public function Logout($UserId)
     {
         try {
@@ -225,8 +228,8 @@ class Usuario
         } catch (Exception $e) {
             throw $e;
         }
-    }   
-    public function BasicLoginConfig($id, $password, $questions_answers,$correo, $telefono)
+    }
+    public function BasicLoginConfig($id, $password, $questions_answers, $correo, $telefono)
     {
         try {
             $sql = "UPDATE `t-user` SET `EMAIL`= :correo, `PHONE_NUMBER`= :telefono, `STATUS_SESSION`= 1 WHERE USER_ID = :id";
@@ -306,7 +309,8 @@ class Usuario
             throw $e;
         }
     }
-    public function UserBlock($user_id)  {
+    public function UserBlock($user_id)
+    {
         try {
             $sql = "UPDATE `t-user` SET `STATUS_SESSION`= 0 WHERE USER_ID = :user_id";
             $statement = $this->pdo->prepare($sql);
@@ -316,9 +320,9 @@ class Usuario
         } catch (Exception $e) {
             throw $e;
         }
-        
     }
-    public function UserUnblock($user_id)  {
+    public function UserUnblock($user_id)
+    {
         try {
             $sql = "UPDATE `t-user` SET `STATUS_SESSION`= 1 WHERE USER_ID = :user_id";
             $statement = $this->pdo->prepare($sql);
@@ -328,9 +332,9 @@ class Usuario
         } catch (Exception $e) {
             throw $e;
         }
-        
     }
-    public function UserRestart($user_id)  {
+    public function UserRestart($user_id)
+    {
         try {
             $sql = "UPDATE `t-user` SET `STATUS_SESSION`= 3 WHERE USER_ID = :user_id";
             $statement = $this->pdo->prepare($sql);
@@ -341,7 +345,8 @@ class Usuario
             throw $e;
         }
     }
-    public function UserDelete($user_id)  {
+    public function UserDelete($user_id)
+    {
         try {
             $sql = "UPDATE `t-user` SET `STATUS`= 0 WHERE USER_ID = :user_id";
             $statement = $this->pdo->prepare($sql);
@@ -352,7 +357,8 @@ class Usuario
             throw $e;
         }
     }
-    public function UserRestore($user_id)  {
+    public function UserRestore($user_id)
+    {
         try {
             $sql = "UPDATE `t-user` SET `STATUS`= 1 WHERE USER_ID = :user_id";
             $statement = $this->pdo->prepare($sql);
