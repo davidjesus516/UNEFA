@@ -1,6 +1,6 @@
 <?php
 
-require("..\..\model\carrera.php");
+require("../../model/carrera.php");
 
 if(isset($_POST)){//si el js me manda yo hago:
     $Nombre_Carrera =  mb_strtoupper($_POST["Nombre_Carrera"]);

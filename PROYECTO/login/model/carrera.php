@@ -19,7 +19,7 @@ class Usuario
 
     //creo la funcion que me va a consultar todos los datos que exista y me los traera y guardarlos en una variable
     public function buscarCodigo($CAREER_CODE){
-        $consulta = "SELECT * FROM `T-CAREER` WHERE CAREER_CODE = :CAREER_CODE";
+        $consulta = "SELECT * FROM `t-career` WHERE CAREER_CODE = :CAREER_CODE";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':CAREER_CODE', $CAREER_CODE);
         $statement->execute();
@@ -34,7 +34,7 @@ class Usuario
         return $json;
     }
     public function buscarNombre($CAREER_NAME){
-        $consulta = "SELECT * FROM `T-CAREER` WHERE CAREER_NAME LIKE :CAREER_NAME";
+        $consulta = "SELECT * FROM `t-career` WHERE CAREER_NAME LIKE :CAREER_NAME";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':CAREER_NAME', $CAREER_NAME);
         $statement->execute();
@@ -53,7 +53,7 @@ class Usuario
     public function insertarUsuario($CAREER_NAME,$CAREER_CODE,$MINIMUM_GRADE,$CAREER_INTERNSHIP_TYPES)
     {try {
         $this->pdo->beginTransaction();
-        $consulta = "INSERT INTO `T-CAREER`(`CAREER_NAME`, `CAREER_CODE`, `MINIMUM_GRADE`, `CREATION_DATE`, `MODIF_USER_ID`, `MODIF_USER_DATE`, `ELIM_USER_ID`, `ELIM_USER_DATE`, `REST_USER_ID`, `REST_USER_DATE`, `STATUS`) VALUES (:CAREER_NAME, :CAREER_CODE, :MINIMUM_GRADE, :CREATION_DATE, :MODIF_USER_ID, :MODIF_USER_DATE, :ELIM_USER_ID, :ELIM_USER_DATE, :REST_USER_ID, :REST_USER_DATE, :STATUS)";
+        $consulta = "INSERT INTO `t-career`(`CAREER_NAME`, `CAREER_CODE`, `MINIMUM_GRADE`, `CREATION_DATE`, `MODIF_USER_ID`, `MODIF_USER_DATE`, `ELIM_USER_ID`, `ELIM_USER_DATE`, `REST_USER_ID`, `REST_USER_DATE`, `STATUS`) VALUES (:CAREER_NAME, :CAREER_CODE, :MINIMUM_GRADE, :CREATION_DATE, :MODIF_USER_ID, :MODIF_USER_DATE, :ELIM_USER_ID, :ELIM_USER_DATE, :REST_USER_ID, :REST_USER_DATE, :STATUS)";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(":CAREER_NAME", $CAREER_NAME);
         $statement->bindValue(":CAREER_CODE", $CAREER_CODE);
@@ -92,7 +92,7 @@ class Usuario
     
     //creo la funcion que me va a listar todos los usuarios activos
     public function listarUsuarios(){
-        $consulta = "SELECT * FROM `T-CAREER` WHERE `STATUS` = 1";
+        $consulta = "SELECT * FROM `t-career` WHERE `STATUS` = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();
@@ -108,7 +108,7 @@ class Usuario
 
     //creo la funcion que me va a listar todos los usuarios activos
     public function listarUsuariosI(){
-        $consulta = "SELECT * FROM `T-CAREER` WHERE `STATUS` = 0";
+        $consulta = "SELECT * FROM `t-career` WHERE `STATUS` = 0";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         $json = array();
@@ -123,7 +123,7 @@ class Usuario
     }
     //creo la funcion que me va a eliminar un usuario
     public function eliminarUsuario($CAREER_ID){
-        $consulta = "UPDATE `T-CAREER` SET ELIM_USER_ID = :ELIM_USER_ID , ELIM_USER_DATE = :ELIM_USER_DATE ,`STATUS` = 0 WHERE CAREER_ID = :CAREER_ID";
+        $consulta = "UPDATE `t-career` SET ELIM_USER_ID = :ELIM_USER_ID , ELIM_USER_DATE = :ELIM_USER_DATE ,`STATUS` = 0 WHERE CAREER_ID = :CAREER_ID";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(":ELIM_USER_ID", $_SESSION['USER_ID']);
         $statement->bindValue(":ELIM_USER_DATE", date("Y-m-d H:i:s"));
@@ -131,7 +131,7 @@ class Usuario
         return $statement->execute();
     }
     public function RestaurarUsuario($CAREER_ID){
-        $consulta = "UPDATE `T-CAREER` SET REST_USER_ID = :REST_USER_ID , REST_USER_DATE = :REST_USER_DATE , `STATUS` = 1 WHERE CAREER_ID = :CAREER_ID";
+        $consulta = "UPDATE `t-career` SET REST_USER_ID = :REST_USER_ID , REST_USER_DATE = :REST_USER_DATE , `STATUS` = 1 WHERE CAREER_ID = :CAREER_ID";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(":REST_USER_ID", $_SESSION['USER_ID']);
         $statement->bindValue(":REST_USER_DATE", date("Y-m-d H:i:s"));
@@ -140,7 +140,7 @@ class Usuario
     }
     //creo la funcion que me va a consultar todos los datos que va a editar por el ID
     public function searcheditUsuario($CAREER_ID){
-        $consulta = "SELECT * FROM `T-CAREER` WHERE CAREER_ID = :CAREER_ID";
+        $consulta = "SELECT * FROM `t-career` WHERE CAREER_ID = :CAREER_ID";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(":CAREER_ID", $CAREER_ID);
         $statement->execute();
@@ -167,7 +167,7 @@ class Usuario
     
     //creo la funcion que me va a editar un usuario
     public function editarUsuario($CAREER_ID, $CAREER_NAME , $CAREER_CODE,$MINIMUM_GRADE, $CAREER_INTERNSHIP_TYPES){
-        $consulta = "UPDATE `T-CAREER` SET CAREER_NAME = :CAREER_NAME, CAREER_CODE = :CAREER_CODE, MINIMUM_GRADE = :MINIMUM_GRADE, MODIF_USER_ID = :MODIF_USER_ID , MODIF_USER_DATE = :MODIF_USER_DATE  WHERE CAREER_ID = :CAREER_ID";
+        $consulta = "UPDATE `t-career` SET CAREER_NAME = :CAREER_NAME, CAREER_CODE = :CAREER_CODE, MINIMUM_GRADE = :MINIMUM_GRADE, MODIF_USER_ID = :MODIF_USER_ID , MODIF_USER_DATE = :MODIF_USER_DATE  WHERE CAREER_ID = :CAREER_ID";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(":CAREER_ID", $CAREER_ID);
         $statement->bindValue(":CAREER_NAME", $CAREER_NAME);

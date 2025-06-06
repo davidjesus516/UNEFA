@@ -1,7 +1,7 @@
 <?php 
 
 // incluir la clase Usuario
-require_once("..\..\model\carrera.php");
+require_once("../../model/carrera.php");
 
 // crear una instancia de la clase Usuario
 $usuario = new Usuario();
