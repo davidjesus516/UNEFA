@@ -46,8 +46,8 @@ if ($UserSessionData == null) {
         'status' => 0);
 } else {
     if (
-        true
-        //password_verify($password, $UserSessionData['KEY'])
+       
+        password_verify($password, $UserSessionData['KEY'])
     ) {
         $UserData->LoginSucces($UserSessionData['USER_ID']); //actualizo el estado de la sesion a 1
         $today = date('Y-m-d H:i:s');

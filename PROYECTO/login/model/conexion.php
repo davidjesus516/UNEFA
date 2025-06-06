@@ -14,7 +14,7 @@ class Conexion {
         $this->host = '127.0.0.1';
         $this->db = 'mydb';
         $this->user = 'root';
-        $this->password = 'control1234';
+        $this->password = '';
         $this->charset = $charset;
     }
 //creo la funcion conectar donde se va intentar crear una conexion

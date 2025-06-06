@@ -65,7 +65,7 @@ class PDF extends FPDF
 }
 
 // --- Conexión a Base de Datos ---
-$conexion = new mysqli("localhost", "root", "control1234", "mydb");
+$conexion = new mysqli("localhost", "root", "", "mydb");
 
 // Manejo de errores de conexión
 if ($conexion->connect_error) {
