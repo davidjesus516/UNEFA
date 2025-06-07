@@ -1,19 +1,12 @@
 <?php
-require("../../model/periodo.php");
-$codigo = $_POST["search"];
+require_once '../../model/periodo.php';
 
-// incluir la clase Usuario
-require_once("../../model/periodo.php");
+if (!isset($_POST['PERIOD_ID'])) {
+    echo json_encode([]);
+    exit;
+}
 
-// crear una instancia de la clase Usuario
-$usuario = new Usuario();
+$periodo = new Periodo();
+$result = $periodo->obtenerPorID($_POST['PERIOD_ID']);
 
-// llamar al método buscarUsuario() para buscar un usuario por su cédula
-$json = $usuario->buscarUsuario("$codigo");
-
-// convertir el resultado a formato JSON
-$jsonstring = json_encode($json);
-
-// imprimir el resultado en formato JSON
-echo $jsonstring;
-?>
+echo json_encode($result);

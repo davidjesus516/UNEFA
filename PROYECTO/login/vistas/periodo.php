@@ -1,6 +1,4 @@
-<?php
-require 'header.php';
-?>
+<?php require 'header.php';?>
 <span class="text">Periodo</span>
 <div class="page-content">
 

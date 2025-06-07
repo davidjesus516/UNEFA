@@ -1113,8 +1113,8 @@ button.primary-white {
 }
 
 .task-delete {
-  width: 100px;
-  height: 30px;
+  width: 110px;
+  height: 35px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1177,8 +1177,8 @@ button.primary-white {
 /*  */
 
 .task-edit {
-  width: 100px;
-  height: 30px;
+  width: 110px;
+  height: 35px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1246,10 +1246,9 @@ button.primary-white {
   transform: scale(0.8);
 }
 
-
 .task-status {
-  width: 100px;
-  height: 30px;
+  width: 110px;
+  height: 35px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1257,8 +1256,8 @@ button.primary-white {
   border: none;
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-  background: #e2b30b;
   transition: 200ms;
+  /* justify-content: flex-end; */
   /* margin-top: 13px; */
 }
 
@@ -1268,7 +1267,7 @@ button.primary-white {
 }
 
 .task-status .texto {
-  transform: translateX(15px);
+  transform: translateX(10px);
   color: white;
   font-weight: bold;
   transition: 200ms;
@@ -1324,7 +1323,29 @@ button.primary-white {
 .status-inactivo {
   background: #e2b30b;
 }
+/* Estilos para los diferentes estados */
+.status-inactivo {
+  background-color: #ffa500; /* Naranja para Pendiente */
+}
 
+.status-activo {
+  background-color: #4caf50; /* Verde para En Curso */
+}
+
+.status-culminado {
+  background-color: #607d8b; /* Gris azulado para Culminado */
+}
+
+.task-status {
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 /* animacion de exito */
 /**
  * Extracted from: SweetAlert
