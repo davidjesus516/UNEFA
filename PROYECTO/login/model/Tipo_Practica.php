@@ -2,8 +2,8 @@
 //me voy a traer la conexion
 require_once("conexion.php");
 
-//instancio la clase usuario
-class Usuario
+//instancio la clase Tipo_Practica
+class Tipo_Practica
 {
     //creo los atributos
     private $conexion;
