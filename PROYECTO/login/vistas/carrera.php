@@ -163,8 +163,27 @@ require 'header.php';
 
         async function codigoExiste() {
             const codigo = document.getElementById('codigo').value;
+            const id = document.getElementById('id_form').value;
+            if (id) {
+                // Si hay un ID, no validar el código si es el mismo
+                const response = await fetch(`../controllers/carrera/Carrera.php?accion=codigo_existe&id=${id}&codigo=${codigo}`);
+                if (!response.ok) {
+                    console.error('Error al verificar el código:', response.statusText);
+                    return false; // Manejar error de red
+                }
+                const data = await response.json();
+                if (!data.existe) {
+                    isCorrect('grupo__codigo');
+                    return false;
+                }
+            }
+
             if (codigo.length < 3) return false; // No validar si el código es muy corto
             const response = await fetch(`../controllers/carrera/Carrera.php?accion=codigo_existe&codigo=${codigo}`);
+            if (!response.ok) {
+                console.error('Error al verificar el código:', response.statusText);
+                return false; // Manejar error de red
+            }
             const data = await response.json();
             if (data.existe) {
                 isIncorrect('grupo__codigo', 'El código ya está registrado');
@@ -177,6 +196,20 @@ require 'header.php';
 
         async function nombreExiste() {
             const nombre = document.getElementById('nombre').value;
+            const id = document.getElementById('id_form').value;
+            if (id) {
+                // Si hay un ID, no validar el nombre si es el mismo
+                const response = await fetch(`../controllers/carrera/Carrera.php?accion=nombre_existe&id=${id}&nombre=${nombre}`);
+                if (!response.ok) {
+                    console.error('Error al verificar el nombre:', response.statusText);
+                    return false; // Manejar error de red
+                }
+                const data = await response.json();
+                if (!data.existe) {
+                    isCorrect('grupo__nombre');
+                    return false;
+                }
+            }
             if (nombre.length < 5) return false; // No validar si el nombre es muy corto
             const response = await fetch(`../controllers/carrera/Carrera.php?accion=nombre_existe&nombre=${nombre}`);
             const data = await response.json();
