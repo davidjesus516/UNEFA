@@ -12,7 +12,7 @@ class Conexion {
     public function __construct($charset = 'utf8mb4') {
     	//le asigno los valores a las variables
         $this->host = '127.0.0.1';
-        $this->db = 'mydb';
+        $this->db = 'mydb2';
         $this->user = 'root';
         $this->password = '';
         $this->charset = $charset;
