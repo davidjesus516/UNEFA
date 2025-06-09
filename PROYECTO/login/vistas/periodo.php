@@ -2,7 +2,7 @@
 <span class="text">Periodo</span>
 <div class="page-content">
 
-<button class="primary" onclick="window.dialog.showModal();">Nuevo <span>+</span></button>
+<button class="primary">Nuevo <span>+</span></button>
 <div class="message"></div>
 <div id="modal" class="modal">
 
@@ -74,18 +74,28 @@
     </dialog>
 </div>
 
-<table class="w3-table-all w3-hoverable" aria-label="Lista de períodos académicos">
-    <thead>
-        <tr class="w3-light-grey">
-            <th scope="col">Lapso Académico</th>
-            <th scope="col">Inicio</th>
-            <th scope="col">Fin</th>
-            <th scope="col">Estatus</th>
-            <th scope="col" colspan="2">Acciones</th>
-        </tr>
-    </thead>
-    <tbody id="datos"></tbody>
-</table>
+<!-- Pestañas para activos/inactivos -->
+<div class="tabs">
+    <button class="tab-button active" onclick="cambiarTabPeriodo('activos', event)">Períodos Activos</button>
+    <button class="tab-button" onclick="cambiarTabPeriodo('inactivos', event)">Períodos Inactivos</button>
+</div>
+
+<!-- Tabla -->
+<div class="table-container">
+    <table class="w3-table-all w3-hoverable" aria-label="Listado de períodos">
+        <thead>
+            <tr class="w3-light-grey">
+                <th>Descripción</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Estado</th>
+                <th colspan="2">Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="datos-activos"></tbody>
+        <tbody id="datos-inactivos" style="display: none;"></tbody>
+    </table>
+</div>
 
 <script src="js/jquery-3.7.0.min.js"></script>
 <script src="js/periodo.js"></script>

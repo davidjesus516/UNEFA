@@ -41,8 +41,12 @@ class PeriodoController
 
     private function listar()
     {
-        $datos = $this->periodo->listarActivos();
-        echo json_encode($datos);
+        $activos = $this->periodo->listarActivos();
+        $inactivos = $this->periodo->listarInactivos();
+        echo json_encode([
+            'activos' => $activos,
+            'inactivos' => $inactivos
+        ]);
     }
 
     private function buscar()
