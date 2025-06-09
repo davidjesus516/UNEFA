@@ -4,8 +4,6 @@ require 'header.php';
 <span class="text">Responsable</span>
 <div class="page-content">
 
-
-
     <div id="modal" class="modal">
         <button class="primary" onclick="window.dialog.showModal();">Nuevo <span>+</span></button>
 

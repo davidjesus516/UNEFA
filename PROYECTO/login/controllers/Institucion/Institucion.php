@@ -45,6 +45,9 @@ class InstitucionController
                 case 'actualizar':
                     $this->actualizar();
                     break;
+                case 'instituciones_select':
+                    $this->listarParaSelect();
+                    break;
                 case 'verificar_rif':
                     $this->verificarRif();
                     break;
@@ -78,7 +81,7 @@ class InstitucionController
     private function insertar()
     {
         $datos = $this->obtenerDatosFormulario();
-        
+
         // Validación del RIF
         if ($this->modelo->rifExiste($datos['rif'])) {
             $this->responder(['error' => 'El RIF ya está registrado'], 400);
@@ -86,7 +89,7 @@ class InstitucionController
         }
 
         $id = $this->modelo->insertar($datos);
-        
+
         if ($id !== false) {
             $this->responder([
                 'success' => true,
@@ -130,8 +133,8 @@ class InstitucionController
         $resultado = $this->modelo->eliminar($id);
         $this->responder([
             'success' => $resultado,
-            'message' => $resultado 
-                ? 'Institución desactivada correctamente' 
+            'message' => $resultado
+                ? 'Institución desactivada correctamente'
                 : 'Error al desactivar la institución'
         ]);
     }
@@ -150,8 +153,8 @@ class InstitucionController
         $resultado = $this->modelo->restaurar($id);
         $this->responder([
             'success' => $resultado,
-            'message' => $resultado 
-                ? 'Institución restaurada correctamente' 
+            'message' => $resultado
+                ? 'Institución restaurada correctamente'
                 : 'Error al restaurar la institución'
         ]);
     }
@@ -187,7 +190,7 @@ class InstitucionController
         }
 
         $datos = $this->obtenerDatosFormulario();
-        
+
         // Validar RIF solo si ha cambiado
         $institucionActual = $this->modelo->buscarPorId($id);
         if ($institucionActual['RIF'] !== $datos['rif'] && $this->modelo->rifExiste($datos['rif'], $id)) {
@@ -198,8 +201,8 @@ class InstitucionController
         $resultado = $this->modelo->actualizar($id, $datos);
         $this->responder([
             'success' => $resultado,
-            'message' => $resultado 
-                ? 'Institución actualizada correctamente' 
+            'message' => $resultado
+                ? 'Institución actualizada correctamente'
                 : 'Error al actualizar la institución'
         ]);
     }
@@ -211,7 +214,7 @@ class InstitucionController
     {
         $rif = $_GET['rif'] ?? null;
         $idExcluir = $_GET['id_excluir'] ?? null;
-        
+
         if (empty($rif)) {
             $this->responder(['error' => 'RIF requerido'], 400);
             return;
@@ -245,11 +248,11 @@ class InstitucionController
     private function obtenerValor($campo, $requerido = false)
     {
         $valor = $_POST[$campo] ?? $_GET[$campo] ?? null;
-        
+
         if ($requerido && empty($valor)) {
             throw new Exception("El campo $campo es requerido");
         }
-        
+
         return $valor;
     }
 
@@ -262,6 +265,15 @@ class InstitucionController
         header('Content-Type: application/json');
         echo json_encode($datos);
         exit;
+    }
+
+    /**
+     * Listar instituciones para select en formularios
+     */
+    private function listarParaSelect()
+    {
+        $instituciones = $this->modelo->listarParaSelect();
+        $this->responder($instituciones);
     }
 }
 

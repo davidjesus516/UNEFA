@@ -10,10 +10,12 @@ VENTANA ESTUDIANTE:
 1. Filtros de busqueda
 
 VENTANA RESPONSABLE:
-1. No se puede registrar porque falta el combo de institucion
+1. No se puede registrar porque falta el combo de institucion (ya se muestra, salieron los demas errores)
+2. No deja registrar al responsable
 
 VENTANA PRE INSCRIPCION - INSCRIPCION - SEGUIMIENTO Y CULMINACION:
 NO ESTA TERMINADA LA LOGICA
 
-CAMBIO DE REGISTROS TAMPOCO
+CAMBIO DE REGISTROS TAMPOCO Y CONFIGURACION IGUAL
 
+Y TERMINAR DE HACER LOS REPORTES
