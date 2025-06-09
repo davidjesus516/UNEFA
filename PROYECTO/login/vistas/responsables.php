@@ -83,46 +83,33 @@
 
 <!-- JS -->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const formulario = document.getElementById("formulario");
-        const tablaBody = document.getElementById("datos");
-        const dialog = document.getElementById("dialog");
+document.addEventListener("DOMContentLoaded", function () {
+    const formulario = document.getElementById("formulario");
+    const tablaBody = document.getElementById("datos");
+    const dialog = document.getElementById("dialog");
 
-        // Cargar opciones del select de instituciones (versión mejorada)
-        fetch("../controllers/Institucion/Institucion.php?accion=instituciones_select")
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Error al cargar instituciones');
-                }
-                return res.json();
-            })
-            .then(data => {
-                const select = document.getElementById("institucion_id");
-                // Limpiar select primero
-                select.innerHTML = '<option value="" disabled selected>Seleccione una institución</option>';
-
-                // Llenar con opciones
-                data.forEach(inst => {
-                    const option = document.createElement("option");
-                    option.value = inst.id;
-                    option.textContent = inst.nombre;
-                    select.appendChild(option);
-                });
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("No se pudieron cargar las instituciones. Por favor recarga la página.");
+    // Cargar opciones del select de instituciones
+    fetch("../controllers/Institucion/Institucion.php?accion=instituciones_select")
+        .then(res => res.json())
+        .then(data => {
+            const select = document.getElementById("institucion_id");
+            data.forEach(inst => {
+                const option = document.createElement("option");
+                option.value = inst.id;
+                option.textContent = inst.nombre;
+                select.appendChild(option);
             });
+        });
 
-        listarResponsables();
+    listarResponsables();
 
-        function listarResponsables() {
-            fetch("../controllers/institution_manager/InstitutionManager.php?accion=listar")
-                .then(response => response.json())
-                .then(data => {
-                    tablaBody.innerHTML = "";
-                    data.forEach(p => {
-                        tablaBody.innerHTML += `
+    function listarResponsables() {
+        fetch("../controllers/institution_manager/InstitutionManager.php?accion=listar")
+            .then(response => response.json())
+            .then(data => {
+                tablaBody.innerHTML = "";
+                data.forEach(p => {
+                    tablaBody.innerHTML += `
                         <tr>
                             <td>${p.MANAGER_CI}</td>
                             <td>${p.NAME} ${p.SECOND_NAME ?? ''}</td>
@@ -135,78 +122,73 @@
                             </td>
                         </tr>
                     `;
-                    });
                 });
-        }
+            });
+    }
 
-        formulario.addEventListener("submit", function(e) {
-            e.preventDefault();
-            const formData = new FormData(formulario);
-            const id = formData.get("id_form");
-            formData.append("accion", id ? "actualizar" : "insertar");
-            formData.append("id", id);
+    formulario.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const formData = new FormData(formulario);
+        const id = formData.get("id_form");
+        formData.append("accion", id ? "actualizar" : "insertar");
+        formData.append("id", id);
+
+        fetch("../controllers/institution_manager/InstitutionManager.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.json())
+        .then(res => {
+            if (res.success) {
+                alert("Guardado exitosamente");
+                formulario.reset();
+                dialog.close();
+                listarResponsables();
+            } else {
+                alert("Error al guardar");
+            }
+        });
+    });
+
+    window.editar = function (id) {
+        fetch(`../controllers/institution_manager/InstitutionManager.php?accion=buscar&id=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("id_form").value = data.MANAGER_ID;
+                document.getElementById("cedula").value = data.MANAGER_CI;
+                document.getElementById("nombre").value = data.NAME;
+                document.getElementById("segundo_nombre").value = data.SECOND_NAME;
+                document.getElementById("apellido").value = data.SURNAME;
+                document.getElementById("segundo_apellido").value = data.SECOND_SURNAME;
+                document.getElementById("telefono").value = data.CONTACT_PHONE;
+                document.getElementById("correo").value = data.EMAIL;
+                // Si quieres precargar institución aquí: document.getElementById("institucion_id").value = data.INSTITUTION_ID;
+                dialog.showModal();
+            });
+    }
+
+    window.eliminar = function (id) {
+        if (confirm("¿Está seguro de eliminar este responsable?")) {
+            const form = new FormData();
+            form.append("accion", "eliminar");
+            form.append("id", id);
 
             fetch("../controllers/institution_manager/InstitutionManager.php", {
-                    method: "POST",
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.success) {
-                        alert("Guardado exitosamente");
-                        formulario.reset();
-                        dialog.close();
-                        listarResponsables();
-                    } else {
-                        alert("Error al guardar");
-                    }
-                });
-        });
-
-        window.editar = function(id) {
-            fetch(`../controllers/institution_manager/InstitutionManager.php?accion=buscar&id=${id}`)
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById("id_form").value = data.MANAGER_ID;
-                    document.getElementById("cedula").value = data.MANAGER_CI;
-                    document.getElementById("nombre").value = data.NAME;
-                    document.getElementById("segundo_nombre").value = data.SECOND_NAME || '';
-                    document.getElementById("apellido").value = data.SURNAME;
-                    document.getElementById("segundo_apellido").value = data.SECOND_SURNAME || '';
-                    document.getElementById("telefono").value = data.CONTACT_PHONE;
-                    document.getElementById("correo").value = data.EMAIL;
-
-                    // Precargar institución si existe el campo
-                    if (data.INSTITUTION_ID && document.getElementById("institucion_id")) {
-                        document.getElementById("institucion_id").value = data.INSTITUTION_ID;
-                    }
-
-                    dialog.showModal();
-                });
+                method: "POST",
+                body: form
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    alert("Eliminado correctamente");
+                    listarResponsables();
+                } else {
+                    alert("Error al eliminar");
+                }
+            });
         }
-
-        window.eliminar = function(id) {
-            if (confirm("¿Está seguro de eliminar este responsable?")) {
-                const form = new FormData();
-                form.append("accion", "eliminar");
-                form.append("id", id);
-
-                fetch("../controllers/institution_manager/InstitutionManager.php", {
-                        method: "POST",
-                        body: form
-                    })
-                    .then(res => res.json())
-                    .then(res => {
-                        if (res.success) {
-                            alert("Eliminado correctamente");
-                            listarResponsables();
-                        } else {
-                            alert("Error al eliminar");
-                        }
-                    });
-            }
-        }
-    });
+    }
+});
 </script>
 
 <?php require 'footer.php'; ?>
