@@ -106,8 +106,6 @@ require 'header.php';
     </table>
 </div>
 
-<script src="js/estudiante/jquery-3.7.0.min.js"></script>
-<script src="js/estudiante/main.js"></script>
 <?php
 require 'footer.php';
 ?>

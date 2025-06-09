@@ -4,7 +4,7 @@ if (!isset($_SESSION['USER'])) {
     header("Location: ../index.php");
 }
 ?>
-<input type="hidden" id="id" name="id" value=<?php echo $_SESSION["NAME"]; ?>>
+<input type="hidden" id="id" name="id" value=<?php echo $_SESSION["USER_ID"]; ?>>
 
 <!DOCTYPE html>
 <html lang="en" style="background-color: #e4e9f7;">

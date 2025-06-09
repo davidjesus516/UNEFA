@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once '../../model/profesional_practices.php';
 
 
@@ -21,32 +25,17 @@ class ProfesionalPracticesController
 
         try {
             switch ($accion) {
-                case 'buscar':
-                    $this->buscar();
+                case 'buscar_por_cedula':
+                    $this->buscarPorCedula();
                     break;
-                case 'insertar':
-                    $this->insertar();
+                case 'cargar_responsables':
+                    $this->cargarResponsables();
                     break;
-                case 'listar_activas':
-                    $this->listarActivas();
+                case 'listar_activos': // <-- Agregado
+                    $this->listarActivos();
                     break;
-                case 'listar_inactivas':
-                    $this->listarInactivas();
-                    break;
-                case 'eliminar':
-                    $this->eliminar();
-                    break;
-                case 'restaurar':
-                    $this->restaurar();
-                    break;
-                case 'buscar_por_id':
-                    $this->buscarPorId();
-                    break;
-                case 'actualizar':
-                    $this->actualizar();
-                    break;
-                case 'verificar_rif':
-                    $this->verificarRif();
+                case 'listar_inactivos': // <-- Agregado
+                    $this->listarInactivos();
                     break;
                 default:
                     $this->responder(['error' => 'Acción no válida'], 400);
@@ -57,168 +46,56 @@ class ProfesionalPracticesController
         }
     }
 
-    /**
-     * Buscar instituciones por nombre o RIF
+    /** 
+     * Buscar estudiante por cédula
      */
-    private function buscar()
+    private function buscarPorCedula()
     {
-        $busqueda = $_GET['busqueda'] ?? '';
-        if (empty($busqueda)) {
-            $this->responder(['error' => 'Texto de búsqueda requerido'], 400);
-            return;
-        }
+        $cedula = $this->obtenerValor('cedula', true);
+        $datosEstudiante = $this->modelo->buscarPorCedula($cedula);
 
-        $resultados = $this->modelo->buscar($busqueda);
-        $this->responder($resultados);
-    }
-
-    /**
-     * Insertar nueva institución
-     */
-    private function insertar()
-    {
-        $datos = $this->obtenerDatosFormulario();
-        
-        // Validación del RIF
-        if ($this->modelo->rifExiste($datos['rif'])) {
-            $this->responder(['error' => 'El RIF ya está registrado'], 400);
-            return;
-        }
-
-        $id = $this->modelo->insertar($datos);
-        
-        if ($id !== false) {
-            $this->responder([
-                'success' => true,
-                'id' => $id,
-                'message' => 'Institución registrada exitosamente'
-            ]);
+        if ($datosEstudiante) {
+            $datosEstudiante['combos'] = $this->modelo->profesionalPracticesCombos($datosEstudiante['CAREER_ID']);
+            $this->responder($datosEstudiante);
         } else {
-            $this->responder(['error' => 'Error al registrar la institución'], 500);
+            $this->responder(['error' => 'Estudiante no encontrado'], 404);
         }
     }
-
-    /**
-     * Listar instituciones activas
-     */
-    private function listarActivas()
+    private function cargarResponsables()
     {
-        $instituciones = $this->modelo->listarActivas();
-        $this->responder($instituciones);
-    }
+        $institucionId = $this->obtenerValor('institucion_id', true);
+        $responsables = $this->modelo->cargarResponsables($institucionId);
 
-    /**
-     * Listar instituciones inactivas
-     */
-    private function listarInactivas()
-    {
-        $instituciones = $this->modelo->listarInactivas();
-        $this->responder($instituciones);
-    }
-
-    /**
-     * Eliminar (desactivar) institución
-     */
-    private function eliminar()
-    {
-        $id = $_POST['id'] ?? null;
-        if (empty($id)) {
-            $this->responder(['error' => 'ID de institución requerido'], 400);
-            return;
-        }
-
-        $resultado = $this->modelo->eliminar($id);
-        $this->responder([
-            'success' => $resultado,
-            'message' => $resultado 
-                ? 'Institución desactivada correctamente' 
-                : 'Error al desactivar la institución'
-        ]);
-    }
-
-    /**
-     * Restaurar (activar) institución
-     */
-    private function restaurar()
-    {
-        $id = $_POST['id'] ?? null;
-        if (empty($id)) {
-            $this->responder(['error' => 'ID de institución requerido'], 400);
-            return;
-        }
-
-        $resultado = $this->modelo->restaurar($id);
-        $this->responder([
-            'success' => $resultado,
-            'message' => $resultado 
-                ? 'Institución restaurada correctamente' 
-                : 'Error al restaurar la institución'
-        ]);
-    }
-
-    /**
-     * Buscar institución por ID
-     */
-    private function buscarPorId()
-    {
-        $id = $_GET['id'] ?? null;
-        if (empty($id)) {
-            $this->responder(['error' => 'ID de institución requerido'], 400);
-            return;
-        }
-
-        $institucion = $this->modelo->buscarPorId($id);
-        if ($institucion) {
-            $this->responder($institucion);
+        if ($responsables) {
+            $this->responder($responsables);
         } else {
-            $this->responder(['error' => 'Institución no encontrada'], 404);
+            $this->responder(['error' => 'No se encontraron responsables'], 404);
         }
     }
 
     /**
-     * Actualizar datos de institución
+     * Listar inscripciones activas
      */
-    private function actualizar()
+    private function listarActivos()
     {
-        $id = $_POST['id'] ?? null;
-        if (empty($id)) {
-            $this->responder(['error' => 'ID de institución requerido'], 400);
+        $activos = $this->modelo->listarActivos();
+        if (empty($activos)) {
+            $this->responder(['mensaje' => 'No hay inscripciones activas'], 404);
             return;
         }
-
-        $datos = $this->obtenerDatosFormulario();
-        
-        // Validar RIF solo si ha cambiado
-        $institucionActual = $this->modelo->buscarPorId($id);
-        if ($institucionActual['RIF'] !== $datos['rif'] && $this->modelo->rifExiste($datos['rif'], $id)) {
-            $this->responder(['error' => 'El nuevo RIF ya está registrado'], 400);
-            return;
-        }
-
-        $resultado = $this->modelo->actualizar($id, $datos);
-        $this->responder([
-            'success' => $resultado,
-            'message' => $resultado 
-                ? 'Institución actualizada correctamente' 
-                : 'Error al actualizar la institución'
-        ]);
+        $this->responder($activos);
     }
-
     /**
-     * Verificar si un RIF existe
+     * lisar inscripciones inactivas
      */
-    private function verificarRif()
+    private function listarInactivos()
     {
-        $rif = $_GET['rif'] ?? null;
-        $idExcluir = $_GET['id_excluir'] ?? null;
-        
-        if (empty($rif)) {
-            $this->responder(['error' => 'RIF requerido'], 400);
+        $inactivos = $this->modelo->listarInactivos();
+        if (empty($inactivos)) {
+            $this->responder(['mensaje' => 'No hay inscripciones inactivas'], 404);
             return;
         }
-
-        $existe = $this->modelo->rifExiste($rif, $idExcluir);
-        $this->responder(['existe' => $existe]);
+        $this->responder($inactivos);
     }
 
     /**
@@ -227,15 +104,12 @@ class ProfesionalPracticesController
     private function obtenerDatosFormulario()
     {
         return [
-            'nombre' => $this->obtenerValor('nombre', true),
-            'direccion' => $this->obtenerValor('direccion', true),
-            'contacto' => $this->obtenerValor('contacto', true),
-            'tipo_practica' => $this->obtenerValor('tipo_practica', true),
-            'region' => $this->obtenerValor('region', true),
-            'nucleo' => $this->obtenerValor('nucleo', true),
-            'extension' => $this->obtenerValor('extension', true),
-            'tipo_institucion' => $this->obtenerValor('tipo_institucion', true),
-            'rif' => $this->obtenerValor('rif', true)
+            'cedula' => $this->obtenerValor('cedula', true),
+            'estudiante_id' => $this->obtenerValor('estudiante_id', true),
+            'tutor_academico_id' => $this->obtenerValor('tutor_academico_id', true),
+            'tutor_metodologico_id' => $this->obtenerValor('tutor_metodologico_id', true),
+            'institucion_id' => $this->obtenerValor('institucion_id', true),
+            'tipos_pasantia' => $_POST['tipos_pasantia'] ?? []
         ];
     }
 
