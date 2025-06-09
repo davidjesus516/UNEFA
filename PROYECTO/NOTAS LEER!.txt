@@ -1,0 +1,19 @@
+APUNTES 8 jun 2025:
+
+VENTANA PERIODO:
+1. se rompen el proceso de borrar, ya que primero dice que no lo borra y despues al recargar la pagina si lo hace
+2. pasa algo similar con crear periodo
+3. Falta la validacion de que al culminar no se pueda editar ni eliminar
+4. Filtros de busqueda
+
+VENTANA ESTUDIANTE:
+1. Filtros de busqueda
+
+VENTANA RESPONSABLE:
+1. No se puede registrar porque falta el combo de institucion
+
+VENTANA PRE INSCRIPCION - INSCRIPCION - SEGUIMIENTO Y CULMINACION:
+NO ESTA TERMINADA LA LOGICA
+
+CAMBIO DE REGISTROS TAMPOCO
+
