@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once '../../model/Tutor.php';
 
 class TutorController
@@ -12,7 +16,7 @@ class TutorController
 
     public function manejarSolicitud()
     {
-        $accion = $_REQUEST['accion'] ?? '';
+        $accion = $_GET['accion'] ?? $_POST['accion'] ?? null;
 
         switch ($accion) {
             case 'listar':
@@ -41,8 +45,12 @@ class TutorController
 
     private function listar()
     {
-        $datos = $this->tutor->listarActivos();
-        echo json_encode($datos);
+        $activos = $this->tutor->listarActivos();
+        $inactivos = $this->tutor->listarInactivos();
+        echo json_encode([
+            'activos' => $activos,
+            'inactivos' => $inactivos
+        ]);
     }
 
     private function buscar()
@@ -60,7 +68,11 @@ class TutorController
     {
         $datos = $this->obtenerDatosFormulario();
         $resultado = $this->tutor->insertar(...$datos);
-        echo json_encode(['success' => $resultado]);
+        if ($resultado === "duplicado") {
+            echo json_encode(['success' => false, 'error' => 'La cédula ya existe']);
+        } else {
+            echo json_encode(['success' => $resultado]);
+        }
     }
 
     private function actualizar()
@@ -79,10 +91,8 @@ class TutorController
     private function eliminar()
     {
         $id = $_POST['id'] ?? null;
-        $user = $_POST['user_id'] ?? 1;
-
         if ($id) {
-            $resultado = $this->tutor->eliminar($id, $user);
+            $resultado = $this->tutor->eliminar($id);
             echo json_encode(['success' => $resultado]);
         } else {
             echo json_encode(['error' => 'ID no proporcionado']);
@@ -92,10 +102,8 @@ class TutorController
     private function restaurar()
     {
         $id = $_POST['id'] ?? null;
-        $user = $_POST['user_id'] ?? 1;
-
         if ($id) {
-            $resultado = $this->tutor->restaurar($id, $user);
+            $resultado = $this->tutor->restaurar($id);
             echo json_encode(['success' => $resultado]);
         } else {
             echo json_encode(['error' => 'ID no proporcionado']);

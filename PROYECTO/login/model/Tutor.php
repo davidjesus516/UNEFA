@@ -56,6 +56,12 @@ class Tutor
         $SECOND_NAME = null,
         $SECOND_SURNAME = null
     ) {
+        // Validar unicidad de la cédula
+        $existe = $this->buscarPorCedula($TUTOR_CI);
+        if ($existe && count($existe) > 0) {
+            return "duplicado";
+        }
+
         try {
             $this->pdo->beginTransaction();
             $consulta = "INSERT INTO `t-tutors` (
@@ -72,8 +78,6 @@ class Tutor
                 DEDICATION,
                 CATEGORY,
                 CREATION_DATE, 
-                
-              
                 STATUS
             ) VALUES (
                 :TUTOR_CI, 
@@ -89,8 +93,6 @@ class Tutor
                 :DEDICATION,
                 :CATEGORY,
                 :CREATION_DATE, 
-              
-             
                 1
             )";
             
@@ -108,9 +110,6 @@ class Tutor
             $statement->bindValue(":DEDICATION", $DEDICATION);
             $statement->bindValue(":CATEGORY", $CATEGORY);
             $statement->bindValue(":CREATION_DATE", date("Y-m-d H:i:s"));
-           // $statement->bindValue(":MODIF_USER_ID", $_SESSION['USER_ID'] );
-            //$statement->bindValue(":MODIF_USER_DATE", date("Y-m-d H:i:s"));
-            
             $statement->execute();
             $this->pdo->commit();
             return true;
@@ -186,19 +185,11 @@ class Tutor
         return $statement->execute();
     }
 
-    public function restaurar($TUTOR_ID, $REST_USER_ID)
+    public function restaurar($TUTOR_ID)
     {
-        $consulta = "UPDATE `t-tutors` 
-            SET STATUS = 1, 
-                REST_USER_ID = :REST_USER_ID, 
-                REST_USER_DATE = :REST_USER_DATE
-            WHERE TUTOR_ID = :TUTOR_ID";
-            
+        $consulta = "UPDATE `t-tutors` SET STATUS = 1 WHERE TUTOR_ID = :TUTOR_ID";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(":TUTOR_ID", $TUTOR_ID);
-        $statement->bindValue(":REST_USER_ID", $REST_USER_ID);
-        $statement->bindValue(":REST_USER_DATE", date("Y-m-d H:i:s"));
-        
         return $statement->execute();
     }
 
@@ -218,3 +209,4 @@ class Tutor
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+?>

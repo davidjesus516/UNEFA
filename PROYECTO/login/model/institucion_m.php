@@ -209,7 +209,6 @@ class Institucion
 
         return $statement->fetchColumn() > 0;
     }
-
     /**
      * Listar instituciones para select (solo ID y nombre)
      * @return array Lista de instituciones con ID y nombre
