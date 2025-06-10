@@ -253,7 +253,7 @@ class InstitucionController
             throw new Exception("El campo $campo es requerido");
         }
 
-        return $valor;
+        return mb_strtoupper(trim($valor));
     }
 
     /**
