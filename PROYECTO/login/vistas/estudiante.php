@@ -223,6 +223,12 @@ require 'header.php';
         </dialog>
     </div>
 
+    <!-- Pestañas para activos/inactivos -->
+    <div class="tabs">
+        <button class="tab-button active" onclick="cambiarTabEstudiante('activos', event)">Estudiantes Activos</button>
+        <button class="tab-button" onclick="cambiarTabEstudiante('inactivos', event)">Estudiantes Inactivos</button>
+    </div>
+
     <table class="w3-table-all w3-hoverable">
         <thead>
             <tr class="w3-light-grey">
@@ -236,10 +242,17 @@ require 'header.php';
                 <th colspan="2">Acciones</th>
             </tr>
         </thead>
-        <tbody id="datos"></tbody>
+        <tbody id="datos-activos"></tbody>
+        <tbody id="datos-inactivos" style="display: none;"></tbody>
     </table>
 
 </div>
+
+<!-- Modal para mensajes -->
+<dialog id="message">
+    <span class="x" style="cursor:pointer;float:right;">&times;</span>
+    <div class="contenido"></div>
+</dialog>
 
 <script src="js/jquery-3.7.0.min.js"></script>
 <script src="js/estudiante.js"></script>

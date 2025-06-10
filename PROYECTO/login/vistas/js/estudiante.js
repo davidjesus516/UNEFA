@@ -152,6 +152,17 @@ $(document).ready(function () {//aqui inicializamos javascript
     };
 
 
+    // Función para mostrar el modal de mensaje
+    function mostrarMensajeModal(mensaje) {
+        $("#message .contenido").html(mensaje);
+        let message = $("#message").get(0);
+        message.showModal();
+        $(".x").off("click").on("click", function () {
+            message.close();
+        });
+    }
+
+    // Enviar formulario (crear o editar)
     $('#formulario').submit(function (e) {
         e.preventDefault(); // Siempre prevenir el envío por defecto
 
@@ -168,7 +179,7 @@ $(document).ready(function () {//aqui inicializamos javascript
         // Validar correo único antes de enviar
         emailIsUnique(function (isUnique) {
             if (errores || !isUnique) {
-                alert("Debe llenar correctamente el formulario y el correo no debe estar repetido");
+                mostrarMensajeModal("Debe llenar correctamente el formulario y el correo no debe estar repetido");
                 return false;
             }
 
@@ -216,121 +227,180 @@ $(document).ready(function () {//aqui inicializamos javascript
             };
 
             if (edit === false) {
-                let url = '../controllers/estudiante/UserAdd.php';
+                let url = '../controllers/estudiante/Estudiante.php?accion=insertar';
                 $.post(url, postData, function (response) {
-                    data = JSON.parse(response);
-                    $(".message").html(data.message);
-                    let message = $("#message").get(0);
-                    message.showModal();
-                    $(".x").on("click", function () {
-                        message.close();
-                    });
+                    let data = JSON.parse(response);
+                    mostrarMensajeModal(data.message);
                     fetchTask();
                     $('#formulario').trigger('reset');
                 }).fail(function () {
-                    alert("Error en el servidor. Por favor, intenta nuevamente.");
+                    mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.");
                 });
             } else {
-                let url = '../controllers/estudiante/UserEdit.php';
+                let url = '../controllers/estudiante/Estudiante.php?accion=actualizar';
                 $.post(url, postData, function (response) {
-                    data = JSON.parse(response);
-                    $(".message").html(data.message);
-                    let message = $("#message").get(0);
-                    message.showModal();
-                    $(".x").on("click", function () {
-                        message.close();
-                    });
+                    let data = JSON.parse(response);
+                    mostrarMensajeModal(data.message);
                     fetchTask();
                     $('#formulario').trigger('reset');
                     $('#cedula').attr('readonly', false);
                     $('#nacionalidad').attr('disabled', false);
                     edit = false;
+                }).fail(function () {
+                    mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.");
                 });
             }
         });
     })
 
-    function fetchTask() {//esta funcion es la que se encarga de traer todos los datos de la base de datos y los imprime en el html
-        $.ajax({//realizo una peticion ajax
-            url: '../controllers/estudiante/UserList.php',//al url que trae la lista
-            type: 'GET',//le pido una peticion GET
-            success: function (response) {// si tengo una respuesta ejecuta la funcion
-                let task = JSON.parse(response);// convierto el json en string
-                let template = '';//creo la plantilla donde imprimire los datos
-                task.forEach(task => {//hago un array que me recorra el json y me lo imprima en el tbody
+    // Mostrar solo activos al cargar la página
+    $('#datos-activos').show();
+    $('#datos-inactivos').hide();
+    $('.tab-button').removeClass('active');
+    $('.tab-button').first().addClass('active');
 
-                    template += `<tr taskid="${task.STUDENTS_ID}">
-                        <td>${task.STUDENTS_CI}</td>
-                        <td>${task.NAME}</td>
-                        <td>${task.SURNAME}</td>
-                        <td>${task.GENDER}</td>
-                        <td>${task.CONTACT_PHONE}</td>
-                        <td>${task.EMAIL}</td>
-                        <td>${task.CAREER_NAME}</td>
-                        <td>
-                            <button class="task-delete "><spam class="texto">Borrar</spam><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button>
-                        </td>
-                        <td>
-                            <button class="task-edit" onclick="window.dialog.showModal();"><spam class="texto">Editar</spam><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button>
-                        </td>
-                    </tr>
-                    `
-                })
-                $('#datos').html(template);//los imprimo en el html
-            }
-        })
+    fetchTask();
+
+    // Nueva función para renderizar estudiantes en activos/inactivos
+    function renderStudents(data) {
+        let templateActivos = '';
+        let templateInactivos = '';
+
+        (data.activos || []).forEach(task => {
+            templateActivos += `<tr taskid="${task.STUDENTS_ID}">
+                <td>${task.STUDENTS_CI}</td>
+                <td>${task.NAME}</td>
+                <td>${task.SURNAME}</td>
+                <td>${task.GENDER}</td>
+                <td>${task.CONTACT_PHONE}</td>
+                <td>${task.EMAIL}</td>
+                <td>${task.CAREER_NAME}</td>
+                <td>
+                    <button class="task-delete"><span class="texto">Borrar</span><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button>
+                </td>
+                <td>
+                    <button class="task-edit" onclick="window.dialog.showModal();"><span class="texto">Editar</span><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button>
+                </td>
+            </tr>`;
+        });
+
+        (data.inactivos || []).forEach(task => {
+            templateInactivos += `<tr taskid="${task.STUDENTS_ID}">
+                <td>${task.STUDENTS_CI}</td>
+                <td>${task.NAME}</td>
+                <td>${task.SURNAME}</td>
+                <td>${task.GENDER}</td>
+                <td>${task.CONTACT_PHONE}</td>
+                <td>${task.EMAIL}</td>
+                <td>${task.CAREER_NAME}</td>
+                <td colspan="2">
+                    <button class="task-restore"><span class="texto">Restaurar</span><span class="icon"><i class="fa-solid fa-rotate-left"></i></span></button>
+                </td>
+            </tr>`;
+        });
+
+        $('#datos-activos').html(templateActivos);
+        $('#datos-inactivos').html(templateInactivos);
     }
-    $(document).on('click', '.task-delete', function () {
+
+    // Modifica fetchTask para separar activos/inactivos
+    function fetchTask() {
+        $.ajax({
+            url: '../controllers/estudiante/UserList.php',
+            type: 'GET',
+            success: function (response) {
+                let all = JSON.parse(response);
+                let activos = all.filter(x => x.STATUS == 1 || x.STATUS === "1");
+                let inactivos = all.filter(x => x.STATUS == 0 || x.STATUS === "0");
+                renderStudents({ activos, inactivos });
+            }
+        });
+    }
+
+    // Lógica de pestañas
+    window.cambiarTabEstudiante = function (tipo, event) {
+        const isActivos = tipo === 'activos';
+        $('#datos-activos').toggle(isActivos);
+        $('#datos-inactivos').toggle(!isActivos);
+        $('.tab-button').removeClass('active');
+        $(event.currentTarget).addClass('active');
+        // No es necesario volver a llamar a fetchTask aquí, ya que los datos ya están cargados
+    }
+
+    // Manejador para restaurar estudiante inactivo
+    $(document).on('click', '.task-restore', function () {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('taskid');
-
-        // Agregamos la alerta de confirmación
-        if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-            $.post('../controllers/estudiante/UserDelete.php', { id }, function (response) {
+        if (confirm('¿Está seguro de restaurar este estudiante?')) {
+            $.post('../controllers/estudiante/Estudiante.php?accion=restaurar', { id }, function (response) {
+                let data = JSON.parse(response);
+                mostrarMensajeModal(data.success ? "Estudiante restaurado correctamente." : "No se pudo restaurar el estudiante.");
                 fetchTask();
+            }).fail(function () {
+                mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.");
             });
-        } else {
-            // Si el usuario hace clic en "Cancelar", no se elimina el usuario
-            return false;
         }
     });
 
-    $(document).on('click', '.task-edit', function () {//escucho un click del boton task-edit que es una clase
-        let element = $(this)[0].parentElement.parentElement;// accedo al elemento padre de este hasta conseguir el ID de la fila
-        let id = $(element).attr('taskid');//accedo al tributo que cree que contiene la cedula que busco
-        $.post('../controllers/estudiante/UserEditSearch.php', { id }, function (response) {//mando los datos al controlador
-            const task = JSON.parse(response); // accede al primer objeto en el array
-            const CI = task.STUDENTS_CI.split('-');
-            const CONTACT_PHONE = task.CONTACT_PHONE.split('-');
-            $('#id').val(task.STUDENTS_ID).prop('readonly', true);//añado los elementos al formulario y lo hago de solo lectura
-            $('#cedula').val(CI[1]).prop('readonly', true);
-            $('#nacionalidad').val(CI[0]).prop('disabled', true);
-            $('#primer_nombre').val(task.NAME);
-            $('#segundo_nombre').val(task.SECOND_NAME);
-            $('#primer_apellido').val(task.SURNAME);
-            $('#segundo_apellido').val(task.SECOND_SURNAME);
-            $('#genero').val(task.GENDER);
-            $('#birthdate').val(task.BIRTHDATE);
-            $('#operadora').val(CONTACT_PHONE[0]);
-            $('#telefono').val(CONTACT_PHONE[1]);
-            $('#correo').val(task.EMAIL);
-            $('#estado_civil').val(task.MARITAL_STATUS);
-            $('#semestre').val(task.SEMESTER);
-            $('#seccion').val(task.SECTION);
-            $('#regimen').val(task.REGIME);
-            $('#tipo_estudiante').val(task.STUDENT_TYPE);
-            $('#rango_militar').val(task.MILITARY_RANK);
-            $('#trabaja').val(task.EMPLOYMENT);
-            $('#carrera').val(task.CAREER_ID);
-            edit = true;//valido la variable que esta por encima de todo para que en vez de guardar un nuevo usuario lo edite
-        });
-    })
-    $(document).on("click", ".primary", function () {
-        $("#formulario").trigger("reset");
-        edit = false;
-        $('#cedula').prop('readonly', false);
-        $('#nacionalidad').attr('disabled', false);
+    // Manejador para eliminar (inactivar) estudiante
+    $(document).on('click', '.task-delete', function () {
+        let element = $(this)[0].parentElement.parentElement;
+        let id = $(element).attr('taskid');
+        if (confirm('¿Está seguro de eliminar este estudiante?')) {
+            $.post('../controllers/estudiante/Estudiante.php?accion=eliminar', { id }, function (response) {
+                let data = JSON.parse(response);
+                mostrarMensajeModal(data.success ? "Estudiante eliminado correctamente." : "No se pudo eliminar el estudiante.");
+                fetchTask();
+            }).fail(function () {
+                mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.");
+            });
+        }
     });
+
+    $(document).on('click', '.task-edit', function () {
+        let element = $(this)[0].parentElement.parentElement;
+        let id = $(element).attr('taskid');
+        edit = true;
+        // Traer datos del estudiante
+        $.ajax({
+            url: '../controllers/estudiante/Estudiante.php?accion=buscar&id=' + id,
+            type: 'GET',
+            success: function (response) {
+                let data = JSON.parse(response);
+                // Llena los campos del formulario
+                $('#id').val(data.STUDENTS_ID);
+                let ciParts = data.STUDENTS_CI.split('-');
+                $('#nacionalidad').val(ciParts[0]);
+                $('#cedula').val(ciParts[1]);
+                $('#primer_nombre').val(data.NAME);
+                $('#segundo_nombre').val(data.SECOND_NAME);
+                $('#primer_apellido').val(data.SURNAME);
+                $('#segundo_apellido').val(data.SECOND_SURNAME);
+                $('#genero').val(data.GENDER);
+                $('#birthdate').val(data.BIRTHDATE);
+                let telParts = data.CONTACT_PHONE.split('-');
+                $('#operadora').val(telParts[0]);
+                $('#telefono').val(telParts[1]);
+                $('#correo').val(data.EMAIL);
+                $('#estado_civil').val(data.MARITAL_STATUS);
+                $('#semestre').val(data.SEMESTER);
+                $('#seccion').val(data.SECTION);
+                $('#regimen').val(data.REGIME);
+                $('#tipo_estudiante').val(data.STUDENT_TYPE);
+                $('#rango_militar').val(data.MILITARY_RANK);
+                $('#trabaja').val(data.EMPLOYMENT);
+                $('#carrera').val(data.CAREER_ID);
+
+                // Bloquea cédula y nacionalidad para evitar cambios
+                $('#cedula').attr('readonly', true);
+                $('#nacionalidad').attr('disabled', true);
+
+                // Muestra el modal
+                window.dialog.showModal();
+            }
+        });
+    });
+
     function emailIsUnique(callback) {
         let email = $('#correo').val();
         let id = $('#id').val();

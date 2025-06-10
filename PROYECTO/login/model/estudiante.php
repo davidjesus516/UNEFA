@@ -43,7 +43,9 @@ class Student
     }
 
     public function getAllStudents() {
-        $sql = "SELECT s.`STUDENTS_ID`,s.`STUDENTS_CI`,CONCAT(s.`NAME`,' ',s.`SECOND_NAME`) AS `NAME`, CONCAT(s.`SURNAME`,' ',s.`SECOND_SURNAME`) AS `SURNAME`,s.`GENDER`,s.`CONTACT_PHONE`,s.`EMAIL`,c.CAREER_NAME FROM `t-students` s LEFT JOIN `t-career` c ON s.`CAREER_ID` = c.`CAREER_ID` WHERE s.`STATUS` = 1";
+        $sql = "SELECT s.`STUDENTS_ID`, s.`STUDENTS_CI`, CONCAT(s.`NAME`,' ',s.`SECOND_NAME`) AS `NAME`, CONCAT(s.`SURNAME`,' ',s.`SECOND_SURNAME`) AS `SURNAME`, s.`GENDER`, s.`CONTACT_PHONE`, s.`EMAIL`, c.CAREER_NAME, s.`STATUS`
+                FROM `t-students` s
+                LEFT JOIN `t-career` c ON s.`CAREER_ID` = c.`CAREER_ID`";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -109,7 +111,7 @@ class Student
     public function recoverStudent($id) {
         try {
             $this->pdo->beginTransaction();
-            $sql = "UPDATE `t-students`SET `STATUS`=':STATUS' WHERE STUDENTS_ID = :STUDENTS_ID";
+            $sql = "UPDATE `t-students` SET `STATUS`=:STATUS WHERE STUDENTS_ID = :STUDENTS_ID";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindValue(':STUDENTS_ID', $id);
             $stmt->bindValue(":STATUS", 1);
@@ -117,10 +119,10 @@ class Student
             $this->pdo->commit();
             return true;
         } catch (PDOException $e) {
-        $this->pdo->rollBack();
-        throw $e; // Se lanza la excepción para manejarla en otro lugar
-        return false;
-}
+            $this->pdo->rollBack();
+            throw $e;
+            return false;
+        }
     }
 
     public function updateStudent($STUDENTS_ID,$STUDENTS_CI, $NAME, $SECOND_NAME, $SURNAME, $SECOND_SURNAME, $GENDER, $BIRTHDATE, $CONTACT_PHONE, $EMAIL, $ADDRESS, $MARITAL_STATUS, $SEMESTER, $SECTION, $REGIME, $STUDENT_TYPE, $MILITARY_RANK, $EMPLOYMENT, $CAREER_ID){
