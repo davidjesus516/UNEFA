@@ -73,6 +73,26 @@
 </script> -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Despliegue de submenús
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++) {
+            arrow[i].addEventListener("click", (e) => {
+                let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+                arrowParent.classList.toggle("showMenu");
+            });
+        }
+        // Despliegue/ocultamiento del sidebar
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        if (sidebarBtn) {
+            sidebarBtn.addEventListener("click", () => {
+                sidebar.classList.toggle("close");
+            });
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
     // Get the modal
     var modal = document.getElementById("genericModal");
 

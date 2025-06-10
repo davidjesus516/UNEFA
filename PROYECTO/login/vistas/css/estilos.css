@@ -1315,27 +1315,40 @@ button.primary-white {
 .task-status:active .icon svg {
   transform: scale(0.8);
 }
-
-.status-activo {
-  background: #119200;
+/* Botón de estado: PENDIENTE (mostaza) */
+.status-pending, .task-status.status-pending {
+    background-color: #e2b30b !important;
+    color: #fff !important;
 }
 
-.status-inactivo {
-  background: #e2b30b;
-}
-/* Estilos para los diferentes estados */
-.status-inactivo {
-  background-color: #ffa500; /* Naranja para Pendiente */
+/* Botón de estado: EN CURSO (azul) */
+.status-active, .task-status.status-active {
+    background-color: #192dd4 !important;
+    color: #fff !important;
 }
 
-.status-activo {
-  background-color: #4caf50; /* Verde para En Curso */
+/* Botón de estado: CULMINADO (plomo) */
+.status-completed, .task-status.status-completed {
+    background-color: #607d8b !important;
+    color: #fff !important;
+}
+/* Botón de estado: PENDIENTE (mostaza) */
+.status-pending, .task-status.status-pending {
+    background-color: #e2b30b !important;
+    color: #fff !important;
 }
 
-.status-culminado {
-  background-color: #607d8b; /* Gris azulado para Culminado */
+/* Botón de estado: EN CURSO (azul) */
+.status-active, .task-status.status-active {
+    background-color: #192dd4 !important;
+    color: #fff !important;
 }
 
+/* Botón de estado: CULMINADO (plomo) */
+.status-completed, .task-status.status-completed {
+    background-color: #607d8b !important;
+    color: #fff !important;
+}
 .task-status {
   color: white;
   border: none;
@@ -1345,6 +1358,34 @@ button.primary-white {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+/* Asegura separación entre texto e icono en todos los botones con iconos */
+button .texto, .task-status .texto, .task-edit .texto, .task-delete .texto {
+    margin-right: 10px;
+    /* Puedes ajustar el valor según tu preferencia */
+    display: inline-block;
+    vertical-align: middle;
+}
+
+button .icon, .task-status .icon, .task-edit .icon, .task-delete .icon {
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+/* Fuerza el color blanco en todos los iconos dentro de botones */
+button .icon i,
+.task-status .icon i,
+.task-edit .icon i,
+.task-delete .icon i,
+button .icon svg,
+.task-status .icon svg,
+.task-edit .icon svg,
+.task-delete .icon svg {
+    color: #fff !important;
+    fill: #fff !important;
 }
 /* animacion de exito */
 /**

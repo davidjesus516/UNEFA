@@ -182,7 +182,6 @@ $(document).ready(() => {
             <td>
                 <span class="${statusInfo.class}">
                     <span class="texto">${statusInfo.text}</span>
-                    <span class="icon">${statusInfo.icon}</span>
                 </span>
             </td>
             <td colspan="2">
