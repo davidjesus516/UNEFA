@@ -157,5 +157,26 @@ class Student
     
 }
 }
+
+    // Buscar estudiante por correo (para registro)
+    public function getStudentByEmail($email) {
+        $sql = "SELECT * FROM `t-students` WHERE `EMAIL` = :EMAIL";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':EMAIL', $email);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row;
+    }
+
+    // Buscar estudiante por correo excluyendo un ID (para edición)
+    public function getStudentByEmailExceptId($email, $id) {
+        $sql = "SELECT * FROM `t-students` WHERE `EMAIL` = :EMAIL AND `STUDENTS_ID` != :STUDENTS_ID";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':EMAIL', $email);
+        $stmt->bindValue(':STUDENTS_ID', $id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row;
+    }
 }
 ?>

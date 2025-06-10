@@ -1,6 +1,6 @@
 <?php
 require_once("../../model/estudiante.php");
-$STUDENTS_CI =mb_strtoupper( $_POST["STUDENTS_CI"]);
+$STUDENTS_CI = mb_strtoupper($_POST["STUDENTS_CI"]);
 $NAME = mb_strtoupper($_POST["NAME"]);
 $SECOND_NAME = mb_strtoupper($_POST["SECOND_NAME"]);
 $SURNAME = mb_strtoupper($_POST["SURNAME"]);
@@ -18,10 +18,31 @@ $STUDENT_TYPE = $_POST["STUDENT_TYPE"];
 $MILITARY_RANK = $_POST["MILITARY_RANK"];
 $EMPLOYMENT = $_POST["EMPLOYMENT"];
 $CAREER_ID = $_POST["CAREER_ID"];
-// incluir la clase Usuario
+
 $student = new Student();
+
+// Validar si la cédula ya existe
+if ($student->getStudentbyCI($STUDENTS_CI)) {
+    $row = array(
+        'message' => '     
+        <dialog id="message">
+        <h2>La cédula ya está registrada.</h2>
+        <div class="error-banmark">
+        <div class="ban-icon">
+            <span class="icon-line line-long-invert"></span>
+            <span class="icon-line line-long"></span>
+            <div class="icon-circle"></div>
+            <div class="icon-fix"></div>
+        </div>
+        </div>
+        <button aria-label="close" class="x">❌</button>
+        </dialog>');
+    $jsonstring = json_encode($row);
+    echo $jsonstring;
+    exit;
+}
+
 if ($student->insertStudent($STUDENTS_CI, $NAME, $SECOND_NAME, $SURNAME, $SECOND_SURNAME, $GENDER, $BIRTHDATE, $CONTACT_PHONE, $EMAIL, $ADDRESS, $MARITAL_STATUS, $SEMESTER, $SECTION, $REGIME, $STUDENT_TYPE, $MILITARY_RANK, $EMPLOYMENT, $CAREER_ID)){
-    
     $row = array(
         'message' => '    
         <dialog id="message">

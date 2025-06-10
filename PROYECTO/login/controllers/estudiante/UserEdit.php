@@ -23,6 +23,29 @@ $MILITARY_RANK = $_POST["MILITARY_RANK"];
 $EMPLOYMENT = $_POST["EMPLOYMENT"];
 $CAREER_ID = $_POST["CAREER_ID"];
 $student = new Student();
+
+// Validar si la cédula ya existe en otro registro
+$existing = $student->getStudentbyCI($STUDENTS_CI);
+if ($existing && $existing['STUDENTS_ID'] != $STUDENTS_ID) {
+    $row = array(
+        'message' => '     
+        <dialog id="message">
+        <h2>La cédula ya está registrada en otro estudiante.</h2>
+        <div class="error-banmark">
+        <div class="ban-icon">
+            <span class="icon-line line-long-invert"></span>
+            <span class="icon-line line-long"></span>
+            <div class="icon-circle"></div>
+            <div class="icon-fix"></div>
+        </div>
+        </div>
+        <button aria-label="close" class="x">❌</button>
+        </dialog>');
+    $jsonstring = json_encode($row);
+    echo $jsonstring;
+    exit;
+}
+
 if ($student->updateStudent($STUDENTS_ID,$STUDENTS_CI, $NAME, $SECOND_NAME, $SURNAME, $SECOND_SURNAME, $GENDER, $BIRTHDATE, $CONTACT_PHONE, $EMAIL, $ADDRESS, $MARITAL_STATUS, $SEMESTER, $SECTION, $REGIME, $STUDENT_TYPE, $MILITARY_RANK, $EMPLOYMENT, $CAREER_ID)){
     
     $row = array(
@@ -58,4 +81,3 @@ if ($student->updateStudent($STUDENTS_ID,$STUDENTS_CI, $NAME, $SECOND_NAME, $SUR
     $jsonstring = json_encode($row);
     echo $jsonstring;
 }}
-?>

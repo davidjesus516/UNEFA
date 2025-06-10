@@ -81,7 +81,9 @@ $(document).ready(function () {//aqui inicializamos javascript
                 validateInput(input, expresiones.telefono, 'grupo__telefono');
                 break;
             case 'correo':
-                validateInput(input, expresiones.correo, 'grupo__correo');
+                if (validateInput(input, expresiones.correo, 'grupo__correo')) {
+                    emailIsUnique(function(){});
+                }
                 break;
             case 'nacionalidad':
                 if (input.val() === '') {
@@ -150,99 +152,102 @@ $(document).ready(function () {//aqui inicializamos javascript
     };
 
 
-    $('#formulario').submit(function (e) {//reviso del formulario task el evento submit
-        // Agregamos la alerta de confirmación
+    $('#formulario').submit(function (e) {
+        e.preventDefault(); // Siempre prevenir el envío por defecto
+
         if (!confirm('¿Quieres proceder con el registro?')) {
-            e.preventDefault(); // Cancela el envío del formulario si el usuario hace clic en "Cancelar"
             return false;
         }
-        const STUDENTS_ID = $('#id').val();
-        const STUDENTS_CI = $('#nacionalidad').val() + '-' + $('#cedula').val();
-        const NAME = $('#primer_nombre').val();
-        const SECOND_NAME = $('#segundo_nombre').val();
-        const SURNAME = $('#primer_apellido').val();
-        const SECOND_SURNAME = $('#segundo_apellido').val();
-        const GENDER = $('#genero').val();
-        const BIRTHDATE = $('#birthdate').val();
-        const CONTACT_PHONE = $('#operadora').val() + '-' + $('#telefono').val();
-        const EMAIL = $('#correo').val();
-        const ADDRESS = '';
-        const MARITAL_STATUS = $('#estado_civil').val();
-        const SEMESTER = $('#semestre').val();
-        const SECTION = $('#seccion').val();
-        const REGIME = $('#regimen').val();
-        const STUDENT_TYPE = $('#tipo_estudiante').val();
-        const MILITARY_RANK = $('#rango_militar').val();
-        const EMPLOYMENT = $('#trabaja').val();
-        const CAREER_ID = $('#carrera').val();
 
         // Validación de todos los campos del formulario
         $('#formulario input, #formulario select').each(function () {
             let input = $(this);
-            validateForm(input); // Llama a la función de validación para cada input
+            validateForm(input);
         });
 
+        // Validar correo único antes de enviar
+        emailIsUnique(function (isUnique) {
+            if (errores || !isUnique) {
+                alert("Debe llenar correctamente el formulario y el correo no debe estar repetido");
+                return false;
+            }
 
-        if (errores) { // Se comprueba si hay errores
-            e.preventDefault(); // Cancela el envío del formulario si hay errores
-            alert("debe llenar correctamente el formulario");
-            return false;
-        }
+            // Si todo está bien, continúa con el envío AJAX
+            const STUDENTS_ID = $('#id').val();
+            const STUDENTS_CI = $('#nacionalidad').val() + '-' + $('#cedula').val();
+            const NAME = $('#primer_nombre').val();
+            const SECOND_NAME = $('#segundo_nombre').val();
+            const SURNAME = $('#primer_apellido').val();
+            const SECOND_SURNAME = $('#segundo_apellido').val();
+            const GENDER = $('#genero').val();
+            const BIRTHDATE = $('#birthdate').val();
+            const CONTACT_PHONE = $('#operadora').val() + '-' + $('#telefono').val();
+            const EMAIL = $('#correo').val();
+            const ADDRESS = '';
+            const MARITAL_STATUS = $('#estado_civil').val();
+            const SEMESTER = $('#semestre').val();
+            const SECTION = $('#seccion').val();
+            const REGIME = $('#regimen').val();
+            const STUDENT_TYPE = $('#tipo_estudiante').val();
+            const MILITARY_RANK = $('#rango_militar').val();
+            const EMPLOYMENT = $('#trabaja').val();
+            const CAREER_ID = $('#carrera').val();
 
-        const postData = {
-            STUDENTS_ID: STUDENTS_ID,
-            STUDENTS_CI: STUDENTS_CI,
-            NAME: NAME,
-            SECOND_NAME: SECOND_NAME,
-            SURNAME: SURNAME,
-            SECOND_SURNAME: SECOND_SURNAME,
-            GENDER: GENDER,
-            BIRTHDATE: BIRTHDATE,
-            CONTACT_PHONE: CONTACT_PHONE,
-            EMAIL: EMAIL,
-            ADDRESS: ADDRESS,
-            MARITAL_STATUS: MARITAL_STATUS,
-            SEMESTER: SEMESTER,
-            SECTION: SECTION,
-            REGIME: REGIME,
-            STUDENT_TYPE: STUDENT_TYPE,
-            MILITARY_RANK: MILITARY_RANK,
-            EMPLOYMENT: EMPLOYMENT,
-            CAREER_ID: CAREER_ID
-        };
-        if (edit === false) {
-            let url = '../controllers/estudiante/UserAdd.php';
-            $.post(url, postData, function (response) {
-                data = JSON.parse(response);
-                $(".message").html(data.message);
-                let message = $("#message").get(0);
-                message.showModal();
-                $(".x").on("click", function () {
-                    message.close();
+            const postData = {
+                STUDENTS_ID: STUDENTS_ID,
+                STUDENTS_CI: STUDENTS_CI,
+                NAME: NAME,
+                SECOND_NAME: SECOND_NAME,
+                SURNAME: SURNAME,
+                SECOND_SURNAME: SECOND_SURNAME,
+                GENDER: GENDER,
+                BIRTHDATE: BIRTHDATE,
+                CONTACT_PHONE: CONTACT_PHONE,
+                EMAIL: EMAIL,
+                ADDRESS: ADDRESS,
+                MARITAL_STATUS: MARITAL_STATUS,
+                SEMESTER: SEMESTER,
+                SECTION: SECTION,
+                REGIME: REGIME,
+                STUDENT_TYPE: STUDENT_TYPE,
+                MILITARY_RANK: MILITARY_RANK,
+                EMPLOYMENT: EMPLOYMENT,
+                CAREER_ID: CAREER_ID
+            };
+
+            if (edit === false) {
+                let url = '../controllers/estudiante/UserAdd.php';
+                $.post(url, postData, function (response) {
+                    data = JSON.parse(response);
+                    $(".message").html(data.message);
+                    let message = $("#message").get(0);
+                    message.showModal();
+                    $(".x").on("click", function () {
+                        message.close();
+                    });
+                    fetchTask();
+                    $('#formulario').trigger('reset');
+                }).fail(function () {
+                    alert("Error en el servidor. Por favor, intenta nuevamente.");
                 });
-                fetchTask();
-                $('#formulario').trigger('reset');
-            }).fail(function () {
-                alert("Error en el servidor. Por favor, intenta nuevamente."); // Mostrar mensaje de error en caso de falla en la conexión con el servidor
-            });
-        } else {
-            let url = '../controllers/estudiante/UserEdit.php';
-            $.post(url, postData, function (response) {
-                data = JSON.parse(response);
-                $(".message").html(data.message);
-                let message = $("#message").get(0);
-                message.showModal();
-                $(".x").on("click", function () {
-                    message.close();
+            } else {
+                let url = '../controllers/estudiante/UserEdit.php';
+                $.post(url, postData, function (response) {
+                    data = JSON.parse(response);
+                    $(".message").html(data.message);
+                    let message = $("#message").get(0);
+                    message.showModal();
+                    $(".x").on("click", function () {
+                        message.close();
+                    });
+                    fetchTask();
+                    $('#formulario').trigger('reset');
+                    $('#cedula').attr('readonly', false);
+                    $('#nacionalidad').attr('disabled', false);
+                    edit = false;
                 });
-                fetchTask();
-                $('#formulario').trigger('reset');
-                $('#cedula').attr('readonly', false);
-                $('#nacionalidad').attr('disabled', false);
-                edit = false;
-            })
-        }
-        e.preventDefault(); // Se agrega para prevenir el comportamiento predeterminado del formulario     
+            }
+        });
     })
 
     function fetchTask() {//esta funcion es la que se encarga de traer todos los datos de la base de datos y los imprime en el html
@@ -326,4 +331,27 @@ $(document).ready(function () {//aqui inicializamos javascript
         $('#cedula').prop('readonly', false);
         $('#nacionalidad').attr('disabled', false);
     });
+    function emailIsUnique(callback) {
+        let email = $('#correo').val();
+        let id = $('#id').val();
+        $.ajax({
+            url: '../controllers/estudiante/EmailSearch.php',
+            type: 'POST',
+            data: { email, id, edit },
+            success: function (response) {
+                let data = JSON.parse(response);
+                if (Object.keys(data).length === 0 || (edit === true && data.EMAIL === email && data.STUDENTS_ID == id)) {
+                    isCorrect('grupo__correo');
+                    callback(true);
+                } else {
+                    isIncorrect('grupo__correo', 'Este correo ya está registrado');
+                    callback(false);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+                callback(false);
+            }
+        });
+    }
 })
