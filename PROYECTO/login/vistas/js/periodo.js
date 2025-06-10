@@ -157,15 +157,15 @@ $(document).ready(() => {
                     </button>
                 </td>
                 <td>
+                <button class="task-action task-edit" data-id="${task.PERIOD_ID}">
+                <span class="texto">Editar</span>
+                <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                </button>
+                </td>
+                <td>
                     <button class="task-action task-delete" data-id="${task.PERIOD_ID}">
                         <span class="texto">Borrar</span>
                         <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
-                    </button>
-                </td>
-                <td>
-                    <button class="task-action task-edit" data-id="${task.PERIOD_ID}">
-                        <span class="texto">Editar</span>
-                        <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
                     </button>
                 </td>
             </tr>`;

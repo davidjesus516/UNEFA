@@ -294,20 +294,38 @@ require 'header.php';
                 .then(data => {
                     document.getElementById(tablaId).innerHTML = '';
                     data.forEach(carrera => {
-                        let acciones = `<button onclick="editarCarrera(${carrera.CAREER_ID})">✏️</button>`;
+                        let acciones = '';
                         if (tipo === 'activos') {
-                            acciones += `<button onclick="eliminarCarrera(${carrera.CAREER_ID})">🗑️</button>`;
+                            acciones = `
+                                <button class="task-edit" onclick="editarCarrera(${carrera.CAREER_ID})" title="Editar">
+                                    <span class="texto">Editar</span>
+                                    <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                                </button>
+                                <button class="task-delete" onclick="eliminarCarrera(${carrera.CAREER_ID})" title="Eliminar">
+                                    <span class="texto">Borrar</span>
+                                    <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                                </button>
+                            `;
                         } else {
-                            acciones += `<button onclick="activarCarrera(${carrera.CAREER_ID})">♻️</button>`;
+                            acciones = `
+                                <button class="task-restore" onclick="activarCarrera(${carrera.CAREER_ID})" title="Restaurar">
+                                    <span class="texto">Restaurar</span>
+                                    <span class="icon"><i class="fa-solid fa-rotate-left"></i></span>
+                                </button>
+                            `;
                         }
                         document.getElementById(tablaId).innerHTML += `
-                        <tr>
-                            <td>${carrera.CAREER_CODE}</td>
-                            <td>${carrera.CAREER_NAME}</td>
-                            <td>${carrera.MINIMUM_GRADE}</td>
-                            <td colspan="2">${acciones}</td>
-                        </tr>
-                    `;
+                            <tr>
+                                <td>${carrera.CAREER_CODE}</td>
+                                <td>${carrera.CAREER_NAME}</td>
+                                <td>${carrera.MINIMUM_GRADE}</td>
+                                <td colspan="2">
+                                    <div class="acciones-carrera">
+                                        ${acciones}
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
                     });
                 });
         }

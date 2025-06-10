@@ -2713,3 +2713,74 @@ button#resetFilters {
 .bloqueo-periodo i {
     font-size: 1.1em;
 }
+
+/* Contenedor para alinear los botones de acción horizontalmente */
+.acciones-carrera {
+    display: flex;
+    gap: 12px; /* Espacio entre botones */
+    align-items: center;
+    justify-content: flex-start;
+}
+/* --- Botón restaurar con efecto hover igual a editar/eliminar --- */
+.task-restore {
+    width: 110px;
+    height: 35px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: #28a745;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+    transition: 200ms;
+    position: relative;
+    overflow: hidden;
+}
+
+.task-restore,
+.task-restore span {
+    transition: 200ms;
+}
+
+.task-restore .texto {
+    transform: translateX(15px);
+    color: white;
+    font-weight: bold;
+    transition: 200ms;
+}
+
+.task-restore .icon {
+    position: absolute;
+    transform: translateX(60px);
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 200ms;
+}
+
+.task-restore:hover {
+    background: #218838;
+    transition: 200ms;
+}
+
+.task-restore:hover .texto {
+    color: transparent;
+    transition: 200ms;
+}
+
+.task-restore:hover .icon {
+    width: 100px;
+    border-left: none;
+    transform: translateX(0);
+    transition: 200ms ease;
+}
+
+.task-restore:focus {
+    outline: none;
+}
+
+.task-restore:active .icon svg {
+    transform: scale(0.8);
+}

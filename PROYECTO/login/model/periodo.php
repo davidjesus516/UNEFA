@@ -1,7 +1,9 @@
 <?php
 //inicializo la sesion y la zona horaria
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once("conexion.php");
 date_default_timezone_set("America/Caracas");
 

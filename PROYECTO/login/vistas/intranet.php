@@ -97,40 +97,6 @@ require 'header.php';
   }
 </style>
 <span class="text">Inicio</span>
-
-<!-- <div class="cards">
-  <div class="card playing">
-    <div class="image"></div>
-
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
-
-
-    <div class="infotop">
-      <br>
-      T.S.U. Enfermería
-      <br>
-      <h5>N estudiantes</h5>
-    </div>
-  </div>
-
-  <div class="card playing">
-    <div class="image"></div>
-
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
-
-
-    <div class="infotop">
-      <br>
-
-      <br>
-      <h5>N estudiantes</h5>
-    </div>
-  </div>
-</div> -->
 <br>
 <div class="contenedor-botones">
   <button class="primary" onclick="window.dialog.showModal();">Listado Practicas Profesionales</button>
@@ -141,18 +107,6 @@ require 'header.php';
 </div>
 
 <button class="primary-white">Agregar Practicas Profesionales <span>+</span></button>
-
-<!-- <div class="tooltip-container">
-  <div class="icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50">
-      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22c-5.518 0-10-4.482-10-10s4.482-10 10-10 10 4.482 10 10-4.482 10-10 10zm-1-16h2v6h-2zm0 8h2v2h-2z"></path>
-    </svg>
-  </div>
-  <div class="tooltip">
-    <p>Alerts users to save their progress before leaving a page</p>
-  </div>
-</div> -->
-
 
 <?php
 require 'footer.php';
