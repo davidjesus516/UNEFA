@@ -1,8 +1,6 @@
-$(document).ready(function () {
-    // Variables de estado
+$(document).ready(() => {
     let edit = false;
     let errores = false;
-    // NUEVAS VARIABLES para guardar el estado actual al editar
     let currentEditStatus = 1;
     let currentEditPeriodStatus = 1;
 
@@ -24,9 +22,33 @@ $(document).ready(function () {
         const numweeks = 16;
         const fechaInicioDate = new Date(fechaInicio);
         const minDate = new Date(fechaInicioDate.getTime() + numweeks * 7 * 24 * 60 * 60 * 1000);
-        const formattedDate = minDate.toISOString().split('T')[0];
+        const formattedMinDate = minDate.toISOString().split('T')[0];
 
-        $('#periodo_fin').val(formattedDate).attr('min', formattedDate);
+        // Actualiza el valor y el mínimo permitido en el campo de fin
+        $('#periodo_fin').attr('min', formattedMinDate);
+
+        // Si la fecha de fin actual es menor a la mínima, actualízala
+        const fechaFinActual = $('#periodo_fin').val();
+        if (!fechaFinActual || fechaFinActual < formattedMinDate) {
+            $('#periodo_fin').val(formattedMinDate);
+        }
+    });
+
+    // Manejador de cambio del lapso académico
+    $('#lapso-academico').change(function () {
+        const lapsoYear = $(this).val();
+        if (!lapsoYear) return;
+
+        // Limitar el campo de fecha de inicio solo a ese año
+        const minDate = `${lapsoYear}-01-01`;
+        const maxDate = `${lapsoYear}-12-31`;
+        $('#periodo_inicio').attr('min', minDate).attr('max', maxDate);
+
+        // Si la fecha de inicio actual no está en ese año, la ajusta al 1 de enero
+        const currentStart = $('#periodo_inicio').val();
+        if (!currentStart || currentStart.substring(0, 4) !== lapsoYear) {
+            $('#periodo_inicio').val(minDate).trigger('change');
+        }
     });
 
     // Manejador de envío del formulario
@@ -35,20 +57,22 @@ $(document).ready(function () {
 
         if (!confirm('¿Quieres proceder con el registro?')) return false;
 
+        const lapsoYear = $('#lapso-academico').val();
+        const startDate = $('#periodo_inicio').val();
+        const endDate = $('#periodo_fin').val();
+
         const postData = {
-            DESCRIPTION: `${$('#lapso-academico').val()}-${$('#turno').val()}`,
-            START_DATE: $('#periodo_inicio').val(),
-            END_DATE: $('#periodo_fin').val()
+            DESCRIPTION: `${lapsoYear}-${$('#turno').val()}`,
+            START_DATE: startDate,
+            END_DATE: endDate,
+            PERIOD_STATUS: 1,
+            STATUS: 1
         };
 
         if (edit) {
-            postData.PERIOD_ID = $('#PERIOD_ID').val();
-            // Usa los valores guardados al editar
+            postData.id = $('#PERIOD_ID').val();
             postData.PERIOD_STATUS = currentEditPeriodStatus;
             postData.STATUS = currentEditStatus;
-        } else {
-            postData.PERIOD_STATUS = 1;
-            postData.STATUS = 1;
         }
 
         if (errores) {
@@ -56,49 +80,46 @@ $(document).ready(function () {
             return false;
         }
 
-        const url = edit ? '../controllers/periodo/UserEdit.php' : '../controllers/periodo/UserAdd.php';
+        // Validación: año del lapso académico debe coincidir con año de fecha de inicio
+        if (lapsoYear && startDate) {
+            const startYear = new Date(startDate).getFullYear().toString();
+            if (lapsoYear !== startYear) {
+                mostrarMensajeError("El año de la fecha de inicio debe coincidir con el año del lapso académico seleccionado.");
+                return false;
+            }
+        }
 
+        // Validar que la fecha de cierre sea al menos 16 semanas después de la fecha de inicio
+        if (startDate && endDate) {
+            const diffDays = (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
+            if (diffDays < 112) {
+                mostrarMensajeError("La fecha de cierre debe ser al menos 16 semanas después de la fecha de inicio.");
+                return false;
+            }
+        }
+
+        const url = '../controllers/periodo/Periodo.php?accion=' + (edit ? 'actualizar' : 'insertar');
         $.ajax({
-            url: url,
+            url,
             type: 'POST',
             dataType: 'json',
             data: postData,
-            success: function (response) {
-                handleFormResponse(response);
-            },
-            error: function (xhr) {
-                mostrarMensajeError(`Error en el servidor: ${xhr.statusText}`);
-            }
+            success: response => handleFormResponse(response),
+            error: xhr => mostrarMensajeError(`Error en el servidor: ${xhr.statusText}`)
         });
     });
 
     // Función para manejar la respuesta del formulario
-    function handleFormResponse(response) {
-        try {
-            const data = typeof response === 'string' ? JSON.parse(response) : response;
-
-            if (data.success) {
-                mostrarMensajeExito(data.message, function () {
-                    fetchTask();
-                    resetForm();
-                });
-            } else {
-                mostrarMensajeError(data.message || 'Error desconocido al procesar la solicitud');
-            }
-        } catch (e) {
-            console.error('Error parsing response:', e);
-            mostrarMensajeError('Error procesando la respuesta del servidor');
+    const handleFormResponse = response => {
+        if (response.success) {
+            mostrarMensajeExito('Operación exitosa');
+            fetchTask();
+            if (dialog) dialog.close();
+        } else if (response.message) {
+            mostrarMensajeError(response.message);
+        } else {
+            mostrarMensajeError('Error desconocido al procesar la solicitud');
         }
-    }
-
-    // Función para resetear el formulario
-    function resetForm() {
-        $("#formulario").trigger("reset");
-        dialog.close();
-        $('#PERIOD_ID').val('').prop('readonly', false);
-        edit = false;
-        currentEditStatus = 1;
-        currentEditPeriodStatus = 1;
     }
 
     // Función para obtener y mostrar los períodos
@@ -371,8 +392,19 @@ $(document).ready(function () {
         // Determinar nuevo estado
         let newStatus, confirmMessage;
         if (currentStatus === 1) {
-            confirmMessage = '¿Activar este período? Esto desactivará cualquier otro período activo.';
             newStatus = 2;
+
+            // Validación: ¿ya hay un período EN CURSO?
+            const yaEnCurso = $('.task-status .texto').filter(function () {
+                return $(this).text().trim() === 'EN CURSO';
+            }).length > 0;
+
+            if (yaEnCurso) {
+                mostrarMensajeError('Ya existe un período EN CURSO. Debe culminarlo antes de activar otro.');
+                return;
+            }
+
+            confirmMessage = '¿Activar este período?';
         }
         else if (currentStatus === 2) {
             confirmMessage = '¿Marcar este período como CULMINADO?';
@@ -383,7 +415,7 @@ $(document).ready(function () {
             return;
         }
 
-        if (!confirm(confirmMessage)) return;
+        if (confirmMessage && !confirm(confirmMessage)) return;
 
         // Mostrar indicador de carga
         const originalContent = button.html();
@@ -391,18 +423,20 @@ $(document).ready(function () {
 
         // Enviar solicitud al servidor
         $.ajax({
-            url: '../controllers/periodo/UserChangeStatus.php',
+            url: '../controllers/periodo/Periodo.php?accion=cambiarEstado',
             type: 'POST',
             dataType: 'json',
             data: {
-                PERIOD_ID: PERIOD_ID,
+                id: PERIOD_ID,
                 newStatus: newStatus
             },
             success: function (response) {
                 if (response && response.success) {
                     mostrarMensajeExito(response.message || 'Estado actualizado correctamente', fetchTask);
+                } else if (response && response.message) {
+                    mostrarMensajeError(response.message);
                 } else {
-                    throw new Error(response?.message || 'Error al cambiar el estado');
+                    mostrarMensajeError('Error al cambiar el estado');
                 }
             },
             error: function (xhr) {
@@ -526,4 +560,43 @@ $(document).ready(function () {
         resetForm();
         if (window.dialog) window.dialog.showModal();
     });
+
+    $('#periodo_inicio').trigger('change');
+
+    $(document).on('click', '.task-activate', function () {
+        const PERIOD_ID = $(this).data('id');
+        // Ya NO uses confirm ni alert aquí
+        $.ajax({
+            url: '../controllers/periodo/Periodo.php?accion=cambiarEstado',
+            type: 'POST',
+            dataType: 'json',
+            data: { id: PERIOD_ID, newStatus: 2 }, // 2 = EN CURSO
+            success: function (response) {
+                if (response.success) {
+                    mostrarMensajeExito('Período activado correctamente');
+                    fetchTask();
+                } else if (response.message) {
+                    mostrarMensajeError(response.message);
+                } else {
+                    mostrarMensajeError('No se pudo activar el período.');
+                }
+            },
+            error: function (xhr) {
+                mostrarMensajeError(`Error en el servidor: ${xhr.statusText}`);
+            }
+        });
+    });
+
+    // Función para limpiar y restaurar el formulario del modal
+    function resetForm() {
+        $("#formulario").trigger("reset");
+        $('#PERIOD_ID').val('').prop('readonly', false);
+        edit = false;
+        currentEditStatus = 1;
+        currentEditPeriodStatus = 1;
+        // Habilitar todos los campos
+        $('#lapso-academico, #turno, #periodo_inicio, #periodo_fin').prop('disabled', false);
+        $('.formulario__grupo').removeClass('campo-deshabilitado');
+        $('.formulario__btn').prop('disabled', false);
+    }
 });

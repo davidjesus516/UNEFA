@@ -76,14 +76,43 @@ class Periodo
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-
+ 
     public function insertarPeriodo($DESCRIPTION, $START_DATE, $END_DATE, $PERIOD_STATUS = 1, $STATUS = 1)
     {
-        // Verificar superposición
+        // Validar que el año del lapso académico coincida con el año de la fecha de inicio
+        if (preg_match('/^(\d{4})-/', $DESCRIPTION, $m)) {
+            $anioLapso = $m[1];
+            $anioInicio = date('Y', strtotime($START_DATE));
+            if ($anioLapso != $anioInicio) {
+                return "El año de la fecha de inicio debe coincidir con el año del lapso académico seleccionado.";
+            }
+        }
+
+        // Validar cronología: solo si NO es el primer período
+        $descAnterior = $this->descripcionAnterior($DESCRIPTION);
+        if ($descAnterior) {
+            // Si no existe ningún período en la tabla, permite registrar el primero
+            $consultaTotal = "SELECT COUNT(*) as total FROM `t-internships_period`";
+            $stmtTotal = $this->pdo->prepare($consultaTotal);
+            $stmtTotal->execute();
+            $total = $stmtTotal->fetch(PDO::FETCH_ASSOC)['total'];
+            if ($total > 0) {
+                $consulta = "SELECT 1 FROM `t-internships_period` WHERE DESCRIPTION = :descAnterior";
+                $stmt = $this->pdo->prepare($consulta);
+                $stmt->bindValue(':descAnterior', $descAnterior);
+                $stmt->execute();
+                if ($stmt->rowCount() === 0) {
+                    return "Debe crear primero al menos un período anterior: $descAnterior";
+                }
+            }
+        }
+
+        // Validar que no haya fechas solapadas con ningún otro período (incluso si es el mismo lapso)
         $superpuestos = $this->verificarSuperposicion($START_DATE, $END_DATE);
         if (count($superpuestos) > 0) {
             return "Existe un período superpuesto con las fechas proporcionadas";
         }
+
         try {
             $this->pdo->beginTransaction();
             $consulta = "INSERT INTO `t-internships_period` 
@@ -149,15 +178,28 @@ class Periodo
 
     public function editarPeriodo($PERIOD_ID, $DESCRIPTION, $START_DATE, $END_DATE, $PERIOD_STATUS, $STATUS)
     {
+        // Validar cronología: debe existir al menos un registro con el DESCRIPTION anterior
+        $descAnterior = $this->descripcionAnterior($DESCRIPTION);
+        if ($descAnterior) {
+            $consulta = "SELECT 1 FROM `t-internships_period` WHERE DESCRIPTION = :descAnterior";
+            $stmt = $this->pdo->prepare($consulta);
+            $stmt->bindValue(':descAnterior', $descAnterior);
+            $stmt->execute();
+            if ($stmt->rowCount() === 0) {
+                return "Debe existir el período anterior: $descAnterior";
+            }
+        }
+
         if (!is_numeric($PERIOD_STATUS)) {
             $PERIOD_STATUS = ($PERIOD_STATUS === 'PENDIENTE') ? 1 : (($PERIOD_STATUS === 'EN CURSO') ? 2 : 3);
         }
+
         // Verificar superposición excluyendo el periodo actual
         $superpuestos = $this->verificarSuperposicion($START_DATE, $END_DATE, $PERIOD_ID);
-
         if (count($superpuestos) > 0) {
             return "Existe un período superpuesto con las fechas proporcionadas";
         }
+
         // Obtener el estado actual del período
         $periodoActual = $this->obtenerPorID($PERIOD_ID);
         if (count($periodoActual) === 0) return "Período no encontrado";
@@ -174,7 +216,15 @@ class Periodo
             if ($periodoActual[0]['START_DATE'] !== $START_DATE) {
                 return "Solo se permite modificar la fecha de fin en períodos en curso";
             }
+            // Validar que la fecha de cierre sea al menos 16 semanas después de la fecha de inicio
+            $fechaInicio = new DateTime($START_DATE);
+            $fechaFin = new DateTime($END_DATE);
+            $diferencia = $fechaInicio->diff($fechaFin)->days;
+            if ($diferencia < 112) { // 16 semanas * 7 días
+                return "La fecha de cierre debe ser al menos 16 semanas después de la fecha de inicio.";
+            }
         }
+
         try {
             $this->pdo->beginTransaction();
 
@@ -208,20 +258,42 @@ class Periodo
         try {
             $this->pdo->beginTransaction();
 
-            // Si estamos activando un período (poniéndolo EN CURSO)
+            // Solo validar EN CURSO si newStatus == 2
             if ($newStatus == 2) {
-                // Primero desactivar cualquier otro período activo
-                $consultaDesactivar = "UPDATE `t-internships_period` 
-                                 SET PERIOD_STATUS = 1 
-                                 WHERE PERIOD_STATUS = 2";
-                $stmtDesactivar = $this->pdo->prepare($consultaDesactivar);
-                $stmtDesactivar->execute();
+                $consulta = "SELECT PERIOD_ID FROM `t-internships_period` WHERE PERIOD_STATUS = 2 AND STATUS = 1 AND PERIOD_ID != :PERIOD_ID";
+                $stmt = $this->pdo->prepare($consulta);
+                $stmt->bindValue(':PERIOD_ID', $PERIOD_ID, PDO::PARAM_INT);
+                $stmt->execute();
+                if ($stmt->rowCount() > 0) {
+                    $this->pdo->rollBack();
+                    return "Ya existe un período EN CURSO. Debe culminarlo antes de activar otro.";
+                }
+
+                // Validación de cronología (ya implementada)
+                $periodo = $this->obtenerPorID($PERIOD_ID);
+                if (!$periodo || count($periodo) === 0) {
+                    $this->pdo->rollBack();
+                    return "Período no encontrado";
+                }
+                $descripcion = $periodo[0]['DESCRIPTION'];
+                $ordenActual = $this->descripcionAOrden($descripcion);
+
+                // Buscar todos los períodos anteriores
+                $consulta = "SELECT * FROM `t-internships_period` WHERE STATUS = 1";
+                $stmt = $this->pdo->prepare($consulta);
+                $stmt->execute();
+                $periodos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach ($periodos as $p) {
+                    if ($this->descripcionAOrden($p['DESCRIPTION']) < $ordenActual && $p['PERIOD_STATUS'] != 3) {
+                        $this->pdo->rollBack();
+                        return "No puede activar este período hasta que todos los anteriores estén CULMINADOS";
+                    }
+                }
             }
 
-            // Ahora actualizar el estado del período actual
-            $consultaActualizar = "UPDATE `t-internships_period` 
-                              SET PERIOD_STATUS = :newStatus 
-                              WHERE PERIOD_ID = :PERIOD_ID";
+            // Actualizar el estado
+            $consultaActualizar = "UPDATE `t-internships_period` SET PERIOD_STATUS = :newStatus WHERE PERIOD_ID = :PERIOD_ID";
             $stmtActualizar = $this->pdo->prepare($consultaActualizar);
             $stmtActualizar->bindValue(":newStatus", $newStatus, PDO::PARAM_INT);
             $stmtActualizar->bindValue(":PERIOD_ID", $PERIOD_ID, PDO::PARAM_INT);
@@ -233,5 +305,26 @@ class Periodo
             $this->pdo->rollBack();
             return $e->getMessage();
         }
+    }
+
+    // Convierte DESCRIPTION (ej: 2025-I) a un valor comparable
+    private function descripcionAOrden($descripcion) {
+        if (preg_match('/^(\d{4})-(I{1,2})$/', $descripcion, $m)) {
+            $anio = intval($m[1]);
+            $turno = ($m[2] === 'I') ? 1 : 2;
+            return $anio * 10 + $turno;
+        }
+        return 0;
+    }
+
+    // Devuelve el DESCRIPTION anterior (ej: 2025-II -> 2025-I, 2026-I -> 2025-II)
+    private function descripcionAnterior($descripcion) {
+        if (preg_match('/^(\d{4})-(I{1,2})$/', $descripcion, $m)) {
+            $anio = intval($m[1]);
+            $turno = $m[2];
+            if ($turno === 'II') return "{$anio}-I";
+            if ($turno === 'I') return ($anio - 1) . "-II";
+        }
+        return null;
     }
 }

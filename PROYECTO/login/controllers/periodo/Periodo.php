@@ -12,7 +12,7 @@ class PeriodoController
 
     public function manejarSolicitud()
     {
-        $accion = $_REQUEST['accion'] ?? '';
+        $accion = $_GET['accion'] ?? $_POST['accion'] ?? null;
 
         switch ($accion) {
             case 'listar':
@@ -33,6 +33,9 @@ class PeriodoController
             case 'restaurar':
                 $this->restaurar();
                 break;
+            case 'cambiarEstado':
+                $this->cambiarEstado();
+                break;
             default:
                 echo json_encode(['error' => 'Acción no válida']);
                 break;
@@ -48,7 +51,7 @@ class PeriodoController
             'inactivos' => $inactivos
         ]);
     }
-
+ 
     private function buscar()
     {
         $id = $_GET['id'] ?? null;
@@ -64,20 +67,30 @@ class PeriodoController
     {
         $datos = $this->obtenerDatosFormulario();
         $resultado = $this->periodo->insertarPeriodo(...$datos);
-        echo json_encode(['success' => $resultado]);
+        if ($resultado === true) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'message' => $resultado]);
+        }
     }
 
     private function actualizar()
     {
         $PERIOD_ID = $_POST['id'] ?? null;
         if (!$PERIOD_ID) {
-            echo json_encode(['error' => 'ID no proporcionado']);
+            echo json_encode(['success' => false, 'message' => 'ID no proporcionado']);
             return;
         }
 
         $datos = $this->obtenerDatosFormulario();
+        error_log("editarPeriodo: " . print_r(func_get_args(), true));
         $resultado = $this->periodo->editarPeriodo($PERIOD_ID, ...$datos);
-        echo json_encode(['success' => $resultado]);
+
+        if ($resultado === true) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'message' => $resultado]);
+        }
     }
 
     private function eliminar()
@@ -102,16 +115,33 @@ class PeriodoController
         }
     }
 
+    private function cambiarEstado()
+    {
+        $PERIOD_ID = $_POST['id'] ?? null;
+        $newStatus = $_POST['newStatus'] ?? null;
+
+        if (!$PERIOD_ID || !$newStatus) {
+            echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
+            return;
+        }
+
+        $resultado = $this->periodo->cambiarEstadoPeriodo($PERIOD_ID, $newStatus);
+
+        if ($resultado === true) {
+            echo json_encode(['success' => true, 'message' => 'Estado actualizado correctamente']);
+        } else {
+            echo json_encode(['success' => false, 'message' => $resultado]);
+        }
+    }
+
     private function obtenerDatosFormulario()
     {
         return [
-            $_POST['lapso_academico'] ?? '',
-            $_POST['codigo_pasantia'] ?? '',
-            $_POST['fecha_inicio'] ?? '',
-            $_POST['fecha_fin'] ?? '',
-            $_POST['estatus_periodo'] ?? '',
-            $_POST['estatus'] ?? 1,
-            $_POST['descripcion'] ?? ''
+            $_POST['DESCRIPTION'] ?? '',      // Lapso académico (ej: 2025-I)
+            $_POST['START_DATE'] ?? '',       // Fecha de inicio
+            $_POST['END_DATE'] ?? '',         // Fecha de fin
+            $_POST['PERIOD_STATUS'] ?? 1,     // Estatus del periodo
+            $_POST['STATUS'] ?? 1             // Estatus general
         ];
     }
 }
