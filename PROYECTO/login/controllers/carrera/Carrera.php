@@ -231,7 +231,7 @@ class CarreraController
         $tipos = json_decode($_POST['tipos_pasantias'] ?? '[]', true);
         return [
             'codigo' => $_POST['codigo'] ?? '',
-            'nombre' => $_POST['nombre'] ?? '',
+            'nombre' => mb_strtoupper(trim($_POST['nombre'])) ?? '',
             'minimo' => $_POST['nota'] ?? '',
             'tipos_pasantia' => is_array($tipos) ? $tipos : []
         ];
