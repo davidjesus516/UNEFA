@@ -37,6 +37,30 @@ class ProfesionalPracticesController
                 case 'listar_inactivos': // <-- Agregado
                     $this->listarInactivos();
                     break;
+                case 'listar_periodos':
+                    $this->listarPeriodos();
+                    break;
+                case 'listar_preinscripciones_activos':
+                    $this->listarPreinscripcionesActivos();
+                    break;
+                case 'listar_preinscripciones_inactivos':
+                    $this->listarPreinscripcionesInactivos();
+                    break;
+                case 'insertar_preinscripcion':
+                    $this->insertarPreinscripcion();
+                    break;
+                case 'actualizar_preinscripcion':
+                    $this->actualizarPreinscripcion();
+                    break;
+                case 'buscar_preinscripcion_por_id':
+                    $this->buscarPreinscripcionPorId();
+                    break;
+                case 'eliminar_preinscripcion':
+                    $this->eliminarPreinscripcion();
+                    break;
+                case 'activar_preinscripcion':
+                    $this->activarPreinscripcion();
+                    break;
                 default:
                     $this->responder(['error' => 'Acción no válida'], 400);
                     break;
@@ -96,6 +120,108 @@ class ProfesionalPracticesController
             return;
         }
         $this->responder($inactivos);
+    }
+    /**
+     * Listar periodos
+     */
+    private function listarPeriodos()
+    {
+        $periodos = $this->modelo->listarPeriodos();
+        if (empty($periodos)) {
+            $this->responder(['mensaje' => 'No hay periodos disponibles'], 404);
+            return;
+        }
+        $this->responder($periodos);
+    }
+
+    private function listarPreinscripcionesActivos()
+    {
+        $activos = $this->modelo->listar_preinscripciones_activos();
+        if (empty($activos)) {
+            $this->responder(['mensaje' => 'No hay preinscripciones activas'], 404);
+            return;
+        }
+        $this->responder($activos);
+    }
+
+    private function listarPreinscripcionesInactivos()
+    {
+        $inactivos = $this->modelo->listar_preinscripciones_inactivos();
+        if (empty($inactivos)) {
+            $this->responder(['mensaje' => 'No hay preinscripciones inactivas'], 404);
+            return;
+        }
+        $this->responder($inactivos);
+    }
+
+    // NUEVOS MÉTODOS CRUD
+
+    private function insertarPreinscripcion()
+    {
+        $datos = [
+            'estudiante_id' => $this->obtenerValor('id_estudiante', true),
+            'periodo' => $this->obtenerValor('periodo', true),
+            'tipo_practica' => $this->obtenerValor('tipo_practica', true),
+            'matricula' => $this->obtenerValor('matricula', true),
+            'documentos' => $this->obtenerValor('documentos', true)
+        ];
+        $resultado = $this->modelo->insertarPreinscripcion($datos);
+        if ($resultado) {
+            $this->responder(['success' => true, 'message' => 'Preinscripción registrada correctamente']);
+        } else {
+            $this->responder(['success' => false, 'error' => 'No se pudo registrar la preinscripción'], 500);
+        }
+    }
+
+    private function actualizarPreinscripcion()
+    {
+        $id = $this->obtenerValor('id', true);
+        $datos = [
+            'estudiante_id' => $this->obtenerValor('id_estudiante', true),
+            'periodo' => $this->obtenerValor('periodo', true),
+            'tipo_practica' => $this->obtenerValor('tipo_practica', true),
+            'matricula' => $this->obtenerValor('matricula', true),
+            'documentos' => $this->obtenerValor('documentos', true)
+        ];
+        $resultado = $this->modelo->actualizarPreinscripcion($id, $datos);
+        if ($resultado) {
+            $this->responder(['success' => true, 'message' => 'Preinscripción actualizada correctamente']);
+        } else {
+            $this->responder(['success' => false, 'error' => 'No se pudo actualizar la preinscripción'], 500);
+        }
+    }
+
+    private function buscarPreinscripcionPorId()
+    {
+        $id = $this->obtenerValor('id', true);
+        $data = $this->modelo->buscarPreinscripcionPorId($id);
+        if ($data) {
+            $this->responder($data);
+        } else {
+            $this->responder(['error' => 'No encontrada'], 404);
+        }
+    }
+
+    private function eliminarPreinscripcion()
+    {
+        $id = $this->obtenerValor('id', true);
+        $ok = $this->modelo->cambiarEstadoPreinscripcion($id, 0);
+        if ($ok) {
+            $this->responder(['success' => true, 'message' => 'Inscripción eliminada exitosamente']);
+        } else {
+            $this->responder(['success' => false, 'error' => 'No se pudo eliminar la inscripción'], 500);
+        }
+    }
+
+    private function activarPreinscripcion()
+    {
+        $id = $this->obtenerValor('id', true);
+        $ok = $this->modelo->cambiarEstadoPreinscripcion($id, 1);
+        if ($ok) {
+            $this->responder(['success' => true, 'message' => 'Inscripción activada exitosamente']);
+        } else {
+            $this->responder(['success' => false, 'error' => 'No se pudo activar la inscripción'], 500);
+        }
     }
 
     /**
