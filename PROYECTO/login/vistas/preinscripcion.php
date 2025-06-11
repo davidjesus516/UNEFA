@@ -438,6 +438,9 @@ require 'header.php';
             event.target.classList.add('active');
             document.getElementById('datos-activos').style.display = (tab === 'activos') ? '' : 'none';
             document.getElementById('datos-inactivos').style.display = (tab === 'inactivos') ? '' : 'none';
+            
+        listarPreinscripciones('activos');
+        listarPreinscripciones('inactivos');
         };
 
         // Si necesitas cargar selects dinámicamente, agrega aquí tus AJAX para llenar los combos
