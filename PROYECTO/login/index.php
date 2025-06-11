@@ -2,7 +2,6 @@
 
 session_start();
 
-
 if (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 1) {
   header('location: vistas/intranet.php');
 } elseif (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 2) {
@@ -31,7 +30,7 @@ if (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 1) {
     <div class="container">
       <div class="main">
         <div class="content">
-          <img src="PDF/img/logo_unefa.png" alt="" class="logo">
+          <img src="../img/logo-nuevo.ico" alt="" class="logo">
           <h2>Iniciar Sesión</h2>
           <form id="task-form" method="post">
             <input type="text" id="username-input" name="username" placeholder="Nombre de Usuario" required autofocus="">
