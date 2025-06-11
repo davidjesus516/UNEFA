@@ -373,7 +373,7 @@ if (!isset($_SESSION['USER'])) {
                         <li><a href="estudiante.php">Estudiante</a></li>
                         <li><a href="tutores.php">Tutores</a></li>
                         <li><a href="Institucion.php">Instituciones</a></li>
-                        <li><a href="responsables.php">Responsables</a></li>
+                        <!-- <li><a href="responsables.php">Responsables</a></li> -->
                     </ul>
                 </li>
 

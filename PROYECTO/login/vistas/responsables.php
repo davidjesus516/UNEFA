@@ -1,13 +1,13 @@
 <?php require 'header.php'; ?>
-<span class="text">Responsables Institucionales</span>
+<span class="text" style="margin-left: 1rem;">Responsables Institucionales</span>
 <div class="page-content">
 
     <div id="modal" class="modal">
-        <button class="primary" onclick="window.dialog.showModal();">
+        <button class="primary" onclick="window.dialogResponsable.showModal();">
             Nuevo <span>+</span>
         </button>
 
-        <dialog id="dialog">
+        <dialog id="dialog-responsable">
             <h2>Registrar Responsable</h2>
             <form id="formulario" class="formulario">
                 <input type="hidden" id="id_form" name="id_form">
@@ -15,44 +15,46 @@
                 <!-- SELECT DE INSTITUCIONES -->
                 <div class="formulario__grupo">
                     <label for="institucion_id">Institución <span class="obligatorio">*</span></label>
-                    <select name="institucion_id" id="institucion_id" class="formulario__input" required>
+                    <select name="INSTITUTION_ID" id="INSTITUTION_ID" class="formulario__input" required>
                         <option value="" disabled selected>Seleccione una institución</option>
                     </select>
                 </div>
 
                 <div class="formulario__grupo">
-                    <label for="cedula">Cédula <span class="obligatorio">*</span></label>
-                    <input type="text" name="cedula" id="cedula" class="formulario__input" required>
+                    <label for="MANAGER_CI">Cédula <span class="obligatorio">*</span></label>
+                    <input type="text" name="MANAGER_CI" id="MANAGER_CI" class="formulario__input" required>
+                    <span id="error-cedula" style="color:red;display:none;font-size: small;">Esta cédula ya está registrada</span>
                 </div>
 
                 <div class="formulario__grupo">
                     <label for="nombre">Primer Nombre <span class="obligatorio">*</span></label>
-                    <input type="text" name="nombre" id="nombre" class="formulario__input" required>
+                    <input type="text" name="NAME" id="NAME" class="formulario__input" required>
                 </div>
 
                 <div class="formulario__grupo">
                     <label for="segundo_nombre">Segundo Nombre</label>
-                    <input type="text" name="segundo_nombre" id="segundo_nombre" class="formulario__input">
+                    <input type="text" name="SECOND_NAME" id="SECOND_NAME" class="formulario__input">
                 </div>
 
                 <div class="formulario__grupo">
                     <label for="apellido">Primer Apellido <span class="obligatorio">*</span></label>
-                    <input type="text" name="apellido" id="apellido" class="formulario__input" required>
+                    <input type="text" name="SURNAME" id="SURNAME" class="formulario__input" required>
                 </div>
 
                 <div class="formulario__grupo">
                     <label for="segundo_apellido">Segundo Apellido</label>
-                    <input type="text" name="segundo_apellido" id="segundo_apellido" class="formulario__input">
+                    <input type="text" name="SECOND_SURNAME" id="SECOND_SURNAME" class="formulario__input">
                 </div>
 
                 <div class="formulario__grupo">
                     <label for="telefono">Teléfono <span class="obligatorio">*</span></label>
-                    <input type="text" name="telefono" id="telefono" class="formulario__input" required>
+                    <input type="text" name="CONTACT_PHONE" id="CONTACT_PHONE" class="formulario__input" required>
                 </div>
 
                 <div class="formulario__grupo">
-                    <label for="correo">Correo Electrónico <span class="obligatorio">*</span></label>
-                    <input type="email" name="correo" id="correo" class="formulario__input" required>
+                    <label for="EMAIL">Correo Electrónico <span class="obligatorio">*</span></label>
+                    <input type="email" name="EMAIL" id="EMAIL" class="formulario__input" required>
+                    <span id="error-correo" style="color:red;display:none;">Este correo ya está registrado</span>
                 </div>
 
                 <div class="formulario__grupo formulario__grupo-btn-enviar">
@@ -60,8 +62,14 @@
                 </div>
             </form>
 
-            <button onclick="window.dialog.close();" class="x">❌</button>
+            <button onclick="window.dialogResponsable.close();" class="x">❌</button>
         </dialog>
+    </div>
+
+    <!-- Tabs para activos/inactivos -->
+    <div class="tabs">
+        <button class="tab-button active" onclick="cambiarTabResponsables('activos')">Responsables Activos</button>
+        <button class="tab-button" onclick="cambiarTabResponsables('inactivos')">Responsables Inactivos</button>
     </div>
 
     <div class="table-container">
@@ -73,26 +81,30 @@
                     <th>Apellidos</th>
                     <th>Teléfono</th>
                     <th>Correo</th>
+                    <th>Institución</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody id="datos"></tbody>
+            <tbody id="datos-responsables-activos"></tbody>
+            <tbody id="datos-responsables-inactivos" style="display: none;"></tbody>
         </table>
     </div>
+<a href="Institucion.php" class="btn-link-responsables" style="margin: 1rem 0; display: inline-block;">
+    Volver a Instituciones
+</a>
 </div>
 
-<!-- JS -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const formulario = document.getElementById("formulario");
-    const tablaBody = document.getElementById("datos");
-    const dialog = document.getElementById("dialog");
+    const dialog = document.getElementById("dialog-responsable");
+    window.dialogResponsable = document.getElementById("dialog-responsable");
 
     // Cargar opciones del select de instituciones
     fetch("../controllers/Institucion/Institucion.php?accion=instituciones_select")
         .then(res => res.json())
         .then(data => {
-            const select = document.getElementById("institucion_id");
+            const select = document.getElementById("INSTITUTION_ID");
             data.forEach(inst => {
                 const option = document.createElement("option");
                 option.value = inst.id;
@@ -101,24 +113,45 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 
-    listarResponsables();
+    // Cargar responsables activos e inactivos al iniciar
+    listarResponsables('activos');
+    listarResponsables('inactivos');
 
-    function listarResponsables() {
-        fetch("../controllers/institution_manager/InstitutionManager.php?accion=listar")
+    function listarResponsables(tipo) {
+        const endpoint = tipo === 'activos' ? 'listar_activas' : 'listar_inactivas';
+        const tablaId = tipo === 'activos' ? 'datos-responsables-activos' : 'datos-responsables-inactivos';
+
+        fetch(`../controllers/institution_manager/InstitutionManager.php?accion=${endpoint}`)
             .then(response => response.json())
             .then(data => {
-                tablaBody.innerHTML = "";
+                document.getElementById(tablaId).innerHTML = "";
                 data.forEach(p => {
-                    tablaBody.innerHTML += `
+                    document.getElementById(tablaId).innerHTML += `
                         <tr>
                             <td>${p.MANAGER_CI}</td>
                             <td>${p.NAME} ${p.SECOND_NAME ?? ''}</td>
                             <td>${p.SURNAME} ${p.SECOND_SURNAME ?? ''}</td>
                             <td>${p.CONTACT_PHONE}</td>
                             <td>${p.EMAIL}</td>
+                            <td>${p.INSTITUTION_NAME ?? ''}</td>
                             <td>
-                                <button onclick="editar(${p.MANAGER_ID})">✏️</button>
-                                <button onclick="eliminar(${p.MANAGER_ID})">🗑️</button>
+                                ${
+                                    tipo === 'activos'
+                                    ? `<div style="display: flex; gap: 0.5rem;">
+                                            <button class="task-action task-edit" onclick="editarResponsable(${p.MANAGER_ID})" title="Editar">
+                                                <span class="texto">Editar</span>
+                                                <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                                            </button>
+                                            <button class="task-action task-delete" onclick="eliminarResponsable(${p.MANAGER_ID})" title="Desactivar">
+                                                <span class="texto">Borrar</span>
+                                                <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                                            </button>
+                                       </div>`
+                                    : `<button class="task-action task-restore" onclick="restaurarResponsable(${p.MANAGER_ID})" title="Restaurar">
+                                            <span class="texto">Restaurar</span>
+                                            <span class="icon"><i class="fa-solid fa-rotate-left"></i></span>
+                                       </button>`
+                                }
                             </td>
                         </tr>
                     `;
@@ -126,6 +159,70 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
+    // Cambiar pestaña de responsables
+    window.cambiarTabResponsables = function(tab) {
+        document.querySelectorAll('.tabs .tab-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+
+        if (tab === 'activos') {
+            document.getElementById('datos-responsables-activos').style.display = '';
+            document.getElementById('datos-responsables-inactivos').style.display = 'none';
+        } else {
+            document.getElementById('datos-responsables-activos').style.display = 'none';
+            document.getElementById('datos-responsables-inactivos').style.display = '';
+        }
+    }
+
+    const cedulaInput = document.getElementById("MANAGER_CI");
+    const correoInput = document.getElementById("EMAIL");
+    const errorCedula = document.getElementById("error-cedula");
+    const errorCorreo = document.getElementById("error-correo");
+
+    // Validar cédula al salir del campo
+    cedulaInput.addEventListener("blur", function () {
+        const cedula = cedulaInput.value.trim();
+        const id = document.getElementById("id_form").value;
+        if (cedula) {
+            fetch(`../controllers/institution_manager/InstitutionManager.php?accion=validar_cedula&cedula=${encodeURIComponent(cedula)}&id=${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.existe) {
+                        errorCedula.style.display = "inline";
+                    } else {
+                        errorCedula.style.display = "none";
+                    }
+                });
+        }
+    });
+
+    // Validar correo al salir del campo
+    correoInput.addEventListener("blur", function () {
+        const correo = correoInput.value.trim();
+        const id = document.getElementById("id_form").value;
+        if (correo) {
+            fetch(`../controllers/institution_manager/InstitutionManager.php?accion=validar_correo&correo=${encodeURIComponent(correo)}&id=${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.existe) {
+                        errorCorreo.style.display = "inline";
+                    } else {
+                        errorCorreo.style.display = "none";
+                    }
+                });
+        }
+    });
+
+    // Validar antes de enviar el formulario
+    formulario.addEventListener("submit", function (e) {
+        if (errorCedula.style.display === "inline" || errorCorreo.style.display === "inline") {
+            alert("No se puede registrar: la cédula o el correo ya existen.");
+            e.preventDefault();
+        }
+    });
+
+    // Registrar o actualizar responsable
     formulario.addEventListener("submit", function (e) {
         e.preventDefault();
         const formData = new FormData(formulario);
@@ -140,35 +237,44 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(res => res.json())
         .then(res => {
             if (res.success) {
-                alert("Guardado exitosamente");
+                alert(id ? "Responsable editado exitosamente" : "Responsable guardado exitosamente");
                 formulario.reset();
                 dialog.close();
-                listarResponsables();
+                listarResponsables('activos');
+                listarResponsables('inactivos');
             } else {
-                alert("Error al guardar");
+                alert(res.message || res.error || "Error al guardar o editar responsable");
             }
+        })
+        .catch(err => {
+            alert("Error en la comunicación con el servidor: " + err);
         });
     });
 
-    window.editar = function (id) {
+    // Editar responsable
+    window.editarResponsable = function (id) {
         fetch(`../controllers/institution_manager/InstitutionManager.php?accion=buscar&id=${id}`)
             .then(res => res.json())
             .then(data => {
                 document.getElementById("id_form").value = data.MANAGER_ID;
-                document.getElementById("cedula").value = data.MANAGER_CI;
-                document.getElementById("nombre").value = data.NAME;
-                document.getElementById("segundo_nombre").value = data.SECOND_NAME;
-                document.getElementById("apellido").value = data.SURNAME;
-                document.getElementById("segundo_apellido").value = data.SECOND_SURNAME;
-                document.getElementById("telefono").value = data.CONTACT_PHONE;
-                document.getElementById("correo").value = data.EMAIL;
-                // Si quieres precargar institución aquí: document.getElementById("institucion_id").value = data.INSTITUTION_ID;
+                document.getElementById("MANAGER_CI").value = data.MANAGER_CI;
+                document.getElementById("NAME").value = data.NAME ?? '';
+                document.getElementById("SECOND_NAME").value = data.SECOND_NAME ?? '';
+                document.getElementById("SURNAME").value = data.SURNAME ?? '';
+                document.getElementById("SECOND_SURNAME").value = data.SECOND_SURNAME ?? '';
+                document.getElementById("CONTACT_PHONE").value = data.CONTACT_PHONE;
+                document.getElementById("EMAIL").value = data.EMAIL;
+                document.getElementById("INSTITUTION_ID").value = data.INSTITUTION_ID;
                 dialog.showModal();
+            })
+            .catch(err => {
+                alert("Error al cargar los datos del responsable: " + err);
             });
     }
 
-    window.eliminar = function (id) {
-        if (confirm("¿Está seguro de eliminar este responsable?")) {
+    // Desactivar responsable
+    window.eliminarResponsable = function (id) {
+        if (confirm("¿Está seguro de desactivar este responsable?")) {
             const form = new FormData();
             form.append("accion", "eliminar");
             form.append("id", id);
@@ -180,15 +286,80 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(res => res.json())
             .then(res => {
                 if (res.success) {
-                    alert("Eliminado correctamente");
-                    listarResponsables();
+                    alert("Responsable desactivado correctamente");
+                    listarResponsables('activos');
+                    listarResponsables('inactivos');
                 } else {
-                    alert("Error al eliminar");
+                    alert(res.message || res.error || "Error al desactivar responsable");
                 }
+            })
+            .catch(err => {
+                alert("Error en la comunicación con el servidor: " + err);
             });
         }
     }
+
+    // Restaurar responsable
+    window.restaurarResponsable = function (id) {
+        if (confirm("¿Está seguro de restaurar este responsable?")) {
+            const form = new FormData();
+            form.append("accion", "restaurar");
+            form.append("id", id);
+
+            fetch("../controllers/institution_manager/InstitutionManager.php", {
+                method: "POST",
+                body: form
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    alert(res.message || "Responsable restaurado correctamente");
+                    listarResponsables('activos');
+                    listarResponsables('inactivos');
+                } else {
+                    alert(res.message || res.error || "Error al restaurar responsable");
+                }
+            })
+            .catch(err => {
+                alert("Error en la comunicación con el servidor: " + err);
+            });
+        }
+    }
+
+    // Función para limpiar estilos y campos del formulario
+    function limpiarFormularioResponsable() {
+        formulario.reset();
+        document.getElementById("id_form").value = "";
+        // Oculta los mensajes de error de cédula y correo
+        document.getElementById("error-cedula").style.display = "none";
+        document.getElementById("error-correo").style.display = "none";
+        // Si tienes clases de error, elimínalas aquí
+        formulario.querySelectorAll('.formulario__input').forEach(input => {
+            input.classList.remove('input-error');
+        });
+    }
+
+    // Botón cerrar modal responsable
+    document.querySelector("#dialog-responsable .x").onclick = function() {
+        limpiarFormularioResponsable();
+        dialog.close();
+    };
+
+    // Al cerrar el modal con cualquier método
+    dialog.addEventListener('close', function() {
+        limpiarFormularioResponsable();
+    });
+
+
+
+    function cerrarTodosLosModales() {
+        // Cierra el modal de institución si existe y está abierto
+        const dialogInstitucion = document.getElementById("dialog");
+        if (dialogInstitucion && dialogInstitucion.open) dialogInstitucion.close();
+        // Cierra el modal de responsable si existe y está abierto
+        const dialogResponsable = document.getElementById("dialog-responsable");
+        if (dialogResponsable && dialogResponsable.open) dialogResponsable.close();
+    }
 });
 </script>
-
 <?php require 'footer.php'; ?>

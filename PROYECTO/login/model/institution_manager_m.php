@@ -54,6 +54,33 @@ class InstitutionManager
         try {
             $this->pdo->beginTransaction();
 
+            // Convertir todos los valores a mayúsculas antes de guardar
+            foreach ($datos as $key => $value) {
+                if (is_string($value)) {
+                    $datos[$key] = mb_strtoupper($value, 'UTF-8');
+                }
+            }
+
+            // Validar cédula
+            $sqlCedula = "SELECT COUNT(*) FROM `t-institution_manager` WHERE MANAGER_CI = :cedula";
+            $stmtCedula = $this->pdo->prepare($sqlCedula);
+            $stmtCedula->bindValue(':cedula', $datos['MANAGER_CI']);
+            $stmtCedula->execute();
+            if ($stmtCedula->fetchColumn() > 0) {
+                $this->pdo->rollBack();
+                return ['success' => false, 'error' => 'La cédula ya está registrada'];
+            }
+
+            // Validar correo
+            $sqlCorreo = "SELECT COUNT(*) FROM `t-institution_manager` WHERE EMAIL = :correo";
+            $stmtCorreo = $this->pdo->prepare($sqlCorreo);
+            $stmtCorreo->bindValue(':correo', $datos['EMAIL']);
+            $stmtCorreo->execute();
+            if ($stmtCorreo->fetchColumn() > 0) {
+                $this->pdo->rollBack();
+                return ['success' => false, 'error' => 'El correo ya está registrado'];
+            }
+
             $consulta = "INSERT INTO `t-institution_manager` (
                 INSTITUTION_ID, MANAGER_CI, NAME, SECOND_NAME, SURNAME, SECOND_SURNAME,
                 CONTACT_PHONE, EMAIL, CREATION_DATE, STATUS
@@ -63,14 +90,14 @@ class InstitutionManager
             )";
 
             $stmt = $this->pdo->prepare($consulta);
-            $stmt->bindValue(':institucion_id', $datos['institucion_id']);
-            $stmt->bindValue(':cedula', $datos['cedula']);
-            $stmt->bindValue(':nombre', $datos['nombre']);
-            $stmt->bindValue(':segundo_nombre', $datos['segundo_nombre'] ?? null);
-            $stmt->bindValue(':apellido', $datos['apellido']);
-            $stmt->bindValue(':segundo_apellido', $datos['segundo_apellido'] ?? null);
-            $stmt->bindValue(':telefono', $datos['telefono']);
-            $stmt->bindValue(':correo', $datos['correo']);
+            $stmt->bindValue(':institucion_id', $datos['INSTITUTION_ID']);
+            $stmt->bindValue(':cedula', $datos['MANAGER_CI']);
+            $stmt->bindValue(':nombre', $datos['NAME']);
+            $stmt->bindValue(':segundo_nombre', $datos['SECOND_NAME'] ?? null);
+            $stmt->bindValue(':apellido', $datos['SURNAME']);
+            $stmt->bindValue(':segundo_apellido', $datos['SECOND_SURNAME'] ?? null);
+            $stmt->bindValue(':telefono', $datos['CONTACT_PHONE']);
+            $stmt->bindValue(':correo', $datos['EMAIL']);
 
             $stmt->execute();
             $id = $this->pdo->lastInsertId();
@@ -79,9 +106,6 @@ class InstitutionManager
             return ['success' => true, 'id' => $id];
         } catch (PDOException $e) {
             $this->pdo->rollBack();
-            if ($e->getCode() == "23000") {
-                return ['success' => false, 'error' => 'La cédula ya está registrada'];
-            }
             return ['success' => false, 'error' => $e->getMessage()];
         }
     }
@@ -89,30 +113,32 @@ class InstitutionManager
     public function actualizar($datos)
     {
         try {
-            $consulta = "UPDATE `t-institution_manager` 
-                        SET INSTITUTION_ID = :institucion_id,
-                            MANAGER_CI = :cedula,
-                            NAME = :nombre,
-                            SECOND_NAME = :segundo_nombre,
-                            SURNAME = :apellido,
-                            SECOND_SURNAME = :segundo_apellido,
-                            CONTACT_PHONE = :telefono,
-                            EMAIL = :correo
-                        WHERE MANAGER_ID = :id";
+            // Convertir todos los valores a mayúsculas antes de guardar
+            foreach ($datos as $key => $value) {
+                if (is_string($value)) {
+                    $datos[$key] = mb_strtoupper($value, 'UTF-8');
+                }
+            }
 
+            $consulta = "UPDATE `t-institution_manager` SET 
+                MANAGER_CI = :MANAGER_CI,
+                NAME = :NAME,
+                SECOND_NAME = :SECOND_NAME,
+                SURNAME = :SURNAME,
+                SECOND_SURNAME = :SECOND_SURNAME,
+                CONTACT_PHONE = :CONTACT_PHONE,
+                EMAIL = :EMAIL
+                WHERE MANAGER_ID = :MANAGER_ID";
             $stmt = $this->pdo->prepare($consulta);
-            $stmt->bindValue(':id', $datos['id']);
-            $stmt->bindValue(':institucion_id', $datos['institucion_id']);
-            $stmt->bindValue(':cedula', $datos['cedula']);
-            $stmt->bindValue(':nombre', $datos['nombre']);
-            $stmt->bindValue(':segundo_nombre', $datos['segundo_nombre'] ?? null);
-            $stmt->bindValue(':apellido', $datos['apellido']);
-            $stmt->bindValue(':segundo_apellido', $datos['segundo_apellido'] ?? null);
-            $stmt->bindValue(':telefono', $datos['telefono']);
-            $stmt->bindValue(':correo', $datos['correo']);
-
-            $stmt->execute();
-            return ['success' => true];
+            $stmt->bindValue(':MANAGER_ID', $datos['MANAGER_ID']);
+            $stmt->bindValue(':MANAGER_CI', $datos['MANAGER_CI']);
+            $stmt->bindValue(':NAME', $datos['NAME']);
+            $stmt->bindValue(':SECOND_NAME', $datos['SECOND_NAME']);
+            $stmt->bindValue(':SURNAME', $datos['SURNAME']);
+            $stmt->bindValue(':SECOND_SURNAME', $datos['SECOND_SURNAME']);
+            $stmt->bindValue(':CONTACT_PHONE', $datos['CONTACT_PHONE']);
+            $stmt->bindValue(':EMAIL', $datos['EMAIL']);
+            return $stmt->execute();
         } catch (PDOException $e) {
             return ['success' => false, 'error' => $e->getMessage()];
         }

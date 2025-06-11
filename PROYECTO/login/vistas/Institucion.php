@@ -1,9 +1,10 @@
 <?php require 'header.php'; ?>
 <span class="text">Instituciones</span>
+
 <div class="page-content">
 
     <div id="modal" class="modal">
-        <button class="primary" onclick="window.dialog.showModal();" aria-label="Abrir formulario de nueva institución">
+        <button class="primary" id="btn-nueva-institucion" aria-label="Abrir formulario de nueva institución">
             Nueva <span>+</span>
         </button>
 
@@ -94,10 +95,10 @@
                     <label for="tipo_institucion" class="formulario__label">Tipo de Institución <span class="obligatorio">*</span></label>
                     <select id="tipo_institucion" name="tipo_institucion" class="selector formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
-                        <option value="Pública">Pública</option>
-                        <option value="Privada">Privada</option>
+                        <option value="PUBLICA">PÚBLICA</option>
+                        <option value="PRIVADA">PRIVADA</option>
                         <option value="ONG">ONG</option>
-                        <option value="Gubernamental">Gubernamental</option>
+                        <option value="GUBERNAMENTAL">GUBERNAMENTAL</option>
                     </select>
                 </div>
 
@@ -111,7 +112,7 @@
                 </div>
             </form>
 
-            <button onclick="window.dialog.close();" class="x" aria-label="Cerrar formulario de institución">❌</button>
+            <button type="button" class="x" id="cerrar-modal" aria-label="Cerrar formulario de institución">❌</button>
         </dialog>
     </div>
 
@@ -139,6 +140,9 @@
             <tbody id="datos-inactivos" style="display: none;"></tbody>
         </table>
     </div>
+<a href="responsables.php" class="btn-link-responsables" style="margin: 1rem 0; display: inline-block;">
+    Ir a Responsables Institucionales
+</a>
 </div>
 
 <script src="js/jquery-3.7.0.min.js"></script>
@@ -146,9 +150,35 @@
 document.addEventListener("DOMContentLoaded", function () {
     const formulario = document.getElementById("formulario");
     const dialog = document.getElementById("dialog");
+    const btnNueva = document.getElementById("btn-nueva-institucion");
+    const btnCerrar = document.getElementById("cerrar-modal");
+
+    // Limpiar formulario
+    function limpiarFormulario() {
+        formulario.reset();
+        document.getElementById("id_form").value = "";
+    }
+
+    // Abrir modal y limpiar formulario
+    btnNueva.addEventListener("click", function() {
+        limpiarFormulario();
+        dialog.showModal();
+    });
+
+    // Cerrar modal y limpiar formulario
+    btnCerrar.addEventListener("click", function() {
+        dialog.close();
+        limpiarFormulario();
+    });
+
+    // Limpiar formulario al cerrar el modal (por cualquier método)
+    dialog.addEventListener("close", function() {
+        limpiarFormulario();
+    });
 
     // Cargar instituciones activas al iniciar
     listarInstituciones('activos');
+    listarInstituciones('inactivos'); // <-- Agrega esta línea
 
     function listarInstituciones(tipo) {
         const endpoint = tipo === 'activos' ? 'listar_activas' : 'listar_inactivas';
@@ -160,18 +190,35 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById(tablaId).innerHTML = "";
                 data.forEach(institucion => {
                     document.getElementById(tablaId).innerHTML += `
-                        <tr>
+                        <tr taskid="${institucion.INSTITUTION_ID}">
                             <td>${institucion.RIF}</td>
                             <td>${institucion.INSTITUTION_NAME}</td>
-                            <td>${institucion.INSTITUTION_ADDRESS}</td>
+                            <td>${institucion.INSTITUTION_ADDRESS}</td> 
                             <td>${institucion.INSTITUTION_CONTACT}</td>
                             <td>${institucion.INSTITUTION_TYPE}</td>
                             <td>${institucion.REGION}</td>
                             <td>
-                                <button onclick="editarInstitucion(${institucion.INSTITUTION_ID})">✏️</button>
-                                <button onclick="${tipo === 'activos' ? 'desactivarInstitucion' : 'activarInstitucion'}(${institucion.INSTITUTION_ID})">
-                                    ${tipo === 'activos' ? '🗑️' : '♻️'}
-                                </button>
+                                ${
+                                    tipo === 'activos'
+                                    ? `<button class="task-action task-edit" data-id="${institucion.INSTITUTION_ID}">
+                                            <span class="texto">Editar</span>
+                                            <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                                       </button>`
+                                    : ''
+                                }
+                            </td>
+                            <td>
+                                ${
+                                    tipo === 'activos'
+                                    ? `<button class="task-action task-delete" data-id="${institucion.INSTITUTION_ID}">
+                                            <span class="texto">Borrar</span>
+                                            <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                                       </button>`
+                                    : `<button class="task-action task-restore" data-id="${institucion.INSTITUTION_ID}">
+                                            <span class="texto">Restaurar</span>
+                                            <span class="icon"><i class="fa-solid fa-rotate-left"></i></span>
+                                       </button>`
+                                }
                             </td>
                         </tr>
                     `;
@@ -300,6 +347,72 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('datos-inactivos').style.display = '';
         }
     }
+
+    $(document).ready(function () {
+        // Evento Editar
+        $(document).on('click', '.task-edit', function () {
+            let id = $(this).data('id');
+            fetch(`../controllers/Institucion/Institucion.php?accion=buscar_por_id&id=${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data) {
+                        $("#id_form").val(data.INSTITUTION_ID);
+                        $("#rif").val(data.RIF);
+                        $("#nombre").val(data.INSTITUTION_NAME);
+                        $("#direccion").val(data.INSTITUTION_ADDRESS);
+                        $("#contacto").val(data.INSTITUTION_CONTACT);
+                        $("#tipo_practica").val(data.PRACTICE_TYPE);
+                        $("#region").val(data.REGION);
+                        $("#nucleo").val(data.NUCLEUS);
+                        $("#extension").val(data.EXTENSION);
+                        $("#tipo_institucion").val(data.INSTITUTION_TYPE);
+                        $("#dialog")[0].showModal();
+                    }
+                });
+        });
+
+        // Evento Eliminar (Desactivar)
+        $(document).on('click', '.task-delete', function () {
+            let id = $(this).data('id');
+            if (confirm("¿Está seguro de desactivar esta institución?")) {
+                const form = new FormData();
+                form.append("id", id);
+                fetch("../controllers/Institucion/Institucion.php?accion=eliminar", {
+                    method: "POST",
+                    body: form
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        alert(res.message || (res.success ? "Institución desactivada" : "Error al desactivar"));
+                        if (res.success) {
+                            listarInstituciones('activos');
+                            listarInstituciones('inactivos');
+                        }
+                    });
+            }
+        });
+
+        // Evento Restaurar (Activar)
+        $(document).on('click', '.task-restore', function () {
+            let id = $(this).data('id');
+            if (confirm("¿Está seguro de reactivar esta institución?")) {
+                const form = new FormData();
+                form.append("id", id);
+                fetch("../controllers/Institucion/Institucion.php?accion=restaurar", {
+                    method: "POST",
+                    body: form
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        alert(res.message || (res.success ? "Institución reactivada" : "Error al reactivar"));
+                        if (res.success) {
+                            listarInstituciones('activos');
+                            listarInstituciones('inactivos');
+                        }
+                    });
+            }
+        });
+    });
 });
 </script>
 

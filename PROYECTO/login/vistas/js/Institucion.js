@@ -210,6 +210,25 @@ $(document).ready(function(){//aqui inicializamos javascript
                         <td>
                             <button class="task-edit" onclick="window.dialog.showModal();"><spam class="texto">Editar</spam><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button>
                         </td>
+                        <td>
+                            ${
+                                tipo === 'activos'
+                                ? `<div style="display:flex;gap:0.5rem;">
+                                        <button class="task-action task-edit" onclick="editarResponsable(${p.MANAGER_ID})" title="Editar">
+                                            <span class="texto">Editar</span>
+                                            <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                                        </button>
+                                        <button class="task-action task-delete" onclick="eliminarResponsable(${p.MANAGER_ID})" title="Desactivar">
+                                            <span class="texto">Borrar</span>
+                                            <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                                        </button>
+                                   </div>`
+                                : `<button class="task-action task-restore" onclick="restaurarResponsable(${p.MANAGER_ID})" title="Restaurar">
+                                        <span class="texto">Restaurar</span>
+                                        <span class="icon"><i class="fa-solid fa-rotate-left"></i></span>
+                                   </button>`
+                            }
+                        </td>
                     </tr>
                     `
                 })
@@ -249,7 +268,52 @@ $(document).on('click','.task-edit',function(){//escucho un click del boton task
             $('#telefono').val(telefono[1]);
             $('#n_pasantes').val(task.n_pasantes);
             $('#carrera').val(task.carrera);
+            $('#Tipo_Institucion').val(data.IdTipo_Institucion);
             edit = true;//valido la variable que esta por encima de todo para que en vez de guardar un nuevo usuario lo edite
         });
     })
+
+    // Función para limpiar el formulario
+    function limpiarFormulario() {
+        $('#formulario').trigger('reset');
+        $('#id').val('').prop('readonly', false);
+        $('#n_rif').prop('readonly', false);
+        // Limpia los estilos de validación
+        $('.formulario__grupo').removeClass('formulario__grupo-correcto formulario__grupo-incorrecto');
+        $('.formulario__input-error').removeClass('formulario__input-error-activo');
+    }
+
+    // Mostrar el modal para nuevo registro y limpiar el formulario
+    $('#btn-nueva-institucion, .primary').on('click', function() {
+        limpiarFormulario();
+        edit = false;
+        window.dialog.showModal();
+    });
+
+    // Limpiar el formulario al cerrar el modal
+    if (window.dialog) {
+        window.dialog.addEventListener('close', function() {
+            limpiarFormulario();
+        });
+    }
+
+    // Convertir opciones de Tipo de Institución a mayúsculas después de cargarlas
+    $.ajax({
+        url: '../controllers/Tipo_Institucion/UserList.php',
+        type: 'GET',
+        success: function (response){
+            let task = JSON.parse(response);
+            let template = '<option id="Tipo_Institucion-option" value="" disabled selected>Seleccione una opción</option>';
+            task.forEach(task =>{
+                template += `<option id="Tipo_Institucion-option" value="${task.IdTipo_Institucion}">${task.Tipo_Institucion.toUpperCase()}</option>`;
+            })
+            $('#Tipo_Institucion').html(template);
+        }
+    });
+
+    // Si usas un botón específico para cerrar el modal, también puedes limpiar el formulario ahí:
+    $('#close, .x').on('click', function() {
+        if (window.dialog) window.dialog.close();
+        limpiarFormulario();
+    });
 })

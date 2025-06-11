@@ -39,6 +39,11 @@ class Institucion
         try {
             $this->pdo->beginTransaction();
 
+            // Convertir todos los datos a mayúsculas
+            $datos = array_map(function($valor) {
+                return mb_strtoupper($valor, 'UTF-8');
+            }, $datos);
+
             $consulta = "INSERT INTO `t-institution` (
                 INSTITUTION_NAME, INSTITUTION_ADDRESS, INSTITUTION_CONTACT,
                 PRACTICE_TYPE, REGION, NUCLEUS, EXTENSION,
@@ -157,6 +162,11 @@ class Institucion
     public function actualizar($id, $datos)
     {
         try {
+            // Convertir todos los datos a mayúsculas
+            $datos = array_map(function($valor) {
+                return mb_strtoupper($valor, 'UTF-8');
+            }, $datos);
+
             $consulta = "UPDATE `t-institution` 
                         SET INSTITUTION_NAME = :nombre,
                             INSTITUTION_ADDRESS = :direccion,

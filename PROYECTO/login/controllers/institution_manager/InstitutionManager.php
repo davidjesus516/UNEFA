@@ -37,6 +37,21 @@ class InstitutionManagerController
                 case 'listar_inactivas':
                     $this->listarInactivos();
                     break;
+                case 'restaurar':
+                    $this->restaurar();
+                    break;
+                case 'validar_cedula':
+                    $cedula = $_GET['cedula'] ?? '';
+                    $id = $_GET['id'] ?? null;
+                    $res = $this->modelo->cedulaExiste($cedula, $id);
+                    $this->responder($res);
+                    break;
+                case 'validar_correo':
+                    $correo = $_GET['correo'] ?? '';
+                    $id = $_GET['id'] ?? null;
+                    $res = $this->modelo->correoExiste($correo, $id);
+                    $this->responder($res);
+                    break;
                 default:
                     $this->responder(['error' => 'Acción no válida'], 400);
                     break;
@@ -55,21 +70,30 @@ class InstitutionManagerController
     private function insertar()
     {
         $datos = [
-            'institucion_id' => $_POST['institucion_id'],
-            'cedula' => $_POST['cedula'],
-            'nombre' => $_POST['nombre'],
-            'segundo_nombre' => $_POST['segundo_nombre'] ?? null,
-            'apellido' => $_POST['apellido'],
-            'segundo_apellido' => $_POST['segundo_apellido'] ?? null,
-            'telefono' => $_POST['telefono'],
-            'correo' => $_POST['correo']
+            'INSTITUTION_ID' => $_POST['INSTITUTION_ID'],
+            'MANAGER_CI' => $_POST['MANAGER_CI'],
+            'NAME' => $_POST['NAME'],
+            'SECOND_NAME' => $_POST['SECOND_NAME'] ?? null,
+            'SURNAME' => $_POST['SURNAME'],
+            'SECOND_SURNAME' => $_POST['SECOND_SURNAME'] ?? null,
+            'CONTACT_PHONE' => $_POST['CONTACT_PHONE'],
+            'EMAIL' => $_POST['EMAIL']
         ];
 
         $resultado = $this->modelo->insertar($datos);
 
+        // Si el modelo devuelve un array con 'success', úsalo, si no, asume true/false
+        if (is_array($resultado) && isset($resultado['success'])) {
+            $success = $resultado['success'];
+            $error = $resultado['error'] ?? null;
+        } else {
+            $success = $resultado ? true : false;
+            $error = !$success ? 'Error al registrar responsable' : null;
+        }
+
         $this->responder([
-            'success' => $resultado,
-            'message' => $resultado ? 'Responsable registrado exitosamente' : 'Error al registrar responsable'
+            'success' => $success,
+            'message' => $success ? 'Responsable registrado exitosamente' : ($error ?? 'Error al registrar responsable')
         ]);
     }
 
@@ -92,28 +116,36 @@ class InstitutionManagerController
     private function actualizar()
     {
         $datos = [
-            'id' => $_POST['id'],
-            'institucion_id' => $_POST['institucion_id'],
-            'cedula' => $_POST['cedula'],
-            'nombre' => $_POST['nombre'],
-            'segundo_nombre' => $_POST['segundo_nombre'] ?? null,
-            'apellido' => $_POST['apellido'],
-            'segundo_apellido' => $_POST['segundo_apellido'] ?? null,
-            'telefono' => $_POST['telefono'],
-            'correo' => $_POST['correo']
+            'MANAGER_ID' => $_POST['MANAGER_ID'] ?? $_POST['id'] ?? null,
+            'INSTITUTION_ID' => $_POST['INSTITUTION_ID'],
+            'MANAGER_CI' => $_POST['MANAGER_CI'],
+            'NAME' => $_POST['NAME'],
+            'SECOND_NAME' => $_POST['SECOND_NAME'] ?? null,
+            'SURNAME' => $_POST['SURNAME'],
+            'SECOND_SURNAME' => $_POST['SECOND_SURNAME'] ?? null,
+            'CONTACT_PHONE' => $_POST['CONTACT_PHONE'],
+            'EMAIL' => $_POST['EMAIL']
         ];
 
+        // Validación básica
+        if (empty($datos['MANAGER_ID'])) {
+            $this->responder(['success' => false, 'error' => 'ID requerido'], 400);
+        }
+
+        // Llama al modelo con los parámetros correctos
         $resultado = $this->modelo->actualizar($datos);
 
+        $success = $resultado ? true : false;
+
         $this->responder([
-            'success' => $resultado,
-            'message' => $resultado ? 'Responsable actualizado exitosamente' : 'Error al actualizar responsable'
+            'success' => $success,
+            'message' => $success ? 'Responsable actualizado exitosamente' : 'Error al actualizar responsable'
         ]);
     }
 
     private function eliminar()
     {
-        $id = $_POST['id'] ?? null;
+        $id = $_POST['id'] ?? $_POST['MANAGER_ID'] ?? null;
         if (empty($id)) {
             $this->responder(['error' => 'ID requerido'], 400);
             return;
@@ -149,6 +181,21 @@ class InstitutionManagerController
     {
         $instituciones_manager = $this->modelo->listarInactivos();
         $this->responder($instituciones_manager);
+    }
+
+    private function restaurar()
+    {
+        $id = $_POST['id'] ?? $_POST['MANAGER_ID'] ?? null;
+        if (empty($id)) {
+            $this->responder(['error' => 'ID requerido'], 400);
+            return;
+        }
+
+        $resultado = $this->modelo->restaurar($id);
+        $this->responder([
+            'success' => $resultado,
+            'message' => $resultado ? 'Responsable restaurado correctamente' : 'Error al restaurar responsable'
+        ]);
     }
 }
 

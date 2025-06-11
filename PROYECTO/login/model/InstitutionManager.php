@@ -3,10 +3,22 @@ session_start();
 require_once("conexion.php");
 date_default_timezone_set("America/Caracas");
 
+$datos = [
+    'INSTITUTION_ID' => $_POST['INSTITUTION_ID'],
+    'MANAGER_CI' => $_POST['MANAGER_CI'],
+    'NAME' => $_POST['NAME'],
+    'SECOND_NAME' => $_POST['SECOND_NAME'] ?? null,
+    'SURNAME' => $_POST['SURNAME'],
+    'SECOND_SURNAME' => $_POST['SECOND_SURNAME'] ?? null,
+    'CONTACT_PHONE' => $_POST['CONTACT_PHONE'],
+    'EMAIL' => $_POST['EMAIL']
+];
+
 class InstitutionManager
 {
     private $conexion;
     private $pdo;
+    
 
     public function __construct()
     {
@@ -135,4 +147,43 @@ class InstitutionManager
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function cedulaExiste($cedula, $idExcluir = null)
+    {
+        $consulta = "SELECT COUNT(*) FROM `t-institution_manager` WHERE MANAGER_CI = :cedula";
+        if ($idExcluir) {
+            $consulta .= " AND MANAGER_ID != :id";
+        }
+        $stmt = $this->pdo->prepare($consulta);
+        $stmt->bindValue(':cedula', $cedula);
+        if ($idExcluir) {
+            $stmt->bindValue(':id', $idExcluir);
+        }
+        $stmt->execute();
+        return ['existe' => $stmt->fetchColumn() > 0];
+    }
+
+    public function correoExiste($correo, $idExcluir = null)
+    {
+        $consulta = "SELECT COUNT(*) FROM `t-institution_manager` WHERE EMAIL = :correo";
+        if ($idExcluir) {
+            $consulta .= " AND MANAGER_ID != :id";
+        }
+        $stmt = $this->pdo->prepare($consulta);
+        $stmt->bindValue(':correo', $correo);
+        if ($idExcluir) {
+            $stmt->bindValue(':id', $idExcluir);
+        }
+        $stmt->execute();
+        return ['existe' => $stmt->fetchColumn() > 0];
+    }
+
+    private function responder($datos, $codigoEstado = 200)
+    {
+        http_response_code($codigoEstado);
+        header('Content-Type: application/json');
+        echo json_encode($datos);
+        exit;
+    }
 }
+
