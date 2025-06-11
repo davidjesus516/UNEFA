@@ -394,7 +394,7 @@ if (!isset($_SESSION['USER'])) {
                         <li><a href="preinscripcion.php">Pre Inscripcion</a></li>
                         <li><a href="inscripcion.php">Inscripcion</a></li>
                         <li><a href="seguimiento.php">Seguimiento</a></li>
-                        <li><a href="culminacion_pasantias.php">Culminacion de Pasantia</a></li>
+                        <li><a href="culminacion_pasantias.php">Culminacion de<br>Practica Profesional</a></li>
                     </ul>
                 </li>
 
@@ -410,7 +410,10 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Reportes</a></li>
-                        <li><a href="../PDF/listado_carrera.php" target="_blank">Listado de Carreras</a></li>
+                        <li><a href="../PDF/listado_carrera.php" target="_blank">Listado Carreras</a></li>
+                        <li><a href="../PDF/listado_estudiantes.php" target="_blank">Listado Estudiantes</a></li>
+                        <li><a href="../PDF/listado_instituciones.php" target="_blank">Listado Instituciones</a></li>
+                        <li><a href="../PDF/listado_periodo.php" target="_blank">Listado Periodo</a></li>
                     </ul>
                 </li>
 
