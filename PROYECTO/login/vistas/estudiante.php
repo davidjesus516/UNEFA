@@ -87,8 +87,8 @@ require 'header.php';
                     <label for="genero" class="formulario__label">Sexo <span class="obligatorio">*</span></label>
                     <select id="genero" name="genero" class="formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
-                        <option value="M">Masculino</option>
-                        <option value="F">Femenino</option>
+                        <option value="M">MASCULINO</option>
+                        <option value="F">FEMENINO</option>
                     </select>
                 </div>
 

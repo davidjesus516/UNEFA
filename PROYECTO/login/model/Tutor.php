@@ -93,24 +93,24 @@ class Tutor
              
                 1
             )";
-            
+
             $statement = $this->pdo->prepare($consulta);
-            $statement->bindValue(":TUTOR_CI", $TUTOR_CI);
-            $statement->bindValue(":NAME", $NAME);
-            $statement->bindValue(":SECOND_NAME", $SECOND_NAME);
-            $statement->bindValue(":SURNAME", $SURNAME);
-            $statement->bindValue(":SECOND_SURNAME", $SECOND_SURNAME);
-            $statement->bindValue(":CONTACT_PHONE", $CONTACT_PHONE);
-            $statement->bindValue(":GENDER", $GENDER);
-            $statement->bindValue(":EMAIL", $EMAIL);
-            $statement->bindValue(":PROFESSION", $PROFESSION);
-            $statement->bindValue(":CONDITION", $CONDITION);
-            $statement->bindValue(":DEDICATION", $DEDICATION);
-            $statement->bindValue(":CATEGORY", $CATEGORY);
+            $statement->bindValue(":TUTOR_CI", strtoupper($TUTOR_CI));
+            $statement->bindValue(":NAME", strtoupper($NAME));
+            $statement->bindValue(":SECOND_NAME", strtoupper($SECOND_NAME));
+            $statement->bindValue(":SURNAME", strtoupper($SURNAME));
+            $statement->bindValue(":SECOND_SURNAME", strtoupper($SECOND_SURNAME));
+            $statement->bindValue(":CONTACT_PHONE", strtoupper($CONTACT_PHONE));
+            $statement->bindValue(":GENDER", strtoupper($GENDER));
+            $statement->bindValue(":EMAIL", strtoupper($EMAIL));
+            $statement->bindValue(":PROFESSION", strtoupper($PROFESSION));
+            $statement->bindValue(":CONDITION", strtoupper($CONDITION));
+            $statement->bindValue(":DEDICATION", strtoupper($DEDICATION));
+            $statement->bindValue(":CATEGORY", strtoupper($CATEGORY));
             $statement->bindValue(":CREATION_DATE", date("Y-m-d H:i:s"));
-           // $statement->bindValue(":MODIF_USER_ID", $_SESSION['USER_ID'] );
+            // $statement->bindValue(":MODIF_USER_ID", $_SESSION['USER_ID'] );
             //$statement->bindValue(":MODIF_USER_DATE", date("Y-m-d H:i:s"));
-            
+
             $statement->execute();
             $this->pdo->commit();
             return true;
@@ -155,50 +155,45 @@ class Tutor
                 CATEGORY = :CATEGORY
                
             WHERE TUTOR_ID = :TUTOR_ID";
-            
+
         $statement = $this->pdo->prepare($consulta);
-        $statement->bindValue(":TUTOR_ID", $TUTOR_ID);
-        $statement->bindValue(":TUTOR_CI", $TUTOR_CI);
-        $statement->bindValue(":NAME", $NAME);
-        $statement->bindValue(":SECOND_NAME", $SECOND_NAME);
-        $statement->bindValue(":SURNAME", $SURNAME);
-        $statement->bindValue(":SECOND_SURNAME", $SECOND_SURNAME);
-        $statement->bindValue(":CONTACT_PHONE", $CONTACT_PHONE);
-        $statement->bindValue(":GENDER", $GENDER);
-        $statement->bindValue(":EMAIL", $EMAIL);
-        $statement->bindValue(":PROFESSION", $PROFESSION);
-        $statement->bindValue(":CONDITION", $CONDITION);
-        $statement->bindValue(":DEDICATION", $DEDICATION);
-        $statement->bindValue(":CATEGORY", $CATEGORY);
+        $statement->bindValue(":TUTOR_ID", strtoupper($TUTOR_ID));
+        $statement->bindValue(":TUTOR_CI", strtoupper($TUTOR_CI));
+        $statement->bindValue(":NAME", strtoupper($NAME));
+        $statement->bindValue(":SECOND_NAME", strtoupper($SECOND_NAME));
+        $statement->bindValue(":SURNAME", strtoupper($SURNAME));
+        $statement->bindValue(":SECOND_SURNAME", strtoupper($SECOND_SURNAME));
+        $statement->bindValue(":CONTACT_PHONE", strtoupper($CONTACT_PHONE));
+        $statement->bindValue(":GENDER", strtoupper($GENDER));
+        $statement->bindValue(":EMAIL", strtoupper($EMAIL));
+        $statement->bindValue(":PROFESSION", strtoupper($PROFESSION));
+        $statement->bindValue(":CONDITION", strtoupper($CONDITION));
+        $statement->bindValue(":DEDICATION", strtoupper($DEDICATION));
+        $statement->bindValue(":CATEGORY", strtoupper($CATEGORY));
 
         return $statement->execute();
     }
 
-    public function eliminar($TUTOR_ID, $ELIM_USER_ID=1)
+    public function eliminar($TUTOR_ID, $ELIM_USER_ID = 1)
     {
         $consulta = "UPDATE `t-tutors` 
             SET STATUS = 0
             WHERE TUTOR_ID = :TUTOR_ID";
-            
+
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(":TUTOR_ID", $TUTOR_ID);
-     
+
         return $statement->execute();
     }
 
-    public function restaurar($TUTOR_ID, $REST_USER_ID)
+    public function restaurar($TUTOR_ID)
     {
         $consulta = "UPDATE `t-tutors` 
-            SET STATUS = 1, 
-                REST_USER_ID = :REST_USER_ID, 
-                REST_USER_DATE = :REST_USER_DATE
+            SET STATUS = 1
             WHERE TUTOR_ID = :TUTOR_ID";
-            
+
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(":TUTOR_ID", $TUTOR_ID);
-        $statement->bindValue(":REST_USER_ID", $REST_USER_ID);
-        $statement->bindValue(":REST_USER_DATE", date("Y-m-d H:i:s"));
-        
         return $statement->execute();
     }
 

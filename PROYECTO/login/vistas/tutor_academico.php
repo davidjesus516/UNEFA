@@ -52,8 +52,8 @@ require 'header.php';
                     <label for="" class="formulario__label">Genero <span class="obligatorio">*</span></label>
                     <select id="genero" aria-placeholder="Genero" class="selector formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
-                        <option value="M">Masculino</option>
-                        <option value="F">Femenino</option>
+                        <option value="M">MASCULINO</option>
+                        <option value="F">FEMENINO</option>
                         <option value="O">Prefiero no decirlo</option>
                     </select>
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
