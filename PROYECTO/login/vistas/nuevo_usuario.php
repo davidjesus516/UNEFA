@@ -13,28 +13,19 @@ require 'header.php';
             <form action="#" class="formulario" id="formulario">
                 <!-- Grupo: Usuario -->
                 <div class="formulario__grupo" id="grupo__nombre">
-                    <label for="" class="formulario__label">Nombre de Usuario <span class="obligatorio">*</span></label>
+                    <label for="" class="formulario__label">Nombre Usuario <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre de Usuario" required>
+                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese el Nombre de Usuario" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
-                </div>
-
-                <div class="formulario__grupo" id="grupo__cedula">
-                    <label for="" class="formulario__label">Cedula <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="cedula" placeholder="Cedula del Usuario" required>
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
-                    <p class="formulario__input-error">Este campo solo debe contener numeros</p>
                 </div>
 
                 <!-- Grupo:  -->
                 <div class="formulario__grupo" id="grupo__nombre">
                     <label for="" class="formulario__label">Nombre <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Nombre" required>
+                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese el Nombre" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
@@ -78,6 +69,17 @@ require 'header.php';
             <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
         </dialog>
     </div>
+    <table class="w3-table-all w3-hoverable">
+        <thead>
+            <tr class="w3-light-grey">
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th colspan="2">Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="datos"></tbody>
+    </table>
 </div>
 </div>
 <script src="js/estudiante/jquery-3.7.0.min.js"></script>

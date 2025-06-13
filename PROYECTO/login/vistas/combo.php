@@ -10,12 +10,12 @@ require 'header.php';
 
     <!-- Modal para Listas -->
     <div id="list-modal" class="modal">
-       
+
 
         <dialog id="list-dialog">
             <h2>Registrar Nueva Lista</h2>
 
-      
+
             <form action="" class="formulario" id="list_form">
 
                 <!-- Campo oculto para ID -->
@@ -25,9 +25,8 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__nombre_lista">
                     <label for="list_name" class="formulario__label">Nombre de Lista <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="list_name" id="list_name" 
-                               placeholder="Ej: Tipos de Documento" required
-                               >
+                        <input type="text" class="formulario__input" name="list_name" id="list_name"
+                            placeholder="Ej: Tipos de Documento" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">El nombre debe tener entre 3 y 40 caracteres</p>
@@ -51,7 +50,7 @@ require 'header.php';
 
     <!-- Modal para Valores de Lista -->
     <div id="value-list-modal" class="modal">
-       
+
         <dialog id="value-list-dialog">
             <h2>Registrar Nuevo Valor</h2>
 
@@ -75,9 +74,8 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__nombre_valor">
                     <label for="value_name" class="formulario__label">Nombre del Valor <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="value_name" id="value_name" 
-                               placeholder="Ej: Cédula de Identidad" required
-                               >
+                        <input type="text" class="formulario__input" name="value_name" id="value_name"
+                            placeholder="Ej: Cédula de Identidad" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">El nombre debe tener entre 3 y 45 caracteres</p>
@@ -87,9 +85,9 @@ require 'header.php';
                 <div class="formulario__grupo" id="grupo__abreviatura">
                     <label for="value_abbreviation" class="formulario__label">Abreviatura</label>
                     <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="value_abbreviation" id="value_abbreviation" 
-                               placeholder="Ej: CI"
-                               pattern="[A-Z]{2,8}">
+                        <input type="text" class="formulario__input" name="value_abbreviation" id="value_abbreviation"
+                            placeholder="Ej: CI"
+                            pattern="[A-Z]{2,8}">
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">La abreviatura debe tener entre 2 y 8 letras mayúsculas</p>
@@ -114,7 +112,7 @@ require 'header.php';
     <!-- Tabla de Listas -->
     <h3>Listas Disponibles</h3>
 
-           <button class="primary" onclick="document.getElementById('list-dialog').showModal();">Nueva Lista +</button>
+    <!-- <button class="primary" onclick="document.getElementById('list-dialog').showModal();">Nueva Lista +</button> -->
 
 
 
@@ -142,7 +140,7 @@ require 'header.php';
     <!-- Tabla de Valores de Lista -->
     <h3>Valores de Lista</h3>
 
-     <button class="primary" onclick="document.getElementById('value-list-dialog').showModal();">Nuevo Valor +</button>
+    <button class="primary" onclick="document.getElementById('value-list-dialog').showModal();">Nuevo Valor +</button>
 
     <table class="w3-table-all w3-hoverable">
         <thead>
@@ -158,7 +156,7 @@ require 'header.php';
         <tbody id="value_list_table"></tbody>
     </table>
 
- 
+
 
 </div>
 

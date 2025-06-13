@@ -10,12 +10,7 @@ require 'header.php';
             <h3>USUARIO:</h3>
             <li class="menu-item active">
                 <a href="nuevo_usuario.php">
-                    <i class="icon-placeholder"></i> <span>Nuevo Usuario</span>
-                </a>
-            </li>
-            <li class="menu-item active">
-                <a href="listado_usuario.php">
-                    <i class="icon-placeholder"></i> <span>Listado Usuario</span>
+                    <i class="icon-placeholder"></i> <span>Registro Usuarios</span>
                 </a>
             </li>
             <br>
@@ -23,61 +18,46 @@ require 'header.php';
 
             <li class="menu-item active">
                 <a href="#">
-                    <i class="icon-placeholder"></i> <span>Gestion Usuario</span>
+                    <i class="icon-placeholder"></i> <span>Gestión Usuario</span>
                 </a>
             </li>
             <li class="menu-item active">
                 <a href="#">
-                    <i class="icon-placeholder"></i> <span>Gestion Roles</span>
+                    <i class="icon-placeholder"></i> <span>Gestión Roles</span>
                 </a>
             </li>
             <li class="menu-item active">
                 <a href="#">
-                    <i class="icon-placeholder"></i> <span>Gestion Permisos</span>
+                    <i class="icon-placeholder"></i> <span>Gestión Permisos</span>
                 </a>
             </li>
             <li class="menu-item active">
                 <a href="historial_session.php">
-                    <i class="icon-placeholder"></i> <span>Historial de Ingreso de Usuario</span>
+                    <i class="icon-placeholder"></i> <span>Historial Ingreso Usuario</span>
                 </a>
             </li>
-            <h3>NOTIFICACIÓN:</h3>
-            <li class="menu-item active">
-                <a href="#">
-                    <i class="icon-placeholder"></i> <span>Activar</span>
-                </a>
-                <a href="#">
-                    <i class="icon-placeholder"></i> <span>Desactivar</span>
-                </a>
-                <a href="#">
-                    <i class="icon-placeholder"></i> <span>Recordatorio</span>
-                </a>
-                
+
             </li>
             <h3>SEGURIDAD Y ACCESO:</h3>
             <li class="menu-item active">
-                <a href="config_contraseña.php">
-                    <i class="icon-placeholder"></i> <span>Configuracion Contraseña</span>
+                <a href="preguntas.php">
+                    <i class="icon-placeholder"></i> <span>Gestión Preguntas Preestablecidas</span>
                 </a>
             </li>
+            <li class="menu-item active">
+                <a href="config_contraseña.php">
+                    <i class="icon-placeholder"></i> <span>Configuración Contraseña</span>
+                </a>
+            </li>
+            
             <li class="menu-item active">
                 <a href="config_preguntas.php">
-                    <i class="icon-placeholder"></i> <span>Configuracion Preguntas de Seguridad</span>
-                </a>
-            </li>
-            <li class="menu-item active">
-                <a href="#">
-                    <i class="icon-placeholder"></i> <span>AUTENTICACIÓN</span>
-                </a>
-            </li>
-            <li class="menu-item active">
-                <a href="preguntas.php">
-                    <i class="icon-placeholder"></i> <span>Gestion Preguntas Preestablecidas</span>
+                    <i class="icon-placeholder"></i> <span>Configuración Preguntas de Seguridad</span>
                 </a>
             </li>
             <li class="menu-item active">
                 <a href="config_usuario.php">
-                    <i class="icon-placeholder"></i> <span>Configuracion Usuario</span>
+                    <i class="icon-placeholder"></i> <span>Configuración Usuario</span>
                 </a>
             </li>
 

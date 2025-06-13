@@ -1,11 +1,11 @@
 <?php require 'header.php'; ?>
-<span class="text">Ventana -> Inscripcion</span>
+<span class="text">Ventana -> Inscripción</span>
 <div class="page-content">
 
     <div id="modal" class="modal">
         <button class="primary" onclick="window.dialog.showModal();" aria-label="Abrir formulario de nueva Inscripción">
-            <i class="fas fa-plus"></i>
-            Nueva <span></span>
+            Nueva <i class="fas fa-plus"></i>
+            <span></span>
         </button>
 
         <dialog id="dialog" aria-labelledby="dialogTitle">
@@ -55,76 +55,65 @@
 
                 <!-- Tipo de Practica -->
                 <div class="formulario__grupo" id="grupo__tipo_practica">
-                    <label for="tipo_practica" class="formulario__label">Tipo de Practica<span class="obligatorio">*</span></label>
+                    <label for="tipo_practica" class="formulario__label">Tipo Práctica<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <select class="formulario__input" name="tipo_practica" id="tipo_practica">
                             <option value="" disabled selected>Seleccione una opción</option>
                         </select>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
-                    <p class="formulario__input-error">Validacion</p>
+                    <p class="formulario__input-error">Validación</p>
                 </div>
 
                 <!-- Tutor Academico -->
                 <div class="formulario__grupo" id="">
-                    <label for="" class="formulario__label">Tutor Academico<span class="obligatorio">*</span></label>
+                    <label for="" class="formulario__label">Tutor Académico<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <select class="formulario__input" id="tutor_academico">
-                            <option value="">seleccione una opcion</option>
+                            <option value="">Seleccione una opción</option>
                         </select>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
-                    <p class="formulario__input-error">Validacion</p>
+                    <p class="formulario__input-error">Validación</p>
                 </div>
 
                 <!-- Tutor Metodologico -->
                 <div class="formulario__grupo" id="">
-                    <label for="" class="formulario__label">Tutor Metodologico<span class="obligatorio">*</span></label>
+                    <label for="" class="formulario__label">Tutor Metodológico<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <select class="formulario__input" id="tutor_metodologico">
-                            <option value="">seleccione una opcion</option>
+                            <option value="">Seleccione una opción</option>
                         </select>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
-                    <p class="formulario__input-error">Validacion</p>
+                    <p class="formulario__input-error">Validación</p>
                 </div>
 
                 <!-- Institucion -->
                 <div class="formulario__grupo" id="">
-                    <label for="" class="formulario__label">Institucion<span class="obligatorio">*</span></label>
+                    <label for="" class="formulario__label">Institución<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <select class="formulario__input" id="institucion">
-                            <option value="">seleccione una opcion</option>
+                            <option value="">Seleccione una opción</option>
                         </select>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
-                    <p class="formulario__input-error">Validacion</p>
+                    <p class="formulario__input-error">Validación</p>
                 </div>
 
                 <!-- Responsable Institucion -->
                 <div class="formulario__grupo" id="grupo__responsable_institucion">
-                    <label for="responsable_institucion" class="formulario__label">Responsable Institucion<span class="obligatorio">*</span></label>
+                    <label for="responsable_institucion" class="formulario__label">Responsable Institución<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <select class="formulario__input" id="responsable_institucion" name="responsable_institucion">
-                            <option value="">seleccione una opcion</option>
+                            <option value="">Seleccione una opción</option>
                         </select>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
-                    <p class="formulario__input-error">Validacion</p>
+                    <p class="formulario__input-error">Validación</p>
                 </div>
 
-                <!-- Documentos  -->
-                <div class="formulario__grupo" id="grupo__nombre">
-                    <label for="" class="formulario__label">Documentos <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="radio" name="documentos" id="entregado" value="entregado" required>
-                        <label for="entregado">Entregado</label>
-                        <br>
-                        <input type="radio" name="documentos" id="no-entregado" value="no-entregado" required>
-                        <label for="no-entregado">No Entregado</label>
-                    </div>
-                </div>
-
+                
                 <div class="formulario__mensaje" id="formulario__mensaje">
                     <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente.</p>
                 </div>
@@ -141,8 +130,8 @@
 
     <!-- Pestañas para activos/inactivos -->
     <div class="tabs">
-        <button class="tab-button active" onclick="cambiarTab('activos')">Instituciones Activas</button>
-        <button class="tab-button" onclick="cambiarTab('inactivos')">Instituciones Inactivas</button>
+        <button class="tab-button active" onclick="cambiarTab('activos')">Inscripciones Activas</button>
+        <button class="tab-button" onclick="cambiarTab('inactivos')">Inscripciones Inactivas</button>
     </div>
 
     <!-- Tabla -->
@@ -151,8 +140,8 @@
             <thead>
                 <tr class="w3-light-grey">
                     <th>Estudiante</th>
-                    <th>Tutor Academico</th>
-                    <th>Tutor Metodologico</th>
+                    <th>Tutor Académico</th>
+                    <th>Tutor Metodológico</th>
                     <th>Institución</th>
                     <th>Responsable</th>
                     <th colspan="2">Acciones</th>

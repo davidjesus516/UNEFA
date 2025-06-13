@@ -45,7 +45,7 @@ require 'header.php';
                 </div>
                 <!-- institucion -->
                 <div class="formulario__grupo">
-                    <label for="institucion" class="formulario__label">Nuevo Institución <span class="obligatorio">*</span></label>
+                    <label for="institucion" class="formulario__label">Nueva Institución <span class="obligatorio">*</span></label>
                     <select id="institucion" name="institucion" class="formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
                     </select>

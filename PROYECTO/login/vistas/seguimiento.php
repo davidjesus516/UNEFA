@@ -3,7 +3,7 @@ require 'header.php';
 ?>
 <link rel="stylesheet" href="css/style.css">
 
-<span class="text">modal-large Estudiantil</span>
+<span class="text">Seguimiento Estudiantil</span>
 <div class="page-content">
     <!-- Sección de Formulario de modal-large -->
     <div class="modal-large-container">
@@ -65,7 +65,7 @@ require 'header.php';
 
             <div class="formulario__grupo" style="display: flex;">
                 <div class="formulario__label" style="width: 15rem;">
-                    <a href="registro_visita.php">Registro de Visitas</a>
+                    <a href="registro_visita.php">Registro Visitas</a>
                 </div>
                 <!-- Grupo Observaciones -->
                 <div class="formulario__grupo observaciones-completas">

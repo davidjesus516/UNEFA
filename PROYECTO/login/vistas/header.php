@@ -351,7 +351,7 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Gestión</a></li>
-                        <li><a href="periodo.php">Periodo</a></li>
+                        <li><a href="periodo.php">Período</a></li>
                         <li><a href="carrera.php">Carrera</a></li>
                     </ul>
                 </li>
@@ -370,7 +370,7 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Registro</a></li>
-                        <li><a href="estudiante.php">Estudiante</a></li>
+                        <li><a href="estudiante.php">Estudiantes</a></li>
                         <li><a href="tutores.php">Tutores</a></li>
                         <li><a href="Institucion.php">Instituciones</a></li>
                         <!-- <li><a href="responsables.php">Responsables</a></li> -->
@@ -391,10 +391,10 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Practicas Profesionales</a></li>
-                        <li><a href="preinscripcion.php">Pre Inscripcion</a></li>
-                        <li><a href="inscripcion.php">Inscripcion</a></li>
+                        <li><a href="preinscripcion.php">Pre Inscripción</a></li>
+                        <li><a href="inscripcion_m.php">Inscripción</a></li>
                         <li><a href="seguimiento.php">Seguimiento</a></li>
-                        <li><a href="culminacion_pasantias.php">Culminacion de<br>Practica Profesional</a></li>
+                        <li><a href="culminacion_pasantias.php">Culminación<br>Practica Profesional</a></li>
                     </ul>
                 </li>
 
@@ -429,7 +429,6 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Configuracion</a></li>
-                        <li><a href="registros_inactivos.php">Registros Inactivos</a></li>
                         <li><a href="cambio_registro.php">Cambio de Registros</a></li>
                         <li><a href="usuario.php">Usuarios</a></li>
                         <li><a href="combo.php">Combos</a></li>

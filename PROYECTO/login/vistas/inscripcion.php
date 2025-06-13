@@ -1,7 +1,7 @@
 <?php
 require 'header.php';
 ?>
-<span class="text">Ventana -> Inscripcion</span>
+<!-- <span class="text">Ventana -> Inscripcion</span>
 <div class="page-content">
 
     <div id="modal" class="modal">
@@ -20,7 +20,6 @@ require 'header.php';
                     <p class="formulario__input-error">Este campo solo debe contener numeros</p>
                 </div>
 
-                <!--  -->
                 <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Estudiante<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
@@ -30,7 +29,6 @@ require 'header.php';
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
-                <!--  -->
                 <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Tutor Academico<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
@@ -44,7 +42,6 @@ require 'header.php';
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
-                <!--  -->
                 <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Tutor Metodologico<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
@@ -58,7 +55,6 @@ require 'header.php';
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
-                <!--  -->
                 <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Institucion<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
@@ -72,7 +68,6 @@ require 'header.php';
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
-                <!--  -->
                 <div class="formulario__grupo" id="">
                     <label for="" class="formulario__label">Responsable Institucion<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
@@ -84,7 +79,7 @@ require 'header.php';
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
-                <!-- Grupo:  -->
+
                 <div class="formulario__grupo" id="grupo__nombre">
                     <label for="" class="formulario__label">Documentos <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
@@ -106,7 +101,7 @@ require 'header.php';
 
             </form>
 
-            <!-- <p>You can also change the styles of the <code>::backdrop</code> from the CSS.</p> -->
+            
             <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
         </dialog>
     </div>

@@ -43,7 +43,7 @@ require 'header.php';
                 </div>
                 <!-- Tipos de Pasantías (Checkboxes) -->
                 <div class="formulario__grupo" id="grupo__tipos_pasantias">
-                    <label class="formulario__label"><a href="tipo_practica.php">Tipos Practica Profesional</a></label>
+                    <label class="formulario__label"><a href="tipo_practica.php">Tipos Práctica Profesional</a></label>
                     <div class="formulario__grupo-checkbox" id="checkbox_container">
                         <!-- Se llenará dinámicamente con JS -->
                     </div>

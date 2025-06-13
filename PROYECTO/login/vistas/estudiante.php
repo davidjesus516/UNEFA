@@ -3,7 +3,7 @@ $maxYear = date('Y') - 18; // Asegura que el año sea al menos 18 años atrás
 
 require 'header.php';
 ?>
-<span class="text">Estudiante</span>
+<span class="text">Estudiantes</span>
 <div class="page-content">
 
     <div class="message"></div>
@@ -176,7 +176,7 @@ require 'header.php';
 
                 <!-- regimen -->
                 <div class="formulario__grupo">
-                    <label for="regimen" class="formulario__label">Regimen <span class="obligatorio">*</span></label>
+                    <label for="regimen" class="formulario__label">Régimen <span class="obligatorio">*</span></label>
                     <select id="regimen" name="regimen" class="formulario__input" required>
                         <option value="" disabled selected>Cargando...</option>
                     </select>
@@ -184,7 +184,7 @@ require 'header.php';
 
                 <!-- tipo_estudiante -->
                 <div class="formulario__grupo">
-                    <label for="tipo_estudiante" class="formulario__label">Tipo de Estudiante <span class="obligatorio">*</span></label>
+                    <label for="tipo_estudiante" class="formulario__label">Tipo Estudiante <span class="obligatorio">*</span></label>
                     <select id="tipo_estudiante" name="tipo_estudiante" class="formulario__input" required>
                         <option value="" disabled selected>Cargando...</option>
                     </select>

@@ -48,12 +48,12 @@ require 'header.php';
                     <input type="number" class="formulario__input" name="" id="nota" placeholder="Nota" min=0 max=20 step=any required>
                     <i class="formulario__validacion-estado fas fa-times-circle"></i>
                 </div>
-                <p class="formulario__input-error">Validacion</p>
+                <p class="formulario__input-error">Validación</p>
             </div>
 
-<div class="status aprovado">Aprovado</div>
+<div class="status aprovado">Aprobado</div>
 <!-- o -->
-<div class="status reprovado">Reprovado</div>
+<div class="status reprovado">Reprobado</div>
 
             <!-- Botonera -->
             <div class="botonera-modal-large">

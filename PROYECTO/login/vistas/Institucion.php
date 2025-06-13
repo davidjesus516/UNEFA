@@ -38,7 +38,7 @@
 
                 <!-- Dirección -->
                 <div class="formulario__grupo" id="grupo__direccion">
-                    <label for="direccion" class="formulario__label">Dirección <span class="obligatorio">*</span></label>
+                    <label for="direccion" class="formulario__label">Dirección Fiscal<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <textarea class="formulario__input" name="direccion" id="direccion" 
                                   placeholder="Ingrese la dirección" required></textarea>
@@ -56,7 +56,7 @@
 
                 <!-- Tipo de Práctica -->
                 <div class="formulario__grupo" id="grupo__tipo_practica">
-                    <label for="tipo_practica" class="formulario__label">Tipo de Práctica <span class="obligatorio">*</span></label>
+                    <label for="tipo_practica" class="formulario__label">Tipo Práctica <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <input type="text" class="formulario__input" name="tipo_practica" id="tipo_practica" 
                                placeholder="Ej: Pasantías, Servicio Comunitario" required>
@@ -92,13 +92,12 @@
 
                 <!-- Tipo de Institución -->
                 <div class="formulario__grupo" id="grupo__tipo_institucion">
-                    <label for="tipo_institucion" class="formulario__label">Tipo de Institución <span class="obligatorio">*</span></label>
+                    <label for="tipo_institucion" class="formulario__label">Tipo Institución <span class="obligatorio">*</span></label>
                     <select id="tipo_institucion" name="tipo_institucion" class="selector formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
-                        <option value="PUBLICA">PÚBLICA</option>
+                        <!-- <option value="PUBLICA">PÚBLICA</option>
                         <option value="PRIVADA">PRIVADA</option>
-                        <option value="ONG">ONG</option>
-                        <option value="GUBERNAMENTAL">GUBERNAMENTAL</option>
+                        <option value="MIXTA">MIXTA</option> -->
                     </select>
                 </div>
 
@@ -129,7 +128,7 @@
                 <tr class="w3-light-grey">
                     <th>RIF</th>
                     <th>Nombre</th>
-                    <th>Dirección</th>
+                    <th>Dirección Fiscal</th>
                     <th>Teléfono</th>
                     <th>Tipo</th>
                     <th>Región</th>

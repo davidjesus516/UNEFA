@@ -1,5 +1,5 @@
 <?php require 'header.php';?>
-<span class="text">Periodo</span>
+<span class="text">Período</span>
 <div class="page-content">
 
 <button class="primary">Nuevo <span>+</span></button>
@@ -7,7 +7,7 @@
 <div id="modal" class="modal">
 
     <dialog id="dialog" aria-labelledby="dialog-title">
-        <h2 id="dialog-title">Registrar Periodo</h2>
+        <h2 id="dialog-title">Registrar Período</h2>
 
         <form class="formulario" id="formulario" style="grid-auto-columns: auto;">
             <input type="hidden" id="PERIOD_ID" value="">
@@ -41,7 +41,7 @@
 
 
             <div class="formulario__grupo">
-                <label class="formulario__label">INICIO <span class="obligatorio">*</span></label>
+                <label class="formulario__label">Inicio <span class="obligatorio">*</span></label>
                 <div class="formulario__grupo-input">
                     <input type="date" class="formulario__input" id="periodo_inicio" required
                         aria-describedby="inicio-error">
@@ -51,7 +51,7 @@
             </div>
 
             <div class="formulario__grupo">
-                <label class="formulario__label">FIN <span class="obligatorio">*</span></label>
+                <label class="formulario__label">Fin <span class="obligatorio">*</span></label>
                 <div class="formulario__grupo-input">
                     <input type="date" class="formulario__input" id="periodo_fin" required
                         aria-describedby="fin-error">

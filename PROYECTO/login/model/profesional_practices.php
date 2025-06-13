@@ -203,18 +203,34 @@ class ProfesionalPractices
     public function buscarPreinscripcionPorId($id) {
         $sql = "SELECT 
                     i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
-                    s.`STUDENTS_ID`,
-                    s.`STUDENTS_CI` AS CEDULA,
-                    CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
                     i.`PERIOD_ID`,
                     i.`INTERNSHIP_TYPE_ID`,
+                    i.`MATRICULA`,
+                    i.`DOCUMENTOS`,
+                    s.`STUDENTS_ID`,
+                    s.`STUDENTS_CI` AS FULL_CEDULA,
+                    CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE
                 FROM `t-professional_practices` i
                 LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
                 WHERE i.`PROFESSIONAL_PRACTICE_ID` = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result && isset($result['FULL_CEDULA'])) {
+            // Separar NACIONALIDAD y CEDULA del campo FULL_CEDULA (ej: "V-12345678")
+            $parts = explode('-', $result['FULL_CEDULA'], 2);
+            if (count($parts) == 2) {
+                $result['NACIONALIDAD'] = $parts[0];
+                $result['CEDULA'] = $parts[1]; // Solo el número de cédula
+            } else {
+                // Si no tiene el formato esperado, asignar valores por defecto o manejar el error
+                $result['NACIONALIDAD'] = ''; 
+                $result['CEDULA'] = $result['FULL_CEDULA'];
+            }
+        }
+        return $result;
     }
 
     // Cambiar estado (activar/desactivar)

@@ -2,7 +2,7 @@
 require 'header.php';
 ?>
 
-<span class="text">Tipos de Práctica Profesional</span>
+<span class="text">Tipos Práctica Profesional</span>
 <div class="page-content">
     <div class="message"></div>
     <div id="modal" class="modal">
@@ -11,7 +11,7 @@ require 'header.php';
         </button>
 
         <dialog id="dialog" aria-labelledby="dialogTitle">
-            <h2 id="dialogTitle">Registrar Tipo de Práctica</h2>
+            <h2 id="dialogTitle">Registrar Tipo Práctica</h2>
             <form action="" class="formulario" id="formulario">
                 <input type="hidden" id="id_form" name="id_form">
                 <!-- Nombre de Práctica -->
@@ -28,9 +28,10 @@ require 'header.php';
                     <label for="prioridad" class="formulario__label">Prioridad <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <select class="formulario__input" name="prioridad" id="prioridad" required>
-                            <option value="0">ORDINARIA</option>
-                            <option value="1">HOSPITALARIA</option>
-                            <option value="2">COMUNITARIA</option>
+                            <option value="" disabled selected>Seleccione una opción</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
                         </select>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
@@ -68,44 +69,48 @@ require 'header.php';
             <tbody id="datos-inactivos" style="display:none;"></tbody>
         </table>
     </div>
+    <a href="carrera.php" class="btn-link-responsables" style="margin: 1rem 0; display: inline-block;">
+        Volver a Carrera
+    </a>
 </div>
-
 <style>
-  /* Estilo para las acciones de los botones */
-  .acciones-practica {
-    display: flex;
-    gap: 0.5rem; /* Espaciado entre los botones */
-    justify-content: center; /* Centrar los botones horizontalmente */
-  }
+    /* Estilo para las acciones de los botones */
+    .acciones-practica {
+        display: flex;
+        gap: 0.5rem;
+        /* Espaciado entre los botones */
+        justify-content: center;
+        /* Centrar los botones horizontalmente */
+    }
 
-  .task-edit,
-  .task-delete,
-  .task-restore {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.3rem 0.7rem;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    /* transition: background 0.2s; */
-  }
+    .task-edit,
+    .task-delete,
+    .task-restore {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.3rem 0.7rem;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        /* transition: background 0.2s; */
+    }
 
-  .task-edit:hover {
-    background:rgb(45, 42, 133);
-  }
+    .task-edit:hover {
+        background: rgb(45, 42, 133);
+    }
 
-  .task-delete:hover {
-    background:rgb(121, 11, 50);
-  }
+    .task-delete:hover {
+        background: rgb(121, 11, 50);
+    }
 
-  .task-restore:hover {
-    background:rgb(72, 173, 72);
-  }
+    .task-restore:hover {
+        background: rgb(72, 173, 72);
+    }
 
-  .icon i {
-    margin-left: 0.2rem;
-  }
+    .icon i {
+        margin-left: 0.2rem;
+    }
 </style>
 
 <script src="js/jquery-3.7.0.min.js"></script>
