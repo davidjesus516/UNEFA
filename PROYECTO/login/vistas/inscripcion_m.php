@@ -113,7 +113,7 @@
                     <p class="formulario__input-error">Validación</p>
                 </div>
 
-                
+
                 <div class="formulario__mensaje" id="formulario__mensaje">
                     <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente.</p>
                 </div>
@@ -155,6 +155,21 @@
 
 <script src="js/jquery-3.7.0.min.js"></script>
 <script>
+    // Validación: tutor metodológico y académico no pueden ser iguales
+    function validarTutoresDistintos() {
+        const tutorAcademico = document.getElementById("tutor_academico");
+        const tutorMetodologico = document.getElementById("tutor_metodologico");
+        if (tutorAcademico && tutorMetodologico) {
+            if (tutorAcademico.value && tutorMetodologico.value && tutorAcademico.value === tutorMetodologico.value) {
+                alert("El tutor metodológico no puede ser igual al tutor académico.");
+                tutorMetodologico.value = '';
+                tutorMetodologico.focus();
+                return false;
+            }
+        }
+        return true;
+    }
+
     function listarInscripciones(tipo) {
         const endpoint = tipo === 'activos' ? 'listar_activos' : 'listar_inactivos';
         const tablaId = tipo === 'activos' ? 'datos-activos' : 'datos-inactivos';
@@ -205,6 +220,14 @@
         const expresiones = {
             cedula: /^\d{7,8}$/ // Cédula debe tener entre 7 y 8 dígitos
         };
+        // Asigna la validación cada vez que se cambia alguno de los dos selects
+        const tutorAcademico = document.getElementById("tutor_academico");
+        const tutorMetodologico = document.getElementById("tutor_metodologico");
+        if (tutorAcademico && tutorMetodologico) {
+            tutorAcademico.addEventListener('change', validarTutoresDistintos);
+            tutorMetodologico.addEventListener('change', validarTutoresDistintos);
+        }
+
         function isCorrect(id) {
             const grupo = document.getElementById(id);
             if (!grupo) return;
@@ -245,6 +268,7 @@
                 return false;
             }
         }
+
         function cargarResponsables() {
             const idInstitucion = document.getElementById("institucion").value;
             if (!idInstitucion) {
@@ -295,113 +319,118 @@
             if (this.value.length >= 7 && this.value.length <= 8) {
                 this.setCustomValidity(""); // Resetea el mensaje de error
                 fetch(`../controllers/profesional_practices/profesional_practices.php?accion=buscar_por_cedula&cedula=${nacionalidad}-${cedulaInput.value}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data) {
-                        document.getElementById("id_estudiante").value = data.STUDENTS_ID;
-                        document.getElementById("Estudiante").value = data.NOMBRE_COMPLETO;
-                        isCorrect("grupo__cedula");
-                        document.getElementById("tipo_practica").innerHTML = ''; // Limpiar opciones previas
-                        if (data['combos'] && Array.isArray(data['combos'].internship_types)) {
-                            const defaultOption = document.createElement("option");
-                            defaultOption.value = '';   
-                            defaultOption.textContent = 'Seleccione un tipo de práctica';
-                            defaultOption.disabled = true;
-                            defaultOption.selected = true;
-                            document.getElementById("tipo_practica").appendChild(defaultOption);
-                            data['combos'].internship_types.forEach(tipo => {
-                                const option = document.createElement("option");
-                                option.value = tipo.INTERNSHIP_TYPE_ID;
-                                option.textContent = tipo.NAME;
-                                document.getElementById("tipo_practica").appendChild(option);
-                            });
-                            isCorrect("grupo__tipo_practica");
-                        } else {
-                            isIncorrect("grupo__tipo_practica", "No se encontraron tipos de práctica para esta carrera.");
-                        }
-                        document.getElementById("tutor_academico").innerHTML = ''; // Limpiar opciones previas
-                        if (data['combos'] && Array.isArray(data['combos'].tutores)) {
-                            const defaultOption = document.createElement("option");
-                            defaultOption.value = '';   
-                            defaultOption.textContent = 'Seleccione un tutor académico';
-                            defaultOption.disabled = true;
-                            defaultOption.selected = true;
-                            document.getElementById("tutor_academico").appendChild(defaultOption);
-                            // Llenar el select de tutores académicos
-                            data['combos'].tutores.forEach(tutor => {
-                                const option = document.createElement("option");
-                                option.value = tutor.TUTOR_ID;
-                                option.textContent = `${tutor.NAME} ${tutor.SURNAME}`;
-                                document.getElementById("tutor_academico").appendChild(option);
-                            });
-                            if (document.getElementById("tutor_academico").value === document.getElementById("tutor_metodologico").value) {
-                                isIncorrect("grupo__tutor_academico", "El tutor académico no puede ser el mismo que el metodológico.");
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data) {
+                            document.getElementById("id_estudiante").value = data.STUDENTS_ID;
+                            document.getElementById("Estudiante").value = data.NOMBRE_COMPLETO;
+                            isCorrect("grupo__cedula");
+                            document.getElementById("tipo_practica").innerHTML = ''; // Limpiar opciones previas
+                            if (data['combos'] && Array.isArray(data['combos'].internship_types)) {
+                                const defaultOption = document.createElement("option");
+                                defaultOption.value = '';
+                                defaultOption.textContent = 'Seleccione un tipo de práctica';
+                                defaultOption.disabled = true;
+                                defaultOption.selected = true;
+                                document.getElementById("tipo_practica").appendChild(defaultOption);
+                                data['combos'].internship_types.forEach(tipo => {
+                                    const option = document.createElement("option");
+                                    option.value = tipo.INTERNSHIP_TYPE_ID;
+                                    option.textContent = tipo.NAME;
+                                    document.getElementById("tipo_practica").appendChild(option);
+                                });
+                                isCorrect("grupo__tipo_practica");
                             } else {
-                                isCorrect("grupo__tutor_academico");
+                                isIncorrect("grupo__tipo_practica", "No se encontraron tipos de práctica para esta carrera.");
                             }
-                        } else {
-                            isIncorrect("grupo__tutor_academico", "No se encontraron tutores académicos.");
-                        }
-                        document.getElementById("tutor_metodologico").innerHTML = ''; // Limpiar opciones previas
-                        if (data['combos'] && Array.isArray(data['combos'].tutores)) {
-                            const defaultOption = document.createElement("option");
-                            defaultOption.value = '';   
-                            defaultOption.textContent = 'Seleccione un tutor metodológico';
-                            defaultOption.disabled = true;
-                            defaultOption.selected = true;
-                            document.getElementById("tutor_metodologico").appendChild(defaultOption);
-                            // Llenar el select de tutores metodológicos
-                            data['combos'].tutores.forEach(tutor => {
-                                const option = document.createElement("option");
-                                option.value = tutor.TUTOR_ID;
-                                option.textContent = `${tutor.NAME} ${tutor.SURNAME}`;
-                                document.getElementById("tutor_metodologico").appendChild(option);
-                            });
-                            if (document.getElementById("tutor_academico").value === document.getElementById("tutor_metodologico").value) {
-                                isIncorrect("grupo__tutor_academico", "El tutor académico no puede ser el mismo que el metodológico.");
+                            document.getElementById("tutor_academico").innerHTML = ''; // Limpiar opciones previas
+                            if (data['combos'] && Array.isArray(data['combos'].tutores)) {
+                                const defaultOption = document.createElement("option");
+                                defaultOption.value = '';
+                                defaultOption.textContent = 'Seleccione un tutor académico';
+                                defaultOption.disabled = true;
+                                defaultOption.selected = true;
+                                document.getElementById("tutor_academico").appendChild(defaultOption);
+                                // Llenar el select de tutores académicos
+                                data['combos'].tutores.forEach(tutor => {
+                                    const option = document.createElement("option");
+                                    option.value = tutor.TUTOR_ID;
+                                    option.textContent = `${tutor.NAME} ${tutor.SURNAME}`;
+                                    document.getElementById("tutor_academico").appendChild(option);
+                                });
+                                if (document.getElementById("tutor_academico").value === document.getElementById("tutor_metodologico").value) {
+                                    isIncorrect("grupo__tutor_academico", "El tutor académico no puede ser el mismo que el metodológico.");
+                                } else {
+                                    isCorrect("grupo__tutor_academico");
+                                }
                             } else {
-                                isCorrect("grupo__tutor_academico");
+                                isIncorrect("grupo__tutor_academico", "No se encontraron tutores académicos.");
                             }
-                        } else {
-                            isIncorrect("grupo__tutor_metodologico", "No se encontraron tutores metodológicos.");
-                        }
-                        institucion = document.getElementById("institucion");
-                        institucion.innerHTML = ''; // Limpiar opciones previas
-                        if (data['combos'] && Array.isArray(data['combos'].instituciones)) {
-                            const defaultOption = document.createElement("option");
-                            defaultOption.value = '';   
-                            defaultOption.textContent = 'Seleccione una institución';
-                            defaultOption.disabled = true;
-                            defaultOption.selected = true;
-                            institucion.appendChild(defaultOption);
-                            data['combos'].instituciones.forEach(institucion => {
-                                const option = document.createElement("option");
-                                option.value = institucion.INSTITUTION_ID;
-                                option.textContent = institucion.INSTITUTION_NAME;
-                                document.getElementById("institucion").appendChild(option);
+                            document.getElementById("tutor_metodologico").innerHTML = ''; // Limpiar opciones previas
+                            if (data['combos'] && Array.isArray(data['combos'].tutores)) {
+                                const defaultOption = document.createElement("option");
+                                defaultOption.value = '';
+                                defaultOption.textContent = 'Seleccione un tutor metodológico';
+                                defaultOption.disabled = true;
+                                defaultOption.selected = true;
+                                document.getElementById("tutor_metodologico").appendChild(defaultOption);
+                                // Llenar el select de tutores metodológicos
+                                data['combos'].tutores.forEach(tutor => {
+                                    const option = document.createElement("option");
+                                    option.value = tutor.TUTOR_ID;
+                                    option.textContent = `${tutor.NAME} ${tutor.SURNAME}`;
+                                    document.getElementById("tutor_metodologico").appendChild(option);
+                                });
+                                if (document.getElementById("tutor_academico").value === document.getElementById("tutor_metodologico").value) {
+                                    isIncorrect("grupo__tutor_academico", "El tutor académico no puede ser el mismo que el metodológico.");
+                                } else {
+                                    isCorrect("grupo__tutor_academico");
+                                }
+                            } else {
+                                isIncorrect("grupo__tutor_metodologico", "No se encontraron tutores metodológicos.");
+                            }
+                            institucion = document.getElementById("institucion");
+                            institucion.innerHTML = ''; // Limpiar opciones previas
+                            if (data['combos'] && Array.isArray(data['combos'].instituciones)) {
+                                const defaultOption = document.createElement("option");
+                                defaultOption.value = '';
+                                defaultOption.textContent = 'Seleccione una institución';
+                                defaultOption.disabled = true;
+                                defaultOption.selected = true;
+                                institucion.appendChild(defaultOption);
+                                data['combos'].instituciones.forEach(institucion => {
+                                    const option = document.createElement("option");
+                                    option.value = institucion.INSTITUTION_ID;
+                                    option.textContent = institucion.INSTITUTION_NAME;
+                                    document.getElementById("institucion").appendChild(option);
+                                });
+                            } else {
+                                isIncorrect("grupo__institucion", "No se encontraron instituciones.");
+                            }
+                            document.getElementById("institucion").addEventListener('change', function() {
+                                cargarResponsables();
                             });
+                            // Aquí podrías llenar otros campos si es necesario
                         } else {
-                            isIncorrect("grupo__institucion", "No se encontraron instituciones.");
+                            document.getElementById("id_estudiante").value = '';
+                            document.getElementById("Estudiante").value = 'estudiante no encontrado';
+                            isIncorrect("grupo__cedula", "Estudiante no encontrado");
                         }
-                        document.getElementById("institucion").addEventListener('change', function() {
-                            cargarResponsables();
-                        });
-                        // Aquí podrías llenar otros campos si es necesario
-                    } else {
-                        document.getElementById("id_estudiante").value = '';
-                        document.getElementById("Estudiante").value = 'estudiante no encontrado';
-                        isIncorrect("grupo__cedula", "Estudiante no encontrado");
-                    }
-                });
+                    });
             } else {
                 this.setCustomValidity("Formato inválido. Debe tener entre 7 y 8 dígitos.");
             }
-            
+
         });
         // Aquí deberías cargar los select con AJAX si es necesario
 
         // Registrar o actualizar inscripción
         formulario.addEventListener("submit", function(e) {
+            // Validar tutores antes de enviar
+            if (!validarTutoresDistintos()) {
+                e.preventDefault();
+                return;
+            }
             e.preventDefault();
             const formData = new FormData(formulario);
             const id = formData.get("id_form");

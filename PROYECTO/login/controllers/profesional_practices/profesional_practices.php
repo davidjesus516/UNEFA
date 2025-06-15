@@ -161,9 +161,7 @@ class ProfesionalPracticesController
         $datos = [
             'estudiante_id' => $this->obtenerValor('id_estudiante', true),
             'periodo' => $this->obtenerValor('periodo', true),
-            'tipo_practica' => $this->obtenerValor('tipo_practica', true),
-            'matricula' => $this->obtenerValor('matricula', true),
-            'documentos' => $this->obtenerValor('documentos', true)
+            'tipo_practica' => $this->obtenerValor('tipo_practica', true)
         ];
         $resultado = $this->modelo->insertarPreinscripcion($datos);
         if ($resultado) {
@@ -179,9 +177,7 @@ class ProfesionalPracticesController
         $datos = [
             'estudiante_id' => $this->obtenerValor('id_estudiante', true),
             'periodo' => $this->obtenerValor('periodo', true),
-            'tipo_practica' => $this->obtenerValor('tipo_practica', true),
-            'matricula' => $this->obtenerValor('matricula', true),
-            'documentos' => $this->obtenerValor('documentos', true)
+            'tipo_practica' => $this->obtenerValor('tipo_practica', true)
         ];
         $resultado = $this->modelo->actualizarPreinscripcion($id, $datos);
         if ($resultado) {
@@ -195,6 +191,7 @@ class ProfesionalPracticesController
     {
         $id = $this->obtenerValor('id', true);
         $data = $this->modelo->buscarPreinscripcionPorId($id);
+        $data['combos'] = $this->modelo->profesionalPracticesCombos($data['CAREER_ID']);
         if ($data) {
             $this->responder($data);
         } else {

@@ -10,6 +10,7 @@ require 'header.php';
             <h2>Preinscripción.</h2>
             <form action="#" class="formulario" id="formulario">
                 <input type="hidden" id="id_form" name="id_form">
+                <input type="hidden" id="id_estudiante" name="id_estudiante">
 
                 <!-- Grupo: Cédula -->
                 <div class="formulario__grupo" id="grupo__cedula">
@@ -36,57 +37,57 @@ require 'header.php';
                             required>
                     </div>
 
-                <!-- Estudiante -->
-                <div class="formulario__grupo" id="grupo__estudiante_nombre">
-                    <label for="Estudiante" class="formulario__label">Estudiante<span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="nombre_estudiante_display" id="Estudiante" placeholder="Estudiante" readonly>
-                        <input type="hidden" class="formulario__input" name='id_estudiante' id="id_estudiante" disabled>
-                        <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
+                    <!-- Estudiante -->
+                    <div class="formulario__grupo" id="grupo__estudiante_nombre">
+                        <label for="Estudiante" class="formulario__label">Estudiante<span class="obligatorio">*</span></label>
+                        <div class="formulario__grupo-input">
+                            <input type="text" class="formulario__input" name="nombre_estudiante_display" id="Estudiante" placeholder="Estudiante" readonly>
+                            <input type="hidden" class="formulario__input" name='id_estudiante' id="id_estudiante" disabled>
+                            <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
+                        </div>
+                        <p class="formulario__input-error">Validación</p>
                     </div>
-                    <p class="formulario__input-error">Validación</p>
-                </div>
 
-                <!-- Periodo -->
-                <div class="formulario__grupo">
-                    <label for="periodo" class="formulario__label">Período <span class="obligatorio">*</span></label>
-                    <select id="periodo" name="periodo" class="formulario__input" required>
-                        <option value="" disabled selected>Seleccione una opción</option>
-                    </select>
-                </div>
-                <div class="formulario__mensaje" id="formulario__mensaje">
-                    <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellene el formulario correctamente.</p>
-                </div>
-
-                <!-- Tipo de Practica -->
-                <div class="formulario__grupo" id="grupo__tipo_practica">
-                    <label for="telefono_Empresa" class="formulario__label">Tipo Práctica<span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <select class="formulario__input" name="tipo_practica" id="tipo_practica">
+                    <!-- Periodo -->
+                    <div class="formulario__grupo">
+                        <label for="periodo" class="formulario__label">Período <span class="obligatorio">*</span></label>
+                        <select id="periodo" name="periodo" class="formulario__input" required>
                             <option value="" disabled selected>Seleccione una opción</option>
-                            <option value="Hospitalaria">HOSPITALARIA</option>
-                            <option value="Comunitaria">COMUNITARIA</option>
-                            <option value="Ordinaria">ORDINARIA</option>                            
                         </select>
-                        <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
                     </div>
-                    <p class="formulario__input-error">Validación</p>
-                </div>
-                <!-- <div class="formulario_grupo grupo__checkbox" id="grupo__checkbox">
+                    <div class="formulario__mensaje" id="formulario__mensaje">
+                        <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellene el formulario correctamente.</p>
+                    </div>
+
+                    <!-- Tipo de Practica -->
+                    <div class="formulario__grupo" id="grupo__tipo_practica">
+                        <label for="telefono_Empresa" class="formulario__label">Tipo Práctica<span class="obligatorio">*</span></label>
+                        <div class="formulario__grupo-input">
+                            <select class="formulario__input" name="tipo_practica" id="tipo_practica">
+                                <option value="" disabled selected>Seleccione una opción</option>
+                                <option value="Hospitalaria">HOSPITALARIA</option>
+                                <option value="Comunitaria">COMUNITARIA</option>
+                                <option value="Ordinaria">ORDINARIA</option>
+                            </select>
+                            <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
+                        </div>
+                        <p class="formulario__input-error">Validación</p>
+                    </div>
+                    <!-- <div class="formulario_grupo grupo__checkbox" id="grupo__checkbox">
 
                 </div> -->
-                <!-- Matricula -->
-                <div class="formulario__grupo" id="grupo__matricula">
-                    <label for="matricula" class="formulario__label">Matrícula <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="matricula" id="matricula" placeholder="Ingrese Matrícula" readonly>
-                        <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
+                    <!-- Matricula -->
+                    <div class="formulario__grupo" id="grupo__matricula">
+                        <label for="matricula" class="formulario__label">Matrícula <span class="obligatorio">*</span></label>
+                        <div class="formulario__grupo-input">
+                            <input type="text" class="formulario__input" name="matricula" id="matricula" placeholder="Ingrese Matrícula" readonly>
+                            <!-- <i class="formulario__validacion-estado fas fa-times-circle"></i> -->
+                        </div>
+                        <p class="formulario__input-error">Validación</p>
                     </div>
-                    <p class="formulario__input-error">Validación</p>
-                </div>
 
-                <!-- Documentos -->
-                <!-- <div class="formulario__grupo" id="grupo__documentos">
+                    <!-- Documentos -->
+                    <!-- <div class="formulario__grupo" id="grupo__documentos">
                     <label class="formulario__label">Documentos <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <input type="radio" name="documentos" id="entregado" value="entregado" required>
@@ -97,13 +98,13 @@ require 'header.php';
                     </div>
                 </div> -->
 
-                <div class="formulario__mensaje" id="formulario__mensaje">
-                    <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellene el formulario correctamente.</p>
-                </div>
-                <div class="formulario__grupo formulario__grupo-btn-enviar">
-                    <button type="submit" class="formulario__btn">Guardar</button>
-                    <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Formulario enviado exitosamente!</p>
-                </div>
+                    <div class="formulario__mensaje" id="formulario__mensaje">
+                        <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellene el formulario correctamente.</p>
+                    </div>
+                    <div class="formulario__grupo formulario__grupo-btn-enviar">
+                        <button type="submit" class="formulario__btn">Guardar</button>
+                        <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Formulario enviado exitosamente!</p>
+                    </div>
             </form>
             <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
         </dialog>
@@ -120,11 +121,11 @@ require 'header.php';
         <table class="w3-table-all w3-hoverable" aria-label="Listado de Pre Inscripciones">
             <thead>
                 <tr class="w3-light-grey">
-                <th>Cédula</th>
-                <th>Nombre</th>
-                <th>Sexo</th>
-                <th>Contacto</th>
-                <th>Carrera</th>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Sexo</th>
+                    <th>Contacto</th>
+                    <th>Carrera</th>
                     <th colspan="2">Acciones</th>
                 </tr>
             </thead>
@@ -135,6 +136,7 @@ require 'header.php';
 </div>
 <script>
     cargarPeriodos();
+
     function cargarPeriodos() {
         fetch('../controllers/profesional_practices/profesional_practices.php?accion=listar_periodos')
             .then(res => res.json())
@@ -164,40 +166,6 @@ require 'header.php';
                 select.appendChild(option);
             });
     }
-    function cargarTipoPractica() {
-        const carreraId = document.getElementById("carrera").value;
-        if (!carreraId) {
-            isIncorrect("grupo__tipo_practica", "Seleccione una carrera primero.");
-            return;
-        }
-        fetch(`../controllers/profesional_practices/profesional_practices.php?accion=cargar_tipo_practica&carrera_id=${carreraId}`)
-            .then(res => res.json())
-            .then(data => {
-                const select = document.getElementById("tipo_practica");
-                select.innerHTML = ''; // Limpiar opciones previas
-                if (Array.isArray(data)) {
-                    data.forEach(tipo => {
-                        const option = document.createElement("option");
-                        option.value = tipo.INTERNSHIP_TYPE_ID;
-                        option.textContent = tipo.NAME;
-                        select.appendChild(option);
-                    });
-                } else {
-                    const option = document.createElement("option");
-                    option.value = '';
-                    option.textContent = 'No hay tipos de práctica disponibles';
-                    select.appendChild(option);
-                }
-            })
-            .catch(() => {
-                const select = document.getElementById("tipo_practica");
-                select.innerHTML = '';
-                const option = document.createElement("option");
-                option.value = '';
-                option.textContent = 'Error al cargar tipos de práctica';
-                select.appendChild(option);
-            });
-    }
     // Nueva función: listarPreinscripciones
     function listarPreinscripciones(tipo) {
         const endpoint = tipo === 'activos' ? 'listar_preinscripciones_activos' : 'listar_preinscripciones_inactivos';
@@ -219,15 +187,16 @@ require 'header.php';
                 tbody.innerHTML = '';
                 if (Array.isArray(data)) {
                     data.forEach(row => {
-                        let acciones = `<button onclick="editarInscripcion(${row.INSCRIPCION_ID})">✏️</button>`;
+                        let acciones = ``;
                         if (tipo === 'activos') {
-                            acciones += `<button onclick="eliminarInscripcion(${row.INSCRIPCION_ID})">🗑️</button>`;
+                            acciones += `<button onclick="editarInscripcion(${row.INSCRIPCION_ID})">✏️</button>
+                            <button onclick="eliminarInscripcion(${row.INSCRIPCION_ID})">🗑️</button>`;
                         } else {
                             acciones += `<button onclick="activarInscripcion(${row.INSCRIPCION_ID})">♻️</button>`;
                         }
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-                            <td>${row.STUDENTS_ID || ''}</td>
+                            <td>${row.STUDENTS_CI || ''}</td>
                             <td>${row.ESTUDIANTE || ''}</td>
                             <td>${row.SEXO || row.GENDER || ''}</td>
                             <td>${row.CONTACTO || row.CONTACT_PHONE || row.PHONE || ''}</td>
@@ -249,6 +218,8 @@ require 'header.php';
 
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelector('.primary').addEventListener('click', function() {
+            document.getElementById('cedula').disabled = false; // Habilitar campo de cédula
+            document.getElementById('nacionalidad').disabled = false; // Habilitar nacionalidad
             document.getElementById('dialog').showModal();
             document.getElementById('formulario').reset();
             document.getElementById('id_form').value = ''; // Resetear ID del formulario
@@ -258,6 +229,7 @@ require 'header.php';
         const expresiones = {
             cedula: /^\d{7,8}$/ // Cédula debe tener entre 7 y 8 dígitos
         };
+
         function isCorrect(id) {
             const grupo = document.getElementById(id);
             if (!grupo) return;
@@ -298,7 +270,7 @@ require 'header.php';
                 return false;
             }
         }
-        
+
         document.getElementById('cedula').addEventListener('input', function() {
             // Validar cédula
             const cedulaInput = this;
@@ -308,41 +280,41 @@ require 'header.php';
             if (this.value.length >= 7 && this.value.length <= 8) {
                 this.setCustomValidity(""); // Resetea el mensaje de error
                 fetch(`../controllers/profesional_practices/profesional_practices.php?accion=buscar_por_cedula&cedula=${nacionalidad}-${cedulaInput.value}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data) {
-                        document.getElementById("id_estudiante").value = data.STUDENTS_ID;
-                        document.getElementById("Estudiante").value = data.NOMBRE_COMPLETO;
-                        isCorrect("grupo__cedula");
-                        document.getElementById("tipo_practica").innerHTML = ''; // Limpiar opciones previas
-                        if (data['combos'] && Array.isArray(data['combos'].internship_types)) {
-                            const defaultOption = document.createElement("option");
-                            defaultOption.value = '';   
-                            defaultOption.textContent = 'Seleccione un tipo de práctica';
-                            defaultOption.disabled = true;
-                            defaultOption.selected = true;
-                            document.getElementById("tipo_practica").appendChild(defaultOption);
-                            data['combos'].internship_types.forEach(tipo => {
-                                const option = document.createElement("option");
-                                option.value = tipo.INTERNSHIP_TYPE_ID;
-                                option.textContent = tipo.NAME;
-                                document.getElementById("tipo_practica").appendChild(option);
-                            });
-                            isCorrect("grupo__tipo_practica");
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data) {
+                            document.getElementById("id_estudiante").value = data.STUDENTS_ID;
+                            document.getElementById("Estudiante").value = data.NOMBRE_COMPLETO;
+                            isCorrect("grupo__cedula");
+                            document.getElementById("tipo_practica").innerHTML = ''; // Limpiar opciones previas
+                            if (data['combos'] && Array.isArray(data['combos'].internship_types)) {
+                                const defaultOption = document.createElement("option");
+                                defaultOption.value = '';
+                                defaultOption.textContent = 'Seleccione un tipo de práctica';
+                                defaultOption.disabled = true;
+                                defaultOption.selected = true;
+                                document.getElementById("tipo_practica").appendChild(defaultOption);
+                                data['combos'].internship_types.forEach(tipo => {
+                                    const option = document.createElement("option");
+                                    option.value = tipo.INTERNSHIP_TYPE_ID;
+                                    option.textContent = tipo.NAME;
+                                    document.getElementById("tipo_practica").appendChild(option);
+                                });
+                                isCorrect("grupo__tipo_practica");
+                            } else {
+                                isIncorrect("grupo__tipo_practica", "No se encontraron tipos de práctica para esta carrera.");
+                            }
+
                         } else {
-                            isIncorrect("grupo__tipo_practica", "No se encontraron tipos de práctica para esta carrera.");
+                            document.getElementById("id_form").value = '';
+                            document.getElementById("Estudiante").value = 'estudiante no encontrado';
+                            isIncorrect("grupo__cedula", "Estudiante no encontrado");
                         }
-                        
-                    } else {
-                        document.getElementById("id_form").value = '';
-                        document.getElementById("Estudiante").value = 'estudiante no encontrado';
-                        isIncorrect("grupo__cedula", "Estudiante no encontrado");
-                    }
-                });
+                    });
             } else {
                 this.setCustomValidity("Formato inválido. Debe tener entre 7 y 8 dígitos.");
             }
-            
+
         });
 
         // Registrar o actualizar inscripción
@@ -377,21 +349,30 @@ require 'header.php';
                 .then(res => res.json())
                 .then(data => {
                     if (data) {
+                        tipo_practica.innerHTML = ''; // Limpiar opciones previas
+                        if (data['combos'] && Array.isArray(data['combos'].internship_types)) {
+                            data['combos'].internship_types.forEach(tipo => {
+                                const option = document.createElement("option");
+                                option.value = tipo.INTERNSHIP_TYPE_ID;
+                                option.textContent = tipo.NAME;
+                                tipo_practica.appendChild(option);
+                            });
+                        } else {
+                            const option = document.createElement("option");
+                            option.value = '';
+                            option.textContent = 'No hay tipos de práctica disponibles';
+                            tipo_practica.appendChild(option);
+                        }
+                        dialog.showModal();
                         document.getElementById("id_form").value = data.INSCRIPCION_ID || '';
                         document.getElementById("cedula").value = data.CEDULA || '';
+                        document.getElementById("cedula").disabled = true; // Deshabilitar campo de cédula
                         document.getElementById("nacionalidad").value = data.NACIONALIDAD || '';
                         document.getElementById("Estudiante").value = data.ESTUDIANTE || '';
                         document.getElementById("id_estudiante").value = data.STUDENTS_ID || '';
-                        document.getElementById("matricula").value = data.MATRICULA || '';
-                        document.getElementById("periodo").value = data.PERIOD_ID || '';
-                        document.getElementById("tipo_practica").value = data.INTERNSHIP_TYPE_ID || '';
-                        // Documentos
-                        if (data.DOCUMENTOS === "entregado") {
-                            document.getElementById("entregado").checked = true;
-                        } else if (data.DOCUMENTOS === "no-entregado") {
-                            document.getElementById("no-entregado").checked = true;
-                        }
-                        dialog.showModal();
+                        document.getElementById("periodo").value(data.PERIOD_ID || '').selected = true;
+                        document.getElementById("tipo_practica").val(data.INTERNSHIP_TYPE_ID || '').selected = true;
+                        
                     }
                 });
         };

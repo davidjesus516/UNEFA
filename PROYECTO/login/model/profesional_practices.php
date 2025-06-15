@@ -134,6 +134,7 @@ class ProfesionalPractices
         $consulta = "SELECT 
                 i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
                 s.`STUDENTS_ID`,
+                `STUDENTS_CI`,
                 CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
                 s.`GENDER` AS SEXO,
                 s.`CONTACT_PHONE` AS CONTACTO,
@@ -141,7 +142,7 @@ class ProfesionalPractices
             FROM `t-professional_practices` i
             LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
             LEFT JOIN `t-career` c ON s.`CAREER_ID` = c.`CAREER_ID`
-            WHERE i.`STATUS` = 1 AND I.`INTERSHIP_STATUS` = 1";
+            WHERE i.`STATUS` = 1 AND I.`PRACTICES_STATUS` = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -158,7 +159,7 @@ class ProfesionalPractices
             FROM `t-professional_practices` i
             LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
             LEFT JOIN `t-career` c ON s.`CAREER_ID` = c.`CAREER_ID`
-            WHERE i.`STATUS` = 0 AND I.`INTERSHIP_STATUS` = 0";
+            WHERE i.`STATUS` = 0 AND I.`PRACTICES_STATUS` = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -167,16 +168,13 @@ class ProfesionalPractices
     // Insertar preinscripción
     public function insertarPreinscripcion($datos) {
         $sql = "INSERT INTO `t-professional_practices` 
-            (`STUDENTS_ID`, `PERIOD_ID`, `INTERNSHIP_TYPE_ID`, `MATRICULA`, `DOCUMENTOS`, `STATUS`, `INTERSHIP_STATUS`)
-            VALUES (:estudiante_id, :periodo, :tipo_practica, :matricula, :documentos, 1, 1)";
+            (`STUDENTS_ID`, `PERIOD_ID`, `INTERNSHIP_TYPE_ID`, `STATUS`, `INTERSHIP_STATUS`, `PRACTICES_STATUS`)
+            VALUES (:estudiante_id, :periodo, :tipo_practica ,1, 1, 1)";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([
-            ':estudiante_id' => $datos['estudiante_id'],
-            ':periodo' => $datos['periodo'],
-            ':tipo_practica' => $datos['tipo_practica'],
-            ':matricula' => $datos['matricula'],
-            ':documentos' => $datos['documentos']
-        ]);
+        $stmt->bindValue(':estudiante_id', $datos['estudiante_id']);
+        $stmt->bindValue(':periodo', $datos['periodo']);
+        $stmt->bindValue(':tipo_practica', $datos['tipo_practica']);
+        return $stmt->execute();
     }
 
     // Actualizar preinscripción
@@ -184,19 +182,14 @@ class ProfesionalPractices
         $sql = "UPDATE `t-professional_practices` SET 
             `STUDENTS_ID` = :estudiante_id,
             `PERIOD_ID` = :periodo,
-            `INTERNSHIP_TYPE_ID` = :tipo_practica,
-            `MATRICULA` = :matricula,
-            `DOCUMENTOS` = :documentos
+            `INTERNSHIP_TYPE_ID` = :tipo_practica
             WHERE `PROFESSIONAL_PRACTICE_ID` = :id";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([
-            ':estudiante_id' => $datos['estudiante_id'],
-            ':periodo' => $datos['periodo'],
-            ':tipo_practica' => $datos['tipo_practica'],
-            ':matricula' => $datos['matricula'],
-            ':documentos' => $datos['documentos'],
-            ':id' => $id
-        ]);
+        $stmt->bindValue(':id', $id);
+        $stmt->bindValue(':estudiante_id', $datos['estudiante_id']);
+        $stmt->bindValue(':periodo', $datos['periodo']);
+        $stmt->bindValue(':tipo_practica', $datos['tipo_practica']);
+        return $stmt->execute();
     }
 
     // Buscar preinscripción por ID
@@ -205,11 +198,10 @@ class ProfesionalPractices
                     i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
                     i.`PERIOD_ID`,
                     i.`INTERNSHIP_TYPE_ID`,
-                    i.`MATRICULA`,
-                    i.`DOCUMENTOS`,
                     s.`STUDENTS_ID`,
                     s.`STUDENTS_CI` AS FULL_CEDULA,
-                    CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE
+                    CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
+                    s.`CAREER_ID`
                 FROM `t-professional_practices` i
                 LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
                 WHERE i.`PROFESSIONAL_PRACTICE_ID` = :id";
@@ -235,7 +227,7 @@ class ProfesionalPractices
 
     // Cambiar estado (activar/desactivar)
     public function cambiarEstadoPreinscripcion($id, $estado) {
-        $sql = "UPDATE `t-professional_practices` SET `STATUS` = :estado, `INTERSHIP_STATUS` = :estado WHERE `PROFESSIONAL_PRACTICE_ID` = :id";
+        $sql = "UPDATE `t-professional_practices` SET `STATUS` = :estado WHERE `PROFESSIONAL_PRACTICE_ID` = :id";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([
             ':estado' => $estado,
