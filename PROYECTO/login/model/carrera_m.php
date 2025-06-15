@@ -41,13 +41,14 @@ class Carrera
             $this->pdo->beginTransaction();
 
             $consulta = "INSERT INTO `t-career`
-                (CAREER_NAME, CAREER_CODE, MINIMUM_GRADE, CREATION_DATE, MODIF_USER_ID, MODIF_USER_DATE, ELIM_USER_ID, ELIM_USER_DATE, REST_USER_ID, REST_USER_DATE, STATUS)
-                VALUES (:nombre, :codigo, :minimo, NOW(), :usuario, NOW(), :usuario, NOW(), :usuario, NOW(), 1)";
+                (CAREER_NAME, CAREER_CODE, MINIMUM_GRADE, CAREER_ABBREVIATION, CREATION_DATE, MODIF_USER_ID, MODIF_USER_DATE, ELIM_USER_ID, ELIM_USER_DATE, REST_USER_ID, REST_USER_DATE, STATUS)
+                VALUES (:nombre, :codigo, :minimo, :abreviatura, NOW(), :usuario, NOW(), :usuario, NOW(), :usuario, NOW(), 1)";
             $stmt = $this->pdo->prepare($consulta);
             $stmt->bindValue(':nombre', $datos['nombre']);
             $stmt->bindValue(':codigo', $datos['codigo']);
             $stmt->bindValue(':minimo', $datos['minimo']);
             $stmt->bindValue(':usuario', $datos['usuario']);
+            $stmt->bindValue(':abreviatura', $datos['abreviatura']);
             $stmt->execute();
 
             $career_id = $this->pdo->lastInsertId();
@@ -79,7 +80,7 @@ class Carrera
      * Listar carreras activas
      */
     public function listarActivas() {
-        $consulta = "SELECT * FROM `t-career` WHERE STATUS = 1";
+        $consulta = "SELECT CAREER_ID, CAREER_NAME, CAREER_CODE, MINIMUM_GRADE, CAREER_ABBREVIATION FROM `t-career` WHERE STATUS = 1";
         $stmt = $this->pdo->prepare($consulta);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -89,7 +90,7 @@ class Carrera
      * Listar carreras inactivas
      */
     public function listarInactivas() {
-        $consulta = "SELECT * FROM `t-career` WHERE STATUS = 0";
+        $consulta = "SELECT CAREER_ID, CAREER_NAME, CAREER_CODE, MINIMUM_GRADE, CAREER_ABBREVIATION FROM `t-career` WHERE STATUS = 0";
         $stmt = $this->pdo->prepare($consulta);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -121,7 +122,7 @@ class Carrera
      * Buscar carrera por ID (para edición)
      */
     public function buscarPorId($id) {
-        $consulta = "SELECT * FROM `t-career` WHERE CAREER_ID = :id";
+        $consulta = "SELECT CAREER_ID, CAREER_NAME, CAREER_CODE, MINIMUM_GRADE, CAREER_ABBREVIATION FROM `t-career` WHERE CAREER_ID = :id";
         $stmt = $this->pdo->prepare($consulta);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
@@ -151,7 +152,7 @@ class Carrera
             $this->pdo->beginTransaction();
 
             $consulta = "UPDATE `t-career`
-                SET CAREER_NAME = :nombre, CAREER_CODE = :codigo, MINIMUM_GRADE = :minimo,
+                SET CAREER_NAME = :nombre, CAREER_CODE = :codigo, MINIMUM_GRADE = :minimo, CAREER_ABBREVIATION = :abreviatura,
                     MODIF_USER_ID = :usuario, MODIF_USER_DATE = NOW()
                 WHERE CAREER_ID = :id";
             $stmt = $this->pdo->prepare($consulta);
@@ -159,6 +160,7 @@ class Carrera
             $stmt->bindValue(':nombre', $datos['nombre']);
             $stmt->bindValue(':codigo', $datos['codigo']);
             $stmt->bindValue(':minimo', $datos['minimo']);
+            $stmt->bindValue(':abreviatura', $datos['abreviatura']);
             $stmt->bindValue(':usuario', $datos['usuario']);
             $stmt->execute();
 

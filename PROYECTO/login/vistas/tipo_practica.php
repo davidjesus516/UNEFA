@@ -190,18 +190,18 @@ require 'header.php';
                             let acciones = '';
                             if (tipo === 'activos') {
                                 acciones = `
-                                    <button class="task-edit" onclick="editarPractica(${practica.ID})" title="Editar">
+                                    <button class="task-edit" onclick="editarPractica(${practica.ID || practica.id})" title="Editar">
                                         <span class="texto">Editar</span>
                                         <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
                                     </button>
-                                    <button class="task-delete" onclick="eliminarPractica(${practica.ID})" title="Eliminar">
+                                    <button class="task-delete" onclick="eliminarPractica(${practica.ID || practica.id})" title="Eliminar">
                                         <span class="texto">Borrar</span>
                                         <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
                                     </button>
                                 `;
                             } else {
                                 acciones = `
-                                    <button class="task-restore" onclick="activarPractica(${practica.ID})" title="Restaurar">
+                                    <button class="task-restore" onclick="activarPractica(${practica.ID || practica.id})" title="Restaurar">
                                         <span class="texto">Restaurar</span>
                                         <span class="icon"><i class="fa-solid fa-rotate-left"></i></span>
                                     </button>
@@ -209,8 +209,8 @@ require 'header.php';
                             }
                             document.getElementById(tablaId).innerHTML += `
                                 <tr>
-                                    <td>${practica.NAME}</td>
-                                    <td>${practica.PRIORITY}</td>
+                                    <td>${practica.NAME || practica.name}</td>
+                                    <td>${practica.PRIORITY || practica.priority}</td>
                                     <td colspan="2">
                                         <div class="acciones-practica">
                                             ${acciones}
