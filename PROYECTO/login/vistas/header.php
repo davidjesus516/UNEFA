@@ -410,7 +410,7 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Reportes</a></li>
-                        <li><a href="../PDF/listado_carrera.php" target="_blank">Listado Carreras</a></li>
+                        <li><a href="../../PDF/listado_carrera.php" target="_blank">Listado Carreras</a></li>
                         <li><a href="../PDF/listado_estudiantes.php" target="_blank">Listado Estudiantes</a></li>
                         <li><a href="../PDF/listado_instituciones.php" target="_blank">Listado Instituciones</a></li>
                         <li><a href="../PDF/listado_periodo.php" target="_blank">Listado Periodo</a></li>
