@@ -146,7 +146,7 @@ require 'header.php';
                 if (Array.isArray(data)) {
                     data.forEach(periodo => {
                         const option = document.createElement("option");
-                        option.value = periodo.PERIODO_ID;
+                        option.value = periodo.PERIOD_ID;
                         option.textContent = periodo.DESCRIPTION;
                         select.appendChild(option);
                     });
@@ -370,8 +370,8 @@ require 'header.php';
                         document.getElementById("nacionalidad").value = data.NACIONALIDAD || '';
                         document.getElementById("Estudiante").value = data.ESTUDIANTE || '';
                         document.getElementById("id_estudiante").value = data.STUDENTS_ID || '';
-                        document.getElementById("periodo").value(data.PERIOD_ID || '').selected = true;
-                        document.getElementById("tipo_practica").val(data.INTERNSHIP_TYPE_ID || '').selected = true;
+                        document.getElementById("periodo").value = data.PERIOD_ID || '';
+                        document.getElementById("tipo_practica").value = data.INTERNSHIP_TYPE_ID || '';
                         
                     }
                 });
