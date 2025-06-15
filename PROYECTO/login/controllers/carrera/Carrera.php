@@ -233,7 +233,8 @@ class CarreraController
             'codigo' => $_POST['codigo'] ?? '',
             'nombre' => mb_strtoupper(trim($_POST['nombre'])) ?? '',
             'minimo' => $_POST['nota'] ?? '',
-            'tipos_pasantia' => is_array($tipos) ? $tipos : []
+            'tipos_pasantia' => is_array($tipos) ? $tipos : [],
+            'abreviatura' => mb_strtoupper(trim($_POST['abreviatura'])) ?? ''
         ];
     }
 

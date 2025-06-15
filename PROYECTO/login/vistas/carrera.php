@@ -1,6 +1,78 @@
 <?php
 require 'header.php';
 ?>
+<style>
+    .custom-select-container {
+        position: relative;
+        font-family: Arial, sans-serif;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: white;
+        cursor: pointer;
+        min-height: 38px;
+        /* Ajustar según la altura de tus inputs */
+        display: flex;
+        align-items: center;
+    }
+
+    .custom-select-options,
+    .custom-select-container:hover {
+        border-end-end-radius: 0;
+    }
+
+    .custom-select-selected {
+        padding: 8px 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 100%;
+        color: #555;
+        /* Color de placeholder */
+        padding-right: 30px;
+        /* Espacio para el icono de flecha */
+    }
+
+    .custom-select-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        border: 1px solid #ccc;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        background-color: white;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1000;
+        scale: 1.006;
+
+    }
+
+    .custom-select-options .option-item {
+        padding: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+
+    .custom-select-options .option-item:hover {
+        background-color: #f0f0f0;
+    }
+
+    .custom-select-options .option-item input[type="checkbox"] {
+        margin-right: 8px;
+    }
+
+    .custom-select-arrow {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        /* Para que el icono no interfiera con el click */
+        color: #888;
+    }
+</style>
 
 <span class="text">Carrera</span>
 <div class="page-content">
@@ -41,6 +113,15 @@ require 'header.php';
                     </div>
                     <p class="formulario__input-error">La nota debe estar entre 0 y 20</p>
                 </div>
+                <!-- Abreviatura -->
+                <div class="formulario__grupo" id="grupo__abreviatura">
+                    <label for="abreviatura" class="formulario__label">Abreviatura <span class="obligatorio">*</span></label>
+                    <div class="formulario__grupo-input">
+                        <input type="text" class="formulario__input" name="abreviatura" id="abreviatura" placeholder="Ej: TSU-E, ING-S" required>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">La abreviatura es requerida (max 15 caracteres)</p>
+                </div>
                 <!-- Tipos de Pasantías (Checkboxes) -->
                 <div class="formulario__grupo" id="grupo__tipos_pasantias">
                     <label class="formulario__label"><a href="tipo_practica.php">Tipos Práctica Profesional</a></label>
@@ -74,6 +155,7 @@ require 'header.php';
                     <th scope="col" class="sortable">Código</th>
                     <th scope="col" class="sortable">Carrera</th>
                     <th scope="col" class="sortable">Nota Mínima</th>
+                    <th scope="col" class="sortable">Abreviatura</th>
                     <th scope="col" colspan="2">Acciones</th>
                 </tr>
             </thead>
@@ -90,8 +172,10 @@ require 'header.php';
         const expresiones = {
             codigo: /^[0-9]{3,10}$/, // 3-10 solo números
             nombre: /^[a-zA-ZÀ-ÿ\s]{5,100}$/, // 5-100 letras y espacios
-            nota: /^(?:[0-9]|1[0-9]|20)(?:\.\d{1,2})?$/ // 0-20, decimales opcionales
+            nota: /^(?:[0-9]|1[0-9]|20)(?:\.\d{1,2})?$/, // 0-20, decimales opcionales
+            abreviatura: /^[a-zA-Z0-9-]{2,15}$/ // 2-15 caracteres alfanuméricos y guiones
         };
+
         function isCorrect(id) {
             const grupo = document.getElementById(id);
             if (!grupo) return;
@@ -150,10 +234,14 @@ require 'header.php';
             if (!validateInput(document.getElementById('nota'), expresiones.nota, 'grupo__nota', 'La nota debe estar entre 0 y 20')) {
                 errores = true;
             }
+            // Validar abreviatura
+            if (!validateInput(document.getElementById('abreviatura'), expresiones.abreviatura, 'grupo__abreviatura', 'La abreviatura debe tener entre 2 y 15 caracteres alfanuméricos y guiones.')) {
+                errores = true;
+            }
             // Validar tipos de pasantías
             const tipos = document.querySelectorAll('input[name="tipos_pasantias"]:checked');
             if (tipos.length === 0) {
-                isIncorrect('grupo__tipos_pasantias', 'Seleccione al menos un tipo de pasantía');
+                isIncorrect('grupo__tipos_pasantias', 'Seleccione al menos un tipo de práctica');
                 errores = true;
             } else {
                 isCorrect('grupo__tipos_pasantias');
@@ -235,53 +323,124 @@ require 'header.php';
         document.getElementById('nota').addEventListener('input', function() {
             validateInput(this, expresiones.nota, 'grupo__nota');
         });
-        document.getElementById('checkbox_container').addEventListener('change', function() {
-            const tipos = document.querySelectorAll('input[name="tipos_pasantias"]:checked');
+        document.getElementById('abreviatura').addEventListener('input', function() {
+            validateInput(this, expresiones.abreviatura, 'grupo__abreviatura');
+        });
+
+        function validateTiposPasantias() {
+            const tipos = document.querySelectorAll('#checkbox_container input[name="tipos_pasantias"]:checked');
             if (tipos.length === 0) {
-                isIncorrect('grupo__tipos_pasantias', 'Seleccione al menos un tipo de pasantía');
+                isIncorrect('grupo__tipos_pasantias', 'Seleccione al menos un tipo de práctica');
+                return false;
             } else {
                 isCorrect('grupo__tipos_pasantias');
+                return true;
             }
-        });
+        }
 
         // Cargar tipos de pasantías al abrir el modal
         document.querySelector('.primary').addEventListener('click', function() {
             cargarTiposPasantias();
             document.getElementById('dialog').showModal();
             document.getElementById('formulario').reset();
+            // Asegurarse de que el display del custom select se resetee
+            const selectedDisplay = document.querySelector('#checkbox_container .custom-select-selected');
+            if (selectedDisplay) {
+                selectedDisplay.textContent = 'Seleccione Tipos de Práctica...';
+            }
             document.getElementById('id_form').value = ''; // Resetear ID del formulario
         });
+
+        function updateSelectedDisplay(displayElement, optionsContainer) {
+            const selectedOptions = [];
+            optionsContainer.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                const label = checkbox.closest('.option-item').querySelector('label');
+                if (label) selectedOptions.push(label.textContent);
+            });
+
+            if (selectedOptions.length > 0) {
+                displayElement.textContent = selectedOptions.join(', ');
+            } else {
+                displayElement.textContent = 'Seleccione Tipos de Práctica...';
+            }
+        }
 
         function cargarTiposPasantias() {
             fetch('../controllers/carrera/Carrera.php?accion=listar_tipos_pasantias')
                 .then(response => response.json())
                 .then(data => {
                     const container = document.getElementById('checkbox_container');
-                    container.innerHTML = '';
+                    container.innerHTML = ''; // Limpiar contenido previo
+
+                    const selectContainer = document.createElement('div');
+                    selectContainer.className = 'custom-select-container';
+
+                    const selectedDisplay = document.createElement('div');
+                    selectedDisplay.className = 'custom-select-selected';
+                    selectedDisplay.textContent = 'Seleccione Tipos de Práctica...';
+                    selectContainer.appendChild(selectedDisplay);
+
+                    const arrowIcon = document.createElement('i');
+                    arrowIcon.className = 'fas fa-chevron-down custom-select-arrow';
+                    selectContainer.appendChild(arrowIcon);
+
+
+                    const optionsContainer = document.createElement('div');
+                    optionsContainer.className = 'custom-select-options';
+                    optionsContainer.style.display = 'none'; // Oculto inicialmente
+
                     data.forEach(tipo => {
-                        container.innerHTML += `
-                        <div class="formulario__checkbox">
-                            <input type="checkbox" id="tipo_${tipo.INTERNSHIP_TYPE_ID}" 
-                                    name="tipos_pasantias" value="${tipo.INTERNSHIP_TYPE_ID}" priority='${tipo.PRIORITY}'">
-                            <label for="tipo_${tipo.INTERNSHIP_TYPE_ID}">${tipo.NAME}</label>
-                        </div>
-                    `;
-                    });
-                    // Re-attach event listeners after checkboxes are rendered
-                    container.querySelectorAll("input[name='tipos_pasantias']").forEach(function(checkbox) {
-                        checkbox.addEventListener("change", function() {
+                        const optionDiv = document.createElement('div');
+                        optionDiv.className = 'option-item';
+
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = `tipo_${tipo.INTERNSHIP_TYPE_ID}`;
+                        checkbox.name = 'tipos_pasantias';
+                        checkbox.value = tipo.INTERNSHIP_TYPE_ID;
+                        checkbox.setAttribute('priority', tipo.PRIORITY);
+
+                        const label = document.createElement('label');
+                        label.htmlFor = `tipo_${tipo.INTERNSHIP_TYPE_ID}`;
+                        label.textContent = tipo.NAME;
+
+                        optionDiv.appendChild(checkbox);
+                        optionDiv.appendChild(label);
+                        optionsContainer.appendChild(optionDiv);
+
+                        checkbox.addEventListener('change', function() {
                             const priority = this.getAttribute("priority");
-                            if (priority === "0" && this.checked) {
-                                // Si el de prioridad 0 se selecciona, deselecciona los demás
-                                container.querySelectorAll("input[type=checkbox]").forEach(cb => {
-                                    if (cb !== this) cb.checked = false;
-                                });
-                            } else if (container.querySelector("input[type=checkbox][priority='0']:checked")) {
-                                // Si el de prioridad 0 está seleccionado, deselecciona este
-                                container.querySelector("input[type=checkbox][priority='0']").checked = false;
-                                alert("No puedes seleccionar más de un tipo de pasantía cuando haz seleccionado un tipo de pasantía que es unico");
+                            const priorityZeroCheckbox = optionsContainer.querySelector("input[type=checkbox][priority='0']");
+
+                            if (this.checked) {
+                                if (priority === "0") {
+                                    optionsContainer.querySelectorAll("input[type=checkbox]").forEach(cb => {
+                                        if (cb !== this) cb.checked = false;
+                                    });
+                                } else {
+                                    if (priorityZeroCheckbox && priorityZeroCheckbox.checked) {
+                                        priorityZeroCheckbox.checked = false;
+                                    }
+                                }
                             }
+                            updateSelectedDisplay(selectedDisplay, optionsContainer);
+                            validateTiposPasantias();
                         });
+                    });
+
+                    selectContainer.appendChild(optionsContainer);
+                    container.appendChild(selectContainer);
+
+                    selectedDisplay.addEventListener('click', (event) => {
+                        event.stopPropagation(); // Evitar que el click se propague al document
+                        optionsContainer.style.display = optionsContainer.style.display === 'none' ? 'block' : 'none';
+                    });
+
+                    // Cerrar el dropdown si se hace clic fuera
+                    document.addEventListener('click', function(event) {
+                        if (!selectContainer.contains(event.target) && optionsContainer.style.display === 'block') {
+                            optionsContainer.style.display = 'none';
+                        }
                     });
                 });
         }
@@ -319,6 +478,7 @@ require 'header.php';
                                 <td>${carrera.CAREER_CODE}</td>
                                 <td>${carrera.CAREER_NAME}</td>
                                 <td>${carrera.MINIMUM_GRADE}</td>
+                                <td>${carrera.CAREER_ABBREVIATION || ''}</td>
                                 <td colspan="2">
                                     <div class="acciones-carrera">
                                         ${acciones}
@@ -345,7 +505,7 @@ require 'header.php';
                 alert('Por favor, corrige los errores antes de enviar el formulario.');
                 return;
             }
-            const tiposPasantias = Array.from(document.querySelectorAll('input[name="tipos_pasantias"]:checked'))
+            const tiposPasantias = Array.from(document.querySelectorAll('#checkbox_container input[name="tipos_pasantias"]:checked'))
                 .map(checkbox => checkbox.value);
             formData.append('tipos_pasantias', JSON.stringify(tiposPasantias));
             fetch(`../controllers/carrera/Carrera.php?accion=${id ? 'actualizar' : 'insertar'}`, {
@@ -376,14 +536,26 @@ require 'header.php';
                         document.getElementById('codigo').value = carrera.CAREER_CODE;
                         document.getElementById('nombre').value = carrera.CAREER_NAME;
                         document.getElementById('nota').value = carrera.MINIMUM_GRADE;
+                        document.getElementById('abreviatura').value = carrera.CAREER_ABBREVIATION || '';
                         // Marcar los checkboxes de tipos de pasantías
-                        cargarTiposPasantias();
-                        setTimeout(() => {
-                            carrera.CAREER_INTERNSHIP_TYPES.forEach(tipo => {
-                                const checkbox = document.getElementById(`tipo_${tipo.INTERNSHIP_TYPE_ID}`);
-                                if (checkbox) checkbox.checked = true;
-                            });
-                        }, 200);
+                        cargarTiposPasantias(); // Esto reconstruirá el select
+
+                        setTimeout(() => { // Esperar a que cargarTiposPasantias complete y renderice
+                            const optionsContainer = document.querySelector('#checkbox_container .custom-select-options');
+                            const selectedDisplay = document.querySelector('#checkbox_container .custom-select-selected');
+
+                            if (optionsContainer && selectedDisplay) {
+                                // Desmarcar todos primero
+                                optionsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                                // Marcar los correspondientes
+                                carrera.CAREER_INTERNSHIP_TYPES.forEach(tipo => {
+                                    const checkbox = optionsContainer.querySelector(`#tipo_${tipo.INTERNSHIP_TYPE_ID}`);
+                                    if (checkbox) checkbox.checked = true;
+                                });
+                                updateSelectedDisplay(selectedDisplay, optionsContainer);
+                            }
+                            validateTiposPasantias(); // Validar después de establecer
+                        }, 300); // Un pequeño delay para asegurar la renderización
                         document.getElementById('dialog').showModal();
                     }
                 });
