@@ -1,0 +1,33 @@
+{
+    "boxicons": {
+        "normal": "boxicons_normal_497205797c045f0e65ca4d7538b598a0"
+    },
+    "fontawesome": {
+        "normal": "fontawesome_normal_6aa5cc0b95be2651581a2d7ad4a9d038"
+    },
+    "font awesome 6 brands": {
+        "normal": "font_awesome_6_brands_normal_36faa0e194d3288643f7144dedd8e1b1"
+    },
+    "font awesome 6 free": {
+        "normal": "C:\\xampp\\htdocs\\workspace\\PROYECTO\\vendor\\dompdf\\dompdf\/lib\/fonts\/font_awesome_6_free_normal_cf2d7daaeabedac0226ae26fc7e4f075",
+        "900": "font_awesome_6_free_900_665c8d2ea728525da852b5cd3a1d51a5"
+    },
+    "font awesome 5 brands": {
+        "normal": "font_awesome_5_brands_normal_f420cf1af43adcc5793b39efe6cee03b"
+    },
+    "font awesome 5 free": {
+        "900": "font_awesome_5_free_900_a7f1364d38a364e6f27359184b8ca351",
+        "normal": "C:\\xampp\\htdocs\\workspace\\PROYECTO\\vendor\\dompdf\\dompdf\/lib\/fonts\/font_awesome_5_free_normal_8eb7cc9eeffa640b17e4cc3b85d8fbc5"
+    },
+    "roboto": {
+        "normal": "C:\\xampp\\htdocs\\workspace\\PROYECTO\\vendor\\dompdf\\dompdf\/lib\/fonts\/roboto_normal_a5fc1441144adab7ff7fd3a2b9c8ceea",
+        "500": "C:\\xampp\\htdocs\\workspace\\PROYECTO\\vendor\\dompdf\\dompdf\/lib\/fonts\/roboto_500_dbc341cef1fd80a9ebe6c202433656ea",
+        "bold": "roboto_bold_33a1d3e1e3260160834fe00ba212e515"
+    },
+    "inter": {
+        "normal": "C:\\xampp\\htdocs\\workspace\\PROYECTO\\vendor\\dompdf\\dompdf\/lib\/fonts\/inter_normal_7328646baedbaa78df9d97328f97b2c0",
+        "500": "C:\\xampp\\htdocs\\workspace\\PROYECTO\\vendor\\dompdf\\dompdf\/lib\/fonts\/inter_500_4efc23ce37e6e22aee754d42cd63ca44",
+        "600": "C:\\xampp\\htdocs\\workspace\\PROYECTO\\vendor\\dompdf\\dompdf\/lib\/fonts\/inter_600_d63a7c0c8732180c323356ba08cac7d8",
+        "bold": "inter_bold_c60e16028ab46ac4c30f16a14b5aab03"
+    }
+}
