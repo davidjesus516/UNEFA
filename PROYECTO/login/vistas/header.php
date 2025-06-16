@@ -40,7 +40,7 @@ if (!isset($_SESSION['USER'])) {
         --burger-line-width: 1.125em;
         --burger-line-height: 0.125em;
         --burger-offset: 0.625em;
-        --burger-bg:rgb(14, 50, 107);
+        --burger-bg: #192DD4;
         --burger-color: #333;
         --burger-line-border-radius: 0.1875em;
         --burger-diameter: 3.125em;
@@ -78,7 +78,7 @@ if (!isset($_SESSION['USER'])) {
         --nav-button-padding-y: 0.375em;
         --nav-button-border-radius: 0.375em;
         --nav-button-font-size: 17px;
-        --nav-button-hover-bg:rgb(7, 32, 76);
+        --nav-button-hover-bg: #192DD4;
         --nav-button-hover-text-color: #fff;
         --nav-button-distance: 0.875em;
         /* underline */
@@ -166,7 +166,7 @@ if (!isset($_SESSION['USER'])) {
 
     .popup-window ul li:nth-child(1) svg,
     .popup-window ul li:nth-child(2) svg {
-        color: #10397d;
+        color: #192DD4;
     }
 
     .popup-window ul li:nth-child(4) svg,
@@ -385,12 +385,12 @@ if (!isset($_SESSION['USER'])) {
                             <i class='bx'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
                                     <path d="M120-120v-560h160v-160h400v320h160v400H520v-160h-80v160H120Zm80-80h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 320h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 480h80v-80h-80v80Zm0-160h80v-80h-80v80Z" />
                                 </svg></i>
-                            <span class="link_name">Prácticas Profesionales</span>
+                            <span class="link_name">Practicas Profesionales</span>
                         </a>
                         <i class='bx bxs-chevron-down arrow'></i>
                     </div>
                     <ul class="sub-menu">
-                        <li><a class="link_name" href="#">Prácticas Profesionales</a></li>
+                        <li><a class="link_name" href="#">Practicas Profesionales</a></li>
                         <li><a href="preinscripcion.php">Pre Inscripción</a></li>
                         <li><a href="inscripcion_m.php">Inscripción</a></li>
                         <li><a href="seguimiento.php">Seguimiento</a></li>
@@ -483,7 +483,7 @@ if (!isset($_SESSION['USER'])) {
                                 </svg>
                             </div>
                             <nav class="popup-window">
-                                <!-- <legend>Perfil de Usuarios</legend> -->
+                                <legend>Perfil de Usuarios</legend>
                                 <ul>
                                     <li>
                                         <a href="perfil_usuario.php">

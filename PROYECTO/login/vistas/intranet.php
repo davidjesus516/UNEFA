@@ -349,7 +349,7 @@ if (!$periodoActual) {
   <div class="metrics-row">
     <div class="metric-card metric-open">
       <?php if ($periodoActual): ?>
-        <div class="value">Período: <?php echo htmlspecialchars($periodoActual['DESCRIPTION']); ?></div>
+        <div class="value">Periodo: <?php echo htmlspecialchars($periodoActual['DESCRIPTION']); ?></div>
         <div class="label">
           Estado: <?php echo $estadoPeriodo; ?><br>
           Desde: <?php echo date('d/m/Y', strtotime($periodoActual['START_DATE'])); ?><br>
