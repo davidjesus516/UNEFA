@@ -329,4 +329,12 @@ class Periodo
         }
         return null;
     }
+
+    // Cuenta la cantidad de estudiantes asignados a cada periodo
+    public function getStudentCountByPeriod() {
+        $consulta = "SELECT PERIOD_ID, COUNT(STUDENTS_ID) AS assigned_students FROM t-professional_practices GROUP BY PERIOD_ID";
+        $statement = $this->pdo->prepare($consulta);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

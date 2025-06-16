@@ -64,10 +64,28 @@
                     <label for="segundo_apellido">Segundo Apellido</label>
                     <input type="text" name="SECOND_SURNAME" id="SECOND_SURNAME" class="formulario__input">
                 </div>
+                <!-- Contacto -->
+                <div class="formulario__grupo" id="grupo__telefono">
+                    <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
 
-                <div class="formulario__grupo">
-                    <label for="telefono">Teléfono <span class="obligatorio">*</span></label>
-                    <input type="text" name="CONTACT_PHONE" id="CONTACT_PHONE" class="formulario__input" required>
+                    <div class="formulario__grupo-input formulario__grupo-telefono">
+                        <div class="formulario__codigo-pais">
+                            <select class="formulario__input formulario__codigo-select" id="prefijo_telefono" required>
+                                <option value="0412">0412</option>
+                                <option value="0414">0414</option>
+                                <option value="0416">0416</option>
+                                <option value="0422">0422</option>
+                                <option value="0424">0424</option>
+                                <option value="0426">0426</option>
+                                <option value="0255">0255</option>
+                            </select>
+                        </div>
+
+                        <input type="tel" class="formulario__input formulario__telefono-input" name="CONTACT_PHONE" id="CONTACT_PHONE" placeholder="Ej: 1234567" maxlength="7" required>
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+
+                    <p class="formulario__input-error">Formato requerido: XXX-XXXXXXX</p>
                 </div>
 
                 <div class="formulario__grupo">
@@ -246,6 +264,12 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         const formData = new FormData(formulario);
         const id = formData.get("id_form");
+
+        // Concatenar prefijo y número de teléfono
+        const prefijoTelefono = document.getElementById("prefijo_telefono").value;
+        const numeroTelefono = document.getElementById("CONTACT_PHONE").value;
+        formData.set("CONTACT_PHONE", `${prefijoTelefono}-${numeroTelefono}`);
+
         formData.append("accion", id ? "actualizar" : "insertar");
         formData.append("id", id);
 
@@ -283,7 +307,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("SECOND_NAME").value = data.SECOND_NAME ?? '';
                 document.getElementById("SURNAME").value = data.SURNAME ?? '';
                 document.getElementById("SECOND_SURNAME").value = data.SECOND_SURNAME ?? '';
-                document.getElementById("CONTACT_PHONE").value = data.CONTACT_PHONE;
+
+                // Separar prefijo y número de teléfono para la edición
+                const telefonoCompleto = data.CONTACT_PHONE;
+                const partesTelefono = telefonoCompleto.split('-');
+                if (partesTelefono.length === 2) {
+                    document.getElementById("prefijo_telefono").value = partesTelefono[0];
+                    document.getElementById("CONTACT_PHONE").value = partesTelefono[1];
+                } else {
+                    // Si no tiene el formato esperado, asignar el valor completo al número y un prefijo por defecto
+                    document.getElementById("prefijo_telefono").value = '0412'; // O el que consideres por defecto
+                    document.getElementById("CONTACT_PHONE").value = telefonoCompleto;
+                }
+
                 document.getElementById("EMAIL").value = data.EMAIL;
                 document.getElementById("INSTITUTION_ID").value = data.INSTITUTION_ID;
                 dialog.showModal();
@@ -358,6 +394,8 @@ document.addEventListener("DOMContentLoaded", function () {
         formulario.querySelectorAll('.formulario__input').forEach(input => {
             input.classList.remove('input-error');
         });
+        // Restablecer el prefijo del teléfono a su valor por defecto si es necesario
+        document.getElementById("prefijo_telefono").value = '0412';
     }
 
     // Botón cerrar modal responsable

@@ -7,12 +7,13 @@ use Dompdf\Options;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\SvgWriter;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+// Se requiere el archivo de conexión a la base de datos
+require_once __DIR__ . '/../login/model/conexion.php';
 
-// --- Función para convertir imágenes a base64 ---
 function imageToBase64($path)
 {
     if (!file_exists($path)) {
-        return ''; 
+        return '';
     }
     $type = pathinfo($path, PATHINFO_EXTENSION);
     $data = file_get_contents($path);
@@ -26,30 +27,49 @@ try {
         throw new Exception('Error de conexión: ' . $conexion->connect_error);
     }
 
-    // Consulta SQL para obtener estudiantes activos
-    $sql = "SELECT s.STUDENTS_CI, s.NAME, s.SECOND_NAME, s.SURNAME, s.SECOND_SURNAME, s.GENDER, c.CAREER_NAME, s.CONTACT_PHONE, s.EMAIL 
-            FROM `t-students` s
+    // Consulta SQL para obtener los datos de las prácticas profesionales
+    $sql = "SELECT 
+                pp.PROFESSIONAL_PRACTICE_ID,
+                s.STUDENTS_CI,
+                s.NAME AS STUDENT_NAME,
+                s.SECOND_NAME AS STUDENT_SECOND_NAME,
+                s.SURNAME AS STUDENT_SURNAME,
+                s.SECOND_SURNAME AS STUDENT_SECOND_SURNAME,
+                c.CAREER_NAME,
+                it.NAME AS INTERNSHIP_TYPE_NAME,
+                ta.NAME AS ACADEMIC_TUTOR_NAME,
+                ta.SURNAME AS ACADEMIC_TUTOR_SURNAME,
+                tm.NAME AS METHODOLOGICAL_TUTOR_NAME,
+                tm.SURNAME AS METHODOLOGICAL_TUTOR_SURNAME,
+                i.INSTITUTION_NAME,
+                im.NAME AS MANAGER_NAME,
+                im.SURNAME AS MANAGER_SURNAME
+            FROM `t-professional_practices` pp
+            LEFT JOIN `t-students` s ON pp.STUDENTS_ID = s.STUDENTS_ID
             LEFT JOIN `t-career` c ON s.CAREER_ID = c.CAREER_ID
-            WHERE s.STATUS = 1";
+            LEFT JOIN `t-internship_type` it ON pp.INTERNSHIP_TYPE_ID = it.INTERNSHIP_TYPE_ID
+            LEFT JOIN `t-tutors` ta ON pp.TUTOR_ID = ta.TUTOR_ID AND pp.TUTOR_TYPE = 'ACADEMICO'
+            LEFT JOIN `t-tutors` tm ON pp.TUTOR_ID = tm.TUTOR_ID AND pp.TUTOR_TYPE = 'METODOLOGICO'
+            LEFT JOIN `t-institution` i ON pp.INSTITUTION_ID = i.INSTITUTION_ID
+            LEFT JOIN `t-institution_manager` im ON pp.MANAGER_ID = im.MANAGER_ID
+            WHERE 1";
+
     $resultado = $conexion->query($sql);
     if ($resultado === false) {
         throw new Exception('Error en consulta: ' . $conexion->error);
     }
 
     // Obtener resultados
-    $estudiantes = $resultado->fetch_all(MYSQLI_ASSOC);
+    $practicas = $resultado->fetch_all(MYSQLI_ASSOC);
 
-    // Generar código QR
     $qr = new QrCode('https://www.unefa.edu.ve');
     $qr->setSize(400)->setMargin(0)->setErrorCorrectionLevel(new ErrorCorrectionLevelHigh());
     $writer = new SvgWriter();
     $qrImage = 'data:image/svg+xml;base64,' . base64_encode($writer->write($qr)->getString());
 
-    // Embeder imágenes como base64
     $escudoBase64 = imageToBase64(__DIR__ . '/../img/Escudo.png');
     $logoBase64 = imageToBase64(__DIR__ . '/../img/logo-nuevo.png');
 
-    // Generar HTML
     ob_start();
     ?>
 <!DOCTYPE html>
@@ -76,7 +96,7 @@ try {
 
 <div class="container">
     <div class="header">
-    <table width="100%" style="border:none;">
+    <table width="100" style="border:none;">
         <tr>
             <td style="width:30px; text-align:left; border:none; padding-right: 20px;">
                 <img src="<?= $escudoBase64 ?>" style="height:110px;">
@@ -98,39 +118,43 @@ try {
     </table>
 </div>
 
-<div class="titulo-reporte">Listado de Estudiantes</div>
+<div class="titulo-reporte">Listado de Prácticas Profesionales</div>
 
 <table style="transform: translateX(-10);">
     <thead>
         <tr>
-            <th style="width: 10mm;">CÉDULA</th>
-            <th style="width: 16mm;">NOMBRES</th>
-            <th style="width: 16mm;">APELLIDOS</th>
-            <th style="width: 8mm;">SEXO</th>
-            <th style="width: 30mm;">CARRERA</th>
-            <th style="width: 16mm;">TELÉFONO</th>
-            <th style="width: 30mm;">CORREO</th>
+            <th style="width: 15mm;">CÉDULA</th>
+            <th style="width: 20mm;">NOMBRES</th>
+            <th style="width: 20mm;">APELLIDOS</th>
+            <th style="width: 20mm;">CARRERA</th>
+            <th style="width: 20mm;">TIPO DE PRÁCTICA</th>
+            <th style="width: 20mm;">TUTOR ACADÉMICO</th>
+            <th style="width: 20mm;">TUTOR METODOLÓGICO</th>
+            <th style="width: 20mm;">INSTITUCIÓN</th>
+            <th style="width: 20mm;">RESPONSABLE INSTITUCIONAL</th>
         </tr>
     </thead>
     <tbody>
         <?php
-        if (!empty($estudiantes)) {
+        if (!empty($practicas)) {
             $alternar = false;
-            foreach ($estudiantes as $estudiante) {
+            foreach ($practicas as $practica) {
                 $clase = $alternar ? ' class="fila-par"' : '';
                 echo "<tr$clase>";
-                echo "<td>" . htmlspecialchars($estudiante['STUDENTS_CI']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['NAME'] . ' ' . $estudiante['SECOND_NAME']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['SURNAME'] . ' ' . $estudiante['SECOND_SURNAME']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['GENDER']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['CAREER_NAME']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['CONTACT_PHONE']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['EMAIL']) . "</td>";
+                echo "<td>" . htmlspecialchars($practica['STUDENTS_CI']) . "</td>";
+                echo "<td>" . htmlspecialchars($practica['STUDENT_NAME'] . ' ' . $practica['STUDENT_SECOND_NAME']) . "</td>";
+                echo "<td>" . htmlspecialchars($practica['STUDENT_SURNAME'] . ' ' . $practica['STUDENT_SECOND_SURNAME']) . "</td>";
+                echo "<td>" . htmlspecialchars($practica['CAREER_NAME']) . "</td>";
+                echo "<td>" . htmlspecialchars($practica['INTERNSHIP_TYPE_NAME']) . "</td>";
+                echo "<td>" . htmlspecialchars($practica['ACADEMIC_TUTOR_NAME'] . ' ' . $practica['ACADEMIC_TUTOR_SURNAME']) . "</td>";
+                echo "<td>" . htmlspecialchars($practica['METHODOLOGICAL_TUTOR_NAME'] . ' ' . $practica['METHODOLOGICAL_TUTOR_SURNAME']) . "</td>";
+                echo "<td>" . htmlspecialchars($practica['INSTITUTION_NAME']) . "</td>";
+                echo "<td>" . htmlspecialchars($practica['MANAGER_NAME'] . ' ' . $practica['MANAGER_SURNAME']) . "</td>";
                 echo "</tr>";
                 $alternar = !$alternar;
             }
         } else {
-            echo '<tr><td colspan="7">No hay datos disponibles</td></tr>';
+            echo '<tr><td colspan="9">No hay datos disponibles</td></tr>';
         }
         ?>
     </tbody>
@@ -140,27 +164,26 @@ try {
     <img src="<?= $qrImage ?>" width="85" height="85">
 </div>
 
-<div class="footer" style="bottom: 0;"><?= date('d/m/Y') ?></div>
+<div class="footer" style="bottom: 0;">
+    <?= date('d/m/Y') ?>
+</div>
 </div>
 </body>
 </html>
 <?php
     $html = ob_get_clean();
 
-    // Renderizar PDF
     $options = new Options();
     $options->setIsRemoteEnabled(true)->setDefaultFont('Arial');
     $dompdf = new Dompdf($options);
     $dompdf->loadHtml($html, 'UTF-8');
-    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->setPaper('A4', 'landscape');
     $dompdf->render();
 
-    // Número de páginas
     $canvas = $dompdf->getCanvas();
     $font = 'helvetica';
     $size = 8;
     $totalPages = $canvas->get_page_count();
-
     for ($page = 1; $page <= $totalPages; $page++) {
         $canvas->page_script('
             if ($PAGE_NUM == ' . $page . ') {
@@ -172,7 +195,8 @@ try {
         ');
     }
 
-    $dompdf->stream('Listado_Estudiantes.pdf', ['Attachment' => false]);
+    $dompdf->stream('Listado_Practicas_Profesionales.pdf', ['Attachment' => false]);
+
     $conexion->close();
 
 } catch (Exception $e) {
@@ -184,4 +208,3 @@ try {
     $dompdf->render();
     $dompdf->stream('Error.pdf', ['Attachment' => false]);
 }
-?>

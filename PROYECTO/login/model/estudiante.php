@@ -180,5 +180,16 @@ class Student
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row;
     }
+
+    public function getStudentCountByCareer() {
+        $sql = "SELECT c.CAREER_NAME, COUNT(s.STUDENTS_ID) AS student_count
+                FROM `t-career` c
+                LEFT JOIN `t-students` s ON c.CAREER_ID = s.CAREER_ID
+                GROUP BY c.CAREER_NAME";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $rows;
+    }
 }
 ?>

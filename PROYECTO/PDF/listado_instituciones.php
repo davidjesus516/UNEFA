@@ -1,244 +1,186 @@
 <?php
-require('fpdf186/fpdf.php');
-require('phpqrcode/qrlib.php');
-require_once('../model/institucion_m.php'); // Ajusta la ruta si es necesario
 
-class PDF extends FPDF
+require __DIR__ . '/../vendor/autoload.php';
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\SvgWriter;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+
+// --- Función para convertir imágenes a base64 ---
+function imageToBase64($path)
 {
-    // Cabecera de página
-    function Header()
-    {
-        // Logo institucional
-        if (file_exists('img/escudo.png')) {
-            $this->Image('img/escudo.png', 10, 20, 25);
-        }
+    if (!file_exists($path)) {
+        return ''; 
+    }
+    $type = pathinfo($path, PATHINFO_EXTENSION);
+    $data = file_get_contents($path);
+    return 'data:image/' . $type . ';base64,' . base64_encode($data);
+}
 
-        // Logo adicional
-        if (file_exists('img/logo-nuevo.png')) {
-            $this->Image('img/logo-nuevo.png', 180, 20, 18);
-        }
-
-        // Título principal
-        $this->SetFont('Arial', 'B', 12);
-        $this->Ln(5);
-        $this->MultiCell(0, 6, mb_convert_encoding(
-            "REPÚBLICA BOLIVARIANA DE VENEZUELA\n" .
-            "MINISTERIO DEL PODER POPULAR PARA LA DEFENSA\n" .
-            "UNIVERSIDAD NACIONAL EXPERIMENTAL POLITÉCNICA\n" .
-            "DE LA FUERZA ARMADA NACIONAL BOLIVARIANA\n" .
-            "VICERRECTORADO REGIÓN LOS LLANOS\n" .
-            "NÚCLEO PORTUGUESA - EXTENSIÓN ACARIGUA",
-            'ISO-8859-1', 'UTF-8'
-        ), 0, 'C');
-
-        // Generar QR
-        $this->QRCode('https://example.com', 177, $this->GetY() + 5);
-
-        $this->Ln(35);
-        $this->SetFont('Arial', 'B', 14);
-        $this->Cell(0, 10, mb_convert_encoding('Listado de Instituciones', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
-        $this->Ln(10);
+try {
+    // Conexión a la base de datos
+    $conexion = new mysqli("localhost", "root", "", "mydb2");
+    if ($conexion->connect_error) {
+        throw new Exception('Error de conexión: ' . $conexion->connect_error);
     }
 
-    // Pie de página
-    function Footer()
-    {
-        $this->SetY(-15);
-        $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, date('d/m/Y'), 0, 0, 'C');
-        $this->Cell(0, 10, ' ' . $this->PageNo() . '/{nb}', 0, 0, 'R');
+    // Consulta SQL para obtener instituciones activas
+$sql = "SELECT i.*, COUNT(DISTINCT pp.STUDENTS_ID) AS assigned_students
+                 FROM `t-institution` i
+                 LEFT JOIN `t-professional_practices` pp ON i.INSTITUTION_ID = pp.INSTITUTION_ID
+                 WHERE i.STATUS = 1
+                 GROUP BY i.INSTITUTION_ID";
+    $resultado = $conexion->query($sql);
+    if ($resultado === false) {
+        throw new Exception('Error en consulta: ' . $conexion->error);
     }
 
-    // Generar QR
-    function QRCode($url = 'https://default.com', $x = 10, $y = 10)
-    {
-        $tempFile = tempnam(sys_get_temp_dir(), 'qr') . '.png';
-        QRcode::png($url, $tempFile, QR_ECLEVEL_H, 10, 2);
-        $this->Image($tempFile, $x, $y, 23, 23);
-        unlink($tempFile);
-    }
+    // Obtener resultados
+    $instituciones = $resultado->fetch_all(MYSQLI_ASSOC);
 
-    // Calcular número de líneas para cada celda
-    function NbLines($w, $txt)
-    {
-        $cw = &$this->CurrentFont['cw'];
-        if($w==0)
-            $w = $this->w-$this->rMargin-$this->x;
-        $wmax = ($w-2*$this->cMargin)*1000/$this->FontSize;
-        $s = str_replace("\r",'',$txt);
-        $nb = strlen($s);
-        if($nb>0 and $s[$nb-1]=="\n")
-            $nb--;
-        $sep = -1;
-        $i = 0;
-        $j = 0;
-        $l = 0;
-        $nl = 1;
-        while($i<$nb)
-        {
-            $c = $s[$i];
-            if($c=="\n")
-            {
-                $i++;
-                $sep = -1;
-                $j = $i;
-                $l = 0;
-                $nl++;
-                continue;
+    // Generar código QR
+    $qr = new QrCode('https://www.unefa.edu.ve');
+    $qr->setSize(400)->setMargin(0)->setErrorCorrectionLevel(new ErrorCorrectionLevelHigh());
+    $writer = new SvgWriter();
+    $qrImage = 'data:image/svg+xml;base64,' . base64_encode($writer->write($qr)->getString());
+
+    // Embeder imágenes como base64
+    $escudoBase64 = imageToBase64(__DIR__ . '/../img/Escudo.png');
+    $logoBase64 = imageToBase64(__DIR__ . '/../img/logo-nuevo.png');
+
+    // Generar HTML
+    ob_start();
+    ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page { margin: 5mm 5mm; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; max-width: 100%; }
+        .container { width: 100%; margin: 0 auto; padding: 0 15px; box-sizing: border-box; }
+        .header { text-align: center; margin-bottom: 10px; position: relative; height: 150px; }
+        .titulo-principal { font-size: 11pt; font-weight: bold; line-height: 1.2; width: 100% }
+        .titulo-reporte { font-size: 14pt; font-weight: bold; text-align: center; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px auto; border: 1px solid #000; font-size: 9px; }
+        th { background-color: #0066cc; color: white; padding: 8px; text-align: center; border-left: 1px solid #000; border-right: 1px solid #000; border-top: none; border-bottom: none; font-size: 11px;}
+        td { padding: 7px; border-left: 1px solid #000; border-right: 1px solid #000; border-top: none; border-bottom: none; text-align: center; font-size: 10px; word-wrap: break-word; }
+        td:last-child { word-break: break-all; max-width: 30mm; }
+        .fila-par { background-color: #e0ebff; }
+        .qr-code { position: fixed; left: 10px; bottom: 0; width: 60mm; height: 25mm; z-index: 1000; }
+        .footer { position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 8pt; font-style: italic;}
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+    <table width="100%" style="border:none;">
+        <tr>
+            <td style="width:30px; text-align:left; border:none; padding-right: 20px;">
+                <img src="<?= $escudoBase64 ?>" style="height:110px;">
+            </td>
+            <td style="text-align:center; border:none;">
+                <div class="titulo-principal">
+                    REPÚBLICA BOLIVARIANA DE VENEZUELA<br>
+                    MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<br>
+                    UNIVERSIDAD NACIONAL EXPERIMENTAL POLITÉCNICA<br>
+                    DE LA FUERZA ARMADA NACIONAL BOLIVARIANA<br>
+                    VICERRECTORADO REGIÓN LOS LLANOS<br>
+                    NÚCLEO PORTUGUESA - EXTENSIÓN ACARIGUA
+                </div>
+            </td>
+            <td style="width:50px; text-align:right; border:none; padding-left: 20px; padding-right: 30px;">
+                <img src="<?= $logoBase64 ?>" style="height:120px;">
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="titulo-reporte">Listado de Instituciones</div>
+
+<table style="transform: translateX(-10);">
+    <thead>
+        <tr>
+                <th style="width: 15mm;">RIF</th>
+                <th style="width: 30mm;">NOMBRE</th>
+                <th style="width: 40mm;">DIRECCIÓN FISCAL</th>
+                <th style="width: 20mm;">TIPO PRÁCTICA</th>
+                <th style="width: 20mm;">TIPO INSTITUCIÓN</th>
+                <th style="width: 25mm;">ESTUDIANTES ASIGNADOS</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        if (!empty($instituciones)) {
+            $alternar = false;
+            foreach ($instituciones as $institucion) {
+                $clase = $alternar ? ' class="fila-par"' : '';
+                echo "<tr$clase>";
+                echo "<td>" . htmlspecialchars($institucion['RIF']) . "</td>";
+                echo "<td>" . htmlspecialchars($institucion['INSTITUTION_NAME']) . "</td>";
+                echo "<td>" . htmlspecialchars($institucion['INSTITUTION_ADDRESS']) . "</td>";
+                echo "<td>" . htmlspecialchars($institucion['PRACTICE_TYPE']) . "</td>";
+                echo "<td>" . htmlspecialchars($institucion['INSTITUTION_TYPE']) . "</td>";
+                echo "<td>" . htmlspecialchars($institucion['assigned_students']) . "</td>";
+                echo "</tr>";
+                $alternar = !$alternar;
             }
-            if($c==' ')
-                $sep = $i;
-            $l += $cw[$c];
-            if($l>$wmax)
-            {
-                if($sep==-1)
-                {
-                    if($i==$j)
-                        $i++;
-                }
-                else
-                    $i = $sep+1;
-                $sep = -1;
-                $j = $i;
-                $l = 0;
-                $nl++;
-            }
-            else
-                $i++;
+        } else {
+            echo '<tr><td colspan="6">No hay datos disponibles</td></tr>';
         }
-        return $nl;
+        ?>
+    </tbody>
+</table>
+
+<div class="qr-code">
+    <img src="<?= $qrImage ?>" width="85" height="85">
+</div>
+
+<div class="footer" style="bottom: 0;"><?= date('d/m/Y') ?></div>
+</div>
+</body>
+</html>
+<?php
+    $html = ob_get_clean();
+
+    // Renderizar PDF
+    $options = new Options();
+    $options->setIsRemoteEnabled(true)->setDefaultFont('Arial');
+    $dompdf = new Dompdf($options);
+    $dompdf->loadHtml($html, 'UTF-8');
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    // Número de páginas
+    $canvas = $dompdf->getCanvas();
+    $font = 'helvetica';
+    $size = 8;
+    $totalPages = $canvas->get_page_count();
+
+    for ($page = 1; $page <= $totalPages; $page++) {
+        $canvas->page_script('
+            if ($PAGE_NUM == ' . $page . ') {
+                $text = "Página ' . $page . ' de ' . $totalPages . '";
+                $font = $fontMetrics->getFont("' . $font . '", "normal");
+                $width = $fontMetrics->getTextWidth($text, $font, ' . $size . ');
+                $pdf->text($pdf->get_width() - $width - 20, $pdf->get_height() - 18, $text, $font, ' . $size . ');
+            }
+        ');
     }
+
+    $dompdf->stream('Listado_Instituciones.pdf', ['Attachment' => false]);
+    $conexion->close();
+
+} catch (Exception $e) {
+    // PDF de error
+    $html = '<!DOCTYPE html><html><head><style>body { font-family: Arial; } h1 { text-align: center; font-size: 16pt; font-weight: bold; } p { font-size: 12pt; margin: 20px; }</style></head><body><h1>Error</h1><p>' . htmlspecialchars($e->getMessage()) . '</p></body></html>';
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4');
+    $dompdf->render();
+    $dompdf->stream('Error.pdf', ['Attachment' => false]);
 }
-
-// --- Obtener datos del modelo ---
-$institucionModel = new Institucion();
-$instituciones = $institucionModel->listarActivas();
-
-// --- Configuración de la tabla ---
-$pdf = new PDF();
-// Reduce el margen izquierdo de la tabla
-$pdf->SetLeftMargin(2); // Antes era 5, ahora es 2 (puedes ajustar a tu gusto)
-$ancho_columnas = [20, 30, 65, 38, 30, 20]; // [Rif, Nombre, Dirección, Carrera, Tipo, Asignados]
-$pdf->AliasNbPages();
-$pdf->AddPage();
-$pdf->SetFont('Arial', '', 9);
-
-// Encabezado de tabla con saltos de línea
-$pdf->SetFillColor(0, 102, 204);
-$pdf->SetTextColor(255);
-// Cambia el tamaño de fuente a más pequeño
-$pdf->SetFont('Arial', 'B', 6);
-
-// Textos de los encabezados (puedes ajustar los saltos de línea)
-$headers = [
-    "RIF",
-    "NOMBRE",
-    "DIRECCIÓN\nFISCAL",
-    "CARRERA",
-    "TIPO DE\nPRÁCTICA",
-    "ESTUDIANTES\nASIGNADOS"
-];
-
-// Calcular el número de líneas de cada encabezado
-$line_counts = [];
-for ($i = 0; $i < count($headers); $i++) {
-    $line_counts[$i] = $pdf->NbLines($ancho_columnas[$i], $headers[$i]);
-}
-$max_lines = max($line_counts);
-
-// Normalizar los encabezados para que todos tengan el mismo número de líneas
-for ($i = 0; $i < count($headers); $i++) {
-    $faltan = $max_lines - $line_counts[$i];
-    if ($faltan > 0) {
-        // Añadir saltos de línea al final
-        $headers[$i] .= str_repeat("\n", $faltan);
-    }
-}
-
-// Altura de cada línea del encabezado
-$line_height = 7;
-$altura_encabezado = $line_height * $max_lines;
-
-// Guardar posición inicial
-$x = $pdf->GetX();
-$y = $pdf->GetY();
-
-for ($i = 0; $i < count($headers); $i++) {
-    $pdf->SetXY($x, $y);
-    $startY = $pdf->GetY();
-    // Calcular el alto real del texto en la celda
-    $cell_lines = $line_counts[$i];
-    $cell_height = $cell_lines * $line_height;
-    // Centrado vertical: calcular espacio arriba
-    $offsetY = ($altura_encabezado - $cell_height) / 2;
-    // Dibujar el borde de la celda con fondo
-    $pdf->Rect($x, $y, $ancho_columnas[$i], $altura_encabezado, 'DF');
-    // Imprimir el texto centrado vertical y horizontalmente
-    $pdf->SetXY($x, $y + $offsetY);
-    $pdf->MultiCell($ancho_columnas[$i], $line_height, mb_convert_encoding($headers[$i], 'ISO-8859-1', 'UTF-8'), 0, 'C', true);
-    $x += $ancho_columnas[$i];
-}
-$pdf->SetXY($pdf->GetX(), $y + $altura_encabezado);
-
-// Colores para filas
-$pdf->SetFillColor(224, 235, 255);
-$pdf->SetTextColor(0);
-$pdf->SetFont('Arial', '', 8);
-
-foreach ($instituciones as $i => $inst) {
-    // Alternar color de fondo: blanco y azul claro
-    if ($i % 2 == 0) {
-        $pdf->SetFillColor(255, 255, 255); // Blanco
-    } else {
-        $pdf->SetFillColor(224, 235, 255); // Azul claro
-    }
-    $pdf->SetTextColor(0);
-
-    // Datos de la institución
-    $data = [
-        mb_convert_encoding($inst['RIF'], 'ISO-8859-1', 'UTF-8'),
-        mb_convert_encoding($inst['INSTITUTION_NAME'], 'ISO-8859-1', 'UTF-8'),
-        mb_convert_encoding($inst['INSTITUTION_ADDRESS'], 'ISO-8859-1', 'UTF-8'),
-        isset($inst['CAREER']) ? mb_convert_encoding($inst['CAREER'], 'ISO-8859-1', 'UTF-8') : '',
-        mb_convert_encoding($inst['PRACTICE_TYPE'], 'ISO-8859-1', 'UTF-8'),
-        isset($inst['ASIGNADOS']) ? mb_convert_encoding($inst['ASIGNADOS'], 'ISO-8859-1', 'UTF-8') : ''
-    ];
-
-    // Calcular el número de líneas necesarias para cada celda
-    $num_lines = [];
-    for ($j = 0; $j < count($data); $j++) {
-        $num_lines[$j] = $pdf->NbLines($ancho_columnas[$j], $data[$j]);
-    }
-    $max_lines = max($num_lines);
-    $altura = $line_height * $max_lines;
-
-    // Guardar posición inicial de la fila
-    $x = $pdf->GetX();
-    $y = $pdf->GetY();
-
-    // Imprimir cada celda de la fila, alineando el texto vertical y horizontalmente
-    for ($j = 0; $j < count($data); $j++) {
-        $pdf->SetXY($x, $y);
-
-        // Calcular el alto real del texto en la celda
-        $cell_lines = $num_lines[$j];
-        $cell_height = $cell_lines * $line_height;
-
-        // Centrado vertical: calcular espacio arriba
-        $offsetY = ($altura - $cell_height) / 2;
-
-        // Dibujar el borde de la celda con fondo alterno
-        $pdf->Rect($x, $y, $ancho_columnas[$j], $altura, 'DF');
-
-        // Imprimir el texto centrado vertical y horizontalmente
-        $pdf->SetXY($x, $y + $offsetY);
-        $pdf->MultiCell($ancho_columnas[$j], $line_height, $data[$j], 0, 'C', false);
-
-        $x += $ancho_columnas[$j];
-    }
-    // Mover a la siguiente fila
-    $pdf->SetXY($pdf->GetX(), $y + $altura);
-}
-
-$pdf->Output('I', 'Listado_Instituciones.pdf');
-?>

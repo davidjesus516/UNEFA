@@ -280,6 +280,11 @@ document.addEventListener("DOMContentLoaded", function() {
         e.preventDefault();
         const formData = new FormData(formulario);
         const id = formData.get("id_form");
+
+        const operadora = document.getElementById("operadora").value;
+        const telefono = document.getElementById("telefono").value;
+        formData.set("telefono", operadora + '-' + telefono); // Combina prefijo y número con guion
+
         formData.append("accion", id ? "actualizar" : "insertar");
         formData.append("user_id", userId);
         formData.append("id", id);

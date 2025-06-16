@@ -7,12 +7,13 @@ use Dompdf\Options;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\SvgWriter;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+// Se requiere el archivo de conexión a la base de datos
+require_once __DIR__ . '/../login/model/conexion.php';
 
-// --- Función para convertir imágenes a base64 ---
 function imageToBase64($path)
 {
     if (!file_exists($path)) {
-        return ''; 
+        return '';
     }
     $type = pathinfo($path, PATHINFO_EXTENSION);
     $data = file_get_contents($path);
@@ -26,30 +27,36 @@ try {
         throw new Exception('Error de conexión: ' . $conexion->connect_error);
     }
 
-    // Consulta SQL para obtener estudiantes activos
-    $sql = "SELECT s.STUDENTS_CI, s.NAME, s.SECOND_NAME, s.SURNAME, s.SECOND_SURNAME, s.GENDER, c.CAREER_NAME, s.CONTACT_PHONE, s.EMAIL 
-            FROM `t-students` s
-            LEFT JOIN `t-career` c ON s.CAREER_ID = c.CAREER_ID
-            WHERE s.STATUS = 1";
+    // Consulta SQL para obtener los datos de los responsables institucionales
+    $sql = "SELECT 
+                im.MANAGER_ID,
+                im.MANAGER_CI,
+                im.NAME AS MANAGER_NAME,
+                im.SECOND_NAME AS MANAGER_SECOND_NAME,
+                im.SURNAME AS MANAGER_SURNAME,
+                im.SECOND_SURNAME AS MANAGER_SECOND_SURNAME,
+                im.CONTACT_PHONE,
+                im.EMAIL,
+                i.INSTITUTION_NAME
+            FROM `t-institution_manager` im
+            LEFT JOIN `t-institution` i ON im.INSTITUTION_ID = i.INSTITUTION_ID
+            WHERE 1";
     $resultado = $conexion->query($sql);
     if ($resultado === false) {
         throw new Exception('Error en consulta: ' . $conexion->error);
     }
 
     // Obtener resultados
-    $estudiantes = $resultado->fetch_all(MYSQLI_ASSOC);
+    $responsables = $resultado->fetch_all(MYSQLI_ASSOC);
 
-    // Generar código QR
     $qr = new QrCode('https://www.unefa.edu.ve');
     $qr->setSize(400)->setMargin(0)->setErrorCorrectionLevel(new ErrorCorrectionLevelHigh());
     $writer = new SvgWriter();
     $qrImage = 'data:image/svg+xml;base64,' . base64_encode($writer->write($qr)->getString());
 
-    // Embeder imágenes como base64
     $escudoBase64 = imageToBase64(__DIR__ . '/../img/Escudo.png');
     $logoBase64 = imageToBase64(__DIR__ . '/../img/logo-nuevo.png');
 
-    // Generar HTML
     ob_start();
     ?>
 <!DOCTYPE html>
@@ -98,39 +105,37 @@ try {
     </table>
 </div>
 
-<div class="titulo-reporte">Listado de Estudiantes</div>
+<div class="titulo-reporte">Listado de Responsables Institucionales</div>
 
 <table style="transform: translateX(-10);">
     <thead>
         <tr>
-            <th style="width: 10mm;">CÉDULA</th>
-            <th style="width: 16mm;">NOMBRES</th>
-            <th style="width: 16mm;">APELLIDOS</th>
-            <th style="width: 8mm;">SEXO</th>
-            <th style="width: 30mm;">CARRERA</th>
-            <th style="width: 16mm;">TELÉFONO</th>
-            <th style="width: 30mm;">CORREO</th>
+            <th style="width: 15mm;">CÉDULA</th>
+            <th style="width: 25mm;">NOMBRES</th>
+            <th style="width: 25mm;">APELLIDOS</th>
+            <th style="width: 25mm;">TELÉFONO</th>
+            <th style="width: 35mm;">CORREO ELECTRÓNICO</th>
+            <th style="width: 40mm;">INSTITUCIÓN</th>
         </tr>
     </thead>
     <tbody>
         <?php
-        if (!empty($estudiantes)) {
+        if (!empty($responsables)) {
             $alternar = false;
-            foreach ($estudiantes as $estudiante) {
+            foreach ($responsables as $responsable) {
                 $clase = $alternar ? ' class="fila-par"' : '';
                 echo "<tr$clase>";
-                echo "<td>" . htmlspecialchars($estudiante['STUDENTS_CI']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['NAME'] . ' ' . $estudiante['SECOND_NAME']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['SURNAME'] . ' ' . $estudiante['SECOND_SURNAME']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['GENDER']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['CAREER_NAME']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['CONTACT_PHONE']) . "</td>";
-                echo "<td>" . htmlspecialchars($estudiante['EMAIL']) . "</td>";
+                echo "<td>" . htmlspecialchars($responsable['MANAGER_CI']) . "</td>";
+                echo "<td>" . htmlspecialchars($responsable['MANAGER_NAME'] . ' ' . $responsable['MANAGER_SECOND_NAME']) . "</td>";
+                echo "<td>" . htmlspecialchars($responsable['MANAGER_SURNAME'] . ' ' . $responsable['MANAGER_SECOND_SURNAME']) . "</td>";
+                echo "<td>" . htmlspecialchars($responsable['CONTACT_PHONE']) . "</td>";
+                echo "<td>" . htmlspecialchars($responsable['EMAIL']) . "</td>";
+                echo "<td>" . htmlspecialchars($responsable['INSTITUTION_NAME']) . "</td>";
                 echo "</tr>";
                 $alternar = !$alternar;
             }
         } else {
-            echo '<tr><td colspan="7">No hay datos disponibles</td></tr>';
+            echo '<tr><td colspan="6">No hay datos disponibles</td></tr>';
         }
         ?>
     </tbody>
@@ -140,14 +145,15 @@ try {
     <img src="<?= $qrImage ?>" width="85" height="85">
 </div>
 
-<div class="footer" style="bottom: 0;"><?= date('d/m/Y') ?></div>
+<div class="footer" style="bottom: 0;">
+    <?= date('d/m/Y') ?>
+</div>
 </div>
 </body>
 </html>
 <?php
     $html = ob_get_clean();
 
-    // Renderizar PDF
     $options = new Options();
     $options->setIsRemoteEnabled(true)->setDefaultFont('Arial');
     $dompdf = new Dompdf($options);
@@ -155,12 +161,10 @@ try {
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
 
-    // Número de páginas
     $canvas = $dompdf->getCanvas();
     $font = 'helvetica';
     $size = 8;
     $totalPages = $canvas->get_page_count();
-
     for ($page = 1; $page <= $totalPages; $page++) {
         $canvas->page_script('
             if ($PAGE_NUM == ' . $page . ') {
@@ -172,7 +176,8 @@ try {
         ');
     }
 
-    $dompdf->stream('Listado_Estudiantes.pdf', ['Attachment' => false]);
+    $dompdf->stream('Listado_Responsables.pdf', ['Attachment' => false]);
+
     $conexion->close();
 
 } catch (Exception $e) {
@@ -184,4 +189,3 @@ try {
     $dompdf->render();
     $dompdf->stream('Error.pdf', ['Attachment' => false]);
 }
-?>
