@@ -8,7 +8,7 @@
 }
 
 html {
-  background-color: #e4e9f7;
+  background-color: #ebebeb;
   transition: 200ms;
 }
 
@@ -21,7 +21,7 @@ span.obligatorio {
   position: relative;
   min-height: 100vh;
   z-index: 0;
-  /* background: #111A41; */
+  /* background: #10397d; */
   /* padding: 30px; */
   justify-content: center;
   /* display: grid; */
@@ -89,7 +89,7 @@ span.obligatorio {
   flex-basis: 85%;
   background-image: url(../../../img/fondo-claro.jpg);
   background-attachment: fixed;
-  /* background: #dfe5ea; */
+  /* background: #ebebeb; */
   background-size: cover;
   padding: 40px;
   align-items: center;
@@ -100,7 +100,7 @@ span.obligatorio {
   flex-basis: 75%;
   background-image: url(../../../img/fondo-claro.jpg);
   background-attachment: fixed;
-  /* background: #dfe5ea; */
+  /* background: #ebebeb; */
   background-size: cover;
   padding: 40px;
   align-items: center;
@@ -132,7 +132,7 @@ button {
 .btn:hover,
 button:hover {
   color: #272346;
-  background: #e4e9f7;
+  background: #ebebeb;
   transition: 0.5s ease;
 }
 
@@ -155,20 +155,20 @@ a {
   display: inline-block;
   box-sizing: border-box;
   border: none;
-  background: #e4e9f7;
+  background: #ebebeb;
   transition: 0.3s ease;
 }
 
 .login-form input:focus {
   background: transparent;
-  border: 1px solid #111a41;
+  border: 1px solid #10397d;
 }
 
 .login-form button {
   font-size: 18px;
   color: #fff;
   width: 100%;
-  background: #111a41;
+  background: #10397d;
   border: none;
   padding: 14px 15px;
   font-weight: 600;
@@ -177,7 +177,7 @@ a {
 }
 
 p.account a {
-  color: #111a41;
+  color: #10397d;
 }
 
 p.account a:hover {
@@ -212,7 +212,7 @@ p.account a:hover {
   left: 0;
   height: 100%;
   width: 18rem;
-  background: #111a41;
+  background: #10397d;
   z-index: 100;
   transition: all 0.5s ease;
 }
@@ -273,7 +273,7 @@ p.account a:hover {
 }
 
 .sidebar .nav-links li:hover {
-  background: #192dd4;
+  background: #10397d;
 }
 
 .sidebar .nav-links li .iocn-link {
@@ -327,7 +327,7 @@ p.account a:hover {
 .sidebar .nav-links li .sub-menu {
   padding: 6px 6px 14px 80px;
   margin-top: -10px;
-  background: #192dd4;
+  background: #10397d;
   display: none;
 }
 
@@ -397,7 +397,7 @@ p.account a:hover {
   width: 18rem;
   display: flex;
   align-items: center;
-  background: #1d1b31;
+  background: #10397d;
   padding: 12px 0;
   transition: all 0.5s ease;
   justify-content: space-evenly;
@@ -422,7 +422,7 @@ p.account a:hover {
   object-fit: cover;
   border-radius: 16px;
   margin: 0 14px 0 12px;
-  background: #1d1b31;
+  background: #10397d;
   transition: all 0.5s ease;
 }
 
@@ -450,7 +450,7 @@ p.account a:hover {
 
 .home-section {
   position: relative;
-  background: #e4e9f7;
+  background: #ebebeb;
   height: 100vh;
   left: 18rem;
   width: calc(100% - 18rem);
@@ -467,7 +467,7 @@ p.account a:hover {
   --burger-line-width: 1.125em;
   --burger-line-height: 0.125em;
   --burger-offset: 0.625em;
-  --burger-bg: #192dd4;
+  --burger-bg: #10397d;
   --burger-color: #333;
   --burger-line-border-radius: 0.1875em;
   --burger-diameter: 3.125em;
@@ -505,7 +505,7 @@ p.account a:hover {
   --nav-button-padding-y: 0.375em;
   --nav-button-border-radius: 0.375em;
   --nav-button-font-size: 17px;
-  --nav-button-hover-bg: #192dd4;
+  --nav-button-hover-bg: #15448f;
   --nav-button-hover-text-color: #fff;
   --nav-button-distance: 0.875em;
   /* underline */
@@ -598,7 +598,7 @@ p.account a:hover {
 
 .popup-window ul li:nth-child(1) svg,
 .popup-window ul li:nth-child(2) svg {
-  color: #192dd4;
+  color: #10397d;
 }
 
 .popup-window ul li:nth-child(4) svg,
@@ -670,12 +670,12 @@ p.account a:hover {
 
 .page-content {
   padding: 1rem;
-  background-color: #e4e9f7;
+  background-color: #ebebeb;
 }
 
 .home-section .home-content .bx-menu,
 .home-section .home-content .text {
-  color: #111a41;
+  color: #10397d;
   font-size: 35px;
 }
 
@@ -1017,18 +1017,18 @@ dialog {
 
     a {
       &:visited {
-        color: rgb(#192dd4);
+        color: rgb(#10397d);
       }
     }
   }
 }
 
 button.primary {
-  background-color: #192dd4;
+  background-color: #10397d;
   display: inline-block;
   font-size: 0.8rem;
   color: #fff !important;
-  background: rgb(#192dd4 / 100%);
+  background: rgb(#10397d / 100%);
   padding: 13px 25px;
   margin: 1rem;
   transition: background-color 0.1s ease;
@@ -1036,10 +1036,10 @@ button.primary {
   transition: all 0.25s ease;
   border: 0;
   cursor: pointer;
-  box-shadow: 0 10px 20px -10px rgb(#192dd4 / 50%);
+  box-shadow: 0 10px 20px -10px rgb(#10397d / 50%);
 
   &:hover {
-    box-shadow: 0 20px 20px -10px rgb(#192dd4 / 50%);
+    box-shadow: 0 20px 20px -10px rgb(#10397d / 50%);
     transform: translateY(-5px);
   }
 }
@@ -1080,7 +1080,7 @@ button.primary-white {
   background-color: #ffffff;
   display: inline-block;
   font-size: 0.8rem;
-  color: #192dd4 !important;
+  color: #10397d !important;
   background: rgb(#ffffff / 100%);
   padding: 13px 25px;
   margin: 1rem;
@@ -1182,11 +1182,11 @@ button.primary-white {
   cursor: pointer;
   display: flex;
   align-items: center;
-  background: #192dd4;
+  background: #10397d;
   border: none;
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-  background: #192dd4;
+  background: #10397d;
   transition: 200ms;
   /* margin-top: 13px; */
 }
@@ -1205,7 +1205,7 @@ button.primary-white {
 
 .task-edit .icon {
   position: absolute;
-  /* border-left: 1px solid #192DD4; */
+  /* border-left: 1px solid #10397d; */
   transform: translateX(60px);
   height: 40px;
   width: 40px;
@@ -1222,7 +1222,7 @@ button.primary-white {
 }
 
 .task-edit:hover {
-  background: #192dd4;
+  background: #10397d;
   transition: 200ms;
 }
 
@@ -2119,8 +2119,8 @@ button .icon svg,
 }
 
 .tab-btn.active {
-  border-bottom: 2px solid #192dd4;
-  color: #192dd4;
+  border-bottom: 2px solid #10397d;
+  color: #10397d;
 }
 
 .close-btn {
@@ -2205,7 +2205,7 @@ td {
 
 .modal-header {
   padding: 10px 20px;
-  background-color: #111a41;
+  background-color: #10397d;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -2352,7 +2352,7 @@ td {
 }
 
 .send-email-button {
-  background-color: #111a41; /* Green for send email button */
+  background-color: #10397d; /* Green for send email button */
   color: white;
   padding: 8px 15px;
   border: none;
@@ -2362,7 +2362,7 @@ td {
 }
 
 .send-email-button:hover {
-  background-color: #111a41;
+  background-color: #10397d;
 }
 
 /* Button to open the modal */
@@ -2577,7 +2577,7 @@ td {
   align-items: center;
   width: 20px;
   height: 20px;
-  background-color: #192dd4;
+  background-color: #10397d;
   border-radius: 50%;
   color: white;
   cursor: pointer;
@@ -2586,7 +2586,7 @@ td {
 }
 
 .icon-circle-tooltip:hover {
-  background-color: #192dd4;
+  background-color: #10397d;
   transform: scale(1.1);
 }
 
@@ -2597,7 +2597,7 @@ td {
   transform: translateX(-50%);
   margin-bottom: 15px;
   padding: 10px 15px;
-  background-color: #192dd4;
+  background-color: #10397d;
   color: white;
   border-radius: 6px;
   font-size: 1.2rem;
@@ -2618,7 +2618,7 @@ td {
   transform: translateX(-50%);
   border-width: 6px;
   border-style: solid;
-  border-color: #192dd4 transparent transparent transparent;
+  border-color: #10397d transparent transparent transparent;
 }
 
 .tooltip-container:hover .tooltip-text {
