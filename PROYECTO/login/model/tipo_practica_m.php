@@ -57,7 +57,7 @@ class TipoPractica
      */
     public function buscarPorId($id)
     {
-        $consulta = "SELECT * FROM `t-internship_type` WHERE ID = :id";
+        $consulta = "SELECT * FROM `t-internship_type` WHERE INTERNSHIP_TYPE_ID = :id";
         $stmt = $this->pdo->prepare($consulta);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
@@ -72,7 +72,7 @@ class TipoPractica
         try {
             $consulta = "UPDATE `t-internship_type` 
                          SET NAME = :nombre, PRIORITY = :prioridad 
-                         WHERE ID = :id";
+                         WHERE INTERNSHIP_TYPE_ID = :id";
             $stmt = $this->pdo->prepare($consulta);
             $stmt->bindValue(':id', $id);
             $stmt->bindValue(':nombre', mb_strtoupper(trim($datos['nombre'])));
@@ -90,7 +90,7 @@ class TipoPractica
     public function eliminar($id)
     {
         try {
-            $consulta = "UPDATE `t-internship_type` SET STATUS = 0 WHERE ID = :id";
+            $consulta = "UPDATE `t-internship_type` SET STATUS = 0 WHERE INTERNSHIP_TYPE_ID = :id";
             $stmt = $this->pdo->prepare($consulta);
             $stmt->bindValue(':id', $id);
             $resultado = $stmt->execute();
@@ -109,7 +109,7 @@ class TipoPractica
      */
     public function restaurar($id)
     {
-        $consulta = "UPDATE `t-internship_type` SET STATUS = 1 WHERE ID = :id";
+        $consulta = "UPDATE `t-internship_type` SET STATUS = 1 WHERE INTERNSHIP_TYPE_ID = :id";
         $stmt = $this->pdo->prepare($consulta);
         $stmt->bindValue(':id', $id);
         return $stmt->execute();

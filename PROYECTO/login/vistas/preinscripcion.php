@@ -106,7 +106,7 @@ require 'header.php';
                         <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Formulario enviado exitosamente!</p>
                     </div>
             </form>
-            <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+            <button type="button" onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
         </dialog>
     </div>
 
@@ -363,16 +363,16 @@ require 'header.php';
                             option.textContent = 'No hay tipos de práctica disponibles';
                             tipo_practica.appendChild(option);
                         }
-                        dialog.showModal();
                         document.getElementById("id_form").value = data.INSCRIPCION_ID || '';
                         document.getElementById("cedula").value = data.CEDULA || '';
                         document.getElementById("cedula").disabled = true; // Deshabilitar campo de cédula
                         document.getElementById("nacionalidad").value = data.NACIONALIDAD || '';
+                        document.getElementById("nacionalidad").disabled = true; // Deshabilitar nacionalidad
                         document.getElementById("Estudiante").value = data.ESTUDIANTE || '';
                         document.getElementById("id_estudiante").value = data.STUDENTS_ID || '';
                         document.getElementById("periodo").value = data.PERIOD_ID || '';
                         document.getElementById("tipo_practica").value = data.INTERNSHIP_TYPE_ID || '';
-                        
+                        dialog.showModal();
                     }
                 });
         };
