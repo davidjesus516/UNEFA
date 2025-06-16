@@ -285,15 +285,10 @@ require 'header.php';
                         if (data) {
                             document.getElementById("id_estudiante").value = data.STUDENTS_ID;
                             document.getElementById("Estudiante").value = data.NOMBRE_COMPLETO;
+                            document.getElementById("matricula").value = data.ENROLLMENT || '';
                             isCorrect("grupo__cedula");
                             document.getElementById("tipo_practica").innerHTML = ''; // Limpiar opciones previas
                             if (data['combos'] && Array.isArray(data['combos'].internship_types)) {
-                                const defaultOption = document.createElement("option");
-                                defaultOption.value = '';
-                                defaultOption.textContent = 'Seleccione un tipo de práctica';
-                                defaultOption.disabled = true;
-                                defaultOption.selected = true;
-                                document.getElementById("tipo_practica").appendChild(defaultOption);
                                 data['combos'].internship_types.forEach(tipo => {
                                     const option = document.createElement("option");
                                     option.value = tipo.INTERNSHIP_TYPE_ID;
@@ -372,6 +367,7 @@ require 'header.php';
                         document.getElementById("id_estudiante").value = data.STUDENTS_ID || '';
                         document.getElementById("periodo").value = data.PERIOD_ID || '';
                         document.getElementById("tipo_practica").value = data.INTERNSHIP_TYPE_ID || '';
+                        document.getElementById("matricula").value = data.ENROLLMENT || '';
                         dialog.showModal();
                     }
                 });

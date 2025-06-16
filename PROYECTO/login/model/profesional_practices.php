@@ -17,9 +17,7 @@ class ProfesionalPractices
      * @return array|null Datos de la institución o null si no existe
      */
     public function buscarPorCedula($cedula) {
-        $consulta = "SELECT `STUDENTS_ID`, CONCAT(`NAME`,' ',`SECOND_NAME`,' ',`SURNAME`,' ',`SECOND_SURNAME`) AS `NOMBRE_COMPLETO` , `CAREER_ID` FROM `t-students`
-                    WHERE `STUDENTS_CI` = :cedula 
-                    AND `STATUS` = 1";
+        $consulta = "SELECT s.`STUDENTS_ID`, CONCAT(s.`NAME`,' ',s.`SECOND_NAME`,' ',s.`SURNAME`,' ',s.`SECOND_SURNAME`) AS `NOMBRE_COMPLETO` , s.`CAREER_ID`, CONCAT(c.`CAREER_ABBREVIATION`,'-',s.`SEMESTER`,'-',s.`SECTION`,'-',s.`REGIME`) ENROLLMENT FROM `t-students` s LEFT JOIN `t-career` c ON s.`CAREER_ID` = c.`CAREER_ID` WHERE s.`STUDENTS_CI` = :cedula AND s.`STATUS` = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':cedula', $cedula);
         $statement->execute();
@@ -168,12 +166,13 @@ class ProfesionalPractices
     // Insertar preinscripción
     public function insertarPreinscripcion($datos) {
         $sql = "INSERT INTO `t-professional_practices` 
-            (`STUDENTS_ID`, `PERIOD_ID`, `INTERNSHIP_TYPE_ID`, `STATUS`, `INTERSHIP_STATUS`, `PRACTICES_STATUS`)
-            VALUES (:estudiante_id, :periodo, :tipo_practica ,1, 1, 1)";
+            (`STUDENTS_ID`, `PERIOD_ID`, `INTERNSHIP_TYPE_ID`, `ENROLLMENT`, `STATUS`, `INTERSHIP_STATUS`,  `PRACTICES_STATUS`)
+            VALUES (:estudiante_id, :periodo, :tipo_practica ,:matricula ,1, 1, 1)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':estudiante_id', $datos['estudiante_id']);
         $stmt->bindValue(':periodo', $datos['periodo']);
         $stmt->bindValue(':tipo_practica', $datos['tipo_practica']);
+        $stmt->bindValue(':matricula', $datos['matricula']);    
         return $stmt->execute();
     }
 
@@ -201,7 +200,7 @@ class ProfesionalPractices
                     s.`STUDENTS_ID`,
                     s.`STUDENTS_CI` AS FULL_CEDULA,
                     CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
-                    s.`CAREER_ID`
+                    s.`CAREER_ID`, i.`ENROLLMENT`
                 FROM `t-professional_practices` i
                 LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
                 WHERE i.`PROFESSIONAL_PRACTICE_ID` = :id";
