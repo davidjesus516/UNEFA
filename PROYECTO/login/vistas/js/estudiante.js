@@ -97,7 +97,6 @@ $(document).ready(function () {//aqui inicializamos javascript
             case 'semestre':
             case 'seccion':
             case 'regimen':
-            case 'tipo_estudiante':
             case 'rango_militar':
             case 'trabaja':
             case 'carrera':
@@ -125,6 +124,15 @@ $(document).ready(function () {//aqui inicializamos javascript
             errores = false; // Si no hay grupos incorrectos, se establece la variable errores en false
         }
     }
+    $('#tipo_estudiante').change(function () {
+        let tipoEstudiante = $(this).val();
+        if (tipoEstudiante === 'CIV') {
+            $('#rango_militar').val(' '); // Limpia el campo de rango militar si el tipo de estudiante es CIV
+            $('#rango_militar').attr('disabled', true); // Deshabilita el campo de rango militar
+        } else {
+            $('#rango_militar').attr('disabled', false); // Habilita el campo de rango militar para otros tipos de estudiante
+        }
+    });
     $('#formulario input').keyup(function (e) {//reviso del formulario task el evento keyup
         let input = $(this);
         validateForm(input); // Llama a la función de validación para cada input
