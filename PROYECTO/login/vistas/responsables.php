@@ -12,18 +12,37 @@
             <form id="formulario" class="formulario">
                 <input type="hidden" id="id_form" name="id_form">
 
+                <!-- Grupo: Cédula -->
+                <div class="formulario__grupo" id="grupo__cedula">
+                    <label for="cedula" class="formulario__label">Cédula <span class="obligatorio">*</span></label>
+
+                    <div class="formulario__grupo-input formulario__grupo-cedula">
+                        <div class="formulario__codigo-pais">
+                            <select class="formulario__input formulario__codigo-select" id="nacionalidad" name="nacionalidad" required>
+                                <!-- <option value="" disabled selected>Nac.</option> -->
+                                <option value="V">V-</option>
+                                <option value="E">E-</option>
+                                <option value="P">P-</option>
+                            </select>
+                        </div>
+                        <input type="text"
+                            class="formulario__input formulario__cedula-input"
+                            name="MANAGER_CI"
+                            id="MANAGER_CI"
+                            placeholder="Ej: 12345678"
+                            maxlength="9"
+                            required>
+                    </div>
+
+                    <p class="formulario__input-error">Formato válido: X-12345678</p>
+                </div>
+
                 <!-- SELECT DE INSTITUCIONES -->
                 <div class="formulario__grupo">
                     <label for="institucion_id">Institución <span class="obligatorio">*</span></label>
                     <select name="INSTITUTION_ID" id="INSTITUTION_ID" class="formulario__input" required>
                         <option value="" disabled selected>Seleccione una institución</option>
                     </select>
-                </div>
-
-                <div class="formulario__grupo">
-                    <label for="MANAGER_CI">Cédula <span class="obligatorio">*</span></label>
-                    <input type="text" name="MANAGER_CI" id="MANAGER_CI" class="formulario__input" required>
-                    <span id="error-cedula" style="color:red;display:none;font-size: small;">Esta cédula ya está registrada</span>
                 </div>
 
                 <div class="formulario__grupo">
@@ -256,8 +275,10 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`../controllers/institution_manager/InstitutionManager.php?accion=buscar&id=${id}`)
             .then(res => res.json())
             .then(data => {
+                cedula = data.MANAGER_CI.split('-');
                 document.getElementById("id_form").value = data.MANAGER_ID;
-                document.getElementById("MANAGER_CI").value = data.MANAGER_CI;
+                document.getElementById("nacionalidad").value = cedula[0] ?? 'V';
+                document.getElementById("MANAGER_CI").value = cedula[1] ?? '';
                 document.getElementById("NAME").value = data.NAME ?? '';
                 document.getElementById("SECOND_NAME").value = data.SECOND_NAME ?? '';
                 document.getElementById("SURNAME").value = data.SURNAME ?? '';

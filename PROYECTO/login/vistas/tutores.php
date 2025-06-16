@@ -308,8 +308,10 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`../controllers/tutor/Tutor.php?accion=buscar&id=${id}`)
             .then(res => res.json())
             .then(data => {
+                cedula = data.TUTOR_CI.split('-') ?? '';
                 document.getElementById("id_form").value = data.TUTOR_ID ?? '';
-                document.getElementById("cedula").value = data.TUTOR_CI ?? '';
+                document.getElementById("nacionalidad").value = cedula[0] ?? 'V';
+                document.getElementById("cedula").value = cedula[1] ?? '';
                 document.getElementById("primer_nombre").value = data.NAME ?? '';
                 document.getElementById("segundo_nombre").value = data.SECOND_NAME ?? '';
                 document.getElementById("primer_apellido").value = data.SURNAME ?? '';

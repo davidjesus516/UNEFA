@@ -71,7 +71,7 @@ class InstitutionManagerController
     {
         $datos = [
             'INSTITUTION_ID' => $_POST['INSTITUTION_ID'],
-            'MANAGER_CI' => $_POST['MANAGER_CI'],
+            'MANAGER_CI' => $_POST['nacionalidad'].'-'.$_POST['MANAGER_CI'],
             'NAME' => $_POST['NAME'],
             'SECOND_NAME' => $_POST['SECOND_NAME'] ?? null,
             'SURNAME' => $_POST['SURNAME'],
@@ -118,7 +118,7 @@ class InstitutionManagerController
         $datos = [
             'MANAGER_ID' => $_POST['MANAGER_ID'] ?? $_POST['id'] ?? null,
             'INSTITUTION_ID' => $_POST['INSTITUTION_ID'],
-            'MANAGER_CI' => $_POST['MANAGER_CI'],
+            'MANAGER_CI' => $_POST['nacionalidad'].'-'.$_POST['MANAGER_CI'],
             'NAME' => $_POST['NAME'],
             'SECOND_NAME' => $_POST['SECOND_NAME'] ?? null,
             'SURNAME' => $_POST['SURNAME'],

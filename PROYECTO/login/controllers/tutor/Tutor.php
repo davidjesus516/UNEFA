@@ -113,7 +113,7 @@ class TutorController
     private function obtenerDatosFormulario()
     {
         return [
-            $_POST['cedula'] ?? '',
+            $_POST['nacionalidad'].'-'.$_POST['cedula'] ?? '',
             $_POST['primer_nombre'] ?? '',
             $_POST['primer_apellido'] ?? '',
             $_POST['telefono'] ?? '',
