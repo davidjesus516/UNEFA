@@ -57,8 +57,7 @@
                 <div class="formulario__grupo" id="grupo__tipo_practica">
                     <label for="tipo_practica" class="formulario__label">Tipo Práctica<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <select class="formulario__input" name="tipo_practica" id="tipo_practica">
-                            <option value="" disabled selected>Seleccione una opción</option>
+                        <input type="NULL" class="formulario__input" name="tipo_practica" id="tipo_practica" placeholder="Tipo Práctica" disabled>
                         </select>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
@@ -171,7 +170,7 @@
     }
 
     function listarInscripciones(tipo) {
-        const endpoint = tipo === 'activos' ? 'listar_activos' : 'listar_inactivos';
+        const endpoint = tipo === 'activos' ? 'listar_inscripciones_activos' : 'listar_inscripciones_inactivos';
         const tablaId = tipo === 'activos' ? 'datos-activos' : 'datos-inactivos';
         fetch(`../controllers/profesional_practices/profesional_practices.php?accion=${endpoint}`)
             .then(res => res.json())
@@ -325,24 +324,7 @@
                             document.getElementById("id_estudiante").value = data.STUDENTS_ID;
                             document.getElementById("Estudiante").value = data.NOMBRE_COMPLETO;
                             isCorrect("grupo__cedula");
-                            document.getElementById("tipo_practica").innerHTML = ''; // Limpiar opciones previas
-                            if (data['combos'] && Array.isArray(data['combos'].internship_types)) {
-                                const defaultOption = document.createElement("option");
-                                defaultOption.value = '';
-                                defaultOption.textContent = 'Seleccione un tipo de práctica';
-                                defaultOption.disabled = true;
-                                defaultOption.selected = true;
-                                document.getElementById("tipo_practica").appendChild(defaultOption);
-                                data['combos'].internship_types.forEach(tipo => {
-                                    const option = document.createElement("option");
-                                    option.value = tipo.INTERNSHIP_TYPE_ID;
-                                    option.textContent = tipo.NAME;
-                                    document.getElementById("tipo_practica").appendChild(option);
-                                });
-                                isCorrect("grupo__tipo_practica");
-                            } else {
-                                isIncorrect("grupo__tipo_practica", "No se encontraron tipos de práctica para esta carrera.");
-                            }
+                            document.getElementById("tipo_practica").value = data.internship_types || '';
                             document.getElementById("tutor_academico").innerHTML = ''; // Limpiar opciones previas
                             if (data['combos'] && Array.isArray(data['combos'].tutores)) {
                                 const defaultOption = document.createElement("option");

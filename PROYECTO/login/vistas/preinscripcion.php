@@ -123,14 +123,14 @@ require 'header.php';
                 <tr class="w3-light-grey">
                     <th>Cédula</th>
                     <th>Nombre</th>
-                    <th>Sexo</th>
                     <th>Contacto</th>
-                    <th>Carrera</th>
+                    <th>Periodo</th>
+                    <th>Matrícula</th>
                     <th colspan="2">Acciones</th>
                 </tr>
             </thead>
             <tbody id="datos-activos"></tbody>
-            <tbody id="datos-inactivos" style="display: none;"></tbody>
+            <tbody id="datos-inactivos" styl    e="display: none;"></tbody>
         </table>
     </div>
 </div>
@@ -198,9 +198,9 @@ require 'header.php';
                         tr.innerHTML = `
                             <td>${row.STUDENTS_CI || ''}</td>
                             <td>${row.ESTUDIANTE || ''}</td>
-                            <td>${row.SEXO || row.GENDER || ''}</td>
                             <td>${row.CONTACTO || row.CONTACT_PHONE || row.PHONE || ''}</td>
-                            <td>${row.CARRERA || row.CAREER_NAME || row.NAME || ''}</td>
+                            <td>${row.PERIOD_DESCRIPTION || ''}</td>
+                            <td>${row.ENROLLMENT || ''}</td>
                             <td colspan="2">${acciones}</td>
                         `;
                         tbody.appendChild(tr);

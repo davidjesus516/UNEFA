@@ -62,7 +62,7 @@ class ProfesionalPractices
         return $combo;
 
     }
-    public function listarActivos() {
+    public function listarInscripcionesActivos() {
         $consulta = "SELECT 
                 i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
                 s.`STUDENTS_ID`,
@@ -80,14 +80,14 @@ class ProfesionalPractices
             LEFT JOIN `t-tutors` tm ON i.`TUTOR_M_ID` = tm.`TUTOR_ID`
             LEFT JOIN `t-institution` inst ON i.`INSTITUTION_ID` = inst.`INSTITUTION_ID`
             LEFT JOIN `t-institution_manager` r ON i.`MANAGER_ID` = r.`MANAGER_ID`
-            WHERE i.`STATUS` = 1
+            WHERE i.`STATUS` = 1 AND i.`PRACTICES_STATUS` = 2
         ";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function listarInactivos() {
+    public function listarInscripcionesInactivos() {
         $consulta = "SELECT 
                 i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
                 s.`STUDENTS_ID`,
@@ -105,7 +105,7 @@ class ProfesionalPractices
             LEFT JOIN `t-tutors` tm ON i.`TUTOR_M_ID` = tm.`TUTOR_ID`
             LEFT JOIN `t-institution` inst ON i.`INSTITUTION_ID` = inst.`INSTITUTION_ID`
             LEFT JOIN `t-institution_manager` r ON i.`MANAGER_ID` = r.`MANAGER_ID`
-            WHERE i.`STATUS` = 0
+            WHERE i.`STATUS` = 0 AND i.`PRACTICES_STATUS` = 2
         ";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
@@ -134,12 +134,13 @@ class ProfesionalPractices
                 s.`STUDENTS_ID`,
                 `STUDENTS_CI`,
                 CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
-                s.`GENDER` AS SEXO,
                 s.`CONTACT_PHONE` AS CONTACTO,
-                c.`CAREER_NAME` AS CARRERA
+                i.`ENROLLMENT`,
+                p.`DESCRIPTION` AS PERIOD_DESCRIPTION
             FROM `t-professional_practices` i
             LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
             LEFT JOIN `t-career` c ON s.`CAREER_ID` = c.`CAREER_ID`
+            LEFT JOIN `t-internships_period` p ON i.`PERIOD_ID` = p.`PERIOD_ID`
             WHERE i.`STATUS` = 1 AND I.`PRACTICES_STATUS` = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();

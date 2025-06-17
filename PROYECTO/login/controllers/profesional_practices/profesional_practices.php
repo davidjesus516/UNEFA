@@ -31,11 +31,11 @@ class ProfesionalPracticesController
                 case 'cargar_responsables':
                     $this->cargarResponsables();
                     break;
-                case 'listar_activos': // <-- Agregado
-                    $this->listarActivos();
+                case 'listar_inscripciones_activos': // <-- Agregado
+                    $this->listarInscripcionesActivos();
                     break;
-                case 'listar_inactivos': // <-- Agregado
-                    $this->listarInactivos();
+                case 'listar_inscripciones_inactivos': // <-- Agregado
+                    $this->listarInscripcionesInactivos();
                     break;
                 case 'listar_periodos':
                     $this->listarPeriodos();
@@ -100,9 +100,9 @@ class ProfesionalPracticesController
     /**
      * Listar inscripciones activas
      */
-    private function listarActivos()
+    private function listarInscripcionesActivos()
     {
-        $activos = $this->modelo->listarActivos();
+        $activos = $this->modelo->listarInscripcionesActivos();
         if (empty($activos)) {
             $this->responder(['mensaje' => 'No hay inscripciones activas'], 404);
             return;
@@ -112,9 +112,9 @@ class ProfesionalPracticesController
     /**
      * lisar inscripciones inactivas
      */
-    private function listarInactivos()
+    private function listarInscripcionesInactivos()
     {
-        $inactivos = $this->modelo->listarInactivos();
+        $inactivos = $this->modelo->listarInscripcionesInactivos();
         if (empty($inactivos)) {
             $this->responder(['mensaje' => 'No hay inscripciones inactivas'], 404);
             return;
