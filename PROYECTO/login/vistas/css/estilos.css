@@ -211,7 +211,7 @@ p.account a:hover {
   top: 0;
   left: 0;
   height: 100%;
-  width: 18rem;
+  width: 100%;
   background: #111a41;
   z-index: 100;
   transition: all 0.5s ease;
@@ -2798,4 +2798,50 @@ button#resetFilters {
 
 .task-restore:active .icon svg {
   transform: scale(0.8);
+}
+
+
+
+.settings-nav {
+    width: 12rem;
+    overflow: hidden;
+}
+
+.settings-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.settings-menu h3 {
+    color: #10397d;
+    padding: 10px;
+    margin: 10px;
+    font-size: 13px;
+    border-radius: 3rem;
+    font-weight: 900;
+}
+
+.menu-item {
+    /* border-bottom: 1px solid #ddd; */
+    background-color: none;
+}
+
+.menu-item a {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.menu-item a:hover {
+    background-color: #292424;
+}
+
+.menu-item i {
+    margin-right: 10px;
+    font-size: 1rem;
+    color: #545a64;
 }
