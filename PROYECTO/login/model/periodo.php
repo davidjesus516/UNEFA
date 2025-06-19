@@ -289,7 +289,7 @@ class Periodo
                 foreach ($periodos as $p) {
                     if ($this->descripcionAOrden($p['DESCRIPTION']) < $ordenActual && $p['PERIOD_STATUS'] != 3) {
                         $this->pdo->rollBack();
-                        return "No puede activar este período hasta que todos los anteriores estén CULMINADOS";
+                        return "No puede activar este período hasta que todos los anteriores estén CULMINADOS, ni saltar el orden cronológico!";
                     }
                 }
             }

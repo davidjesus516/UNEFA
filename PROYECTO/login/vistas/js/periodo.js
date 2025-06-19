@@ -6,6 +6,9 @@ $(document).ready(() => {
 
     console.log("jQuery está funcionando");
 
+    // Asegúrate de que window.dialog apunte al elemento dialog
+    window.dialog = document.getElementById('dialog');
+
     // Mostrar solo activos al cargar la página
     $('#datos-activos').show();
     $('#datos-inactivos').hide();
@@ -24,10 +27,8 @@ $(document).ready(() => {
         const minDate = new Date(fechaInicioDate.getTime() + numweeks * 7 * 24 * 60 * 60 * 1000);
         const formattedMinDate = minDate.toISOString().split('T')[0];
 
-        // Actualiza el valor y el mínimo permitido en el campo de fin
         $('#periodo_fin').attr('min', formattedMinDate);
 
-        // Si la fecha de fin actual es menor a la mínima, actualízala
         const fechaFinActual = $('#periodo_fin').val();
         if (!fechaFinActual || fechaFinActual < formattedMinDate) {
             $('#periodo_fin').val(formattedMinDate);
@@ -39,12 +40,10 @@ $(document).ready(() => {
         const lapsoYear = $(this).val();
         if (!lapsoYear) return;
 
-        // Limitar el campo de fecha de inicio solo a ese año
         const minDate = `${lapsoYear}-01-01`;
         const maxDate = `${lapsoYear}-12-31`;
         $('#periodo_inicio').attr('min', minDate).attr('max', maxDate);
 
-        // Si la fecha de inicio actual no está en ese año, la ajusta al 1 de enero
         const currentStart = $('#periodo_inicio').val();
         if (!currentStart || currentStart.substring(0, 4) !== lapsoYear) {
             $('#periodo_inicio').val(minDate).trigger('change');
@@ -55,74 +54,128 @@ $(document).ready(() => {
     $('#formulario').submit(function (e) {
         e.preventDefault();
 
-        if (!confirm('¿Quieres proceder con el registro?')) return false;
-
         const lapsoYear = $('#lapso-academico').val();
+        const turnoVal = $('#turno').val(); // Captura el valor del turno aquí
         const startDate = $('#periodo_inicio').val();
         const endDate = $('#periodo_fin').val();
 
-        const postData = {
-            DESCRIPTION: `${lapsoYear}-${$('#turno').val()}`,
-            START_DATE: startDate,
-            END_DATE: endDate,
-            PERIOD_STATUS: 1,
-            STATUS: 1
-        };
-
-        if (edit) {
-            postData.id = $('#PERIOD_ID').val();
-            postData.PERIOD_STATUS = currentEditPeriodStatus;
-            postData.STATUS = currentEditStatus;
+        // ** CIERRA EL DIALOG ANTES DE CUALQUIER VALIDACIÓN QUE MUESTRE SWEETALERT2 **
+        // Esto asegura que SweetAlert2 siempre se muestre por encima del modal.
+        const wasDialogOpen = window.dialog && window.dialog.open;
+        if (wasDialogOpen) {
+            window.dialog.close();
         }
 
+        // Validaciones previas a la confirmación de envío
         if (errores) {
-            mostrarMensajeError("Debe llenar correctamente el formulario");
-            return false;
+            mostrarMensajeError("Debe llenar correctamente el formulario", () => {
+                // Si el dialog estaba abierto, lo reabrimos para que el usuario corrija.
+                if (wasDialogOpen && !window.dialog.open) {
+                    window.dialog.showModal();
+                }
+            });
+            return;
         }
 
-        // Validación: año del lapso académico debe coincidir con año de fecha de inicio
         if (lapsoYear && startDate) {
             const startYear = new Date(startDate).getFullYear().toString();
             if (lapsoYear !== startYear) {
-                mostrarMensajeError("El año de la fecha de inicio debe coincidir con el año del lapso académico seleccionado.");
-                return false;
+                mostrarMensajeError("El año de la fecha de inicio debe coincidir con el año del lapso académico seleccionado.", () => {
+                    // ** AQUÍ ES DONDE AÑADIMOS LA REAPERTURA DEL MODAL **
+                    // Si el dialog estaba abierto, lo reabrimos para que el usuario corrija.
+                    if (wasDialogOpen && !window.dialog.open) {
+                        window.dialog.showModal();
+                    }
+                });
+                return;
             }
         }
 
-        // Validar que la fecha de cierre sea al menos 16 semanas después de la fecha de inicio
         if (startDate && endDate) {
             const diffDays = (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
             if (diffDays < 112) {
-                mostrarMensajeError("La fecha de cierre debe ser al menos 16 semanas después de la fecha de inicio.");
-                return false;
+                mostrarMensajeError("La fecha de cierre debe ser al menos 16 semanas después de la fecha de inicio.", () => {
+                    // Si el dialog estaba abierto, lo reabrimos para que el usuario corrija.
+                    if (wasDialogOpen && !window.dialog.open) {
+                        window.dialog.showModal();
+                    }
+                });
+                return;
             }
         }
+        
+        // Si todas las validaciones previas pasan, ahora mostramos la confirmación de envío.
+        // El dialog ya debería estar cerrado por la lógica inicial del submit.
+        Swal.fire({
+            title: '¿Quieres proceder con el registro?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'No',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then((result) => {
+            // Reabre el dialog solo si se CANCELÓ la confirmación de envío.
+            if (!result.isConfirmed) {
+                if (wasDialogOpen && !window.dialog.open) { // Si el dialog estaba abierto antes del Swal
+                    window.dialog.showModal(); // Lo reabrimos para que el usuario siga editando.
+                }
+                console.log('Registro cancelado por el usuario.');
+                return; // No proceder con AJAX
+            }
 
-        const url = '../controllers/periodo/Periodo.php?accion=' + (edit ? 'actualizar' : 'insertar');
-        $.ajax({
-            url,
-            type: 'POST',
-            dataType: 'json',
-            data: postData,
-            success: response => handleFormResponse(response),
-            error: xhr => mostrarMensajeError(`Error en el servidor: ${xhr.statusText}`)
+            // Si se confirmó el envío
+            const postData = {
+                DESCRIPTION: `${lapsoYear}-${turnoVal}`, 
+                START_DATE: startDate,
+                END_DATE: endDate,
+                PERIOD_STATUS: 1,
+                STATUS: 1
+            };
+
+            if (edit) {
+                postData.id = $('#PERIOD_ID').val();
+                postData.PERIOD_STATUS = currentEditPeriodStatus;
+                postData.STATUS = currentEditStatus;
+            }
+
+            const url = '../controllers/periodo/Periodo.php?accion=' + (edit ? 'actualizar' : 'insertar');
+            $.ajax({
+                url,
+                type: 'POST',
+                dataType: 'json',
+                data: postData,
+                success: response => handleFormResponse(response),
+                error: xhr => mostrarMensajeError(`Error en el servidor: ${xhr.statusText}`, () => {
+                    // Si hubo un error en el AJAX y el dialog estaba abierto, lo reabrimos.
+                    if (wasDialogOpen && !window.dialog.open) {
+                        window.dialog.showModal();
+                    }
+                })
+            });
         });
     });
 
     // Función para manejar la respuesta del formulario
     const handleFormResponse = response => {
         if (response.success) {
-            mostrarMensajeExito('Operación exitosa');
-            fetchTask();
-            if (dialog) dialog.close();
+            mostrarMensajeExito('Operación exitosa', () => {
+                fetchTask();
+                // El dialog se cierra con éxito aquí
+                if (window.dialog && window.dialog.open) {
+                    window.dialog.close(); 
+                }
+                resetFormFields(); // Limpiar el formulario solo después de un envío exitoso
+            });
         } else if (response.message) {
-            mostrarMensajeError(response.message);
+            // mostrarMensajeError ya maneja su propio callback.
+            mostrarMensajeError(response.message); 
         } else {
             mostrarMensajeError('Error desconocido al procesar la solicitud');
         }
     }
 
-    // Función para obtener y mostrar los períodos
+    // Función para obtener y mostrar los períodos (sin cambios)
     function fetchTask() {
         $.ajax({
             url: '../controllers/periodo/Periodo.php?accion=listar',
@@ -137,12 +190,11 @@ $(document).ready(() => {
         });
     }
 
-    // Nueva función para renderizar períodos en activos/inactivos
+    // Nueva función para renderizar períodos en activos/inactivos (sin cambios)
     function renderTasks(data) {
         let templateActivos = '';
         let templateInactivos = '';
 
-        // Renderiza activos
         (data.activos || []).forEach(task => {
             const statusInfo = getStatusInfo(task.PERIOD_STATUS);
             templateActivos += `
@@ -171,7 +223,6 @@ $(document).ready(() => {
             </tr>`;
         });
 
-        // Renderiza inactivos SOLO con botón restaurar y estado como texto
         (data.inactivos || []).forEach(task => {
             const statusInfo = getStatusInfo(task.PERIOD_STATUS);
             templateInactivos += `
@@ -197,7 +248,7 @@ $(document).ready(() => {
         $('#datos-inactivos').html(templateInactivos);
     }
 
-    // Función para obtener información del estado
+    // Función para obtener información del estado (sin cambios)
     function getStatusInfo(statusCode) {
         const statusMap = {
             1: {
@@ -250,28 +301,47 @@ $(document).ready(() => {
             return;
         }
 
-        if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-            $.ajax({
-                url: '../controllers/periodo/UserDelete.php',
-                type: 'POST',
-                dataType: 'json',
-                data: { PERIOD_ID },
-                success: function (response) {
-                    fetchTask();
-                    if (response && response.success) {
-                        mostrarMensajeExito(response.message || 'Período eliminado correctamente');
-                    } else if (response && response.message) {
-                        mostrarMensajeError(response.message);
-                    } else {
-                        mostrarMensajeExito('Período eliminado correctamente');
-                    }
-                },
-                error: function (xhr) {
-                    fetchTask();
-                    mostrarMensajeError(`Error al eliminar: ${xhr.statusText}`);
-                }
-            });
+        // Siempre cerrar el dialog si está abierto antes de cualquier Swal.fire
+        if (window.dialog && window.dialog.open) {
+            window.dialog.close();
         }
+
+        Swal.fire({
+            title: '¿Estás seguro de que deseas eliminar este registro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!',
+            cancelButtonText: 'Cancelar',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then((result) => {
+            // Aquí NO reabrimos el dialog si se cancela, porque esta acción no proviene del dialog
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '../controllers/periodo/UserDelete.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { PERIOD_ID },
+                    success: function (response) {
+                        fetchTask();
+                        if (response && response.success) {
+                            mostrarMensajeExito(response.message || 'Período eliminado correctamente');
+                        } else if (response && response.message) {
+                            mostrarMensajeError(response.message);
+                        } else {
+                            mostrarMensajeExito('Período eliminado correctamente');
+                        }
+                    },
+                    error: function (xhr) {
+                        fetchTask();
+                        mostrarMensajeError(`Error al eliminar: ${xhr.statusText}`);
+                    }
+                });
+            }
+        });
     });
 
     // Manejador para editar período
@@ -292,6 +362,8 @@ $(document).ready(() => {
             return;
         }
 
+        edit = true; // Establecemos el modo edición en true
+
         $.ajax({
             url: '../controllers/periodo/UserEditSearch.php',
             type: 'POST',
@@ -301,6 +373,7 @@ $(document).ready(() => {
                 setupEditForm(response, currentStatus);
             },
             error: function (xhr) {
+                // Aquí el error es al cargar los datos de edición, por lo que el dialog aún no se abrió.
                 mostrarMensajeError(`Error al cargar datos: ${xhr.statusText}`);
             }
         });
@@ -313,19 +386,20 @@ $(document).ready(() => {
             const [year, turno] = task.DESCRIPTION.split('-');
 
             $('#lapso-academico').val(year);
-            $('#turno').val(turno);
+            $('#turno').val(turno); 
             $('#periodo_inicio').val(task.START_DATE);
             $('#periodo_fin').val(task.END_DATE);
             $('#PERIOD_ID').val(task.PERIOD_ID);
 
-            // GUARDAR LOS ESTADOS ACTUALES PARA USARLOS AL ENVIAR
             currentEditStatus = task.STATUS;
             currentEditPeriodStatus = task.PERIOD_STATUS;
 
-            // Configurar campos según el estado
             setupFieldsByStatus(task.PERIOD_STATUS);
 
-            // Validación extra para EN CURSO: solo permitir editar fecha de cierre
+            window.dialog.showModal(); // Muestra el dialog
+            // Trigger change for validation and min date setup
+            $('#periodo_inicio').trigger('change');
+
             if (currentStatus === 2) {
                 $('#lapso-academico').prop('disabled', true);
                 $('#turno').prop('disabled', true);
@@ -338,43 +412,38 @@ $(document).ready(() => {
                 $('#periodo_fin').prop('disabled', false);
             }
 
-            window.dialog.showModal();
-            edit = true;
         } catch (err) {
             console.error('Error al editar:', err, response);
             mostrarMensajeError('Error al cargar datos para edición');
         }
     }
 
-    // Función para configurar campos según el estado
+    // Función para configurar campos según el estado (sin cambios)
     function setupFieldsByStatus(status) {
         const startDateGroup = $('.formulario__grupo:has(#periodo_inicio)');
-        const endDateGroup = $('.formulario__grupo:has(#periodo_fin)');
+        const endDateGroup = $('.formulario__grupo__input-group:has(#periodo_fin)');
         const submitButton = $('.formulario__btn');
 
-        // Resetear todos los campos primero
         $('#periodo_inicio, #periodo_fin').prop('disabled', false);
         startDateGroup.add(endDateGroup).removeClass('campo-deshabilitado');
         submitButton.prop('disabled', false);
 
-        // Aplicar restricciones según el estado
-        if (status === 2) { // EN CURSO
+        if (status === 2) {
             $('#periodo_inicio').prop('disabled', true);
             startDateGroup.addClass('campo-deshabilitado');
-        } else if (status === 3) { // CULMINADO
+        } else if (status === 3) {
             $('#periodo_inicio, #periodo_fin').prop('disabled', true);
             startDateGroup.add(endDateGroup).addClass('campo-deshabilitado');
             submitButton.prop('disabled', true);
         }
     }
 
-    // Manejador para cambiar estado
+    // Manejador para cambiar estado (Activar/Culminar)
     $(document).on('click', '.task-status', function () {
         const button = $(this);
         const PERIOD_ID = button.closest('tr').attr('taskid');
         const currentStatusText = button.find('.texto').text().trim();
 
-        // Mapeo de estados
         const statusMap = {
             'PENDIENTE': 1,
             'EN CURSO': 2,
@@ -384,123 +453,126 @@ $(document).ready(() => {
         const currentStatus = statusMap[currentStatusText];
 
         if (!currentStatus) {
-            mostrarMensajeError('Estado desconocido');
+            mostrarMensajeError('Estado desconocido.');
             return;
         }
 
-        // Determinar nuevo estado
-        let newStatus, confirmMessage;
+        let newStatus, confirmMessage, iconType;
         if (currentStatus === 1) {
             newStatus = 2;
 
-            // Validación: ¿ya hay un período EN CURSO?
             const yaEnCurso = $('.task-status .texto').filter(function () {
                 return $(this).text().trim() === 'EN CURSO';
             }).length > 0;
 
             if (yaEnCurso) {
+                // Mensaje de error para el caso "ya hay uno activo"
                 mostrarMensajeError('Ya existe un período EN CURSO. Debe culminarlo antes de activar otro.');
-                return;
+                return; // Sale de la función, no llega al Swal.fire de confirmación
             }
 
             confirmMessage = '¿Activar este período?';
+            iconType = 'question';
         }
         else if (currentStatus === 2) {
             confirmMessage = '¿Marcar este período como CULMINADO?';
             newStatus = 3;
+            iconType = 'question';
         }
         else {
-            mostrarMensajeError('Los períodos culminados no pueden modificarse');
+            mostrarMensajeError('Los períodos culminados no pueden modificarse.');
             return;
         }
 
-        if (confirmMessage && !confirm(confirmMessage)) return;
+        // Siempre cerrar el dialog si está abierto antes de cualquier Swal.fire
+        if (window.dialog && window.dialog.open) {
+            window.dialog.close();
+        }
 
-        // Mostrar indicador de carga
-        const originalContent = button.html();
-        button.html('<i class="fa-solid fa-spinner fa-spin"></i> Procesando...');
+        if (confirmMessage) {
+            Swal.fire({
+                title: confirmMessage,
+                icon: iconType,
+                showCancelButton: true,
+                confirmButtonText: 'Sí',
+                cancelButtonText: 'No',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                // Aquí NO reabrimos el dialog si se cancela la confirmación de la tabla
+                if (result.isConfirmed) {
+                    const originalContent = button.html();
+                    button.html('<i class="fa-solid fa-spinner fa-spin"></i> Procesando...');
 
-        // Enviar solicitud al servidor
-        $.ajax({
-            url: '../controllers/periodo/Periodo.php?accion=cambiarEstado',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                id: PERIOD_ID,
-                newStatus: newStatus
-            },
-            success: function (response) {
-                if (response && response.success) {
-                    mostrarMensajeExito(response.message || 'Estado actualizado correctamente', fetchTask);
-                } else if (response && response.message) {
-                    mostrarMensajeError(response.message);
-                } else {
-                    mostrarMensajeError('Error al cambiar el estado');
+                    $.ajax({
+                        url: '../controllers/periodo/Periodo.php?accion=cambiarEstado',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            id: PERIOD_ID,
+                            newStatus: newStatus
+                        },
+                        success: function (response) {
+                            if (response && response.success) {
+                                mostrarMensajeExito(response.message || 'Estado actualizado correctamente', fetchTask);
+                            } else if (response && response.message) {
+                                mostrarMensajeError(response.message);
+                            } else {
+                                mostrarMensajeError('Error al cambiar el estado.');
+                            }
+                        },
+                        error: function (xhr) {
+                            let errorMsg = 'Error en el servidor';
+                            try {
+                                const errorResponse = JSON.parse(xhr.responseText);
+                                errorMsg = errorResponse.message || errorMsg;
+                            } catch (e) {
+                                errorMsg = xhr.statusText || errorMsg;
+                            }
+                            mostrarMensajeError(errorMsg);
+                        },
+                        complete: function () {
+                            button.html(originalContent);
+                        }
+                    });
                 }
-            },
-            error: function (xhr) {
-                let errorMsg = 'Error en el servidor';
-                try {
-                    const errorResponse = JSON.parse(xhr.responseText);
-                    errorMsg = errorResponse.message || errorMsg;
-                } catch (e) {
-                    errorMsg = xhr.statusText || errorMsg;
-                }
-                mostrarMensajeError(errorMsg);
-            },
-            complete: function () {
-                button.html(originalContent);
+            });
+        }
+    });
+
+    // Funciones para mostrar mensajes con SweetAlert2
+    function mostrarMensajeExito(mensaje, callback) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: mensaje,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then(() => {
+            if (typeof callback === 'function') {
+                callback();
             }
         });
-    });    
-    
-    // Funciones para mostrar mensajes
-    function mostrarMensajeExito(mensaje, callback) {
-        showDialog(mensaje, 'success', callback);
     }
 
     function mostrarMensajeError(mensaje, callback) {
-        showDialog(mensaje, 'error', callback);
-    }
-
-    function showDialog(mensaje, type, callback) {
-        // Asegúrate de que exista el contenedor .message
-        if ($('.message').length === 0) {
-            $('body').append('<div class="message"></div>');
-        }
-
-        // Elimina cualquier diálogo anterior
-        $('#message').remove();
-
-        const icon = type === 'success' ?
-            '<div class="success-checkmark"><div class="check-icon"><span class="icon-line line-tip"></span><span class="icon-line line-long"></span><div class="icon-circle"></div><div class="icon-fix"></div></div></div>' :
-            '<div class="error-banmark"><div class="ban-icon"><span class="icon-line line-long-invert"></span><span class="icon-line line-long"></span><div class="icon-circle"></div><div class="icon-fix"></div></div></div>';
-
-        $(".message").html(`
-            <dialog id="message">
-                <h2>${mensaje}</h2>
-                ${icon}
-                <button aria-label="close" class="x">❌</button>
-            </dialog>
-        `);
-
-        const dialog = $("#message").get(0);
-        if (dialog) dialog.showModal();
-
-        $(".x").off('click').on("click", function () {
-            if (dialog) dialog.close();
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: mensaje,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then(() => {
+            // Este callback se ejecuta DESPUÉS de que el usuario cierra la alerta de error.
+            // La lógica de reabrir el dialog ahora se maneja en los puntos específicos
+            // donde se llama a `mostrarMensajeError` (ej. en el `submit` del formulario).
+            if (typeof callback === 'function') {
+                callback();
+            }
         });
-
-        // Elimina el diálogo del DOM al cerrarse y ejecuta callback si existe
-        if (dialog) {
-            dialog.addEventListener('close', function () {
-                $('#message').remove();
-                if (typeof callback === 'function') callback();
-            }, { once: true });
-        }
     }
 
-    // Pestañas para activos/inactivos
+    // Pestañas para activos/inactivos (sin cambios)
     window.cambiarTabPeriodo = function (tipo, event) {
         const isActivos = tipo === 'activos';
 
@@ -510,7 +582,6 @@ $(document).ready(() => {
         $('.tab-button').removeClass('active');
         $(event.currentTarget).addClass('active');
 
-        // Si se muestran los inactivos, forzar la carga de datos
         if (!isActivos) {
             fetchTask();
         }
@@ -519,83 +590,126 @@ $(document).ready(() => {
     // Manejador para restaurar período inactivo
     $(document).on('click', '.task-restore', function () {
         const PERIOD_ID = $(this).data('id');
-        if (confirm('¿Está seguro de restaurar este período?')) {
-            $.ajax({
-                url: '../controllers/periodo/Periodo.php?accion=restaurar',
-                type: 'POST',
-                dataType: 'json',
-                data: { id: PERIOD_ID },
-                success: function (response) {
-                    fetchTask();
-                    if (response && response.success) {
-                        mostrarMensajeExito(response.message || 'Período restaurado correctamente');
-                    } else if (response && response.message) {
-                        mostrarMensajeError(response.message);
-                    } else {
-                        mostrarMensajeExito('Período restaurado correctamente');
-                    }
-                },
-                error: function (xhr) {
-                    fetchTask();
-                    mostrarMensajeError(`Error al restaurar: ${xhr.statusText}`);
-                }
-            });
+        // Siempre cerrar el dialog si está abierto antes de cualquier Swal.fire
+        if (window.dialog && window.dialog.open) {
+            window.dialog.close();
         }
+
+        Swal.fire({
+            title: '¿Está seguro de restaurar este período?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'No',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then((result) => {
+            // Aquí NO reabrimos el dialog si se cancela, porque esta acción no proviene del dialog
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '../controllers/periodo/Periodo.php?accion=restaurar',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { id: PERIOD_ID },
+                    success: function (response) {
+                        fetchTask();
+                        if (response && response.success) {
+                            mostrarMensajeExito(response.message || 'Período restaurado correctamente');
+                        } else if (response && response.message) {
+                            mostrarMensajeError(response.message);
+                        } else {
+                            mostrarMensajeExito('Período restaurado correctamente');
+                        }
+                    },
+                    error: function (xhr) {
+                        fetchTask();
+                        mostrarMensajeError(`Error al restaurar: ${xhr.statusText}`);
+                    }
+                });
+            }
+        });
     });
 
-    // Asegúrate de que window.dialog apunte al elemento dialog
-    window.dialog = document.getElementById('dialog');
-
-    // Limpiar el formulario siempre que se cierre el modal
+    // Modificamos el listener de cierre del dialog
     const dialog = window.dialog;
     if (dialog) {
         dialog.addEventListener('close', function () {
-            resetForm();
+            // Limpiar el formulario solo si NO estamos en modo edición
+            if (!edit) {
+                resetFormFields();
+            }
+            // Si estamos en modo edición y se cierra sin enviar (ej. con Esc),
+            // no se hace nada, los datos quedan cargados.
         });
     }
 
-    // Si tienes un botón para crear nuevo período, límpialo antes de abrir el modal
+    // Manejador para el botón "Crear nuevo período"
     $('.primary').on('click', function () {
-        resetForm();
+        resetFormFields();
+        edit = false; // Aseguramos que el modo edición esté desactivado
         if (window.dialog) window.dialog.showModal();
     });
 
     $('#periodo_inicio').trigger('change');
 
+    // Manejador de activación (Este es el que causa el problema reportado)
     $(document).on('click', '.task-activate', function () {
         const PERIOD_ID = $(this).data('id');
-        // Ya NO uses confirm ni alert aquí
-        $.ajax({
-            url: '../controllers/periodo/Periodo.php?accion=cambiarEstado',
-            type: 'POST',
-            dataType: 'json',
-            data: { id: PERIOD_ID, newStatus: 2 }, // 2 = EN CURSO
-            success: function (response) {
-                if (response.success) {
-                    mostrarMensajeExito('Período activado correctamente');
-                    fetchTask();
-                } else if (response.message) {
-                    mostrarMensajeError(response.message);
-                } else {
-                    mostrarMensajeError('No se pudo activar el período.');
-                }
-            },
-            error: function (xhr) {
-                mostrarMensajeError(`Error en el servidor: ${xhr.statusText}`);
+        // Siempre cerrar el dialog si está abierto antes de cualquier Swal.fire
+        if (window.dialog && window.dialog.open) {
+            window.dialog.close();
+        }
+
+        Swal.fire({
+            title: '¿Activar este período?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'No',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then((result) => {
+            // Aquí NO reabrimos el dialog si se cancela la activación.
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '../controllers/periodo/Periodo.php?accion=cambiarEstado',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { id: PERIOD_ID, newStatus: 2 }, // 2 = EN CURSO
+                    success: function (response) {
+                        if (response.success) {
+                            mostrarMensajeExito('Período activado correctamente');
+                            fetchTask();
+                        } else if (response.message) {
+                            // Este es el SweetAlert de "Ya existe un período EN CURSO."
+                            // No queremos reabrir el dialog del formulario aquí.
+                            mostrarMensajeError(response.message);
+                        } else {
+                            mostrarMensajeError('No se pudo activar el período.');
+                        }
+                    },
+                    error: function (xhr) {
+                        mostrarMensajeError(`Error en el servidor: ${xhr.statusText}`);
+                    }
+                });
             }
         });
     });
 
-    // Función para limpiar y restaurar el formulario del modal
-    function resetForm() {
+    // Renombramos la función para que quede claro que solo limpia los campos
+    function resetFormFields() {
         $("#formulario").trigger("reset");
         $('#PERIOD_ID').val('').prop('readonly', false);
-        edit = false;
         currentEditStatus = 1;
         currentEditPeriodStatus = 1;
-        // Habilitar todos los campos
+        // Habilitar todos los campos y quitar estilos deshabilitados por defecto
         $('#lapso-academico, #turno, #periodo_inicio, #periodo_fin').prop('disabled', false);
         $('.formulario__grupo').removeClass('campo-deshabilitado');
         $('.formulario__btn').prop('disabled', false);
+
+        // Asegúrate de que el select #turno tenga un valor por defecto si es un nuevo formulario
+        if ($('#turno').is('select')) {
+            $('#turno option:first').prop('selected', true);
+        }
     }
 });

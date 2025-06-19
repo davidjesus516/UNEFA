@@ -1,6 +1,8 @@
 </div>
 </div>
 </section>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     let tiempoActual = null; // Guardará la hora inicial de la API
     let intervalo = null;

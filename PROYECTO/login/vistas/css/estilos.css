@@ -2800,48 +2800,72 @@ button#resetFilters {
   transform: scale(0.8);
 }
 
-
-
 .settings-nav {
-    width: 12rem;
-    overflow: hidden;
+  width: 12rem;
+  overflow: hidden;
 }
 
 .settings-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .settings-menu h3 {
-    color: #10397d;
-    padding: 10px;
-    margin: 10px;
-    font-size: 13px;
-    border-radius: 3rem;
-    font-weight: 900;
+  color: #10397d;
+  padding: 10px;
+  margin: 10px;
+  font-size: 13px;
+  border-radius: 3rem;
+  font-weight: 900;
 }
 
 .menu-item {
-    /* border-bottom: 1px solid #ddd; */
-    background-color: none;
+  /* border-bottom: 1px solid #ddd; */
+  background-color: none;
 }
 
 .menu-item a {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    color: #333;
-    text-decoration: none;
-    transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s;
 }
 
 .menu-item a:hover {
-    background-color: #292424;
+  background-color: #292424;
 }
 
 .menu-item i {
-    margin-right: 10px;
-    font-size: 1rem;
-    color: #545a64;
+  margin-right: 10px;
+  font-size: 1rem;
+  color: #545a64;
+}
+/* Asegura que SweetAlert2 tenga mayor z-index que tu modal */
+.swal-over-modal {
+  z-index: 99999 !important;
+}
+
+/* Ajusta el backdrop de SweetAlert2 para que cubra todo */
+.swal2-container {
+  z-index: 99999 !important;
+}
+
+.swal2-backdrop-show {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+.sweetalert-above-dialog {
+  z-index: 10000 !important; /* Un valor alto para asegurar que esté por encima de otros elementos */
+}
+
+/* Este CSS es crucial para que SweetAlert2 se muestre por encima */
+.sweetalert-above-dialog {
+  z-index: 99999 !important; /* Un valor muy alto para asegurar la visibilidad */
+}
+
+/* Opcional: Para asegurar que el telón de fondo de SweetAlert2 también esté por encima */
+.swal2-container {
+  z-index: 99998 !important; /* Un valor ligeramente menor que el popup */
 }
