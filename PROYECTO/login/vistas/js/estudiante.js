@@ -62,9 +62,7 @@ $(document).ready(function () {//aqui inicializamos javascript
         let id = input.attr('id');
         switch (id) {
             case 'primer_nombre':
-            case 'segundo_nombre':
             case 'primer_apellido':
-            case 'segundo_apellido':
                 validateInput(input, expresiones.solo_letras, `grupo__${id}`, 'El campo solo debe contener letras y espacios');
                 break;
             case 'cedula':
@@ -75,6 +73,15 @@ $(document).ready(function () {//aqui inicializamos javascript
                     CIisUnique(); // Llama a la función para verificar si el número de cédula es único
                 } else {
                     return false; // Si la validación falla, se retorna false
+                }
+                break;
+                
+            case 'segundo_nombre':
+            case 'segundo_apellido':
+                if (input.val() !== '') {
+                    validateInput(input, expresiones.solo_letras, `grupo__${id}`, 'El campo solo debe contener letras y espacios');
+                } else {
+                    isCorrect(`grupo__${id}`); // Si el campo está vacío, se marca como correcto
                 }
                 break;
             case 'telefono':
