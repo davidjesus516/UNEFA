@@ -59,7 +59,7 @@ class Usuario
     public function UserCreate($USER, $USER_CI, $NAME, $SECOND_NAME, $SURNAME, $SECOND_SURNAME, $EMAIL, $PHONE_NUMBER, $KEY)
     {
         try {
-            $sql = "INSERT INTO `t-user`(`USER`, `USER_CI`, `NAME`, `SECOND_NAME`, `SURNAME`, `SECOND_SURNAME`, `EMAIL`, `PHONE_NUMBER`, `CREATION_DATE`, `LOGIN`, `TERMS_CONDITIONS`, `STATUS_SESSION`, `STATUS`) VALUES (:USER, :USER_CI, :NAME, :SECOND_NAME, :SURNAME, :SECOND_SURNAME, :EMAIL, :PHONE_NUMBER, :CREATION_DATE, :LOGIN, :TERMS_CONDITIONS, :STATUS_SESSION, :STATUS)";
+            $sql = "INSERT INTO `t-user`(`USER`, `USER_CI`, `NAME`, `SECOND_NAME`, `SURNAME`, `SECOND_SURNAME`, `EMAIL`, `PHONE_NUMBER`, `CREATION_DATE`, `LOGIN`, `TERMS_CONDITIONS`, `STATUS_SESSION`, `STATUS`) VALUES (:USER, :USER_CI, :NAME, :SECOND_NAME, :SURNAME, :SECOND_SURNAME, :EMAIL, :PHONE_NUMBER, :CREATION_DATE, :LOGIN, :TERMS_CONDITIONS, :STATUS_SESSION, :STATUS)"; // Asegúrate que los nombres de columna coincidan con tu tabla
             $statement = $this->pdo->beginTransaction();
             $statement = $this->pdo->prepare($sql);
             $statement->bindValue(':USER', $USER);
@@ -77,24 +77,33 @@ class Usuario
             $statement->bindValue(':STATUS', 1);
             $statement->execute();
 
-            $id = $this->pdo->lastInsertId();
+            $userId = $this->pdo->lastInsertId(); // Obtener el ID del usuario insertado en t-user
+
+            if (!$userId || $userId == 0) { // Verificar si se obtuvo un ID válido
+                $this->pdo->rollBack();
+                error_log("UserCreate: No se pudo obtener lastInsertId después de insertar en t-user.");
+                return false;
+            }
+
             $sql2 = "INSERT INTO `t-user_key`( `USER_ID`, `KEY`, `START_DATE`, `END_DATE`, `STATUS`) VALUES (:USER_ID, :KEY, :START_DATE, :END_DATE, :STATUS)";
             $statement2 = $this->pdo->prepare($sql2);
             $end_date = $this->expiration_date();
-            $statement2->bindValue(':USER_ID', $id);
+            $statement2->bindValue(':USER_ID', $userId); // Usar el userId obtenido
             $statement2->bindValue(':KEY', $KEY);
             $statement2->bindValue(':START_DATE', date("Y-m-d H:i:s"));
             $statement2->bindValue(':END_DATE', $end_date);
             $statement2->bindValue(':STATUS', 1);
             $statement2->execute();
             $this->pdo->commit();
-            return true;
+            return $userId; // Devolver el ID del usuario creado
         } catch (Exception $e) {
+            $this->pdo->rollBack(); // Asegurar rollback en caso de excepción
             if ($e->getCode() == 23000) {
+                error_log("UserCreate: Error de duplicado (23000) - " . $e->getMessage());
                 return false;
             } else {
-                $this->pdo->rollBack();
-                throw $e;
+                error_log("UserCreate: Excepción - " . $e->getMessage());
+                return false; // Devolver false en otros errores para un manejo consistente
             }
         }
     }
@@ -373,5 +382,131 @@ class Usuario
     {
         $row = $this->config;
         return $row;
+    }
+
+    public function listarUsuariosActivos()
+    {
+        $sql = "SELECT USER_ID, USER, NAME, STATUS_SESSION FROM `t-user` WHERE STATUS = 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function listarUsuariosPorEstado($estado = 1)
+    {
+        $sql = "SELECT USER_ID, USER, NAME, STATUS_SESSION FROM `t-user` WHERE STATUS = :estado";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':estado', $estado);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function ActualizarNombre($user_id, $nombre)
+    {
+        $sql = "UPDATE `t-user` SET `NAME` = :nombre WHERE USER_ID = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':nombre', $nombre);
+        $stmt->bindValue(':id', $user_id);
+        return $stmt->execute();
+    }
+
+    public function getUltimoUsuarioID()
+    {
+        return $this->pdo->lastInsertId();
+    }
+
+    public function AsignarRol($userId, $rolId)
+    {
+        $sql = "INSERT INTO `t-user_roles` (`ID_USER`, `ID_ROLES`) VALUES (:userId, :rolId)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':userId', $userId);
+        $stmt->bindValue(':rolId', $rolId);
+        return $stmt->execute();
+    }
+
+    public function ActualizarRol($userId, $rolId)
+    {
+        $sql = "UPDATE `t-user_roles` SET `ID_ROLES` = :rolId WHERE `ID_USER` = :userId";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':rolId', $rolId);
+        $stmt->bindValue(':userId', $userId);
+        return $stmt->execute();
+    }
+
+
+    public function listarUsuariosConRol($estado = 1)
+    {
+        $sql = "SELECT u.USER_ID, u.USER, u.NAME, ur.ID_ROLES,
+                CASE ur.ID_ROLES 
+                    WHEN 1 THEN 'Administrador' 
+                    WHEN 2 THEN 'Suplente' 
+                END AS ROLE_NAME
+                FROM `t-user` u
+                LEFT JOIN `t-user_roles` ur ON u.USER_ID = ur.ID_USER
+                WHERE u.STATUS = :estado";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':estado', $estado);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function RegistrarUsuarioConRol($username, $nombre, $correo, $telefono, $password, $rol)
+    {
+        try {
+            $this->pdo->beginTransaction();
+
+            // Insertar usuario
+            $sql = "INSERT INTO `t-user` (`USER`, `NAME`, `EMAIL`, `PHONE_NUMBER`, `STATUS`, `STATUS_SESSION`, `LOGIN`) 
+                VALUES (:username, :nombre, :correo, :telefono, 1, 1, 0)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':username', $username);
+            $stmt->bindValue(':nombre', $nombre);
+            $stmt->bindValue(':correo', $correo);
+            $stmt->bindValue(':telefono', $telefono);
+            $stmt->execute();
+
+            $userId = $this->pdo->lastInsertId();
+
+            // Guardar contraseña
+            $this->NewPassword($userId, $password);
+
+            // Asignar rol
+            $this->AsignarRol($userId, $rol);
+
+            $this->pdo->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            throw $e;
+        }
+    }
+
+    public function obtenerUsuarioParaEditar($userId)
+    {
+        $sql = "SELECT 
+                u.USER_ID,
+                u.USER,
+                u.NAME,
+                IFNULL(ur.ID_ROLS, 0) AS ID_ROLS,
+                k.KEY
+            FROM `t-user` u
+            LEFT JOIN `t-user_roles` ur ON u.USER_ID = ur.ID_USER
+            LEFT JOIN `t-user_key` k ON u.USER_ID = k.USER_ID AND k.STATUS = 1
+            WHERE u.USER_ID = :userId";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':userId', $userId);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function ActualizarUsername($userId, $username)
+    {
+        $sql = "UPDATE `t-user` SET `USER` = :user WHERE USER_ID = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':user', $username);
+        $stmt->bindValue(':id', $userId);
+        return $stmt->execute();
     }
 }

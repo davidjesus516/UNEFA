@@ -1,89 +1,90 @@
-<?php
-require 'header.php';
-?>
-<span class="text">Ventana -> <a href="usuario.php">Configuración</a> -> Nuevo Usuario</span>
+<?php require 'header.php'; ?>
+<span class="text">Ventana → <a href="usuario.php">Configuración</a> → Nuevo Usuario</span>
+
 <div class="page-content">
+  <!-- Pestañas -->
+  <div class="tabs">
+    <button class="tab-button active" onclick="cambiarTabEstudiante('activos', event)">Usuarios Activos</button>
+    <button class="tab-button" onclick="cambiarTabEstudiante('inactivos', event)">Usuarios Inactivos</button>
+  </div>
 
-    <div id="modal" class="modal">
-        <button class="primary" onclick="window.dialog.showModal();">Nuevo <span>+</span></button>
+  <!-- Modal nuevo usuario -->
+  <div id="modal" class="modal">
+    <button class="primary" id="" onclick="window.dialog.showModal();">Nuevo <span>+</span></button>
+    <dialog id="dialog">
+      <h2>Registrar Usuario</h2>
+      <form id="formulario" class="formulario">
+        <div class="formulario__grupo">
+          <label>Usuario *</label>
+          <input type="text" id="usuario" class="formulario__input" required>
+        </div>
+        <div class="formulario__grupo">
+          <label>Nombre *</label>
+          <input type="text" id="nombre" class="formulario__input" required>
+        </div>
+        <div class="formulario__grupo">
+          <label>Rol *</label>
+          <select id="rol" class="formulario__input" required>
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </div>
+        <div class="formulario__grupo">
+          <label>Contraseña Provisional *</label>
+          <div style="position: relative;">
+            <input type="password" id="clave" class="formulario__input" autocomplete="new-password">
+            <button type="button" id="toggleClave" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+              <i class="fa-solid fa-eye" id="iconoClave"></i>
+            </button>
+          </div>
+        </div>
 
-        <dialog id="dialog">
-            <h2>Registrar Usuario.</h2>
 
-            <form action="#" class="formulario" id="formulario">
-                <!-- Grupo: Usuario -->
-                <div class="formulario__grupo" id="grupo__nombre">
-                    <label for="" class="formulario__label">Nombre Usuario <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese el Nombre de Usuario" required>
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
-                    <p class="formulario__input-error">Este campo solo debe contener letras</p>
-                </div>
+        <div class="formulario__grupo-btn-enviar">
+          <button type="submit" class="formulario__btn">Guardar</button>
+        </div>
+      </form>
+      <button class="x" id="btnCerrarModal" onclick="cerrarModal()">❌</button>
+    </dialog>
+  </div>
 
-                <!-- Grupo:  -->
-                <div class="formulario__grupo" id="grupo__nombre">
-                    <label for="" class="formulario__label">Nombre <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese el Nombre" required>
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
-                    <p class="formulario__input-error">Este campo solo debe contener letras</p>
-                </div>
-
-                <!--  -->
-                <div class="formulario__grupo" id="">
-                    <label for="" class="formulario__label">Rol<span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <select class="formulario__input" id="telefono_Empresa">
-                            <option value="" disabled selected>Seleccione una opción</option>
-                            <option value="rol 1">1</option>
-                            <option value="rol 2">2</option>
-                        </select>
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
-                    <p class="formulario__input-error">Validacion</p>
-                </div>
-
-                <!-- Grupo:  -->
-                <div class="formulario__grupo" id="grupo__nombre">
-                    <label for="" class="formulario__label">Contraseña Provicional <span class="obligatorio">*</span></label>
-                    <div class="formulario__grupo-input">
-                        <input type="text" class="formulario__input" name="" id="nombre" placeholder="Ingrese la Contraseña Provicional" required>
-                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                    </div>
-                    <p class="formulario__input-error">Este campo solo debe contener letras</p>
-                </div>
-
-                <div class="formulario__mensaje" id="formulario__mensaje">
-                    <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente. </p>
-                </div>
-                <div class="formulario__grupo formulario__grupo-btn-enviar">
-                    <button type="submit" class="formulario__btn">Guardar</button>
-                    <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Formulario enviado exitosamente!</p>
-                </div>
-
-            </form>
-
-            <!-- <p>You can also change the styles of the <code>::backdrop</code> from the CSS.</p> -->
-            <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
-        </dialog>
-    </div>
-    <table class="w3-table-all w3-hoverable">
-        <thead>
-            <tr class="w3-light-grey">
-                <th>Usuario</th>
-                <th>Nombre</th>
-                <th>Rol</th>
-                <th colspan="2">Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="datos"></tbody>
-    </table>
+  <!-- Tabla usuarios -->
+  <table class="w3-table-all w3-hoverable">
+    <thead>
+      <tr class="w3-light-grey">
+        <th>Cédula</th>
+        <th>Nombre</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="datos"></tbody>
+  </table>
 </div>
-</div>
-<script src="js/estudiante/jquery-3.7.0.min.js"></script>
-<script src="js/estudiante/main.js"></script>
-<?php
-require 'footer.php';
-?>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="js/usuario.js"></script>
+
+<script>
+  const usuarioInput = document.getElementById("usuario");
+  const claveInput = document.getElementById("clave");
+  const toggleBtn = document.getElementById("toggleClave");
+  const iconoClave = document.getElementById("iconoClave");
+
+  // Solo permitir números en campo Usuario
+  usuarioInput.addEventListener("input", () => {
+    usuarioInput.value = usuarioInput.value.replace(/\D/g, "");
+    claveInput.value = usuarioInput.value; // Llenar contraseña automáticamente
+  });
+
+  // Mostrar/Ocultar contraseña con clic
+  toggleBtn.addEventListener("click", () => {
+    const esTexto = claveInput.type === "text";
+    claveInput.type = esTexto ? "password" : "text";
+    iconoClave.classList.toggle("fa-eye", esTexto);
+    iconoClave.classList.toggle("fa-eye-slash", !esTexto);
+  });
+</script>
+
+<?php require 'footer.php'; ?>

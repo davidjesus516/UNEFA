@@ -338,7 +338,7 @@ if (!$periodoActual) {
   <div class="dashboard-header">
     <div style="flex:1;">
       <h2>Hola, <?php echo ucfirst($_SESSION["NAME"]); ?></h2>
-      <div class="subtitle">¿Lista para comenzar tu día laboral?</div>
+      <div class="subtitle">¿Lista para comenzar tu jornada laboral?</div>
     </div>
     <div style="flex-shrink:0;">
       <img src="https://img.icons8.com/color/96/000000/laptop.png" alt="Ilustración">
