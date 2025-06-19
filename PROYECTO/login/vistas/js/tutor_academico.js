@@ -129,7 +129,7 @@ $(document).ready(function(){//aqui inicializamos javascript
 
     $('#formulario').submit(function(e){
         // Agregamos la alerta de confirmación
-        if (!confirm('¿Quieres proceder con el registro?')) {
+        if (!confirm('¿Quieres proceder?')) {
             e.preventDefault(); // Cancela el envío del formulario si el usuario hace clic en "Cancelar"
             return false;
         }

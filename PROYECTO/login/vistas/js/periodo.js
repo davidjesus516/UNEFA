@@ -107,7 +107,7 @@ $(document).ready(() => {
         // Si todas las validaciones previas pasan, ahora mostramos la confirmación de envío.
         // El dialog ya debería estar cerrado por la lógica inicial del submit.
         Swal.fire({
-            title: '¿Quieres proceder con el registro?',
+            title: '¿Quieres proceder?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Sí',
@@ -308,7 +308,7 @@ $(document).ready(() => {
 
         Swal.fire({
             title: '¿Estás seguro de que deseas eliminar este registro?',
-            text: "¡No podrás revertir esto!",
+            // text: "¡No podrás revertir esto!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

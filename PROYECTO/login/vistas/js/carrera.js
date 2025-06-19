@@ -412,7 +412,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Si la validación pasa, proceder con la confirmación de envío
     Swal.fire({
-      title: '¿Quieres proceder con el registro?',
+      title: '¿Quieres proceder?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Sí',

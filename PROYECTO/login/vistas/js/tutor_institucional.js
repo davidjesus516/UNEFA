@@ -130,7 +130,7 @@ $(document).ready(function(){//aqui inicializamos javascript
     $('#formulario').submit(function(e){//reviso del formulario task el evento submit
 
         // Agregamos la alerta de confirmación
-        if (!confirm('¿Quieres proceder con el registro?')) {
+        if (!confirm('¿Quieres proceder?')) {
             return false; // Cancela el envío del formulario si el usuario hace clic en "Cancelar"
         }
         

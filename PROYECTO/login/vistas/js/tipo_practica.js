@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // If validation passes, proceed with submission confirmation
         Swal.fire({
-            title: '¿Quieres proceder con el registro?',
+            title: '¿Quieres proceder?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Sí',

@@ -439,7 +439,7 @@ class Usuario
         $sql = "SELECT u.USER_ID, u.USER, u.NAME, ur.ID_ROLES,
                 CASE ur.ID_ROLES 
                     WHEN 1 THEN 'Administrador' 
-                    WHEN 2 THEN 'Suplente' 
+                    WHEN 2 THEN 'Asistente' 
                 END AS ROLE_NAME
                 FROM `t-user` u
                 LEFT JOIN `t-user_roles` ur ON u.USER_ID = ur.ID_USER

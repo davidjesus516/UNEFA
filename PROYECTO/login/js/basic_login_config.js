@@ -224,7 +224,7 @@ $(document).ready(function () {//aqui inicializamos javascript
             tlf: tlf
         };
         // Agregamos la alerta de confirmación
-        if (confirm('¿Quieres proceder con el registro?')) {
+        if (confirm('¿Quieres proceder?')) {
             let url = "controllers/login/basic_user_config.php";
             $.post(url, postData, function (response) {
                 console.log(response);
