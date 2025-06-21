@@ -8,6 +8,19 @@ $(document).ready(function () {
     // Referencia al diálogo del formulario
     const dialog = document.getElementById('dialog');
     
+    // Manejador para cuando se cierra el diálogo
+    dialog.addEventListener('close', function() {
+        // Habilitar todos los campos y mostrar el botón de guardar
+        $('#formulario input, #formulario select').prop('disabled', false);
+        $('.formulario__btn').show(); // Asumiendo que el botón de guardar tiene esta clase
+
+        // Restaurar título por defecto y limpiar formulario si no se está editando
+        $('#titulo-modal').text('Registrar Estudiante'); // Asumiendo que el título tiene este ID
+        if (!edit) {
+            $('#formulario').trigger('reset');
+        }
+    });
+
     $.ajax({
         url: '../controllers/carrera/UserList.php',
         type: 'GET',
@@ -327,10 +340,13 @@ $(document).ready(function () {
                 <td>${task.EMAIL}</td>
                 <td>${task.CAREER_NAME}</td>
                 <td>
-                    <button class="task-edit" onclick="window.dialog.showModal();"><span class="texto">Editar</span><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button>
+                    <button class="task-edit" data-id="${task.STUDENTS_ID}"><span class="texto">Editar</span><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button>
                 </td>
                 <td>
-                    <button class="task-delete"><span class="texto">Borrar</span><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button>
+                    <button class="task-delete" data-id="${task.STUDENTS_ID}"><span class="texto">Borrar</span><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button>
+                </td>
+                <td>
+                    <button class="task-view" data-id="${task.STUDENTS_ID}"><span class="texto">Ver</span><span class="icon"><i class="fa-solid fa-search"></i></span></button>
                 </td>
             </tr>`;
         });
@@ -344,8 +360,12 @@ $(document).ready(function () {
                 <td>${task.CONTACT_PHONE}</td>
                 <td>${task.EMAIL}</td>
                 <td>${task.CAREER_NAME}</td>
-                <td colspan="2">
-                    <button class="task-restore"><span class="texto">Restaurar</span><span class="icon"><i class="fa-solid fa-rotate-left"></i></span></button>
+                <td>
+                    <button class="task-restore" data-id="${task.STUDENTS_ID}"><span class="texto">Restaurar</span><span class="icon"><i class="fa-solid fa-rotate-left"></i></span></button>
+                </td>
+                <td></td>
+                <td>
+                    <button class="task-view" data-id="${task.STUDENTS_ID}"><span class="texto">Ver</span><span class="icon"><i class="fa-solid fa-search"></i></span></button>
                 </td>
             </tr>`;
         });
@@ -377,8 +397,7 @@ $(document).ready(function () {
 
     // Manejador para restaurar estudiante inactivo con SweetAlert2 - Versión corregida
     $(document).on('click', '.task-restore', function () {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('taskid');
+        const id = $(this).data('id');
         
         // Cerrar el diálogo si está abierto
         if (dialog.open) {
@@ -409,8 +428,7 @@ $(document).ready(function () {
 
     // Manejador para eliminar (inactivar) estudiante con SweetAlert2 - Versión corregida
     $(document).on('click', '.task-delete', function () {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('taskid');
+        const id = $(this).data('id');
         
         // Cerrar el diálogo si está abierto
         if (dialog.open) {
@@ -440,8 +458,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.task-edit', function () {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('taskid');
+        const id = $(this).data('id');
         edit = true;
         
         $.ajax({
@@ -480,6 +497,52 @@ $(document).ready(function () {
         });
     });
 
+    // Manejador para ver estudiante (modo consulta)
+    $(document).on('click', '.task-view', function () {
+        const id = $(this).data('id');
+        edit = false; // No estamos en modo edición
+        
+        $.ajax({
+            url: '../controllers/estudiante/Estudiante.php?accion=buscar&id=' + id,
+            type: 'GET',
+            success: function (response) {
+                let data = JSON.parse(response);
+                $('#id').val(data.STUDENTS_ID);
+                let ciParts = data.STUDENTS_CI.split('-');
+                $('#nacionalidad').val(ciParts[0]);
+                $('#cedula').val(ciParts[1]);
+                $('#primer_nombre').val(data.NAME);
+                $('#segundo_nombre').val(data.SECOND_NAME);
+                $('#primer_apellido').val(data.SURNAME);
+                $('#segundo_apellido').val(data.SECOND_SURNAME);
+                $('#genero').val(data.GENDER);
+                $('#birthdate').val(data.BIRTHDATE);
+                let telParts = data.CONTACT_PHONE.split('-');
+                $('#operadora').val(telParts[0]);
+                $('#telefono').val(telParts[1]);
+                $('#correo').val(data.EMAIL);
+                $('#estado_civil').val(data.MARITAL_STATUS);
+                $('#semestre').val(data.SEMESTER);
+                $('#seccion').val(data.SECTION);
+                $('#regimen').val(data.REGIME);
+                $('#tipo_estudiante').val(data.STUDENT_TYPE);
+                $('#rango_militar').val(data.MILITARY_RANK);
+                $('#trabaja').val(data.EMPLOYMENT);
+                $('#carrera').val(data.CAREER_ID);
+
+                // Cambiar a modo consulta
+                $('#titulo-modal').text('Consultar Estudiante'); // Asumiendo que el título tiene este ID
+                $('#formulario input, #formulario select').prop('disabled', true);
+                $('.formulario__btn').hide(); // Ocultar botón de guardar
+
+                dialog.showModal();
+            },
+            error: function() {
+                mostrarMensajeModal("Error al cargar los datos del estudiante.", 'error');
+            }
+        });
+    });
+
     function emailIsUnique(callback) {
         let email = $('#correo').val();
         let id = $('#id').val();
@@ -503,5 +566,4 @@ $(document).ready(function () {
             }
         });
     }
-
 });

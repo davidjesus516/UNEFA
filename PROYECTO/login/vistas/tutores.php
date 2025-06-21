@@ -155,7 +155,7 @@
                     <th>Teléfono</th>
                     <th>Correo Electrónico</th>
                     <th>Profesión</th>
-                    <th colspan="2">Acciones</th>
+                    <th colspan="3">Acciones</th>
                 </tr>
             </thead>
             <tbody id="datos-activos"></tbody>

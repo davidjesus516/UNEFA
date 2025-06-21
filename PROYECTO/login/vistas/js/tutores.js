@@ -6,12 +6,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const formulario = document.getElementById("formulario");
     const dialog = document.getElementById("dialog");
     const userId = 1; // Reemplaza por ID real del usuario si aplica
-
-    // Botón de cerrar modal que limpia el formulario
-    document.querySelector('.x').addEventListener('click', function () {
-        dialog.close();
+ 
+    // Función para limpiar y resetear el formulario
+    function limpiarFormulario() {
         formulario.reset();
         document.getElementById("id_form").value = '';
+        $('#dialogTitle').text('Registrar Tutor'); // Restaurar título por defecto
+        $('#formulario input, #formulario select').prop('disabled', false); // Habilitar todos los campos
+        $('.formulario__btn').show(); // Asegurarse que el botón de guardar esté visible
+    }
+
+    // Manejador para cuando se cierra el diálogo (incluyendo el botón 'x')
+    dialog.addEventListener('close', limpiarFormulario);
+
+    document.querySelector('.x').addEventListener('click', function () {
+        dialog.close(); // El listener 'close' se encargará de limpiar
     });
 
     // --- Selects dinámicos ---
@@ -96,6 +105,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
                     </button>
                 </td>
+                <td>
+                    <button class="task-action task-view" data-id="${tutor.TUTOR_ID}" title="Ver">
+                        <span class="texto">Ver</span>
+                        <span class="icon"><i class="fa-solid fa-search"></i></span>
+                    </button>
+                </td>
             </tr>
         `;
         });
@@ -110,10 +125,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>${tutor.CONTACT_PHONE ?? ''}</td>
                 <td>${tutor.EMAIL ?? ''}</td>
                 <td>${tutor.PROFESSION ?? ''}</td>
-                <td colspan="2">
+                <td>
                     <button class="task-action task-restore" data-id="${tutor.TUTOR_ID}">
                         <span class="texto">Restaurar</span>
                         <span class="icon"><i class="fa-solid fa-rotate-left"></i></span>
+                    </button>
+                </td>
+                <td>
+                    <button class="task-action task-view" data-id="${tutor.TUTOR_ID}" title="Ver">
+                        <span class="texto">Ver</span>
+                        <span class="icon"><i class="fa-solid fa-search"></i></span>
                     </button>
                 </td>
             </tr>
@@ -234,6 +255,37 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
+    // --- Ver tutor (modo consulta) ---
+    window.verTutor = function (id) {
+        limpiarFormulario(); // Limpiar y resetear el formulario
+        $('#dialogTitle').text('Consultar Tutor'); // Cambiar título del modal
+
+        fetch(`../controllers/tutor/Tutor.php?accion=buscar&id=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                const cedula = data.TUTOR_CI.split('-') ?? '';
+                const tlf = data.CONTACT_PHONE.split('-') ?? '';
+                document.getElementById("id_form").value = data.TUTOR_ID ?? '';
+                document.getElementById("nacionalidad").value = cedula[0] ?? 'V';
+                document.getElementById("cedula").value = cedula[1] ?? '';
+                document.getElementById("primer_nombre").value = data.NAME ?? '';
+                document.getElementById("segundo_nombre").value = data.SECOND_NAME ?? '';
+                document.getElementById("primer_apellido").value = data.SURNAME ?? '';
+                document.getElementById("segundo_apellido").value = data.SECOND_SURNAME ?? '';
+                document.getElementById("sexo").value = data.GENDER ?? '';
+                document.getElementById("operadora").value = tlf[0] ?? '0412';
+                document.getElementById("telefono").value = tlf[1] ?? '';
+                document.getElementById("e_mail").value = data.EMAIL ?? '';
+                document.getElementById("profesion").value = data.PROFESSION ?? '';
+                document.getElementById("condicion").value = data.CONDITION ?? '';
+                document.getElementById("dedicacion").value = data.DEDICATION ?? '';
+                document.getElementById("categoria").value = data.CATEGORY ?? '';
+
+                $('#formulario input, #formulario select').prop('disabled', true); // Deshabilitar todos los campos
+                $('.formulario__btn').hide(); // Ocultar botón de guardar
+                dialog.showModal();
+            });
+    };
     // --- Eliminar tutor ---
     window.eliminarTutor = function (id) {
         Swal.fire({

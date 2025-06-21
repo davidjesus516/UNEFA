@@ -239,7 +239,7 @@ require 'header.php';
                 <th>Teléfono</th>
                 <th>Correo Electrónico</th>
                 <th>Carrera</th>
-                <th colspan="2">Acciones</th>
+                <th colspan="3">Acciones</th>
             </tr>
         </thead>
         <tbody id="datos-activos"></tbody>
