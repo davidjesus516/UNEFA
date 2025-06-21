@@ -156,7 +156,7 @@ require 'header.php';
                     <th scope="col" class="sortable">Carrera</th>
                     <th scope="col" class="sortable">Nota Mínima</th>
                     <th scope="col" class="sortable">Abreviatura</th>
-                    <th scope="col" colspan="2">Acciones</th>
+                    <th scope="col" colspan="3" id="acciones-header">Acciones</th>
                 </tr>
             </thead>
             <tbody id="datos-activos"></tbody>

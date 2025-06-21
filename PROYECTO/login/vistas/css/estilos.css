@@ -211,7 +211,7 @@ p.account a:hover {
   top: 0;
   left: 0;
   height: 100%;
-  width: 100%;
+  width: 18rem;
   background: #111a41;
   z-index: 100;
   transition: all 0.5s ease;
@@ -2935,4 +2935,10 @@ button#resetFilters {
 
 .swal2-container.my-swal-popup {
   z-index: 999999 !important; /* Un número muy alto */
+}
+
+.w3-table td, .w3-table th, .w3-table-all td, .w3-table-all th {
+  padding: 8px 8px;
+  display: table-cell;
+  text-align: left;
 }

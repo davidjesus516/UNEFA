@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <span class="icon"><i class="fa-solid fa-rotate-left"></i></span>
                     </button>
                 </td>
+                <td></td>
                 <td>
                     <button class="task-action task-view" data-id="${tutor.TUTOR_ID}" title="Ver">
                         <span class="texto">Ver</span>
@@ -411,5 +412,11 @@ document.addEventListener("DOMContentLoaded", function () {
     $(document).on('click', '.task-restore', function () {
         const id = $(this).data('id');
         window.restaurarTutor(id);
+    });
+
+    // Ver tutor
+    $(document).on('click', '.task-view', function () {
+        const id = $(this).data('id');
+        window.verTutor(id);
     });
 });

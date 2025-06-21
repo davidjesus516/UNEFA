@@ -1,5 +1,14 @@
 $(document).ready(function(){//aqui inicializamos javascript
     let edit = false;// esta variable de lectura la inicializo para que el form de enviar pueda volverse en un editar si es True
+
+    function mostrarMensaje(titulo, texto, icono) {
+        return Swal.fire({
+            title: titulo,
+            text: texto,
+            icon: icono,
+            confirmButtonText: 'Aceptar'
+        });
+    }
     console.log("jquery is working");// para saber que jquery este funcionando
     let errores = false;
     fetchTask();//inicializo la funcion que cada vez que cargue la pagina le pida al servidor que me de los campos
@@ -128,73 +137,61 @@ $(document).ready(function(){//aqui inicializamos javascript
     })
 
     $('#formulario').submit(function(e){
-        // Agregamos la alerta de confirmación
-        if (!confirm('¿Quieres proceder?')) {
-            e.preventDefault(); // Cancela el envío del formulario si el usuario hace clic en "Cancelar"
-            return false;
-        }
-        
-        const id = $('#id').val();
-        const cedula = $('#cedula').val();
-        const nombre = $('#nombre').val();
-        const apellido = $('#apellido').val();
-        const genero = $('#genero').val();
-        const nacionalidad = $('#nacionalidad').val();
-        const tlf = $('#tlf').val();
-        const e_mail = $('#e_mail').val();
-        const carrera = $('#carrera').val();
-        
-        
-    
-        
-    
+        e.preventDefault();
+
         if (errores) { // Se comprueba si hay errores
-            e.preventDefault(); // Cancela el envío del formulario si hay errores
+            mostrarMensaje('Error de validación', 'Por favor, corrige los campos marcados en rojo.', 'error');
             return false;
         }
-    
-        const postData = {
-            id: id,
-            nombre: nombre,
-            cedula: cedula,
-            apellido: apellido,
-            nacionalidad: nacionalidad,
-            tlf: tlf,
-            e_mail: e_mail,
-            carrera: carrera,
-            genero: genero
-    
-        };
-        if (edit === false) {
-            let url = '../controllers/tutor_a/UserAdd.php';
-            $.post(url, postData, function (response) {
-              console.log(response);
-              console.log(edit)
-              if(response==1){
-                alert('El Nuevo Docente Ha Sido Registrado Correctamente');
-              } else if (response==0) {
-                alert('Ya Este Docente Existe Porfavor comprobe los Registros')
-              } else {
-                alert(response)
-              }
-              fetchTask();
-              $('#formulario').trigger('reset');
-            }).fail(function() {
-              alert("Error en el servidor. Por favor, intenta nuevamente."); // Mostrar mensaje de error en caso de falla en la conexión con el servidor
-            });
-          } else {
-            let url = '../controllers/tutor_a/UserEdit.php';
+
+        const accion = edit ? 'actualizar' : 'insertar';
+        const tituloConfirmacion = edit ? '¿Deseas actualizar este tutor?' : '¿Deseas registrar un nuevo tutor?';
+
+        Swal.fire({
+            title: '¿Confirmar acción?',
+            text: tituloConfirmacion,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                return;
+            }
+
+            const postData = {
+                id: $('#id').val(),
+                nombre: $('#nombre').val(),
+                cedula: $('#cedula').val(),
+                apellido: $('#apellido').val(),
+                nacionalidad: $('#nacionalidad').val(),
+                tlf: $('#tlf').val(),
+                e_mail: $('#e_mail').val(),
+                carrera: $('#carrera').val(),
+                genero: $('#genero').val()
+            };
+
+            let url = edit ? '../controllers/tutor_a/UserEdit.php' : '../controllers/tutor_a/UserAdd.php';
+
             $.post(url, postData, function (response) {
                 console.log(response);
                 console.log(edit)
+                if(response==1){
+                    mostrarMensaje('Éxito', 'El Nuevo Docente Ha Sido Registrado Correctamente', 'success');
+                } else if (response==0) {
+                    mostrarMensaje('Error', 'Ya Este Docente Existe Porfavor comprobe los Registros', 'error');
+                } else {
+                    mostrarMensaje('Respuesta', response, 'info');
+                }
                 fetchTask();
                 $('#formulario').trigger('reset');
                 $('#cedula').attr('readonly', false);
                 edit = false;
-                alert("Registro Editado"); // Usuario insertado correctamente
-            })
-          } 
-          e.preventDefault(); // Se agrega para prevenir el comportamiento predeterminado del formulario   
+                window.dialog.close();
+            }).fail(function() {
+                mostrarMensaje("Error", "Error en el servidor. Por favor, intenta nuevamente.", "error");
+            });
+        });
     })
 
     function fetchTask(){//esta funcion es la que se encarga de traer todos los datos de la base de datos y los imprime en el html
@@ -227,16 +224,24 @@ $(document).ready(function(){//aqui inicializamos javascript
         }) 
     }
     $(document).on('click','.task-delete',function(){//escucho un click del boton task-delete que es una clase
-        // Agregamos la alerta de confirmación
-        if (!confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-            return false; // Cancela la eliminación si el usuario hace clic en "Cancelar"
-        }
-        
         let element = $(this)[0].parentElement.parentElement;// accedo al elemento padre de este hasta conseguir el ID de la fila
         let id = $(element).attr('taskid');//accedo al tributo que cree que contiene la cedula que busco
-        $.post('../controllers/tutor_a/UserDelete.php',{id}, function (response) {//mando los datos al controlador
-            fetchTask();//vuelvo a llamar a la funcion de la tabla para que actualize los datos
-        })
+
+        Swal.fire({
+            title: '¿Eliminar tutor académico?',
+            text: "Esta acción no se puede revertir.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('../controllers/tutor_a/UserDelete.php',{id}, function (response) {//mando los datos al controlador
+                    mostrarMensaje('Eliminado', 'El registro ha sido eliminado.', 'success');
+                    fetchTask();//vuelvo a llamar a la funcion de la tabla para que actualize los datos
+                }).fail(() => mostrarMensaje('Error', 'No se pudo eliminar el registro.', 'error'));
+            }
+        });
     })
 
 $(document).on('click','.task-edit',function(){//escucho un click del boton task-edit que es una clase

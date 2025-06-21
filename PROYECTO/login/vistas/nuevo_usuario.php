@@ -2,11 +2,7 @@
 <span class="text">Ventana → <a href="usuario.php">Configuración</a> → Nuevo Usuario</span>
 
 <div class="page-content">
-  <!-- Pestañas -->
-  <div class="tabs">
-    <button class="tab-button active" onclick="cambiarTabEstudiante('activos', event)">Usuarios Activos</button>
-    <button class="tab-button" onclick="cambiarTabEstudiante('inactivos', event)">Usuarios Inactivos</button>
-  </div>
+
 
   <!-- Modal nuevo usuario -->
   <div id="modal" class="modal">
@@ -48,7 +44,11 @@
       <button class="x" id="btnCerrarModal" onclick="cerrarModal()">❌</button>
     </dialog>
   </div>
-
+  <!-- Pestañas -->
+  <div class="tabs">
+    <button class="tab-button active" onclick="cambiarTabEstudiante('activos', event)">Usuarios Activos</button>
+    <button class="tab-button" onclick="cambiarTabEstudiante('inactivos', event)">Usuarios Inactivos</button>
+  </div>
   <!-- Tabla usuarios -->
   <table class="w3-table-all w3-hoverable">
     <thead>

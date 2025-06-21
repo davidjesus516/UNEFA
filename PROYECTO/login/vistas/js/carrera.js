@@ -2,6 +2,23 @@ document.addEventListener("DOMContentLoaded", function () {
   // Asegúrate de que window.dialog apunte al elemento dialog
   window.dialog = document.getElementById('dialog');
 
+  // Manejador para cuando se cierra el diálogo
+  window.dialog.addEventListener('close', function() {
+    // Habilitar todos los campos y mostrar el botón de guardar
+    document.querySelectorAll('#formulario input, #formulario select, #formulario button').forEach(el => el.disabled = false);
+    document.querySelector('.formulario__btn').style.display = 'block';
+
+    // Habilitar el custom select
+    const customSelect = document.querySelector('.custom-select-container');
+    if (customSelect) customSelect.style.pointerEvents = 'auto';
+
+    // Restaurar título por defecto
+    document.getElementById('dialogTitle').textContent = 'Registrar Carrera';
+
+    // La limpieza del formulario se maneja en el botón "Nuevo +" y en el submit exitoso,
+    // así que no es necesario un reset aquí, para no borrar datos en una edición cancelada.
+  });
+
   // SweetAlert2 Helper Functions (copiadas de la solución anterior)
   function mostrarMensajeExito(mensaje, callback) {
     Swal.fire({
@@ -262,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function cargarTiposPasantias() {
-    fetch('../controllers/carrera/Carrera.php?accion=listar_tipos_pasantias')
+    return fetch('../controllers/carrera/Carrera.php?accion=listar_tipos_pasantias')
       .then(response => response.json())
       .then(data => {
         const container = document.getElementById('checkbox_container');
@@ -346,48 +363,117 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(`../controllers/carrera/Carrera.php?accion=${endpoint}`)
       .then(response => response.json())
       .then(data => {
-        document.getElementById(tablaId).innerHTML = '';
+        const tablaBody = document.getElementById(tablaId);
+        let content = '';
         data.forEach(carrera => {
-          let acciones = '';
+          let accionesHtml = '';
           if (tipo === 'activos') {
-            acciones = `
-                              <button class="task-edit" onclick="editarCarrera(${carrera.CAREER_ID})" title="Editar">
-                                  <span class="texto">Editar</span>
-                                  <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
-                              </button>
-                              <button class="task-delete" onclick="eliminarCarrera(${carrera.CAREER_ID})" title="Eliminar">
-                                  <span class="texto">Borrar</span>
-                                  <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
-                              </button>
-                          `;
+            accionesHtml = `
+              <td>
+                  <button class="task-edit" onclick="editarCarrera(${carrera.CAREER_ID})" title="Editar">
+                      <span class="texto">Editar</span>
+                      <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                  </button>
+              </td>
+              <td>
+                  <button class="task-delete" onclick="eliminarCarrera(${carrera.CAREER_ID})" title="Eliminar">
+                      <span class="texto">Borrar</span>
+                      <span class="icon"><i class="fa-solid fa-trash-can"></i></span>
+                  </button>
+              </td>
+              <td>
+                  <button class="task-view" data-id="${carrera.CAREER_ID}" title="Ver">
+                      <span class="texto">Ver</span>
+                      <span class="icon"><i class="fa-solid fa-search"></i></span>
+                  </button>
+              </td>
+            `;
           } else {
-            acciones = `
-                              <button class="task-restore" onclick="activarCarrera(${carrera.CAREER_ID})" title="Restaurar">
-                                  <span class="texto">Restaurar</span>
-                                  <span class="icon"><i class="fa-solid fa-rotate-left"></i></span>
-                              </button>
-                          `;
+            accionesHtml = `
+              <td>
+                  <button class="task-restore" onclick="activarCarrera(${carrera.CAREER_ID})" title="Restaurar">
+                      <span class="texto">Restaurar</span>
+                      <span class="icon"><i class="fa-solid fa-rotate-left"></i></span>
+                  </button>
+              </td>
+              <td></td>
+              <td>
+                  <button class="task-view" data-id="${carrera.CAREER_ID}" title="Ver">
+                      <span class="texto">Ver</span>
+                      <span class="icon"><i class="fa-solid fa-search"></i></span>
+                  </button>
+              </td>
+            `;
           }
-          document.getElementById(tablaId).innerHTML += `
-                              <tr>
-                                  <td>${carrera.CAREER_CODE}</td>
-                                  <td>${carrera.CAREER_NAME}</td>
-                                  <td>${carrera.MINIMUM_GRADE}</td>
-                                  <td>${carrera.CAREER_ABBREVIATION || ''}</td>
-                                  <td colspan="2">
-                                      <div class="acciones-carrera">
-                                          ${acciones}
-                                      </div>
-                                  </td>
-                              </tr>
-                      `;
+          content += `
+              <tr>
+                  <td>${carrera.CAREER_CODE}</td>
+                  <td>${carrera.CAREER_NAME}</td>
+                  <td>${carrera.MINIMUM_GRADE}</td>
+                  <td>${carrera.CAREER_ABBREVIATION || ''}</td>
+                  ${accionesHtml}
+              </tr>
+          `;
         });
+        tablaBody.innerHTML = content;
       });
   }
 
   // Inicializar ambas listas
   listarCarreras('activos');
   listarCarreras('inactivos');
+
+  // Manejador para ver carrera (modo consulta) - Delegación de eventos
+  document.addEventListener('click', function(event) {
+    const viewButton = event.target.closest('.task-view');
+    if (viewButton) {
+      const id = viewButton.dataset.id;
+
+      fetch(`../controllers/carrera/Carrera.php?accion=buscar_para_editar&id=${id}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.length > 0) {
+            const carrera = data[0];
+
+            // Llenar el formulario
+            document.getElementById("id_form").value = carrera.CAREER_ID;
+            document.getElementById('codigo').value = carrera.CAREER_CODE;
+            document.getElementById('nombre').value = carrera.CAREER_NAME;
+            document.getElementById('nota').value = carrera.MINIMUM_GRADE;
+            document.getElementById('abreviatura').value = carrera.CAREER_ABBREVIATION || '';
+
+            // Cambiar a modo consulta
+            document.getElementById('dialogTitle').textContent = 'Consultar Carrera';
+            document.querySelectorAll('#formulario input, #formulario select, #formulario button').forEach(el => el.disabled = true);
+            document.querySelector('.formulario__btn').style.display = 'none'; // Ocultar botón de guardar
+
+            // Cargar y seleccionar los tipos de pasantía, y luego deshabilitar el control
+            cargarTiposPasantias().then(() => {
+              const optionsContainer = document.querySelector('#checkbox_container .custom-select-options');
+              const selectedDisplay = document.querySelector('#checkbox_container .custom-select-selected');
+
+              if (optionsContainer && selectedDisplay) {
+                optionsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                carrera.CAREER_INTERNSHIP_TYPES.forEach(tipo => {
+                  const checkbox = optionsContainer.querySelector(`#tipo_${tipo.INTERNSHIP_TYPE_ID}`);
+                  if (checkbox) checkbox.checked = true;
+                });
+                updateSelectedDisplay(selectedDisplay, optionsContainer);
+              }
+              // Deshabilitar el custom select AHORA, después de que se ha reconstruido
+              const customSelect = document.querySelector('.custom-select-container');
+              if (customSelect) customSelect.style.pointerEvents = 'none';
+            });
+
+            window.dialog.showModal();
+          }
+        })
+        .catch(error => {
+          console.error('Error al cargar datos para ver:', error);
+          mostrarMensajeError('Error al cargar datos para ver.');
+        });
+    }
+  });
 
   // Manejar el envío del formulario
   document.getElementById('formulario').addEventListener('submit', async function (e) {
