@@ -10,6 +10,19 @@ class Combos
         $this->conexion = new Conexion();
         $this->pdo = $this->conexion->conectar();
     }
+
+    /**
+     * Obtiene valores de una lista específica de la tabla t-value_list.
+     * @param int $listId El ID de la lista a buscar.
+     * @return array Lista de valores (NAME, ABBREVIATION) para el ID de lista dado.
+     */
+    public function getValuesByListId($listId) {
+        $sql = "SELECT NAME, ABBREVIATION FROM `t-value_list` WHERE LIST_ID = :list_id AND STATUS = 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':list_id', $listId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function getGenderCombo(){
         $sql = "SELECT NAME, ABBREVIATION FROM `t-value_list` WHERE LIST_ID = 1";
         $stmt = $this->pdo->prepare($sql);

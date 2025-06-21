@@ -1369,6 +1369,69 @@ button.primary-white {
   height: 3rem;
 }
 
+/* Task Consulta */
+
+.task-view {
+  width: 8rem;
+  height: 3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: #686868;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  background: #686868;
+}
+
+.task-view,
+.task-view span {
+  transition: 200ms;
+}
+
+.task-view .texto {
+  transform: translateX(15px);
+  color: white;
+  font-weight: bold;
+}
+
+.task-view .icon {
+  position: absolute;
+  /* border-left: 1px solid #686868; */
+  transform: translateX(60px);
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-view svg {
+  width: 15px;
+  fill: #eee;
+}
+
+.task-view:hover {
+  background: #484848;
+}
+
+.task-view:hover .texto {
+  color: transparent;
+}
+
+.task-view:hover .icon {
+  width: 100px;
+  border-left: none;
+  transform: translateX(0);
+}
+
+.task-view:focus {
+  outline: none;
+}
+
+.task-view:active .icon svg {
+  transform: scale(0.8);
+}
 /* Asegura separación entre texto e icono en todos los botones con iconos */
 button .texto,
 .task-status .texto,

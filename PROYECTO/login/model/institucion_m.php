@@ -46,11 +46,11 @@ class Institucion
 
             $consulta = "INSERT INTO `t-institution` (
                 INSTITUTION_NAME, INSTITUTION_ADDRESS, INSTITUTION_CONTACT,
-                PRACTICE_TYPE, REGION, NUCLEUS, EXTENSION,
+                PRACTICE_TYPE, CAREER_ID, REGION, NUCLEUS, EXTENSION,
                 CREATION_DATE, INSTITUTION_TYPE, STATUS, RIF
             ) VALUES (
                 :nombre, :direccion, :contacto,
-                :tipo_practica, :region, :nucleo, :extension,
+                :tipo_practica, :carrera, :region, :nucleo, :extension,
                 NOW(), :tipo_institucion, 1, :rif
             )";
 
@@ -59,6 +59,7 @@ class Institucion
             $statement->bindValue(':direccion', $datos['direccion']);
             $statement->bindValue(':contacto', $datos['contacto']);
             $statement->bindValue(':tipo_practica', $datos['tipo_practica']);
+            $statement->bindValue(':carrera', $datos['carrera']);
             $statement->bindValue(':region', $datos['region']);
             $statement->bindValue(':nucleo', $datos['nucleo']);
             $statement->bindValue(':extension', $datos['extension']);
@@ -88,7 +89,11 @@ class Institucion
      */
     public function listarActivas()
     {
-        $consulta = "SELECT * FROM `t-institution` WHERE STATUS = 1";
+        $consulta = "SELECT i.*, c.CAREER_NAME, itp.NAME as PRACTICE_TYPE_NAME
+                     FROM `t-institution` i
+                     LEFT JOIN `t-career` c ON i.CAREER_ID = c.CAREER_ID
+                     LEFT JOIN `t-internship_type` itp ON i.PRACTICE_TYPE = itp.INTERNSHIP_TYPE_ID
+                     WHERE i.STATUS = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
 
@@ -101,7 +106,11 @@ class Institucion
      */
     public function listarInactivas()
     {
-        $consulta = "SELECT * FROM `t-institution` WHERE STATUS = 0";
+        $consulta = "SELECT i.*, c.CAREER_NAME, itp.NAME as PRACTICE_TYPE_NAME
+                     FROM `t-institution` i
+                     LEFT JOIN `t-career` c ON i.CAREER_ID = c.CAREER_ID
+                     LEFT JOIN `t-internship_type` itp ON i.PRACTICE_TYPE = itp.INTERNSHIP_TYPE_ID
+                     WHERE i.STATUS = 0";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
 
@@ -116,7 +125,7 @@ class Institucion
     public function eliminar($id)
     {
         $consulta = "UPDATE `t-institution` 
-                    SET STATUS = 0 
+                    SET STATUS = 0 -- Sin cambios aquí
                     WHERE INSTITUTION_ID = :id";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':id', $id);
@@ -131,7 +140,7 @@ class Institucion
     public function restaurar($id)
     {
         $consulta = "UPDATE `t-institution` 
-                    SET STATUS = 1 
+                    SET STATUS = 1 -- Sin cambios aquí
                     WHERE INSTITUTION_ID = :id";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':id', $id);
@@ -145,7 +154,11 @@ class Institucion
      */
     public function buscarPorId($id)
     {
-        $consulta = "SELECT * FROM `t-institution` WHERE INSTITUTION_ID = :id";
+        $consulta = "SELECT i.*, c.CAREER_NAME, itp.NAME as PRACTICE_TYPE_NAME
+                     FROM `t-institution` i
+                     LEFT JOIN `t-career` c ON i.CAREER_ID = c.CAREER_ID
+                     LEFT JOIN `t-internship_type` itp ON i.PRACTICE_TYPE = itp.INTERNSHIP_TYPE_ID
+                     WHERE i.INSTITUTION_ID = :id";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':id', $id);
         $statement->execute();
@@ -172,6 +185,7 @@ class Institucion
                             INSTITUTION_ADDRESS = :direccion,
                             INSTITUTION_CONTACT = :contacto,
                             PRACTICE_TYPE = :tipo_practica,
+                            CAREER_ID = :carrera,
                             REGION = :region,
                             NUCLEUS = :nucleo,
                             EXTENSION = :extension,
@@ -185,6 +199,7 @@ class Institucion
             $statement->bindValue(':direccion', $datos['direccion']);
             $statement->bindValue(':contacto', $datos['contacto']);
             $statement->bindValue(':tipo_practica', $datos['tipo_practica']);
+            $statement->bindValue(':carrera', $datos['carrera']);
             $statement->bindValue(':region', $datos['region']);
             $statement->bindValue(':nucleo', $datos['nucleo']);
             $statement->bindValue(':extension', $datos['extension']);

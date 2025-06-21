@@ -1,15 +1,22 @@
 <?php
 require_once '../../model/institucion_m.php';
-
-
+require_once '../../model/tipo_practica_m.php';
+require_once '../../model/carrera_m.php';
+require_once '../../model/combos.php'; // Incluimos el modelo de combos
 
 class InstitucionController
 {
     private $modelo;
+    private $tipoPracticaModelo;
+    private $carreraModelo;
+    private $combosModelo; // Agregamos una propiedad para el modelo Combos
 
     public function __construct()
     {
         $this->modelo = new Institucion();
+        $this->tipoPracticaModelo = new TipoPractica();
+        $this->carreraModelo = new Carrera();
+        $this->combosModelo = new Combos(); // Instanciamos el modelo Combos
     }
 
     /**
@@ -50,6 +57,15 @@ class InstitucionController
                     break;
                 case 'verificar_rif':
                     $this->verificarRif();
+                    break;
+                case 'get_tipos_practica':
+                    $this->getTiposPractica();
+                    break;
+                case 'get_carreras_by_tipo_practica':
+                    $this->getCarrerasPorTipoPractica();
+                    break;
+                case 'get_combos_genericos':
+                    $this->getCombosGenericos();
                     break;
                 default:
                     $this->responder(['error' => 'Acción no válida'], 400);
@@ -238,7 +254,8 @@ class InstitucionController
             'nucleo' => $this->obtenerValor('nucleo', true),
             'extension' => $this->obtenerValor('extension', true),
             'tipo_institucion' => $this->obtenerValor('tipo_institucion', true),
-            'rif' => $this->obtenerValor('rif', true)
+            'rif' => $this->obtenerValor('rif', true),
+            'carrera' => $this->obtenerValor('carrera', true)
         ];
     }
 
@@ -274,6 +291,50 @@ class InstitucionController
     {
         $instituciones = $this->modelo->listarParaSelect();
         $this->responder($instituciones);
+    }
+
+    /**
+     * Obtiene la lista de tipos de práctica activos.
+     */
+    private function getTiposPractica()
+    {
+        $tipos = $this->tipoPracticaModelo->listarActivos();
+        $this->responder($tipos);
+    }
+
+    /**
+     * Obtiene la lista de carreras activas filtradas por tipo de práctica.
+     */
+    private function getCarrerasPorTipoPractica()
+    {
+        $tipoPracticaId = $_GET['tipo_practica_id'] ?? null;
+        if (empty($tipoPracticaId)) {
+            $this->responder(['error' => 'ID de tipo de práctica requerido'], 400);
+            return;
+        }
+        $carreras = $this->carreraModelo->listarPorTipoPasantia($tipoPracticaId);
+        $this->responder($carreras);
+    }
+
+    /**
+     * Obtiene listas de valores genéricos para combos.
+     */
+    private function getCombosGenericos()
+    {
+        // Obtenemos los datos de la base de datos usando el modelo Combos
+        // Asegúrate de que los LIST_IDs coincidan con tu configuración en la tabla `t-value_list`
+        $regiones = $this->combosModelo->getValuesByListId(16); // LIST_ID para Regiones
+        $nucleos = $this->combosModelo->getValuesByListId(17); // LIST_ID para Núcleos
+        $extensiones = $this->combosModelo->getValuesByListId(18); // LIST_ID para Extensiones
+        // El LIST_ID 6 ya está definido en combos.php para Tipo de Institución
+        $tiposInstitucion = $this->combosModelo->getValuesByListId(6); 
+
+        $this->responder([
+            'regiones' => $regiones,
+            'nucleos' => $nucleos,
+            'extensiones' => $extensiones,
+            'tipos_institucion' => $tiposInstitucion,
+        ]);
     }
 }
 

@@ -201,6 +201,24 @@ class Carrera
     }
 
     /**
+     * Listar carreras activas filtradas por tipo de pasantía
+     * @param int $internshipTypeId ID del tipo de pasantía
+     * @return array Lista de carreras
+     */
+    public function listarPorTipoPasantia($internshipTypeId)
+    {
+        $consulta = "SELECT c.CAREER_ID, c.CAREER_NAME, c.CAREER_CODE, c.MINIMUM_GRADE, c.CAREER_ABBREVIATION
+                     FROM `t-career` c
+                     JOIN `t-career_internship_type` cit ON c.CAREER_ID = cit.CAREER_ID
+                     WHERE c.STATUS = 1 AND cit.INTERNSHIP_TYPE_ID = :internship_type_id
+                     ORDER BY c.CAREER_NAME ASC";
+        $stmt = $this->pdo->prepare($consulta);
+        $stmt->bindValue(':internship_type_id', $internshipTypeId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Verificar si un código de carrera ya existe (opcional para validación)
      */
     public function codigoExiste($codigo, $idExcluir = null) {
