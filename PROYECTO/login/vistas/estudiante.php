@@ -150,7 +150,7 @@ require 'header.php';
                 <div class="formulario__grupo">
                     <label for="carrera" class="formulario__label">Carrera <span class="obligatorio">*</span></label>
                     <select id="carrera" name="carrera" class="formulario__input" required>
-                        <option value="" disabled selected>Cargando...</option>
+                        <option value="" disabled selected>Seleccione una opción</option>
                     </select>
                 </div>
 
@@ -178,7 +178,7 @@ require 'header.php';
                 <div class="formulario__grupo">
                     <label for="regimen" class="formulario__label">Régimen <span class="obligatorio">*</span></label>
                     <select id="regimen" name="regimen" class="formulario__input" required>
-                        <option value="" disabled selected>Cargando...</option>
+                        <option value="" disabled selected>Seleccione una opción</option>
                     </select>
                 </div>
 
@@ -186,7 +186,7 @@ require 'header.php';
                 <div class="formulario__grupo">
                     <label for="tipo_estudiante" class="formulario__label">Tipo Estudiante <span class="obligatorio">*</span></label>
                     <select id="tipo_estudiante" name="tipo_estudiante" class="formulario__input" required>
-                        <option value="" disabled selected>Cargando...</option>
+                        <option value="" disabled selected>Seleccione una opción</option>
                     </select>
                 </div>
 
@@ -195,7 +195,7 @@ require 'header.php';
                 <div class="formulario__grupo">
                     <label for="rango_militar" class="formulario__label">Rango Militar <span class="obligatorio">*</span></label>
                     <select id="rango_militar" name="rango_militar" class="formulario__input" required>
-                        <option value="" disabled selected>Cargando...</option>
+                        <option value="" disabled selected>Seleccione una opción</option>
                     </select>
                 </div>
 
@@ -217,7 +217,7 @@ require 'header.php';
                     <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">¡Registro exitoso!</p>
                 </div>
             </form>
-            <button onclick="document.getElementById('dialog').close();"
+            <button onclick="document.getElementById('dialog').close(); $('#formulario').trigger('reset');"
                 aria-label="Cerrar"
                 class="x">❌</button>
         </dialog>

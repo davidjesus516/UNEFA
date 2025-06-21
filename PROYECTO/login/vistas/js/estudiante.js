@@ -1,27 +1,31 @@
-$(document).ready(function () {//aqui inicializamos javascript
-    let edit = false;// esta variable de lectura la inicializo para que el form de enviar pueda volverse en un editar si es True
-    console.log("jquery is working");// para saber que jquery este funcionando
+$(document).ready(function () {
+    let edit = false;
+    console.log("jquery is working");
     console.log(edit);
-    fetchTask();//inicializo la funcion que cada vez que cargue la pagina le pida al servidor que me de los campos
+    fetchTask();
     let errores = false;
-    $.ajax({//realizo una peticion ajax
-        url: '../controllers/carrera/UserList.php',//al url que trae la lista
-        type: 'GET',//le pido una peticion GET
-        success: function (response) {// si tengo una respuesta ejecuta la funcion
-            let task = JSON.parse(response);// convierto el json en string
-            let template = '<option id = "carrera-option" value="" disabled selected>Seleccione una opción</option>';//creo la plantilla donde imprimire los datos
-            task.forEach(task => {//hago un array que me recorra el json y me lo imprima en el tbody
-                template += `<option id = "carrera-option" value="${task.CAREER_ID}" >${task.CAREER_NAME}</option>
-                `
+    
+    // Referencia al diálogo del formulario
+    const dialog = document.getElementById('dialog');
+    
+    $.ajax({
+        url: '../controllers/carrera/UserList.php',
+        type: 'GET',
+        success: function (response) {
+            let task = JSON.parse(response);
+            let template = '<option id = "carrera-option" value="" disabled selected>Seleccione una opción</option>';
+            task.forEach(task => {
+                template += `<option id = "carrera-option" value="${task.CAREER_ID}" >${task.CAREER_NAME}</option>`
             })
-            $('#carrera').html(template);//los imprimo en el html
-        }
-    })
-    $.ajax({//realizo una peticion ajax
-        url: '../controllers/estudiante/StudentFormCombos.php',//al url que trae la lista
-        type: 'GET',//le pido una peticion GET
-        success: function (response) {// si tengo una respuesta ejecuta la funcion
-            let task = JSON.parse(response);// convierto el json en string
+            $('#carrera').html(template);
+        } 
+    });
+
+    $.ajax({
+        url: '../controllers/estudiante/StudentFormCombos.php',
+        type: 'GET',
+        success: function (response) {
+            let task = JSON.parse(response);
             $('#genero').html(task.gender);
             $('#estado_civil').html(task.maritalStatus);
             $('#regimen').html(task.regime);
@@ -29,36 +33,40 @@ $(document).ready(function () {//aqui inicializamos javascript
             $('#rango_militar').html(task.militaryRank);
             $('#trabaja').html(task.workingStatus);
         }
-    })
+    });
+
     const expresiones = {
-        usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
-        solo_letras: /^[a-zA-ZÀ-ÿ\s]+$/, // Letras y espacios, pueden llevar acentos.
-        correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_.+-]*$/, // formato correo ejemplo@mail.com
-        cedula: /^\d{1,8}$/, // cedula debe ser un numero de maximo 9 digitos
-        telefono: /^\d{7}$/ // telefono debe ser un numero de 11 digitos 
-    }
+        usuario: /^[a-zA-Z0-9\_\-]{4,16}$/,
+        solo_letras: /^[a-zA-ZÀ-ÿ\s]+$/,
+        correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_.+-]*$/,
+        cedula: /^\d{1,8}$/,
+        telefono: /^\d{7}$/
+    };
+
     function isCorrect(id) {
         $(`#${id}`).addClass("formulario__grupo-correcto").removeClass("formulario__grupo-incorrecto");
         $(`#${id} i`).addClass("fa-check-circle").removeClass("fa-times-circle");
         $(`#${id} .formulario__input-error`).removeClass("formulario__input-error-activo");
     }
+
     function isIncorrect(id, message) {
         $(`#${id}`).addClass("formulario__grupo-incorrecto").removeClass("formulario__grupo-correcto");
         $(`#${id} i`).addClass("fa-times-circle").removeClass("fa-check-circle");
         $(`#${id} .formulario__input-error`).addClass('formulario__input-error-activo');
         $(`#${id} p`).text(message);
     }
+
     function validateInput(input, regex, id, message) {
         if (regex.test(input.val())) {
             isCorrect(id);
-            return true; // Si la validación es correcta, se retorna true
+            return true;
         } else {
             isIncorrect(id, message || 'El campo no es válido');
-            return false; // Si la validación falla, se retorna false
+            return false;
         }
     }
+
     function validateForm(input) {
-        
         let id = input.attr('id');
         switch (id) {
             case 'primer_nombre':
@@ -68,20 +76,19 @@ $(document).ready(function () {//aqui inicializamos javascript
             case 'cedula':
                 if (input.val() === '') {
                     isIncorrect('grupo__cedula', 'Debe ingresar un número de cédula');
-                    return false; // Si el campo está vacío, se retorna false
+                    return false;
                 } else if (validateInput(input, expresiones.cedula, 'grupo__cedula', 'El número de cédula debe ser un número de máximo 8 dígitos')) {
-                    CIisUnique(); // Llama a la función para verificar si el número de cédula es único
+                    CIisUnique();
                 } else {
-                    return false; // Si la validación falla, se retorna false
+                    return false;
                 }
                 break;
-                
             case 'segundo_nombre':
             case 'segundo_apellido':
                 if (input.val() !== '') {
                     validateInput(input, expresiones.solo_letras, `grupo__${id}`, 'El campo solo debe contener letras y espacios');
                 } else {
-                    isCorrect(`grupo__${id}`); // Si el campo está vacío, se marca como correcto
+                    isCorrect(`grupo__${id}`);
                 }
                 break;
             case 'telefono':
@@ -121,29 +128,31 @@ $(document).ready(function () {//aqui inicializamos javascript
                 }
                 break;
             default:
-                isCorrect(`grupo__${id}`); // Para otros campos, simplemente se marca como correcto
+                isCorrect(`grupo__${id}`);
                 break;
         }
-        // Verifica si hay algún error en el formulario
         if ($('.formulario__grupo-incorrecto').length > 0) {
-            errores = true; // Si hay algún grupo incorrecto, se establece la variable errores en true
+            errores = true;
         } else {
-            errores = false; // Si no hay grupos incorrectos, se establece la variable errores en false
+            errores = false;
         }
     }
+
     $('#tipo_estudiante').change(function () {
         let tipoEstudiante = $(this).val();
         if (tipoEstudiante === 'CIV') {
-            $('#rango_militar').val(' '); // Limpia el campo de rango militar si el tipo de estudiante es CIV
-            $('#rango_militar').attr('disabled', true); // Deshabilita el campo de rango militar
+            $('#rango_militar').val(' ');
+            $('#rango_militar').attr('disabled', true);
         } else {
-            $('#rango_militar').attr('disabled', false); // Habilita el campo de rango militar para otros tipos de estudiante
+            $('#rango_militar').attr('disabled', false);
         }
     });
-    $('#formulario input').keyup(function (e) {//reviso del formulario task el evento keyup
+
+    $('#formulario input').keyup(function (e) {
         let input = $(this);
-        validateForm(input); // Llama a la función de validación para cada input
+        validateForm(input);
     });
+
     function CIisUnique() {
         let search = $('#nacionalidad').val() + '-' + $('#cedula').val();
         $.ajax({
@@ -151,10 +160,10 @@ $(document).ready(function () {//aqui inicializamos javascript
             type: 'POST',
             data: { search },
             success: function (response) {
-                let data = JSON.parse(response); // Convertimos la respuesta en un objeto JSON
-                if ((Object.keys(data).length === 0 || (edit === true && data.STUDENTS_CI === $('#nacionalidad').val() + '-' + $('#cedula').val()))) { // Verificamos si el objeto está vacío
+                let data = JSON.parse(response);
+                if ((Object.keys(data).length === 0 || (edit === true && data.STUDENTS_CI === $('#nacionalidad').val() + '-' + $('#cedula').val()))) {
                     isCorrect('grupo__cedula');
-                    return true; // El número de cédula es único
+                    return true;
                 } else {
                     isIncorrect('grupo__cedula', 'Este número de cédula ya está registrado');
                     return false;
@@ -166,107 +175,135 @@ $(document).ready(function () {//aqui inicializamos javascript
         })
     };
 
-
-    // Función para mostrar el modal de mensaje
-    function mostrarMensajeModal(mensaje) {
-        $("#message .contenido").html(mensaje);
-        let message = $("#message").get(0);
-        message.showModal();
-        $(".x").off("click").on("click", function () {
-            message.close();
+    // Función mejorada para mostrar mensajes con SweetAlert2
+    function mostrarMensajeModal(mensaje, tipo = 'info') {
+        // Cerrar el diálogo solo si está abierto
+        if (dialog.open) {
+            dialog.close();
+        }
+        
+        return Swal.fire({
+            title: tipo === 'error' ? 'Error' : tipo === 'success' ? 'Éxito' : 'Información',
+            text: mensaje,
+            icon: tipo,
+            confirmButtonText: 'Aceptar'
         });
     }
 
-    // Enviar formulario (crear o editar)
+    // Enviar formulario (crear o editar) - Versión corregida
     $('#formulario').submit(function (e) {
-        e.preventDefault(); // Siempre prevenir el envío por defecto
+        e.preventDefault();
 
-        if (!confirm('¿Quieres proceder con el registro?')) {
-            return false;
+        // Cerrar el diálogo antes de mostrar la confirmación
+        if (dialog.open) {
+            dialog.close();
         }
 
-        // Validación de todos los campos del formulario
-        $('#formulario input, #formulario select').each(function () {
-            let input = $(this);
-            validateForm(input);
-        });
-
-        // Validar correo único antes de enviar
-        emailIsUnique(function (isUnique) {
-            if (errores || !isUnique) {
-                mostrarMensajeModal("Debe llenar correctamente el formulario y el correo no debe estar repetido");
+        Swal.fire({
+            title: '¿Confirmar acción?',
+            text: edit ? '¿Deseas actualizar este registro?' : '¿Deseas crear un nuevo registro?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                // Volver a abrir el diálogo si se cancela
+                dialog.showModal();
                 return false;
             }
 
-            // Si todo está bien, continúa con el envío AJAX
-            const STUDENTS_ID = $('#id').val();
-            const STUDENTS_CI = $('#nacionalidad').val() + '-' + $('#cedula').val();
-            const NAME = $('#primer_nombre').val();
-            const SECOND_NAME = $('#segundo_nombre').val();
-            const SURNAME = $('#primer_apellido').val();
-            const SECOND_SURNAME = $('#segundo_apellido').val();
-            const GENDER = $('#genero').val();
-            const BIRTHDATE = $('#birthdate').val();
-            const CONTACT_PHONE = $('#operadora').val() + '-' + $('#telefono').val();
-            const EMAIL = $('#correo').val();
-            const ADDRESS = '';
-            const MARITAL_STATUS = $('#estado_civil').val();
-            const SEMESTER = $('#semestre').val();
-            const SECTION = $('#seccion').val();
-            const REGIME = $('#regimen').val();
-            const STUDENT_TYPE = $('#tipo_estudiante').val();
-            const MILITARY_RANK = $('#rango_militar').val();
-            const EMPLOYMENT = $('#trabaja').val();
-            const CAREER_ID = $('#carrera').val();
+            // Validación de todos los campos del formulario
+            $('#formulario input, #formulario select').each(function () {
+                let input = $(this);
+                validateForm(input);
+            });
 
-            const postData = {
-                STUDENTS_ID: STUDENTS_ID,
-                STUDENTS_CI: STUDENTS_CI,
-                NAME: NAME,
-                SECOND_NAME: SECOND_NAME,
-                SURNAME: SURNAME,
-                SECOND_SURNAME: SECOND_SURNAME,
-                GENDER: GENDER,
-                BIRTHDATE: BIRTHDATE,
-                CONTACT_PHONE: CONTACT_PHONE,
-                EMAIL: EMAIL,
-                ADDRESS: ADDRESS,
-                MARITAL_STATUS: MARITAL_STATUS,
-                SEMESTER: SEMESTER,
-                SECTION: SECTION,
-                REGIME: REGIME,
-                STUDENT_TYPE: STUDENT_TYPE,
-                MILITARY_RANK: MILITARY_RANK,
-                EMPLOYMENT: EMPLOYMENT,
-                CAREER_ID: CAREER_ID
-            };
+            // Validar correo único antes de enviar
+            emailIsUnique(function (isUnique) {
+                if (errores || !isUnique) {
+                    mostrarMensajeModal("Debe llenar correctamente el formulario y el correo no debe estar repetido", 'error')
+                        .then(() => dialog.showModal());
+                    return false;
+                }
 
-            if (edit === false) {
-                let url = '../controllers/estudiante/Estudiante.php?accion=insertar';
-                $.post(url, postData, function (response) {
-                    let data = JSON.parse(response);
-                    mostrarMensajeModal(data.message);
-                    fetchTask();
-                    $('#formulario').trigger('reset');
-                }).fail(function () {
-                    mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.");
-                });
-            } else {
-                let url = '../controllers/estudiante/Estudiante.php?accion=actualizar';
-                $.post(url, postData, function (response) {
-                    let data = JSON.parse(response);
-                    mostrarMensajeModal(data.message);
-                    fetchTask();
-                    $('#formulario').trigger('reset');
-                    $('#cedula').attr('readonly', false);
-                    $('#nacionalidad').attr('disabled', false);
-                    edit = false;
-                }).fail(function () {
-                    mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.");
-                });
-            }
+                const STUDENTS_ID = $('#id').val();
+                const STUDENTS_CI = $('#nacionalidad').val() + '-' + $('#cedula').val();
+                const NAME = $('#primer_nombre').val();
+                const SECOND_NAME = $('#segundo_nombre').val();
+                const SURNAME = $('#primer_apellido').val();
+                const SECOND_SURNAME = $('#segundo_apellido').val();
+                const GENDER = $('#genero').val();
+                const BIRTHDATE = $('#birthdate').val();
+                const CONTACT_PHONE = $('#operadora').val() + '-' + $('#telefono').val();
+                const EMAIL = $('#correo').val();
+                const ADDRESS = '';
+                const MARITAL_STATUS = $('#estado_civil').val();
+                const SEMESTER = $('#semestre').val();
+                const SECTION = $('#seccion').val();
+                const REGIME = $('#regimen').val();
+                const STUDENT_TYPE = $('#tipo_estudiante').val();
+                const MILITARY_RANK = $('#rango_militar').val();
+                const EMPLOYMENT = $('#trabaja').val();
+                const CAREER_ID = $('#carrera').val();
+
+                const postData = {
+                    STUDENTS_ID: STUDENTS_ID,
+                    STUDENTS_CI: STUDENTS_CI,
+                    NAME: NAME,
+                    SECOND_NAME: SECOND_NAME,
+                    SURNAME: SURNAME,
+                    SECOND_SURNAME: SECOND_SURNAME,
+                    GENDER: GENDER,
+                    BIRTHDATE: BIRTHDATE,
+                    CONTACT_PHONE: CONTACT_PHONE,
+                    EMAIL: EMAIL,
+                    ADDRESS: ADDRESS,
+                    MARITAL_STATUS: MARITAL_STATUS,
+                    SEMESTER: SEMESTER,
+                    SECTION: SECTION,
+                    REGIME: REGIME,
+                    STUDENT_TYPE: STUDENT_TYPE,
+                    MILITARY_RANK: MILITARY_RANK,
+                    EMPLOYMENT: EMPLOYMENT,
+                    CAREER_ID: CAREER_ID
+                };
+
+                if (edit === false) {
+                    let url = '../controllers/estudiante/Estudiante.php?accion=insertar';
+                    $.post(url, postData, function (response) {
+                        let data = JSON.parse(response);
+                        mostrarMensajeModal(data.message, 'success')
+                            .then(() => {
+                                fetchTask();
+                                dialog.close(); // Solo cerramos el modal sin limpiar el formulario
+                            });
+                    }).fail(function () {
+                        mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.", 'error')
+                            .then(() => dialog.showModal());
+                    });
+                } else {
+                    let url = '../controllers/estudiante/Estudiante.php?accion=actualizar';
+                    $.post(url, postData, function (response) {
+                        let data = JSON.parse(response);
+                        mostrarMensajeModal(data.message, 'success')
+                            .then(() => {
+                                fetchTask();
+                                $('#cedula').attr('readonly', false);
+                                $('#nacionalidad').attr('disabled', false);
+                                edit = false;
+                                dialog.close(); // Solo cerramos el modal sin limpiar el formulario
+                            });
+                    }).fail(function () {
+                        mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.", 'error')
+                            .then(() => dialog.showModal());
+                    });
+                }
+            });
         });
-    })
+    });
 
     // Mostrar solo activos al cargar la página
     $('#datos-activos').show();
@@ -276,7 +313,6 @@ $(document).ready(function () {//aqui inicializamos javascript
 
     fetchTask();
 
-    // Nueva función para renderizar estudiantes en activos/inactivos
     function renderStudents(data) {
         let templateActivos = '';
         let templateInactivos = '';
@@ -291,10 +327,10 @@ $(document).ready(function () {//aqui inicializamos javascript
                 <td>${task.EMAIL}</td>
                 <td>${task.CAREER_NAME}</td>
                 <td>
-                    <button class="task-delete"><span class="texto">Borrar</span><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button>
+                    <button class="task-edit" onclick="window.dialog.showModal();"><span class="texto">Editar</span><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button>
                 </td>
                 <td>
-                    <button class="task-edit" onclick="window.dialog.showModal();"><span class="texto">Editar</span><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button>
+                    <button class="task-delete"><span class="texto">Borrar</span><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button>
                 </td>
             </tr>`;
         });
@@ -318,7 +354,6 @@ $(document).ready(function () {//aqui inicializamos javascript
         $('#datos-inactivos').html(templateInactivos);
     }
 
-    // Modifica fetchTask para separar activos/inactivos
     function fetchTask() {
         $.ajax({
             url: '../controllers/estudiante/UserList.php',
@@ -332,57 +367,88 @@ $(document).ready(function () {//aqui inicializamos javascript
         });
     }
 
-    // Lógica de pestañas
     window.cambiarTabEstudiante = function (tipo, event) {
         const isActivos = tipo === 'activos';
         $('#datos-activos').toggle(isActivos);
         $('#datos-inactivos').toggle(!isActivos);
         $('.tab-button').removeClass('active');
         $(event.currentTarget).addClass('active');
-        // No es necesario volver a llamar a fetchTask aquí, ya que los datos ya están cargados
     }
 
-    // Manejador para restaurar estudiante inactivo
+    // Manejador para restaurar estudiante inactivo con SweetAlert2 - Versión corregida
     $(document).on('click', '.task-restore', function () {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('taskid');
-        if (confirm('¿Está seguro de restaurar este estudiante?')) {
-            $.post('../controllers/estudiante/Estudiante.php?accion=restaurar', { id }, function (response) {
-                let data = JSON.parse(response);
-                mostrarMensajeModal(data.success ? "Estudiante restaurado correctamente." : "No se pudo restaurar el estudiante.");
-                fetchTask();
-            }).fail(function () {
-                mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.");
-            });
+        
+        // Cerrar el diálogo si está abierto
+        if (dialog.open) {
+            dialog.close();
         }
+
+        Swal.fire({
+            title: '¿Restaurar estudiante?',
+            text: "¿Estás seguro de que deseas restaurar este estudiante?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, restaurar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('../controllers/estudiante/Estudiante.php?accion=restaurar', { id }, function (response) {
+                    let data = JSON.parse(response);
+                    mostrarMensajeModal(data.success ? "Estudiante restaurado correctamente." : "No se pudo restaurar el estudiante.", data.success ? 'success' : 'error');
+                    fetchTask();
+                }).fail(function () {
+                    mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.", 'error');
+                });
+            }
+        });
     });
 
-    // Manejador para eliminar (inactivar) estudiante
+    // Manejador para eliminar (inactivar) estudiante con SweetAlert2 - Versión corregida
     $(document).on('click', '.task-delete', function () {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('taskid');
-        if (confirm('¿Está seguro de eliminar este estudiante?')) {
-            $.post('../controllers/estudiante/Estudiante.php?accion=eliminar', { id }, function (response) {
-                let data = JSON.parse(response);
-                mostrarMensajeModal(data.success ? "Estudiante eliminado correctamente." : "No se pudo eliminar el estudiante.");
-                fetchTask();
-            }).fail(function () {
-                mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.");
-            });
+        
+        // Cerrar el diálogo si está abierto
+        if (dialog.open) {
+            dialog.close();
         }
+
+        Swal.fire({
+            title: '¿Eliminar estudiante?',
+            text: "¿Estás seguro de que deseas eliminar este estudiante?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('../controllers/estudiante/Estudiante.php?accion=eliminar', { id }, function (response) {
+                    let data = JSON.parse(response);
+                    mostrarMensajeModal(data.success ? "Estudiante eliminado correctamente." : "No se pudo eliminar el estudiante.", data.success ? 'success' : 'error');
+                    fetchTask();
+                }).fail(function () {
+                    mostrarMensajeModal("Error en el servidor. Por favor, intenta nuevamente.", 'error');
+                });
+            }
+        });
     });
 
     $(document).on('click', '.task-edit', function () {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('taskid');
         edit = true;
-        // Traer datos del estudiante
+        
         $.ajax({
             url: '../controllers/estudiante/Estudiante.php?accion=buscar&id=' + id,
             type: 'GET',
             success: function (response) {
                 let data = JSON.parse(response);
-                // Llena los campos del formulario
                 $('#id').val(data.STUDENTS_ID);
                 let ciParts = data.STUDENTS_CI.split('-');
                 $('#nacionalidad').val(ciParts[0]);
@@ -406,12 +472,10 @@ $(document).ready(function () {//aqui inicializamos javascript
                 $('#trabaja').val(data.EMPLOYMENT);
                 $('#carrera').val(data.CAREER_ID);
 
-                // Bloquea cédula y nacionalidad para evitar cambios
                 $('#cedula').attr('readonly', true);
                 $('#nacionalidad').attr('disabled', true);
 
-                // Muestra el modal
-                window.dialog.showModal();
+                dialog.showModal();
             }
         });
     });
@@ -439,4 +503,5 @@ $(document).ready(function () {//aqui inicializamos javascript
             }
         });
     }
-})
+
+});
