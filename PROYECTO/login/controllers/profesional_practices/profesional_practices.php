@@ -165,7 +165,11 @@ class ProfesionalPracticesController
             'matricula' => $this->obtenerValor('matricula', true)
         ];
         $resultado = $this->modelo->insertarPreinscripcion($datos);
-        if ($resultado) {
+        if ($resultado === "DUPLICATE_PREINSCRIPTION") {
+            $this->responder(['success' => false, 'error' => 'Este estudiante ya tiene una preinscripción (activa o inactiva) para el período seleccionado. Puede reactivarla si es necesario.'], 409);
+        } elseif ($resultado === "STUDENT_ALREADY_INSCRIBED") {
+            $this->responder(['success' => false, 'error' => 'No se puede preinscribir. El estudiante ya tiene una práctica profesional activa (preinscrito, inscrito o culminado).'], 409);
+        } elseif ($resultado) {
             $this->responder(['success' => true, 'message' => 'Preinscripción registrada correctamente']);
         } else {
             $this->responder(['success' => false, 'error' => 'No se pudo registrar la preinscripción'], 500);
@@ -181,8 +185,12 @@ class ProfesionalPracticesController
             'tipo_practica' => $this->obtenerValor('tipo_practica', true),
             'matricula' => $this->obtenerValor('matricula', true)
         ];
-        $resultado = $this->modelo->actualizarPreinscripcion($id, $datos);
-        if ($resultado) {
+        $resultado = $this->modelo->actualizarPreinscripcion($id, $datos); // Pass $id for update check
+        if ($resultado === "DUPLICATE_PREINSCRIPTION") {
+            $this->responder(['success' => false, 'error' => 'No se puede actualizar. Este estudiante ya tiene otra preinscripción (activa o inactiva) para el período de destino.'], 409);
+        } elseif ($resultado === "STUDENT_ALREADY_INSCRIBED") {
+            $this->responder(['success' => false, 'error' => 'No se puede actualizar. El estudiante ya tiene otra práctica profesional activa (preinscrito, inscrito o culminado).'], 409);
+        } elseif ($resultado) {
             $this->responder(['success' => true, 'message' => 'Preinscripción actualizada correctamente']);
         } else {
             $this->responder(['success' => false, 'error' => 'No se pudo actualizar la preinscripción'], 500);
@@ -206,20 +214,40 @@ class ProfesionalPracticesController
         $id = $this->obtenerValor('id', true);
         $ok = $this->modelo->cambiarEstadoPreinscripcion($id, 0);
         if ($ok) {
-            $this->responder(['success' => true, 'message' => 'Inscripción eliminada exitosamente']);
+            $this->responder(['success' => true, 'message' => 'Preinscripción eliminada exitosamente']);
         } else {
-            $this->responder(['success' => false, 'error' => 'No se pudo eliminar la inscripción'], 500);
+            $this->responder(['success' => false, 'error' => 'No se pudo eliminar la Preinscripción'], 500);
         }
     }
 
     private function activarPreinscripcion()
     {
         $id = $this->obtenerValor('id', true);
+
+        // Obtener los detalles de la preinscripción que se va a activar
+        $preinscripcion = $this->modelo->buscarPreinscripcionPorId($id);
+        if (!$preinscripcion) {
+            $this->responder(['success' => false, 'error' => 'La preinscripción no existe.'], 404);
+            return;
+        }
+
+        // Validar que no exista otra preinscripción ACTIVA para el mismo estudiante y período
+        if ($this->modelo->checkDuplicateActivePreinscripcion($preinscripcion['STUDENTS_ID'], $preinscripcion['PERIOD_ID'])) {
+            $this->responder(['success' => false, 'error' => 'No se puede activar. Ya existe otra preinscripción activa para este estudiante en el mismo período.'], 409);
+            return;
+        }
+
+        // Validar que el estudiante no esté ya inscrito o haya culminado en CUALQUIER período
+        if ($this->modelo->isStudentInProcess($preinscripcion['STUDENTS_ID'])) {
+            $this->responder(['success' => false, 'error' => 'No se puede activar. El estudiante ya tiene otra práctica profesional activa (preinscrito, inscrito o culminado).'], 409);
+            return;
+        }
+
         $ok = $this->modelo->cambiarEstadoPreinscripcion($id, 1);
         if ($ok) {
-            $this->responder(['success' => true, 'message' => 'Inscripción activada exitosamente']);
+            $this->responder(['success' => true, 'message' => 'Preinscripción activada exitosamente']);
         } else {
-            $this->responder(['success' => false, 'error' => 'No se pudo activar la inscripción'], 500);
+            $this->responder(['success' => false, 'error' => 'No se pudo activar la Preinscripción'], 500);
         }
     }
 

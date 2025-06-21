@@ -361,12 +361,12 @@ if (!$periodoActual) {
       <?php endif; ?>
     </div>
     <div class="metric-card metric-complete">
+      <div class="label">Carreras activas:</div>
       <div class="value"><?php echo $totalCarrerasActivas; ?></div>
-      <div class="label">Carreras activas</div>
     </div>
     <div class="metric-card metric-total">
+      <div class="label">Estudiantes activos:</div>
       <div class="value"><?php echo $totalEstudiantesActivos; ?></div>
-      <div class="label">Estudiantes activos</div>
     </div>
   </div>
 

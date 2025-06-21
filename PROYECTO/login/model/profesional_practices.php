@@ -62,6 +62,77 @@ class ProfesionalPractices
         return $combo;
 
     }
+
+    /**
+     * Checks if an active pre-registration already exists for a given student and period.
+     * @param int $studentId The ID of the student.
+     * @param int $periodId The ID of the period.
+     * @param int|null $currentId The ID of the current pre-registration being updated (optional).
+     * @return bool True if a duplicate active pre-registration is found, false otherwise.
+     */
+    public function checkDuplicateActivePreinscripcion($studentId, $periodId, $currentId = null) {
+        $sql = "SELECT COUNT(*) FROM `t-professional_practices`
+                WHERE `STUDENTS_ID` = :student_id
+                AND `PERIOD_ID` = :period_id
+                AND `STATUS` = 1
+                AND `PRACTICES_STATUS` = 1"; // Assuming PRACTICES_STATUS = 1 means 'pre-registered' or 'active pre-registration'
+
+        if ($currentId !== null) {
+            $sql .= " AND `PROFESSIONAL_PRACTICE_ID` != :current_id";
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':student_id', $studentId);
+        $stmt->bindValue(':period_id', $periodId);
+        if ($currentId !== null) { $stmt->bindValue(':current_id', $currentId); }
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
+
+   /**
+     * Checks if a student is already in the inscription process or has culminated in any period.
+     * @param int $studentId The ID of the student.
+     * @param int|null $currentId The ID of the current pre-registration being updated (optional).
+     * @return bool True if an inscribed or culminated record exists for the student, false otherwise.
+     */
+    public function isStudentInProcess($studentId, $currentId = null) {
+        $sql = "SELECT COUNT(*) FROM `t-professional_practices`
+                WHERE `STUDENTS_ID` = :student_id
+                AND `STATUS` = 1 -- Solo registros activos
+                AND `PRACTICES_STATUS` IN (1, 2, 3)"; // 1 = Preinscrito, 2 = Inscrito, 3 = Culminado
+
+        if ($currentId !== null) {
+            $sql .= " AND `PROFESSIONAL_PRACTICE_ID` != :current_id";
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':student_id', $studentId);
+        if ($currentId !== null) { $stmt->bindValue(':current_id', $currentId); }
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
+    /**
+     * Checks if any pre-registration (active or inactive) already exists for a given student and period.
+     * @param int $studentId The ID of the student.
+     * @param int $periodId The ID of the period.
+     * @param int|null $currentId The ID of the current pre-registration being updated (optional).
+     * @return bool True if a duplicate pre-registration is found, false otherwise.
+     */
+    public function checkAnyDuplicatePreinscripcion($studentId, $periodId, $currentId = null) {
+        $sql = "SELECT COUNT(*) FROM `t-professional_practices`
+                WHERE `STUDENTS_ID` = :student_id
+                AND `PERIOD_ID` = :period_id
+                AND `PRACTICES_STATUS` = 1"; // Check only pre-registrations, regardless of their active/inactive status
+
+        if ($currentId !== null) {
+            $sql .= " AND `PROFESSIONAL_PRACTICE_ID` != :current_id";
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':student_id', $studentId);
+        $stmt->bindValue(':period_id', $periodId);
+        if ($currentId !== null) { $stmt->bindValue(':current_id', $currentId); }
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
+
     public function listarInscripcionesActivos() {
         $consulta = "SELECT 
                 i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
@@ -166,6 +237,12 @@ class ProfesionalPractices
 
     // Insertar preinscripción
     public function insertarPreinscripcion($datos) {
+        if ($this->checkAnyDuplicatePreinscripcion($datos['estudiante_id'], $datos['periodo'])) {
+            return "DUPLICATE_PREINSCRIPTION"; // Special return value for any duplicate
+        }
+        if ($this->isStudentInProcess($datos['estudiante_id'])) {
+            return "STUDENT_ALREADY_INSCRIBED";
+        }
         $sql = "INSERT INTO `t-professional_practices` 
             (`STUDENTS_ID`, `PERIOD_ID`, `INTERNSHIP_TYPE_ID`, `ENROLLMENT`, `STATUS`, `INTERSHIP_STATUS`,  `PRACTICES_STATUS`)
             VALUES (:estudiante_id, :periodo, :tipo_practica ,:matricula ,1, 1, 1)";
@@ -179,6 +256,12 @@ class ProfesionalPractices
 
     // Actualizar preinscripción
     public function actualizarPreinscripcion($id, $datos) {
+        if ($this->checkAnyDuplicatePreinscripcion($datos['estudiante_id'], $datos['periodo'], $id)) {
+            return "DUPLICATE_PREINSCRIPTION"; // Special return value for any duplicate
+        }
+        if ($this->isStudentInProcess($datos['estudiante_id'], $id)) {
+            return "STUDENT_ALREADY_INSCRIBED";
+        }
         $sql = "UPDATE `t-professional_practices` SET 
             `STUDENTS_ID` = :estudiante_id,
             `PERIOD_ID` = :periodo,

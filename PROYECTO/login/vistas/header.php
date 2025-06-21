@@ -394,8 +394,8 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Practicas Profesionales</a></li>
-                        <li><a href="preinscripcion.php">Pre Inscripción</a></li>
-                        <li><a href="inscripcion_m.php">Inscripción</a></li>
+                        <li><a href="preinscripcion.php">Pre inscripción </a></li>
+                        <li><a href="inscripcion_m.php">Inscripción </a></li>
                         <li><a href="seguimiento.php">Seguimiento</a></li>
                         <li><a href="culminacion_pasantias.php">Culminación<br>Practica Profesional</a></li>
                     </ul>
