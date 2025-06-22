@@ -168,7 +168,12 @@ class ProfesionalPracticesController
         if ($resultado === "DUPLICATE_PREINSCRIPTION") {
             $this->responder(['success' => false, 'error' => 'Este estudiante ya tiene una preinscripción (activa o inactiva) para el período seleccionado. Puede reactivarla si es necesario.'], 409);
         } elseif ($resultado === "STUDENT_ALREADY_INSCRIBED") {
-            $this->responder(['success' => false, 'error' => 'No se puede preinscribir. El estudiante ya tiene una práctica profesional activa (preinscrito, inscrito o culminado).'], 409);
+            $this->responder(['success' => false, 'error' => 'No se puede preinscribir. El estudiante tiene una práctica profesional en curso o culminada no aprobada.'], 409);
+        } elseif (strpos($resultado, 'PRIORITY_VIOLATION_NEEDS_') === 0) {
+            $requiredPriority = str_replace('PRIORITY_VIOLATION_NEEDS_', '', $resultado);
+            $this->responder(['success' => false, 'error' => "No se puede registrar esta práctica. El estudiante debe haber culminado y aprobado la práctica de prioridad {$requiredPriority} primero."], 409);
+        } elseif ($resultado === "PRIORITY_ALREADY_REGISTERED") {
+            $this->responder(['success' => false, 'error' => 'No se puede registrar. El estudiante ya tiene un registro para este nivel de práctica.'], 409);
         } elseif ($resultado) {
             $this->responder(['success' => true, 'message' => 'Preinscripción registrada correctamente']);
         } else {
@@ -189,7 +194,12 @@ class ProfesionalPracticesController
         if ($resultado === "DUPLICATE_PREINSCRIPTION") {
             $this->responder(['success' => false, 'error' => 'No se puede actualizar. Este estudiante ya tiene otra preinscripción (activa o inactiva) para el período de destino.'], 409);
         } elseif ($resultado === "STUDENT_ALREADY_INSCRIBED") {
-            $this->responder(['success' => false, 'error' => 'No se puede actualizar. El estudiante ya tiene otra práctica profesional activa (preinscrito, inscrito o culminado).'], 409);
+            $this->responder(['success' => false, 'error' => 'No se puede actualizar. El estudiante tiene otra práctica profesional en curso o culminada no aprobada.'], 409);
+        } elseif (strpos($resultado, 'PRIORITY_VIOLATION_NEEDS_') === 0) {
+            $requiredPriority = str_replace('PRIORITY_VIOLATION_NEEDS_', '', $resultado);
+            $this->responder(['success' => false, 'error' => "No se puede actualizar a esta práctica. El estudiante debe haber culminado y aprobado la práctica de prioridad {$requiredPriority} primero."], 409);
+        } elseif ($resultado === "PRIORITY_ALREADY_REGISTERED") {
+            $this->responder(['success' => false, 'error' => 'No se puede actualizar. El estudiante ya tiene otro registro para este nivel de práctica.'], 409);
         } elseif ($resultado) {
             $this->responder(['success' => true, 'message' => 'Preinscripción actualizada correctamente']);
         } else {
@@ -239,7 +249,7 @@ class ProfesionalPracticesController
 
         // Validar que el estudiante no esté ya inscrito o haya culminado en CUALQUIER período
         if ($this->modelo->isStudentInProcess($preinscripcion['STUDENTS_ID'])) {
-            $this->responder(['success' => false, 'error' => 'No se puede activar. El estudiante ya tiene otra práctica profesional activa (preinscrito, inscrito o culminado).'], 409);
+            $this->responder(['success' => false, 'error' => 'No se puede activar. El estudiante tiene otra práctica profesional en curso o culminada no aprobada.'], 409);
             return;
         }
 
