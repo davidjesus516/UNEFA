@@ -60,12 +60,17 @@ function listarPreinscripciones(tipo) {
             tbody.innerHTML = '';
             if (Array.isArray(data)) {
                 data.forEach(row => {
-                    let acciones = ``;
+                    let accionesHtml = '';
                     if (tipo === 'activos') {
-                        acciones += `<button onclick="editarInscripcion(${row.INSCRIPCION_ID})">✏️</button>
-                        <button onclick="eliminarInscripcion(${row.INSCRIPCION_ID})">🗑️</button>`;
+                        accionesHtml = `
+                            <td><button class="task-view" onclick="verInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Ver</span><span class="icon"><i class="fa-solid fa-eye"></i></span></button></td>
+                            <td><button class="task-delete" onclick="eliminarInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Borrar</span><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button></td>
+                            <td></td>`;
                     } else {
-                        acciones += `<button onclick="activarInscripcion(${row.INSCRIPCION_ID})">♻️</button>`;
+                        accionesHtml = `
+                            <td><button class="task-restore" onclick="activarInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Restaurar</span><span class="icon"><i class="fa-solid fa-rotate-left"></i></span></button></td>
+                            <td></td>
+                            <td></td>`;
                     }
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
@@ -74,18 +79,19 @@ function listarPreinscripciones(tipo) {
                         <td>${row.CONTACTO || row.CONTACT_PHONE || row.PHONE || ''}</td>
                         <td>${row.PERIOD_DESCRIPTION || ''}</td>
                         <td>${row.ENROLLMENT || ''}</td>
-                        <td colspan="2">${acciones}</td>
+                        <td>${row.CREATION_DATE ? new Date(row.CREATION_DATE).toLocaleDateString() : ''}</td>
+                        ${accionesHtml}
                     `;
                     tbody.appendChild(tr);
                 });
             } else if (data.mensaje) {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td colspan="7">${data.mensaje}</td>`;
+                tr.innerHTML = `<td colspan="9">${data.mensaje}</td>`;
                 tbody.appendChild(tr);
             }
         })
         .catch(() => {
-            tbody.innerHTML = `<tr><td colspan="7">Error al cargar inscripciones ${tipo}</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="9">Error al cargar inscripciones ${tipo}</td></tr>`;
         });
 }
 
@@ -246,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
     };
     // 4. eliminarInscripcion: elimina una Preinscripción activa
-    window.eliminarInscripcion = function(id) {
+    window.eliminarInscripcion = function (id) {
         Swal.fire({
             title: '¿Eliminar Preinscripción?',
             text: "¿Estás seguro? La Preinscripción se moverá a la lista de inactivas.",
@@ -277,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     };
     // 5. activarInscripcion: activa una Preinscripción inactiva
-    window.activarInscripcion = function(id) {
+    window.activarInscripcion = function (id) {
         Swal.fire({
             title: '¿Activar Preinscripción?',
             text: "¿Estás seguro de que deseas activar esta Preinscripción?",
@@ -309,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // 3. cambiarTab: muestra/oculta correctamente los tbodys de activos/inactivos
-    window.cambiarTab = function(tab) {
+    window.cambiarTab = function (tab) {
         document.querySelectorAll('.tab-button').forEach(btn => {
             btn.classList.remove('active');
         });
@@ -322,3 +328,56 @@ document.addEventListener("DOMContentLoaded", function() {
     // Si necesitas cargar selects dinámicamente, agrega aquí tus AJAX para llenar los combos
     listarPreinscripciones('activos');
 });
+
+    // 2. verInscripcion: muestra los datos en el formulario para visualizar
+    window.verInscripcion = function (id) {
+        fetch(`../controllers/profesional_practices/profesional_practices.php?accion=buscar_preinscripcion_por_id&id=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data) {
+                    tipo_practica.innerHTML = ''; // Limpiar opciones previas
+                    if (data['combos'] && Array.isArray(data['combos'].internship_types)) {
+                        data['combos'].internship_types.forEach(tipo => {
+                            const option = document.createElement("option");
+                            option.value = tipo.INTERNSHIP_TYPE_ID;
+                            option.textContent = tipo.NAME;
+                            tipo_practica.appendChild(option);
+                        });
+                    } else {
+                        const option = document.createElement("option");
+                        option.value = '';
+                        option.textContent = 'No hay tipos de práctica disponibles';
+                        tipo_practica.appendChild(option);
+                    }
+                    document.getElementById("id_form").value = data.INSCRIPCION_ID || '';
+                    document.getElementById("cedula").value = data.CEDULA || '';
+                    document.getElementById("cedula").disabled = true; // Disable cedula field
+                    document.getElementById("nacionalidad").value = data.NACIONALIDAD || '';
+                    document.getElementById("nacionalidad").disabled = true; // Deshabilitar nacionalidad
+                    document.getElementById("Estudiante").value = data.ESTUDIANTE || '';
+                    document.getElementById("id_estudiante").value = data.STUDENTS_ID || '';
+                    document.getElementById("periodo").value = data.PERIOD_ID || '';
+                    document.getElementById("tipo_practica").value = data.INTERNSHIP_TYPE_ID || '';
+                    document.getElementById("matricula").value = data.ENROLLMENT || '';
+
+                    // Deshabilitar todos los campos del formulario
+                    const formElements = document.getElementById("formulario").elements;
+                    for (let i = 0; i < formElements.length; i++) {
+                        formElements[i].disabled = true;
+                    }
+
+                    dialog.showModal();
+                }
+            });
+    };
+
+    // Escuchar el evento de cierre del diálogo
+    document.getElementById("dialog").addEventListener('close', function () {
+        // Habilitar todos los campos del formulario
+        const formElements = document.getElementById("formulario").elements;
+        for (let i = 0; i < formElements.length; i++) {
+            formElements[i].disabled = false;
+        }
+        document.getElementById("cedula").disabled = false;
+        document.getElementById("nacionalidad").disabled = false;
+    });

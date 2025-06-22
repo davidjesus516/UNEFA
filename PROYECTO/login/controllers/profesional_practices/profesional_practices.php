@@ -28,6 +28,9 @@ class ProfesionalPracticesController
                 case 'buscar_por_cedula':
                     $this->buscarPorCedula();
                     break;
+                case 'buscar_preinscripcion_activa_por_cedula':
+                    $this->buscarPreinscripcionActivaPorCedula();
+                    break;
                 case 'cargar_responsables':
                     $this->cargarResponsables();
                     break;
@@ -61,6 +64,30 @@ class ProfesionalPracticesController
                 case 'activar_preinscripcion':
                     $this->activarPreinscripcion();
                     break;
+                case 'listar_culminadas_aprobadas':
+                    $this->listarCulminadasAprobadas();
+                    break;
+                case 'listar_culminadas_reprobadas':
+                    $this->listarCulminadasReprobadas();
+                    break;
+                case 'inscribir_practica':
+                    $this->inscribirPractica();
+                    break;
+                case 'actualizar_estado_culminacion':
+                    $this->actualizarEstadoCulminacion();
+                    break;
+                case 'buscar_inscripcion_por_id':
+                    $this->buscarInscripcionPorId();
+                    break;
+                case 'culminar_inscripcion':
+                    $this->culminarInscripcion();
+                    break;
+                case 'eliminar_inscripcion':
+                    $this->eliminarInscripcion();
+                    break;
+                case 'activar_inscripcion':
+                    $this->activarInscripcion();
+                    break;
                 default:
                     $this->responder(['error' => 'Acción no válida'], 400);
                     break;
@@ -83,6 +110,19 @@ class ProfesionalPracticesController
             $this->responder($datosEstudiante);
         } else {
             $this->responder(['error' => 'Estudiante no encontrado'], 404);
+        }
+    }
+
+    private function buscarPreinscripcionActivaPorCedula()
+    {
+        $cedula = $this->obtenerValor('cedula', true);
+        $datosPreinscripcion = $this->modelo->buscarPreinscripcionActivaPorCedula($cedula);
+
+        if ($datosPreinscripcion) {
+            $datosPreinscripcion['combos'] = $this->modelo->profesionalPracticesCombos($datosPreinscripcion['CAREER_ID']);
+            $this->responder($datosPreinscripcion);
+        } else {
+            $this->responder(['error' => 'No se encontró una preinscripción activa para este estudiante.'], 404);
         }
     }
     private function cargarResponsables()
@@ -168,7 +208,7 @@ class ProfesionalPracticesController
         if ($resultado === "DUPLICATE_PREINSCRIPTION") {
             $this->responder(['success' => false, 'error' => 'Este estudiante ya tiene una preinscripción (activa o inactiva) para el período seleccionado. Puede reactivarla si es necesario.'], 409);
         } elseif ($resultado === "STUDENT_ALREADY_INSCRIBED") {
-            $this->responder(['success' => false, 'error' => 'No se puede preinscribir. El estudiante tiene una práctica profesional en curso o culminada no aprobada.'], 409);
+            $this->responder(['success' => false, 'error' => 'No se puede preinscribir. El estudiante tiene una práctica profesional en curso o culminada.'], 409);
         } elseif (strpos($resultado, 'PRIORITY_VIOLATION_NEEDS_') === 0) {
             $requiredPriority = str_replace('PRIORITY_VIOLATION_NEEDS_', '', $resultado);
             $this->responder(['success' => false, 'error' => "No se puede registrar esta práctica. El estudiante debe haber culminado y aprobado la práctica de prioridad {$requiredPriority} primero."], 409);
@@ -260,6 +300,150 @@ class ProfesionalPracticesController
             $this->responder(['success' => false, 'error' => 'No se pudo activar la Preinscripción'], 500);
         }
     }
+
+    private function listarCulminadasAprobadas()
+    {
+        $data = $this->modelo->listarCulminadasAprobadas();
+        if (empty($data)) {
+            $this->responder(['mensaje' => 'No hay preinscripciones culminadas aprobadas'], 404);
+            return;
+        }
+        $this->responder($data);
+    }
+
+    private function listarCulminadasReprobadas()
+    {
+        $data = $this->modelo->listarCulminadasReprobadas();
+        if (empty($data)) {
+            $this->responder(['mensaje' => 'No hay preinscripciones culminadas reprobadas'], 404);
+            return;
+        }
+        $this->responder($data);
+    }
+
+    private function inscribirPractica()
+    {
+        $datos = [
+            'id' => $this->obtenerValor('id_form', true),
+            'tutor_academico' => $this->obtenerValor('tutor_academico', true),
+            'tutor_metodologico' => $this->obtenerValor('tutor_metodologico', true),
+            'institucion' => $this->obtenerValor('institucion', true),
+            'responsable' => $this->obtenerValor('responsable_institucion', true)
+        ];
+
+        if ($datos['tutor_academico'] === $datos['tutor_metodologico']) {
+            $this->responder(['success' => false, 'error' => 'El tutor académico y el tutor metodológico no pueden ser la misma persona.'], 400);
+            return;
+        }
+
+        $resultado = false;
+        $currentPracticeId = $datos['id'];
+
+        // Si se proporcionó un ID de práctica profesional (es una edición o una inscripción desde preinscripción)
+        if (!empty($currentPracticeId)) {
+            // Obtener el estado actual de la práctica (1: Preinscrito, 2: Inscrito, 3: Culminado)
+            $practiceStatus = $this->modelo->getPracticeStatusById($currentPracticeId);
+
+            // Si el estado es 1 (Preinscrito), se convierte en una inscripción formal.
+            if ($practiceStatus == 1) {
+                $resultado = $this->modelo->inscribirPractica($datos);
+
+            // Si el estado es 2 (Inscrito), se actualizan los detalles de la inscripción existente.
+            } elseif ($practiceStatus == 2) {
+                $resultado = $this->modelo->actualizarInscripcion($datos);
+            }
+            // Si el estado es diferente (ej. 3 - Culminado), no se hace nada y $resultado permanece `false`.
+        }
+
+        if ($resultado) {
+            $this->responder(['success' => true, 'message' => 'Inscripción registrada correctamente.']);
+        } else {
+            $this->responder(['success' => false, 'error' => 'No se pudo registrar la inscripción.'], 500);
+        }
+    }
+
+    private function buscarInscripcionPorId()
+    {
+        $id = $this->obtenerValor('id', true);
+        $data = $this->modelo->buscarInscripcionPorId($id);
+        if ($data) {
+            // También necesitamos los combos para poblar los selects
+            $data['combos'] = $this->modelo->profesionalPracticesCombos($data['CAREER_ID']);
+            // Y los responsables de la institución seleccionada
+            if (!empty($data['INSTITUTION_ID'])) {
+                $data['combos']['responsables'] = $this->modelo->cargarResponsables($data['INSTITUTION_ID']);
+            }
+            $this->responder($data);
+        } else {
+            $this->responder(['error' => 'Inscripción no encontrada'], 404);
+        }
+    }
+
+
+    private function actualizarEstadoCulminacion()
+    {
+        $id = $this->obtenerValor('id', true);
+        $intershipStatus = $this->obtenerValor('intership_status', true);
+
+        // Validación básica para el estado de la pasantía
+        if (!in_array($intershipStatus, [2, 3])) {
+            $this->responder(['success' => false, 'error' => 'Estado de pasantía no válido.'], 400);
+            return;
+        }
+
+        $resultado = $this->modelo->actualizarEstadoCulminacion($id, $intershipStatus);
+
+        if ($resultado) {
+            $this->responder(['success' => true, 'message' => 'Estado de culminación actualizado correctamente.']);
+        } else {
+            $this->responder(['success' => false, 'error' => 'No se pudo actualizar el estado de culminación.'], 500);
+        }
+    }
+
+    private function culminarInscripcion()
+    {
+        $id = $this->obtenerValor('id', true);
+        $intershipStatus = $this->obtenerValor('intership_status', true);
+
+        // Validación básica para el estado
+        if (!in_array($intershipStatus, [2, 3])) {
+            $this->responder(['success' => false, 'error' => 'Estado de pasantía no válido.'], 400);
+            return;
+        }
+
+        $resultado = $this->modelo->culminarInscripcion($id, $intershipStatus);
+
+        if ($resultado) {
+            $this->responder(['success' => true, 'message' => 'La práctica ha sido culminada exitosamente.']);
+        } else {
+            $this->responder(['success' => false, 'error' => 'No se pudo culminar la práctica. Puede que ya no esté en estado "Inscrito".'], 500);
+        }
+    }
+
+    private function eliminarInscripcion()
+    {
+        $id = $this->obtenerValor('id', true);
+        // Reutiliza el método del modelo que solo cambia el STATUS
+        $ok = $this->modelo->cambiarEstadoPreinscripcion($id, 0);
+        if ($ok) {
+            $this->responder(['success' => true, 'message' => 'Inscripción eliminada exitosamente']);
+        } else {
+            $this->responder(['success' => false, 'error' => 'No se pudo eliminar la Inscripción'], 500);
+        }
+    }
+
+    private function activarInscripcion()
+    {
+        $id = $this->obtenerValor('id', true);
+        // Reutiliza el método del modelo que solo cambia el STATUS
+        $ok = $this->modelo->cambiarEstadoPreinscripcion($id, 1);
+        if ($ok) {
+            $this->responder(['success' => true, 'message' => 'Inscripción activada exitosamente']);
+        } else {
+            $this->responder(['success' => false, 'error' => 'No se pudo activar la Inscripción'], 500);
+        }
+    }
+
 
     /**
      * Obtiene y valida los datos del formulario

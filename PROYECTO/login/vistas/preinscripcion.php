@@ -9,8 +9,8 @@ require 'header.php';
         <dialog id="dialog">
             <h2>Preinscripción.</h2>
             <form action="#" class="formulario" id="formulario">
-                <input type="hidden" id="id_form" name="id_form">
-                <input type="hidden" id="id_estudiante" name="id_estudiante"> <!-- Removed disabled attribute -->
+                <input type="hidden" id="id_form" name="id_form"> 
+                <input type="hidden" id="id_estudiante" name="id_estudiante">
 
                 <!-- Grupo: Cédula -->
                 <div class="formulario__grupo" id="grupo__cedula">
@@ -111,13 +111,15 @@ require 'header.php';
                     <th>Contacto</th>
                     <th>Periodo</th>
                     <th>Matrícula</th>
+                    <th>Fecha Preinscripción</th>
                     <th colspan="3">Acciones</th>
                 </tr>
             </thead>
             <tbody id="datos-activos"></tbody>
-            <tbody id="datos-inactivos" styl    e="display: none;"></tbody>
+            <tbody id="datos-inactivos" style="display: none;"></tbody>
         </table>
     </div>
+
 </div>
 <script src="js/jquery-3.7.0.min.js"></script>
 <!-- SweetAlert2 -->
