@@ -83,7 +83,7 @@ require 'header.php';
                 </div>
 
                 <!-- Sexo y Estado Civil -->
-                <div class="formulario__grupo">
+                <div class="formulario__grupo" id="grupo__genero">
                     <label for="genero" class="formulario__label">Sexo <span class="obligatorio">*</span></label>
                     <select id="genero" name="genero" class="formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
@@ -93,15 +93,15 @@ require 'header.php';
                 </div>
 
                 <!-- BIRTHDATE -->
-                <div class="formulario__grupo">
-                    <label class="formulario__label">Fecha de Nacimiento <span class="obligatorio">*</span></label>
+                <div class="formulario__grupo" id="grupo__birthdate">
+                    <label for="birthdate" class="formulario__label">Fecha de Nacimiento <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
                         <input type="date" class="formulario__input" id="birthdate" required aria-describedby="inicio-error" max="<?php echo $maxYear . '-12-31'; ?>">
                     </div>
                     <p class="formulario__input-error" id="inicio-error">Seleccione una fecha válida</p>
                 </div>
 
-                <div class="formulario__grupo">
+                <div class="formulario__grupo" id="grupo__estado_civil">
                     <label for="estado_civil" class="formulario__label">Estado Civil <span class="obligatorio">*</span></label>
                     <select id="estado_civil" name="estado_civil" class="formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
@@ -147,7 +147,7 @@ require 'header.php';
                     <p class="formulario__input-error">El correo debe tener un formato válido</p>
                 </div>
 
-                <div class="formulario__grupo">
+                <div class="formulario__grupo" id="grupo__carrera">
                     <label for="carrera" class="formulario__label">Carrera <span class="obligatorio">*</span></label>
                     <select id="carrera" name="carrera" class="formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
@@ -155,27 +155,27 @@ require 'header.php';
                 </div>
 
                 <!-- Grupo:  -->
-                <div class="formulario__grupo" id="grupo__nombre">
-                    <label for="" class="formulario__label">Semestre <span class="obligatorio">*</span></label>
+                <div class="formulario__grupo" id="grupo__semestre">
+                    <label for="semestre" class="formulario__label">Semestre <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="number" class="formulario__input" name="" id="semestre" placeholder="Ingrese el Semestre" required>
+                        <input type="number" class="formulario__input" name="semestre" id="semestre" placeholder="Ingrese el Semestre" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
                 <!-- Grupo:  -->
-                <div class="formulario__grupo" id="grupo__nombre">
-                    <label for="" class="formulario__label">Sección <span class="obligatorio">*</span></label>
+                <div class="formulario__grupo" id="grupo__seccion">
+                    <label for="seccion" class="formulario__label">Sección <span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input">
-                        <input type="number" class="formulario__input" name="" id="seccion" placeholder="Ingrese la Sección" required>
+                        <input type="number" class="formulario__input" name="seccion" id="seccion" placeholder="Ingrese la Sección" required>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Validacion</p>
                 </div>
 
                 <!-- regimen -->
-                <div class="formulario__grupo">
+                <div class="formulario__grupo" id="grupo__regimen">
                     <label for="regimen" class="formulario__label">Régimen <span class="obligatorio">*</span></label>
                     <select id="regimen" name="regimen" class="formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
@@ -183,16 +183,15 @@ require 'header.php';
                 </div>
 
                 <!-- tipo_estudiante -->
-                <div class="formulario__grupo">
+                <div class="formulario__grupo" id="grupo__tipo_estudiante">
                     <label for="tipo_estudiante" class="formulario__label">Tipo Estudiante <span class="obligatorio">*</span></label>
                     <select id="tipo_estudiante" name="tipo_estudiante" class="formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
                     </select>
                 </div>
 
-
                 <!-- rango_militar -->
-                <div class="formulario__grupo">
+                <div class="formulario__grupo" id="grupo__rango_militar">
                     <label for="rango_militar" class="formulario__label">Rango Militar <span class="obligatorio">*</span></label>
                     <select id="rango_militar" name="rango_militar" class="formulario__input" required>
                         <option value="" disabled selected>Seleccione una opción</option>
@@ -200,7 +199,7 @@ require 'header.php';
                 </div>
 
                 <!-- trabaja -->
-                <div class="formulario__grupo">
+                <div class="formulario__grupo" id="grupo__trabaja">
                     <label for="trabaja" class="formulario__label">Trabaja <span class="obligatorio">*</span></label>
                     <select id="trabaja" name="trabaja" class="formulario__input" required>
                         <option value="" disabled selected>...</option>
