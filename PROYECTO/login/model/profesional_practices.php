@@ -7,7 +7,7 @@ class ProfesionalPractices
     private $pdo;
 
     /**
-     * Constructor de la clase. Inicializa la conexión a la base de datos.
+ * Constructor de la clase. Inicializa la conexión a la base de datos.
      */
     public function __construct() {
         $this->conexion = new Conexion();
@@ -15,8 +15,8 @@ class ProfesionalPractices
     }
     
     /**
-     * Busca un estudiante por su número de cédula.
-     * @param string $cedula La cédula del estudiante a buscar (ej. "V-12345678").
+ * Busca un estudiante por su número de cédula.
+ * @param string $cedula La cédula del estudiante a buscar (ej. "V-12345678").
      * @return array|null Un array con los datos del estudiante si se encuentra, o null si no.
      */
     public function buscarPorCedula($cedula) {
@@ -31,8 +31,30 @@ class ProfesionalPractices
         return $resultado;
     }
     /**
-     * Carga los responsables (tutores institucionales) de una institución específica.
-     * @param int $institucionId El ID de la institución.
+ * Busca una preinscripción activa (PRACTICES_STATUS = 1) por la cédula del estudiante.
+ * @param string $cedula La cédula del estudiante (ej. "V-12345678").
+     * @return array|null Un array con los datos de la preinscripción si se encuentra, o null si no.
+     */
+    public function buscarPreinscripcionActivaPorCedula($cedula) {
+        $consulta = "SELECT
+                        pp.PROFESSIONAL_PRACTICE_ID,
+                        s.STUDENTS_ID,
+                        CONCAT(s.NAME, ' ', s.SECOND_NAME, ' ', s.SURNAME, ' ', s.SECOND_SURNAME) AS NOMBRE_COMPLETO,
+                        it.NAME AS TIPO_PRACTICA,
+                        s.CAREER_ID
+                    FROM `t-professional_practices` pp
+                    JOIN `t-students` s ON pp.STUDENTS_ID = s.STUDENTS_ID
+                    JOIN `t-internship_type` it ON pp.INTERNSHIP_TYPE_ID = it.INTERNSHIP_TYPE_ID
+                    WHERE s.STUDENTS_CI = :cedula
+                      AND pp.PRACTICES_STATUS = 1 AND pp.STATUS = 1"; // 1 = PRE INSCRIPCION ACTIVA
+        $statement = $this->pdo->prepare($consulta);
+        $statement->bindValue(':cedula', $cedula);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    /**
+ * Carga los responsables (tutores institucionales) de una institución específica.
+ * @param int $institucionId El ID de la institución.
      * @return array Un array con la lista de responsables.
      */
     public function cargarResponsables($institucionId) {
@@ -43,9 +65,9 @@ class ProfesionalPractices
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     /**
-     * Obtiene los datos necesarios para los combos (selects) del formulario de prácticas profesionales.
-     * @param int $carrera El ID de la carrera para filtrar los tipos de práctica.
-     * @return array Un array asociativo con 'internship_types', 'tutores' e 'instituciones'.
+ * Obtiene los datos necesarios para los combos (selects) del formulario de prácticas profesionales.
+ * @param int $carrera El ID de la carrera para filtrar los tipos de práctica.
+ * @return array Un array asociativo con 'internship_types', 'tutores' e 'instituciones'.
      */
     public function profesionalPracticesCombos($carrera) {
         $consulta = "SELECT i.`INTERNSHIP_TYPE_ID`, i.`NAME`, i.`PRIORITY` FROM `t-career_internship_type` c LEFT JOIN `t-internship_type` i ON c.`INTERNSHIP_TYPE_ID` = i.`INTERNSHIP_TYPE_ID` WHERE c.`CAREER_ID` = :carrera";
@@ -70,11 +92,11 @@ class ProfesionalPractices
     }
 
     /**
-     * Verifica si ya existe una preinscripción activa para un estudiante en un período determinado.
-     * @param int $studentId El ID del estudiante.
-     * @param int $periodId El ID del período.
-     * @param int|null $currentId El ID de la preinscripción actual que se está actualizando (opcional, para excluirla de la verificación).
-     * @return bool Devuelve true si se encuentra un duplicado activo, de lo contrario false.
+ * Verifica si ya existe una preinscripción activa para un estudiante en un período determinado.
+ * @param int $studentId El ID del estudiante.
+ * @param int $periodId El ID del período.
+ * @param int|null $currentId El ID de la preinscripción actual que se está actualizando (opcional, para excluirla de la verificación).
+ * @return bool Devuelve true si se encuentra un duplicado activo, de lo contrario false.
      */
     public function checkDuplicateActivePreinscripcion($studentId, $periodId, $currentId = null) {
         $sql = "SELECT COUNT(*) FROM `t-professional_practices`
@@ -95,10 +117,9 @@ class ProfesionalPractices
     }
 
    /**
-     * Verifica si un estudiante ya está en un proceso de práctica profesional (no culminada y aprobada).
-     * @param int $studentId El ID del estudiante.
-     * @param int|null $currentId El ID del registro actual a excluir de la verificación (en caso de actualización).
-     * @return bool Devuelve true si el estudiante tiene un registro que no está culminado y aprobado, de lo contrario false.
+ * Verifica si un estudiante ya está en un proceso de práctica profesional (no culminada y aprobada).
+ * @param int $studentId El ID del estudiante.
+ * @param int|null $currentId El ID del registro actual a excluir de la verificación (en caso de actualización).
      */
     public function isStudentInProcess($studentId, $currentId = null) {
         $sql = "SELECT COUNT(*) FROM `t-professional_practices`
@@ -118,11 +139,11 @@ class ProfesionalPractices
         return $stmt->fetchColumn() > 0;
     }
     /**
-     * Verifica si ya existe CUALQUIER preinscripción (activa o inactiva) para un estudiante en un período.
-     * @param int $studentId El ID del estudiante.
-     * @param int $periodId El ID del período.
-     * @param int|null $currentId El ID de la preinscripción actual a excluir (opcional).
-     * @return bool Devuelve true si se encuentra un duplicado, de lo contrario false.
+ * Verifica si ya existe CUALQUIER preinscripción (activa o inactiva) para un estudiante en un período.
+ * @param int $studentId El ID del estudiante.
+ * @param int $periodId El ID del período.
+ * @param int|null $currentId El ID de la preinscripción actual a excluir (opcional).
+ * @return bool Devuelve true si se encuentra un duplicado, de lo contrario false.
      */
     public function checkAnyDuplicatePreinscripcion($studentId, $periodId, $currentId = null) {
         $sql = "SELECT COUNT(*) FROM `t-professional_practices`
@@ -142,11 +163,11 @@ class ProfesionalPractices
     }
 
     /**
-     * Verifica si un estudiante puede registrarse para un tipo de práctica específico según la prioridad.
-     * @param int $studentId El ID del estudiante.
-     * @param int $internshipTypeId El ID del tipo de práctica para el que se intenta registrar.
-     * @param int|null $currentId El ID del registro actual a excluir (en caso de actualización).
-     * @return bool|string Devuelve true si está permitido, o una cadena de error si no.
+ * Verifica si un estudiante puede registrarse para un tipo de práctica específico según la prioridad.
+ * @param int $studentId El ID del estudiante.
+ * @param int $internshipTypeId El ID del tipo de práctica para el que se intenta registrar.
+ * @param int|null $currentId El ID del registro actual a excluir (en caso de actualización).
+ * @return bool|string Devuelve true si está permitido, o una cadena de error si no.
      */
     public function canRegisterForPracticeType($studentId, $internshipTypeId, $currentId = null) {
         // Get the priority of the new practice type
@@ -202,7 +223,7 @@ class ProfesionalPractices
     }
 
     /**
-     * Lista todas las inscripciones activas.
+ * Lista todas las inscripciones activas.
      * @return array Un array de inscripciones activas.
      */
     public function listarInscripcionesActivos() {
@@ -231,7 +252,7 @@ class ProfesionalPractices
     }
 
     /**
-     * Lista todas las inscripciones inactivas.
+ * Lista todas las inscripciones inactivas.
      * @return array Un array de inscripciones inactivas.
      */
     public function listarInscripcionesInactivos() {
@@ -260,7 +281,7 @@ class ProfesionalPractices
     }
 
     /**
-     * Lista los períodos académicos que no están culminados.
+ * Lista los períodos académicos que no están culminados.
      * @return array Un array de períodos.
      */
     public function listarPeriodos() {
@@ -270,7 +291,7 @@ class ProfesionalPractices
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     /**
-     * Obtiene los tipos de práctica asociados a una carrera específica.
+ * Obtiene los tipos de práctica asociados a una carrera específica.
      * @param int $carreraId El ID de la carrera.
      * @return array Un array con los tipos de práctica.
      */
@@ -285,7 +306,7 @@ class ProfesionalPractices
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     /**
-     * Lista todas las preinscripciones activas.
+ * Lista todas las preinscripciones activas.
      * @return array Un array de preinscripciones activas.
      */
     public function listar_preinscripciones_activos() {
@@ -296,7 +317,8 @@ class ProfesionalPractices
                 CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
                 s.`CONTACT_PHONE` AS CONTACTO,
                 i.`ENROLLMENT`,
-                p.`DESCRIPTION` AS PERIOD_DESCRIPTION
+                p.`DESCRIPTION` AS PERIOD_DESCRIPTION,
+                i.`CREATION_DATE`
             FROM `t-professional_practices` i
             LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
             LEFT JOIN `t-career` c ON s.`CAREER_ID` = c.`CAREER_ID`
@@ -308,29 +330,85 @@ class ProfesionalPractices
     }
 
     /**
-     * Lista todas las preinscripciones inactivas.
+ * Lista todas las preinscripciones inactivas.
      * @return array Un array de preinscripciones inactivas.
      */
     public function listar_preinscripciones_inactivos() {
         $consulta = "SELECT 
                 i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
                 s.`STUDENTS_ID`,
+                s.`STUDENTS_CI`,
                 CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
-                s.`GENDER` AS SEXO,
                 s.`CONTACT_PHONE` AS CONTACTO,
-                c.`CAREER_NAME` AS CARRERA
+                i.`ENROLLMENT`,
+                p.`DESCRIPTION` AS PERIOD_DESCRIPTION,
+                i.`CREATION_DATE`
             FROM `t-professional_practices` i
             LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
-            LEFT JOIN `t-career` c ON s.`CAREER_ID` = c.`CAREER_ID`
-            WHERE i.`STATUS` = 0 AND I.`PRACTICES_STATUS` = 1";
+            LEFT JOIN `t-internships_period` p ON i.`PERIOD_ID` = p.`PERIOD_ID`
+            WHERE i.`STATUS` = 0 AND i.`PRACTICES_STATUS` = 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
-     * Inserta un nuevo registro de preinscripción en la base de datos.
-     * @param array $datos Datos de la preinscripción.
+ * Lista todas las preinscripciones culminadas y aprobadas.
+     * @return array Un array de preinscripciones culminadas aprobadas.
+     */
+    public function listarCulminadasAprobadas() {
+        $consulta = "SELECT
+                        i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
+                        s.`STUDENTS_ID`,
+                        s.`STUDENTS_CI`,
+                        CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
+                        COALESCE(s.`CONTACT_PHONE`, '') AS CONTACTO,
+                        i.`CULMINATION_DATE`,
+                        it.NAME AS TIPO_PRACTICA,
+                        i.`ENROLLMENT`,
+                        p.`DESCRIPTION` AS PERIOD_DESCRIPTION
+                    FROM `t-professional_practices` i
+                    LEFT JOIN `t-internship_type` it ON i.`INTERNSHIP_TYPE_ID` = it.`INTERNSHIP_TYPE_ID`
+                    LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
+                    LEFT JOIN `t-internships_period` p ON i.`PERIOD_ID` = p.`PERIOD_ID`
+                    WHERE i.`PRACTICES_STATUS` = 3 AND i.`INTERSHIP_STATUS` = 2"; // Culminado y Aprobado
+        $statement = $this->pdo->prepare($consulta);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+ * Lista todas las preinscripciones culminadas y reprobadas.
+     * @return array Un array de preinscripciones culminadas reprobadas.
+     */
+    public function listarCulminadasReprobadas() {
+        $consulta = "SELECT
+                        i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
+                        s.`STUDENTS_ID`,
+                        s.`STUDENTS_CI`,
+                        CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
+                        COALESCE(s.`CONTACT_PHONE`, '') AS CONTACTO,
+                        i.`CULMINATION_DATE`,
+                        it.NAME AS TIPO_PRACTICA,
+                        i.`ENROLLMENT`,
+                        p.`DESCRIPTION` AS PERIOD_DESCRIPTION
+                    FROM `t-professional_practices` i
+                    LEFT JOIN `t-internship_type` it ON i.`INTERNSHIP_TYPE_ID` = it.`INTERNSHIP_TYPE_ID`
+                    LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
+                    LEFT JOIN `t-internships_period` p ON i.`PERIOD_ID` = p.`PERIOD_ID`
+                    WHERE i.`PRACTICES_STATUS` = 3 AND i.`INTERSHIP_STATUS` = 3"; // Culminado y Reprobado
+        $statement = $this->pdo->prepare($consulta);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+
+
+
+    /**
+ * Inserta un nuevo registro de preinscripción en la base de datos.
+ * @param array $datos Datos de la preinscripción.
      * @return bool|string Devuelve true en caso de éxito, o una cadena de error en caso de fallo.
      */
     public function insertarPreinscripcion($datos) {
@@ -345,20 +423,20 @@ class ProfesionalPractices
             return $canRegister; // Returns error string like "PRIORITY_VIOLATION_NEEDS_X"
         }
         $sql = "INSERT INTO `t-professional_practices` 
-            (`STUDENTS_ID`, `PERIOD_ID`, `INTERNSHIP_TYPE_ID`, `ENROLLMENT`, `STATUS`, `INTERSHIP_STATUS`,  `PRACTICES_STATUS`)
-            VALUES (:estudiante_id, :periodo, :tipo_practica ,:matricula ,1, 1, 1)"; // STATUS=1 (Activo), INTERSHIP_STATUS=1 (En Curso), PRACTICES_STATUS=1 (Preinscrito)
+            (`STUDENTS_ID`, `PERIOD_ID`, `INTERNSHIP_TYPE_ID`, `ENROLLMENT`, `STATUS`, `INTERSHIP_STATUS`,  `PRACTICES_STATUS`, `CREATION_DATE`)
+            VALUES (:estudiante_id, :periodo, :tipo_practica ,:matricula ,1, 1, 1, NOW())"; // STATUS=1 (Activo), INTERSHIP_STATUS=1 (En Curso), PRACTICES_STATUS=1 (Preinscrito)
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':estudiante_id', $datos['estudiante_id']);
         $stmt->bindValue(':periodo', $datos['periodo']);
-        $stmt->bindValue(':tipo_practica', $datos['tipo_practica']);
+        $stmt->bindValue(':tipo_practica', $datos['tipo_practica']); 
         $stmt->bindValue(':matricula', $datos['matricula']);    
         return $stmt->execute();
     }
 
     /**
-     * Actualiza un registro de preinscripción existente.
-     * @param int $id El ID de la preinscripción a actualizar.
-     * @param array $datos Los nuevos datos para la preinscripción.
+ * Actualiza un registro de preinscripción existente.
+ * @param int $id El ID de la preinscripción a actualizar.
+ * @param array $datos Los nuevos datos para la preinscripción.
      * @return bool|string Devuelve true en caso de éxito, o una cadena de error en caso de fallo.
      */
     public function actualizarPreinscripcion($id, $datos) {
@@ -386,9 +464,9 @@ class ProfesionalPractices
     }
 
     /**
-     * Busca una preinscripción por su ID.
-     * @param int $id El ID de la preinscripción.
-     * @return array|null Los datos de la preinscripción o null si no se encuentra.
+ * Busca una preinscripción por su ID.
+ * @param int $id El ID de la preinscripción.
+ * @return array|null Los datos de la preinscripción o null si no se encuentra.
      */
     public function buscarPreinscripcionPorId($id) {
         $sql = "SELECT 
@@ -423,9 +501,133 @@ class ProfesionalPractices
     }
 
     /**
-     * Cambia el estado de una preinscripción (activo/inactivo).
-     * @param int $id El ID de la preinscripción.
-     * @param int $estado El nuevo estado (1 para activo, 0 para inactivo).
+ * Busca una inscripción por su ID con todos los detalles necesarios para la vista.
+ * @param int $id El ID de la inscripción.
+ * @return array|null Los datos de la inscripción o null si no se encuentra.
+     */
+    public function buscarInscripcionPorId($id) {
+        $consulta = "SELECT
+                        i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
+                        s.`STUDENTS_ID`,
+                        s.`STUDENTS_CI` AS FULL_CEDULA,
+                        CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
+                        itp.`NAME` AS TIPO_PRACTICA,
+                        i.`TUTOR_ID`,
+                        i.`TUTOR_M_ID`,
+                        i.`INSTITUTION_ID`,
+                        i.`MANAGER_ID`,
+                        s.`CAREER_ID`
+                    FROM `t-professional_practices` i
+                    LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
+                    LEFT JOIN `t-internship_type` itp ON i.`INTERNSHIP_TYPE_ID` = itp.`INTERNSHIP_TYPE_ID`
+                    WHERE i.`PROFESSIONAL_PRACTICE_ID` = :id";
+        $stmt = $this->pdo->prepare($consulta);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            // Separar NACIONALIDAD y CEDULA
+            $parts = explode('-', $result['FULL_CEDULA'], 2);
+            if (count($parts) == 2) {
+                $result['NACIONALIDAD'] = $parts[0];
+                $result['CEDULA'] = $parts[1];
+            } else {
+                $result['NACIONALIDAD'] = '';
+                $result['CEDULA'] = $result['FULL_CEDULA'];
+            }
+        }
+        return $result;
+    }
+
+
+
+
+
+
+
+    /**
+ * Actualiza una preinscripción a una inscripción formal.
+ * Cambia PRACTICES_STATUS a 2 y guarda los datos de los tutores e institución.
+     * @return bool Devuelve true en caso de éxito, false en caso de fallo.
+     */
+    public function inscribirPractica($datos) {
+        $sql = "UPDATE `t-professional_practices` SET
+                    `TUTOR_ID` = :tutor_academico,
+                    `TUTOR_M_ID` = :tutor_metodologico,
+                    `INSTITUTION_ID` = :institucion,
+                    `MANAGER_ID` = :responsable,
+                    `PRACTICES_STATUS` = 2 -- 2 = INSCRIPCION
+                WHERE `PROFESSIONAL_PRACTICE_ID` = :id AND `PRACTICES_STATUS` = 1"; // Doble check de seguridad
+
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':tutor_academico' => $datos['tutor_academico'], ':tutor_metodologico' => $datos['tutor_metodologico'],
+            ':institucion' => $datos['institucion'], ':responsable' => $datos['responsable'], ':id' => $datos['id']
+        ]);
+    }
+
+    /**
+ * Actualiza los detalles de una inscripción ya existente.
+ * No cambia el estado de la práctica (PRACTICES_STATUS).
+ * @param array $datos Datos de la inscripción a actualizar.
+ * @return bool Devuelve true en caso de éxito, false en caso de fallo.
+     */
+    public function actualizarInscripcion($datos) {
+        $sql = "UPDATE `t-professional_practices` SET
+                    `TUTOR_ID` = :tutor_academico,
+                    `TUTOR_M_ID` = :tutor_metodologico,
+                    `INSTITUTION_ID` = :institucion,
+                    `MANAGER_ID` = :responsable
+                WHERE `PROFESSIONAL_PRACTICE_ID` = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':tutor_academico' => $datos['tutor_academico'], ':tutor_metodologico' => $datos['tutor_metodologico'],
+            ':institucion' => $datos['institucion'], ':responsable' => $datos['responsable'], ':id' => $datos['id']
+        ]);
+    }
+
+    /**
+ * Actualiza el estado de culminación (INTERSHIP_STATUS) de una práctica profesional.
+ * @param int $id El ID de la práctica profesional.
+ * @param int $intershipStatus El nuevo estado de la pasantía (2 = Aprobado, 3 = Reprobado).
+     * @return bool Devuelve true en caso de éxito, false en caso de fallo.
+     */
+    public function actualizarEstadoCulminacion($id, $intershipStatus) {
+        $sql = "UPDATE `t-professional_practices` SET
+                    `INTERSHIP_STATUS` = :intership_status
+                WHERE `PROFESSIONAL_PRACTICE_ID` = :id AND `PRACTICES_STATUS` = 3"; // Solo actualizar si ya está culminado
+
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':intership_status' => $intershipStatus,
+            ':id' => $id
+        ]);
+    }
+
+    /**
+ * Culmina una inscripción, actualizando su estado de práctica y de pasantía.
+ * @param int $id El ID de la práctica profesional.
+ * @param int $intershipStatus El estado final de la pasantía (2 = Aprobado, 3 = Reprobado).
+     * @return bool Devuelve true en caso de éxito, false en caso de fallo.
+     */
+    public function culminarInscripcion($id, $intershipStatus) {
+        $sql = "UPDATE `t-professional_practices` SET
+                    `PRACTICES_STATUS` = 3, -- 3 = Culminado
+                    `INTERSHIP_STATUS` = :intership_status
+                WHERE `PROFESSIONAL_PRACTICE_ID` = :id AND `PRACTICES_STATUS` = 2"; // Solo culminar si está en estado 'Inscrito'
+
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':intership_status' => $intershipStatus,
+            ':id' => $id
+        ]);
+    }
+    /**
+ * Cambia el estado de una preinscripción (activo/inactivo).
+ * @param int $id El ID de la preinscripción.
+ * @param int $estado El nuevo estado (1 para activo, 0 para inactivo).
      * @return bool Devuelve true si la operación fue exitosa, de lo contrario false.
      */
     public function cambiarEstadoPreinscripcion($id, $estado) {
@@ -435,6 +637,19 @@ class ProfesionalPractices
             ':estado' => $estado,
             ':id' => $id
         ]);
+    }
+
+    /**
+ * Obtiene el estado actual de una práctica profesional por su ID.
+ * @param int $id El ID de la práctica profesional.
+ * @return int|null El valor de PRACTICES_STATUS o null si no se encuentra.
+     */
+    public function getPracticeStatusById($id) {
+        $sql = "SELECT PRACTICES_STATUS FROM `t-professional_practices` WHERE PROFESSIONAL_PRACTICE_ID = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        return $stmt->fetchColumn();
     }
 
 }
