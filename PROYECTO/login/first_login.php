@@ -26,7 +26,7 @@ if ($_SESSION['STATUS_SESSION'] == 2) {
             <div class="main">
                 <div class="content">
                     <h2>Bienvenido ' . $_SESSION['NAME'] . '</h2>
-                    <p>Para continuar por favor acepte los <a href="PurpleOrangeGradientFormalAgreementLetterA4Document.pdf" target="_blank">terminos y condiciones</a>.</p>
+                    <p>Para continuar por favor acepte los <a href="../docs/TÉRMINOS_Y_CONDICIONES.pdf" target="_blank">Términos y Condiciones</a>.</p>
                     <form action="basic_user_config.php" method="POST">
 
                     <div class:"form_terms"> 

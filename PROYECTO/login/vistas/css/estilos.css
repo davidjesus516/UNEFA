@@ -87,7 +87,7 @@ span.obligatorio {
 
 .form-img {
   flex-basis: 85%;
-  background-image: url(../../../img/fondo-claro.jpg);
+  background-image: url(../../../img/unefa_fachada.jpeg);
   background-attachment: fixed;
   /* background: #dfe5ea; */
   background-size: cover;
@@ -98,7 +98,7 @@ span.obligatorio {
 
 .form-img-2 {
   flex-basis: 75%;
-  background-image: url(../../../img/fondo-claro.jpg);
+  background-image: url(../../../img/unefa_fachada.jpeg);
   background-attachment: fixed;
   /* background: #dfe5ea; */
   background-size: cover;
@@ -2860,6 +2860,70 @@ button#resetFilters {
 }
 
 .task-restore:active .icon svg {
+  transform: scale(0.8);
+}
+
+/* TASK VIEW */
+.task-view {
+  width: 8rem;
+  height: 3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: #285da7;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  transition: 200ms;
+  position: relative;
+  overflow: hidden;
+}
+
+.task-view,
+.task-view span {
+  transition: 200ms;
+}
+
+.task-view .texto {
+  transform: translateX(15px);
+  color: white;
+  font-weight: bold;
+  transition: 200ms;
+}
+
+.task-view .icon {
+  position: absolute;
+  transform: translateX(75px);
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 200ms;
+}
+
+.task-view:hover {
+  background: #285da7;
+  transition: 200ms;
+}
+
+.task-view:hover .texto {
+  color: transparent;
+  transition: 200ms;
+}
+
+.task-view:hover .icon {
+  width: 100px;
+  border-left: none;
+  transform: translateX(0);
+  transition: 200ms ease;
+}
+
+.task-view:focus {
+  outline: none;
+}
+
+.task-view:active .icon svg {
   transform: scale(0.8);
 }
 
