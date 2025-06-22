@@ -1,16 +1,12 @@
 let currentTab = 'activos', // Pestaña actual ('activos' o 'inactivos')
     modoEdicion = false, // Indica si el formulario está en modo edición
-    idEditando = null, // Guarda el ID del usuario que se está editando
-    dialog; // Variable para el modal
+    idEditando = null; // Guarda el ID del usuario que se está editando
 
 $(document).ready(() => {
-    dialog = document.getElementById('dialog'); // Asignar el elemento del DOM
     listarUsuarios();
 
     // Manejador para cerrar el modal al hacer clic en el botón de cerrar
-    $("#btnCerrarModal").on("click", () => dialog.close());
-    // Manejador para cuando se cierra el diálogo
-    dialog.addEventListener('close', limpiarFormulario);
+    $("#btnCerrarModal").on("click", () => cerrarModal());
 
     // Manejador para el envío del formulario de usuario
     $("#formulario").on("submit", function (e) {
@@ -23,44 +19,26 @@ $(document).ready(() => {
 
         // Validación básica de la cédula (usuario)
         if (!/^\d{7,9}$/.test(usuario)) {
-            alertaSimple('Error', 'Cédula inválida (debe contener entre 7 y 9 dígitos).', 'error');
-            return;
+            return alert("Cédula inválida (7‑9 dígitos).");
         }
 
-        // 1. Cerrar el dialog antes de mostrar Swal
-        const wasDialogOpen = dialog.open;
-        if (wasDialogOpen) dialog.close();
-        
-        alertaConfirmacion({
-            title: '¿Confirmar acción?',
-            text: modoEdicion ? '¿Deseas actualizar este usuario?' : '¿Deseas crear un nuevo usuario?',
-            onConfirm: () => {
-                // Preparar datos para enviar
-                const data = { usuario, nombre, rol, clave };
-                let url = modoEdicion ? "../controllers/usuario/Usuario.php?op=editar" : "../controllers/usuario/Usuario.php?op=crear";
-                if (modoEdicion) data.user_id = idEditando;
+        // Preparar datos para enviar
+        const data = { usuario, nombre, rol, clave };
+        // Determinar la URL y añadir ID si es edición
+        let url = modoEdicion ? "../controllers/usuario/Usuario.php?op=editar" : "../controllers/usuario/Usuario.php?op=crear";
+        if (modoEdicion) data.user_id = idEditando;
 
-                // Enviar datos al servidor usando AJAX POST
-                $.post(url, data, function (resp) {
-                    if (resp.status) {
-                        alertaSimple('Éxito', resp.message || (modoEdicion ? "Usuario editado exitosamente" : "Usuario creado exitosamente"), 'success');
-                        listarUsuarios();
-                        // El dialog ya está cerrado y se limpiará con el evento 'close'
-                    } else {
-                        alertaSimple('Error', resp.error || "Ocurrió un error al procesar la solicitud.", 'error').then(() => {
-                            if (wasDialogOpen) dialog.showModal(); // Reabrir en caso de error
-                        });
-                    }
-                }, 'json').fail(() => {
-                    alertaSimple('Error', 'No se pudo comunicar con el servidor.', 'error').then(() => {
-                        if (wasDialogOpen) dialog.showModal(); // Reabrir en caso de error de red
-                    });
-                });
-            },
-            onCancel: () => {
-                if (wasDialogOpen) dialog.showModal(); // Reabrir si se cancela
+        // Enviar datos al servidor usando AJAX POST
+        $.post(url, data, function (resp) {
+            console.log("Crear/Editar:", resp);
+            if (resp.status) {
+                alert(resp.message || (modoEdicion ? "Usuario editado exitosamente" : "Usuario creado exitosamente"));
+                cerrarModal();
+                listarUsuarios();
+            } else {
+                alert(resp.error || "Ocurrió un error al procesar la solicitud.");
             }
-        });
+        }, 'json');
     });
 });
 
@@ -69,7 +47,7 @@ function abrirModalNuevo() {
     modoEdicion = false;
     $("#titulo-modal").text("Registrar Usuario");
     limpiarFormulario();
-    dialog.showModal();
+    $("#dialog")[0].showModal();
 }
 
 // Función para abrir el modal en modo edición
@@ -82,7 +60,13 @@ function abrirModalEdicion(id, usuario, nombre, rol) {
     $("#nombre").val(nombre);
     $("#rol").val(rol);
     $("#clave").val('');
-    dialog.showModal();
+    $("#dialog")[0].showModal();
+}
+
+// Función para cerrar el modal
+function cerrarModal() {
+    $("#dialog")[0].close();
+    limpiarFormulario();
 }
 
 // Función para limpiar el formulario y resetear el estado de edición
@@ -145,32 +129,20 @@ function listarUsuarios() {
 
 // Función para eliminar (inactivar) un usuario
 function eliminarUsuario(id) {
-    alertaConfirmacion({
-        title: '¿Eliminar usuario?',
-        text: "Esta acción moverá el usuario a la lista de inactivos.",
-        icon: 'warning',
-        onConfirm: () => {
-            $.post("../controllers/usuario/Usuario.php?op=eliminar", { user_id: id }, (resp) => {
-                if (resp.status) {
-                    alertaSimple('Eliminado', 'El usuario ha sido desactivado.', 'success');
-                    listarUsuarios();
-                } else {
-                    alertaSimple('Error', resp.error || 'No se pudo eliminar el usuario.', 'error');
-                }
-            }, 'json');
-        }
-    });
+    if (confirm("Eliminar usuario?")) {
+        $.post("../controllers/usuario/Usuario.php?op=eliminar", { user_id: id }, () => {
+            alert("Usuario eliminado");
+            listarUsuarios();
+        }, 'json');
+    }
 }
 
 // Función para restaurar (activar) un usuario inactivo
 function restaurarUsuario(id) {
-    alertaConfirmacion({
-        title: '¿Restaurar usuario?',
-        onConfirm: () => {
-            $.post("../controllers/usuario/Usuario.php?op=restaurar", { user_id: id }, () => {
-                alertaSimple('Restaurado', 'El usuario ha sido restaurado.', 'success');
-                listarUsuarios();
-            }, 'json');
-        }
-    });
+    if (confirm("Restaurar usuario?")) {
+        $.post("../controllers/usuario/Usuario.php?op=restaurar", { user_id: id }, () => {
+            alert("Usuario restaurado");
+            listarUsuarios();
+        }, 'json');
+    }
 }
