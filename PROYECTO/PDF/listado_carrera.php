@@ -65,6 +65,26 @@ try {
         td:last-child { word-break: break-all; max-width: 30mm; }
         .fila-par { background-color: #e0ebff; }
         .qr-code { position: fixed; left: 10px; bottom: 0; width: 60mm; height: 25mm; z-index: 1000; }
+        /* New styles for QR code and title positioning */
+        .report-title-area {
+            width: 100%;
+            margin-top: 20px; /* More space above */
+            margin-bottom: 20px; /* More space below */
+        }
+        .report-title-layout {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+        }
+        .report-title-layout td {
+            border: none;
+            padding: 0;
+            vertical-align: middle;
+        }
+        .report-title-left-spacer { width: 33%; }
+        .report-title-center { text-align: center; width: auto; }
+        .report-title-right-qr { text-align: right; width: 35%; }
+        .titulo-reporte { margin: 0; } /* Remove existing margin, handled by .report-title-area */
         .footer { position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 8pt; font-style: italic;}
     </style>
 </head>
@@ -94,7 +114,20 @@ try {
     </table>
 </div>
 
-<div class="titulo-reporte">Listado de Carreras</div>
+<div class="report-title-area">
+    <table class="report-title-layout">
+        <tr>
+            <td class="report-title-left-spacer"></td>
+            <td class="report-title-center">
+                <div class="titulo-reporte">Listado de Carreras</div>
+            </td>
+            <td class="report-title-right-qr">
+                <img src="<?= $qrImage ?>" width="85" height="85" style="transform: translateX(-15px);">
+            </td>
+        </tr>
+    </table>
+</div>
+
 
 <table style="transform: translateX(-10);">
     <thead>
@@ -123,10 +156,6 @@ try {
         ?>
     </tbody>
 </table>
-
-<div class="qr-code">
-    <img src="<?= $qrImage ?>" width="85" height="85">
-</div>
 
 <div class="footer" style="bottom: 0;">
     <?= date('d/m/Y') ?>
