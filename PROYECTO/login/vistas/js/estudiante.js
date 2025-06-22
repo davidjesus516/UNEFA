@@ -8,17 +8,32 @@ $(document).ready(function () {
     // Referencia al diálogo del formulario
     const dialog = document.getElementById('dialog');
     
+    // Botón para abrir el modal de nuevo estudiante
+    $('#btn-nuevo-estudiante').on('click', function() {
+        edit = false;
+        $('#formulario').trigger('reset');
+        $('#id').val('');
+        // Limpiar cualquier estado de validación visual
+        $('.formulario__grupo').removeClass('formulario__grupo-incorrecto formulario__grupo-correcto');
+        $('.formulario__input-error').removeClass('formulario__input-error-activo');
+        
+        $('#titulo-modal').text('Registrar Estudiante');
+        
+        // Asegurarse que los campos no estén deshabilitados
+        $('#formulario input, #formulario select').prop('disabled', false);
+        $('#cedula').attr('readonly', false);
+        $('#nacionalidad').attr('disabled', false);
+        $('#tipo_estudiante').trigger('change'); // Para resetear el estado de rango_militar
+        $('.formulario__btn').show();
+        
+        dialog.showModal();
+    });
+
     // Manejador para cuando se cierra el diálogo
     dialog.addEventListener('close', function() {
-        // Habilitar todos los campos y mostrar el botón de guardar
-        $('#formulario input, #formulario select').prop('disabled', false);
-        $('.formulario__btn').show(); // Asumiendo que el botón de guardar tiene esta clase
-
-        // Restaurar título por defecto y limpiar formulario si no se está editando
-        $('#titulo-modal').text('Registrar Estudiante'); // Asumiendo que el título tiene este ID
-        if (!edit) {
-            $('#formulario').trigger('reset');
-        }
+        // No se realiza ninguna acción al cerrar para mantener los datos del formulario
+        // en caso de cierre accidental. El estado del formulario es manejado por los
+        // eventos que lo abren (Nuevo, Editar, Ver).
     });
 
     $.ajax({
@@ -127,7 +142,7 @@ $(document).ready(function () {
             case 'rango_militar':
             case 'trabaja':
             case 'carrera':
-                if (input.val() === '') {
+                if (!input.val()) {
                     isIncorrect(`grupo__${id}`, `Debe seleccionar una opción para ${input.attr('name')}`);
                 } else {
                     isCorrect(`grupo__${id}`);
@@ -227,6 +242,9 @@ $(document).ready(function () {
                 dialog.showModal();
                 return false;
             }
+
+            // Reiniciar el estado de errores antes de la validación
+            errores = false;
 
             // Validación de todos los campos del formulario
             $('#formulario input, #formulario select').each(function () {
@@ -488,6 +506,8 @@ $(document).ready(function () {
                 $('#rango_militar').val(data.MILITARY_RANK);
                 $('#trabaja').val(data.EMPLOYMENT);
                 $('#carrera').val(data.CAREER_ID);
+
+                $('#titulo-modal').text('Editar Estudiante');
 
                 $('#cedula').attr('readonly', true);
                 $('#nacionalidad').attr('disabled', true);

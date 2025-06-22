@@ -8,10 +8,10 @@ require 'header.php';
 
     <div class="message"></div>
     <div id="modal" class="modal">
-        <button class="primary" onclick="document.getElementById('dialog').showModal();">Nuevo +</button>
+        <button class="primary" id="btn-nuevo-estudiante">Nuevo +</button>
 
         <dialog id="dialog">
-            <h2>Registrar Estudiante</h2>
+            <h2 id="titulo-modal">Registrar Estudiante</h2>
             <form action="#" class="formulario" id="formulario">
                 <input type="hidden" id="id">
 
