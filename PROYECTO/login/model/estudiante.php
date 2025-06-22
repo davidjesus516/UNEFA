@@ -86,6 +86,7 @@ class Student
     } else {
         $this->pdo->rollBack();
         throw $e; // Se lanza la excepción para manejarla en otro lugar
+        return false;
     }
 }
 }
@@ -103,6 +104,7 @@ class Student
         } catch (PDOException $e) {
         $this->pdo->rollBack();
         throw $e; // Se lanza la excepción para manejarla en otro lugar
+        return false;
 }
     }
 
@@ -119,6 +121,7 @@ class Student
         } catch (PDOException $e) {
             $this->pdo->rollBack();
             throw $e;
+            return false;
         }
     }
 
@@ -152,6 +155,8 @@ class Student
     }catch (PDOException $e) {
         $this->pdo->rollBack();
         throw $e; // Se lanza la excepción para manejarla en otro lugar
+        return false;
+    
 }
 }
 
