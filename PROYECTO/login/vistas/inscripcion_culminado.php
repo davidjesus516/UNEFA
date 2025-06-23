@@ -1,13 +1,13 @@
 <?php
 require 'header.php';
 ?>
-<span class="text">Ventana -> Pre inscripción -> Prácticas Culminadas</span>
+<span class="text">Ventana -> Inscripción -> Prácticas Culminadas</span>
 <div class="page-content">
     <div id="modal" class="modal">
         <!-- El botón de "Nuevo" se elimina ya que esta vista es de solo consulta -->
 
         <dialog id="dialog">
-            <h2>Consulta de Preinscripción.</h2>
+            <h2>Consulta de Inscripción.</h2>
             <form action="#" class="formulario" id="formulario">
                 <!-- Todos los campos serán de solo lectura -->
                 <input type="hidden" id="id_form" name="id_form">
@@ -98,6 +98,10 @@ require 'header.php';
     </div>
     <a href="inscripcion_m.php" class="btn-link-responsables" style="margin: 1rem 0; display: inline-block;">
         Volver a Inscripciones
+    </a>
+    <br>
+    <a href="../../PDF/listado_practicas_culminadas_aprobadas.php" target="_blank" class="btn-link-responsables" style="margin: 1rem 0; display: inline-block;">
+        Reporte de Inscripciones Culminadas
     </a>
 
 </div>

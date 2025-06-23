@@ -9,7 +9,7 @@ if (!isset($_SESSION['USER_ID'])) {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html style="background-color: #FFF;">
 
 <head>
   <meta charset="utf-8">
