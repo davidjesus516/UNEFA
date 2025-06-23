@@ -144,7 +144,7 @@ class Usuario
     }
     public function Login($username)
     {
-        $consulta = "SELECT * FROM `t-user` u left join `t-user_key` k on u.USER_ID = k.USER_ID WHERE `USER` = :username AND u.STATUS = 1 AND k.STATUS = 1 ORDER BY k.USER_KEY_ID DESC LIMIT 1";
+        $consulta = "SELECT u.*, k.*, ur.ID_ROLES FROM `t-user` u LEFT JOIN `t-user_key` k ON u.USER_ID = k.USER_ID LEFT JOIN `t-user_roles` ur ON u.USER_ID = ur.ID_USER WHERE u.USER = :username AND u.STATUS = 1 AND k.STATUS = 1 ORDER BY k.USER_KEY_ID DESC LIMIT 1";
         $statement = $this->pdo->prepare($consulta);
         $statement->bindValue(':username', $username);
         $statement->execute();
@@ -494,7 +494,7 @@ class Usuario
                 u.USER_ID,
                 u.USER,
                 u.NAME,
-                IFNULL(ur.ID_ROLS, 0) AS ID_ROLS,
+                IFNULL(ur.ID_ROLES, 0) AS ID_ROLES,
                 k.KEY
             FROM `t-user` u
             LEFT JOIN `t-user_roles` ur ON u.USER_ID = ur.ID_USER

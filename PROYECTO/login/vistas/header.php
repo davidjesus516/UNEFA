@@ -2,6 +2,26 @@
 session_start();
 if (!isset($_SESSION['USER'])) {
     header("Location: ../index.php");
+    exit(); // Es buena práctica usar exit() después de un header de redirección.
+}
+
+// Incluir la lógica de visibilidad basada en roles.
+// Este archivo debe crearse en 'login/config/roles.php'.
+require_once __DIR__ . '/../config/roles.php';
+
+// Obtener el ID del rol del usuario desde la sesión.
+// IMPORTANTE: Asegúrate de que 'USER_ROLE_ID' se establezca en tu lógica de inicio de sesión.
+$userRole = $_SESSION['USER_ROLE_ID'] ?? null;
+$selectorsToHide = [];
+// Se llama a la función para obtener los selectores a ocultar.
+// Si el rol es nulo o no reconocido, la función `getSelectorsToHideByRole` aplicará restricciones por defecto por seguridad.
+$selectorsToHide = getSelectorsToHideByRole($userRole);
+// Determinar el nombre del rol para mostrarlo en la interfaz
+$roleName = 'Rol Desconocido';
+if ($userRole == 1) {
+    $roleName = 'ADMINISTRADOR';
+} elseif ($userRole == 2) {
+    $roleName = 'ASISTENTE';
 }
 ?>
 <input type="hidden" id="id" name="id" value=<?php echo $_SESSION["USER_ID"]; ?>>
@@ -37,6 +57,21 @@ if (!isset($_SESSION['USER'])) {
 
     <!-- CUSTOM SWEETALERT2 -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <?php if (!empty($selectorsToHide)): ?>
+    <script>
+        // Este script se ejecuta temprano en el <head> para evitar que los elementos "parpadeen" antes de ocultarse.
+        (function() {
+            const selectors = <?php echo json_encode($selectorsToHide); ?>;
+            if (selectors && selectors.length > 0) {
+                const style = document.createElement('style');
+                // Usar CSS es más rápido y fiable que esperar a que el DOM se cargue.
+                style.textContent = `${selectors.join(', ')} { display: none !important; }`;
+                document.head.appendChild(style);
+            }
+        })();
+    </script>
+    <?php endif; ?>
 </head>
 <style>
     .popup {
@@ -339,7 +374,7 @@ if (!isset($_SESSION['USER'])) {
 
                 <!-- List Gestion -->
 
-                <li>
+                <li id="gestion-menu">
                     <div class="iocn-link">
                         <a href="#">
                             <i class='bx'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
@@ -358,7 +393,7 @@ if (!isset($_SESSION['USER'])) {
 
                 <!-- List Registro -->
 
-                <li>
+                <li id="registro-menu">
                     <div class="iocn-link">
                         <a href="#">
                             <i class='bx'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
@@ -379,7 +414,7 @@ if (!isset($_SESSION['USER'])) {
 
                 <!-- List Practicas Profesionales -->
 
-                <li>
+                <li id="practicas-menu">
                     <div class="iocn-link">
                         <a href="#">
                             <i class='bx'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
@@ -422,7 +457,7 @@ if (!isset($_SESSION['USER'])) {
 
                 <!-- Configuracion -->
 
-                <li>
+                <li id="configuracion-menu">
                     <div class="iocn-link">
                         <a href="#">
                             <i class='bx  bx-cog'></i>
@@ -498,7 +533,7 @@ if (!isset($_SESSION['USER'])) {
 
                         <div class="name-job">
                             <div class="profile_name"><?php echo $_SESSION["NAME"]; ?></div>
-                            <div class="job">Administrador</div>
+                            <div class="job"><?php echo htmlspecialchars($roleName); ?></div>
                         </div>
                         <!-- <i class='bx bx-log-out'></i> -->
                     </div>

@@ -61,7 +61,8 @@ if ($UserSessionData == null) {
                 'USER_CI' => $UserSessionData['USER_CI'],
                 'NAME' => $UserSessionData['NAME'],
                 'SURNAME' => $UserSessionData['SURNAME'],
-                'STATUS_SESSION' => $UserSessionData['STATUS_SESSION']
+                'STATUS_SESSION' => $UserSessionData['STATUS_SESSION'],
+                'USER_ROLE_ID' => $UserSessionData['ID_ROLES'] // <-- ¡Esta es la línea clave!
             );
             $_SESSION['login_attempts'] = 0; //reinicio el contador de intentos de login
             if ($_SESSION['STATUS_SESSION'] === 1){
