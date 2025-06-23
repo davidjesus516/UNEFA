@@ -48,6 +48,21 @@ class InstitutionManager
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function correoExiste($correo, $idExcluir = null)
+    {
+        $consulta = "SELECT COUNT(*) FROM `t-institution_manager` 
+                    WHERE EMAIL = :correo" .
+            ($idExcluir ? " AND MANAGER_ID != :id" : "");
+
+        $stmt = $this->pdo->prepare($consulta);
+        $stmt->bindValue(':correo', $correo);
+        if ($idExcluir) {
+            $stmt->bindValue(':id', $idExcluir);
+        }
+        $stmt->execute();
+
+        return ['existe' => $stmt->fetchColumn() > 0];
+    }
 
     public function insertar($datos)
     {
@@ -60,26 +75,9 @@ class InstitutionManager
                     $datos[$key] = mb_strtoupper($value, 'UTF-8');
                 }
             }
+            $this-> cedulaExiste($datos['MANAGER_CI'], null);
 
-            // Validar cédula
-            $sqlCedula = "SELECT COUNT(*) FROM `t-institution_manager` WHERE MANAGER_CI = :cedula";
-            $stmtCedula = $this->pdo->prepare($sqlCedula);
-            $stmtCedula->bindValue(':cedula', $datos['MANAGER_CI']);
-            $stmtCedula->execute();
-            if ($stmtCedula->fetchColumn() > 0) {
-                $this->pdo->rollBack();
-                return ['success' => false, 'error' => 'La cédula ya está registrada'];
-            }
-
-            // Validar correo
-            $sqlCorreo = "SELECT COUNT(*) FROM `t-institution_manager` WHERE EMAIL = :correo";
-            $stmtCorreo = $this->pdo->prepare($sqlCorreo);
-            $stmtCorreo->bindValue(':correo', $datos['EMAIL']);
-            $stmtCorreo->execute();
-            if ($stmtCorreo->fetchColumn() > 0) {
-                $this->pdo->rollBack();
-                return ['success' => false, 'error' => 'El correo ya está registrado'];
-            }
+            $this->correoExiste($datos['EMAIL'], null);
 
             $consulta = "INSERT INTO `t-institution_manager` (
                 INSTITUTION_ID, MANAGER_CI, NAME, SECOND_NAME, SURNAME, SECOND_SURNAME,

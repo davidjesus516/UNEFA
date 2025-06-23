@@ -26,8 +26,6 @@ $(document).ready(function () {
         editando = false;
     }
 
-    dialog.addEventListener('close', limpiarFormulario);
-
     // --- Carga de datos inicial ---
     function cargarInstituciones() {
         fetch("../controllers/Institucion/Institucion.php?accion=instituciones_select")
