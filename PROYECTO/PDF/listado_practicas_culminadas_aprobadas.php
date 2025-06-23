@@ -26,7 +26,6 @@ try {
     $pdo = $conexionObj->conectar();
 
     // Consulta SQL para obtener los datos de las prácticas profesionales culminadas y aprobadas
-<<<<<<< Updated upstream
     $sql = "WITH RankedPractices AS (
                 SELECT
                     pp.PROFESSIONAL_PRACTICE_ID,
@@ -73,33 +72,6 @@ try {
                 MANAGER_SURNAME
             FROM RankedPractices
             WHERE rn = 1 AND INTERSHIP_STATUS = 2";
-=======
-    $sql = "SELECT
-                pp.PROFESSIONAL_PRACTICE_ID,
-                s.STUDENTS_CI,
-                s.NAME AS STUDENT_NAME,
-                s.SECOND_NAME AS STUDENT_SECOND_NAME,
-                s.SURNAME AS STUDENT_SURNAME,
-                s.SECOND_SURNAME AS STUDENT_SECOND_SURNAME,
-                c.CAREER_NAME,
-                it.NAME AS INTERNSHIP_TYPE_NAME,
-                ta.NAME AS ACADEMIC_TUTOR_NAME,
-                ta.SURNAME AS ACADEMIC_TUTOR_SURNAME,
-                tm.NAME AS METHODOLOGICAL_TUTOR_NAME,
-                tm.SURNAME AS METHODOLOGICAL_TUTOR_SURNAME,
-                i.INSTITUTION_NAME,
-                im.NAME AS MANAGER_NAME,
-                im.SURNAME AS MANAGER_SURNAME
-            FROM `t-professional_practices` pp
-            LEFT JOIN `t-students` s ON pp.STUDENTS_ID = s.STUDENTS_ID
-            LEFT JOIN `t-career` c ON s.CAREER_ID = c.CAREER_ID
-            LEFT JOIN `t-internship_type` it ON pp.INTERNSHIP_TYPE_ID = it.INTERNSHIP_TYPE_ID
-            LEFT JOIN `t-tutors` ta ON pp.TUTOR_ID = ta.TUTOR_ID
-            LEFT JOIN `t-tutors` tm ON pp.TUTOR_M_ID = tm.TUTOR_ID
-            LEFT JOIN `t-institution` i ON pp.INSTITUTION_ID = i.INSTITUTION_ID
-            LEFT JOIN `t-institution_manager` im ON pp.MANAGER_ID = im.MANAGER_ID
-            WHERE pp.PRACTICES_STATUS = 3 AND pp.INTERSHIP_STATUS = 2"; // Filtrar por culminadas y aprobadas
->>>>>>> Stashed changes
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
