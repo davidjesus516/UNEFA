@@ -188,15 +188,15 @@
                         let accionesHtml = '';
                         if (tipo === 'activos') {
                             accionesHtml = `
-                                <td><button class="task-edit" onclick="editarInscripcion(${row.INSCRIPCION_ID})"><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button></td>
-                                <td><button class="task-view" onclick="verInscripcion(${row.INSCRIPCION_ID})"><span class="icon"><i class="fa-solid fa-search"></i></span></button></td>
-                                <td><button class="task-note" onclick="culminarInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Culminar</span><span class="icon"><i class="fa-solid fa-clipboard-check"></i></span></button></td>
-                                <td><button class="task-delete" onclick="eliminarInscripcion(${row.INSCRIPCION_ID})"><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button></td>
+                            <td><button class="task-edit" onclick="editarInscripcion(${row.INSCRIPCION_ID})" style="width: 3rem; display: flex; align-items: center; justify-content: center;"><span class="icon" style="margin: 0; transform: translateX(0);"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button></td>
+                            <td><button class="task-view" onclick="verInscripcion(${row.INSCRIPCION_ID})" style="width: 3rem; display: flex; align-items: center; justify-content: center;"><span class="icon" style="margin: 0; transform: translateX(0);"><i class="fa-solid fa-search" style="color: #ffffff;"></i></span></button></td>
+                            <td><button class="task-delete" onclick="eliminarInscripcion(${row.INSCRIPCION_ID})" style="width: 3rem; display: flex; align-items: center; justify-content: center;"><span class="icon" style="margin: 0; transform: translateX(0);"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button></td>
+                            <td><button class="task-note" onclick="culminarInscripcion(${row.INSCRIPCION_ID})" style="display: flex; align-items: center; justify-content: center; gap: 0.3rem;"><span class="texto">Culminar</span><span class="icon"><i class="fa-solid fa-clipboard-check"></i></span></button></td>
                             `;
                         } else {
                             accionesHtml = `
-                                <td><button class="task-restore" onclick="activarInscripcion(${row.INSCRIPCION_ID})"><span class="icon"><i class="fa-solid fa-rotate-left"></i></span></button></td>
-                                <td><button class="task-view" onclick="verInscripcion(${row.INSCRIPCION_ID})"><span class="icon"><i class="fa-solid fa-search"></i></span></button></td>
+                                <td><button class="task-restore" onclick="activarInscripcion(${row.INSCRIPCION_ID})" style="width: 3rem; display: flex; align-items: center; justify-content: center;"><span class="icon" style="margin: 0; transform: translateX(0);"><i class="fa-solid fa-rotate-left"></i></span></button></td>
+                                <td><button class="task-view" onclick="verInscripcion(${row.INSCRIPCION_ID})" style="width: 3rem; display: flex; align-items: center; justify-content: center; gap: 0.3rem;"><i class="fa-solid fa-search" style="color: #ffffff;"></i></span></button></td>
                                 <td></td>
                                 <td></td>
                             `;

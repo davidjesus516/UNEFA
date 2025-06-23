@@ -256,7 +256,7 @@ if (!isset($_SESSION['USER'])) {
                         </div>
 
                         <div id="about" class="tab-content">
-                            <h3>Sistema de Gestión de Pasantías UNEFA</h3>
+                            <h3>Sistema de Gestión de Prácticas Profesionales - UNEFA</h3>
                             <p>Versión beta 1.0.1 | 2025</p>
                             <!-- <p><a href="#" target="_blank">Soporte</a></p> -->
                         </div>
@@ -264,19 +264,17 @@ if (!isset($_SESSION['USER'])) {
                         <div id="contributors" class="tab-content" style="display:none;">
                             <h3>Creadores</h3>
                             <ul>
-                                <li>Organización A</li>
-                                <li>Grupo B</li>
-                                <li>Fundación C</li>
-                                <li>Compañía D</li>
-                            </ul>
-                            <h3>Colaboradores</h3>
-                            <ul>
-                                <li>Colaborador Uno</li>
-                                <li>Colaborador Dos</li>
-                                <li>Colaborador Tres</li>
-                                <li>Colaborador Cuatro</li>
-                                <li>Colaborador Cinco</li>
-                                <li>Colaborador Seis</li>
+                                <li>Adam Jhon (Documentación)</li>
+                                <li>Alvarado Leovic (Documentación)</li>
+                                <li>Cabrera Francisco (Programación)</li>
+                                <li>Figueroa Antony (Diseño - Programación)</li>
+                                <li>Gimenez Gabriel (Documentación)</li>
+                                <li>Matute Luis (Base de datos - Programación)</li>
+                                <li>Martinez Albany (Base de datos – Diseño - Documentación)</li>
+                                <li>Martinez Marlon (Base de datos - Documentación)</li>
+                                <li>Mendoza Ever (Documentación)</li>
+                                <li>Narvaez Jose (Documentación)</li>
+                                <li>Pereira Jesus (Programación)</li>
                             </ul>
                         </div>
 
@@ -436,7 +434,7 @@ if (!isset($_SESSION['USER'])) {
                         <li><a class="link_name" href="#">Configuración</a></li>
                         <li><a href="construcion.php">Cambio de Registros</a></li>
                         <li><a href="usuario.php">Usuarios</a></li>
-                        <li><a href="combo.php">Combos</a></li>
+                        <li><a href="construcion.php">Combos</a></li>
                     </ul>
                 </li>
 

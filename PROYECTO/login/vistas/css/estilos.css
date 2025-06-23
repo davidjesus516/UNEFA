@@ -2927,6 +2927,70 @@ button#resetFilters {
   transform: scale(0.8);
 }
 
+/* TASK NOTE */
+.task-note {
+  width: 8rem;
+  height: 3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: #a76a28;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  transition: 200ms;
+  position: relative;
+  overflow: hidden;
+}
+
+.task-note,
+.task-note span {
+  transition: 200ms;
+}
+
+.task-note .texto {
+  transform: translateX(15px);
+  color: white;
+  font-weight: bold;
+  transition: 200ms;
+}
+
+.task-note .icon {
+  position: absolute;
+  transform: translateX(75px);
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 200ms;
+}
+
+.task-note:hover {
+  background: #a76a28;
+  transition: 200ms;
+}
+
+.task-note:hover .texto {
+  color: transparent;
+  transition: 200ms;
+}
+
+.task-note:hover .icon {
+  width: 100px;
+  border-left: none;
+  transform: translateX(0);
+  transition: 200ms ease;
+}
+
+.task-note:focus {
+  outline: none;
+}
+
+.task-note:active .icon svg {
+  transform: scale(0.8);
+}
+
 .settings-nav {
   width: 12rem;
   overflow: hidden;

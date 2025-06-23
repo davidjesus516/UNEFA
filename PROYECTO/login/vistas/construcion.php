@@ -23,10 +23,10 @@ require 'header.php';
         height: auto;
     }
 </style>
-<div class="contenedor-mensaje">
-    <img src="../../img/404.svg" alt="">
+<div class="contenedor-mensaje" >
+    <img src="../../img/construccion_5.svg" alt="" style="height: 30rem;">
     
-    <p class="mensaje">La página no existe o está en reparación.</p>
+    <p class="mensaje">ESTA PÁGINA ESTA EN CONSTRUCCIÓN!<br>PROXIMAMENTE ESTARÁ EN FUNCIONAMIENTO!</p>
     <p class="mensaje">Regresar al <a href="intranet.php">inicio</a></p>
 </div>
 <?php
