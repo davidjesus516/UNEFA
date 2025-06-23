@@ -31,6 +31,9 @@ class ProfesionalPracticesController
                 case 'buscar_preinscripcion_activa_por_cedula':
                     $this->buscarPreinscripcionActivaPorCedula();
                     break;
+                case 'buscar_reprobada_por_cedula':
+                    $this->buscarReprobadaPorCedula();
+                    break;
                 case 'cargar_responsables':
                     $this->cargarResponsables();
                     break;
@@ -202,7 +205,8 @@ class ProfesionalPracticesController
             'estudiante_id' => $this->obtenerValor('id_estudiante', true),
             'periodo' => $this->obtenerValor('periodo', true),
             'tipo_practica' => $this->obtenerValor('tipo_practica', true),
-            'matricula' => $this->obtenerValor('matricula', true)
+            'matricula' => $this->obtenerValor('matricula', true),
+            'reprobado_practice_id' => $this->obtenerValor('reprobado_practice_id', false)
         ];
         $resultado = $this->modelo->insertarPreinscripcion($datos);
         if ($resultado === "DUPLICATE_PREINSCRIPTION") {
@@ -216,6 +220,10 @@ class ProfesionalPracticesController
         } elseif (strpos($resultado, 'PRIORITY_VIOLATION_NEEDS_') === 0) {
             $requiredPriority = str_replace('PRIORITY_VIOLATION_NEEDS_', '', $resultado);
             $this->responder(['success' => false, 'error' => "No se puede registrar esta práctica. El estudiante debe haber culminado y aprobado la práctica de prioridad {$requiredPriority} primero."], 409);
+        } elseif ($resultado === "PERIOD_MUST_BE_DIFFERENT") {
+            $this->responder(['success' => false, 'error' => 'El período de la nueva preinscripción debe ser diferente al período de la práctica reprobada.'], 409);
+        } elseif ($resultado === "INVALID_REPROBADO_PRACTICE_ID") {
+            $this->responder(['success' => false, 'error' => 'ID de práctica reprobada inválido o no corresponde a una práctica reprobada.'], 400);
         } elseif ($resultado === "PRIORITY_ALREADY_REGISTERED") {
             $this->responder(['success' => false, 'error' => 'No se puede registrar. El estudiante ya tiene un registro para este nivel de práctica.'], 409);
         } elseif ($resultado) {
@@ -232,7 +240,8 @@ class ProfesionalPracticesController
             'estudiante_id' => $this->obtenerValor('id_estudiante', true),
             'periodo' => $this->obtenerValor('periodo', true),
             'tipo_practica' => $this->obtenerValor('tipo_practica', true),
-            'matricula' => $this->obtenerValor('matricula', true)
+            'matricula' => $this->obtenerValor('matricula', true),
+            'reprobado_practice_id' => $this->obtenerValor('reprobado_practice_id', false)
         ];
         $resultado = $this->modelo->actualizarPreinscripcion($id, $datos); // Pass $id for update check
         if ($resultado === "DUPLICATE_PREINSCRIPTION") {
@@ -245,6 +254,10 @@ class ProfesionalPracticesController
         } elseif ($resultado === "PRIORITY_ALREADY_REGISTERED") {
             $this->responder(['success' => false, 'error' => 'No se puede actualizar. El estudiante ya tiene otro registro para este nivel de práctica.'], 409);
         } elseif ($resultado) {
+        } elseif ($resultado === "PERIOD_MUST_BE_DIFFERENT") {
+            $this->responder(['success' => false, 'error' => 'El período de la nueva preinscripción debe ser diferente al período de la práctica reprobada.'], 409);
+        } elseif ($resultado === "INVALID_REPROBADO_PRACTICE_ID") {
+            $this->responder(['success' => false, 'error' => 'ID de práctica reprobada inválido o no corresponde a una práctica reprobada.'], 400);
             $this->responder(['success' => true, 'message' => 'Preinscripción actualizada correctamente']);
         } else {
             $this->responder(['success' => false, 'error' => 'No se pudo actualizar la preinscripción'], 500);
@@ -448,6 +461,22 @@ class ProfesionalPracticesController
         }
     }
 
+    private function buscarReprobadaPorCedula() {
+        $cedula = $this->obtenerValor('cedula', true);
+        // First, get the student ID from the CI
+        $studentData = $this->modelo->buscarPorCedula($cedula);
+        if ($studentData && $studentData['STUDENTS_ID']) {
+            // Then, use the student ID to find the latest reprobado practice
+            $datosReprobada = $this->modelo->getLatestReprobadoPracticeDetails($studentData['STUDENTS_ID']);
+            if ($datosReprobada) {
+                $this->responder($datosReprobada);
+            } else {
+                $this->responder(['error' => 'No se encontró una práctica reprobada para este estudiante.'], 404);
+            }
+        } else {
+            $this->responder(['error' => 'Estudiante no encontrado.'], 404);
+        }
+    }
 
     /**
      * Obtiene y valida los datos del formulario

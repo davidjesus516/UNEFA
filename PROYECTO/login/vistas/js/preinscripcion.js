@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelector('.primary').addEventListener('click', function() {
         document.getElementById('cedula').disabled = false; // Habilitar campo de cédula
         document.getElementById('nacionalidad').disabled = false; // Habilitar nacionalidad
+        document.getElementById('reprobado_practice_id').value = ''; // Clear reprobado ID
         document.getElementById('dialog').showModal();
         document.getElementById('formulario').reset();
         document.getElementById('id_form').value = ''; // Resetear ID del formulario
@@ -158,17 +159,46 @@ document.addEventListener("DOMContentLoaded", function() {
         const nacionalidad = document.getElementById("nacionalidad").value;
         if (this.value.length >= 7 && this.value.length <= 8) {
             this.setCustomValidity(""); // Resetea el mensaje de error
-            fetch(`../controllers/profesional_practices/profesional_practices.php?accion=buscar_por_cedula&cedula=${nacionalidad}-${cedulaInput.value}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data) {
-                        document.getElementById("id_estudiante").value = data.STUDENTS_ID; // This is the hidden input
-                        document.getElementById("Estudiante").value = data.NOMBRE_COMPLETO;
-                        document.getElementById("matricula").value = data.ENROLLMENT || '';
+
+            const fullCedula = `${nacionalidad}-${cedulaInput.value}`;
+
+            // First, try to find a reprobado practice
+            fetch(`../controllers/profesional_practices/profesional_practices.php?accion=buscar_reprobada_por_cedula&cedula=${fullCedula}`)
+                .then(res => {
+                    if (res.ok) return res.json();
+                    throw new Error('No reprobado practice found or error fetching.');
+                })
+                .then(reprobadoData => {
+                    // If a reprobado practice is found, populate fields and set flag
+                    document.getElementById("id_estudiante").value = reprobadoData.STUDENTS_ID;
+                    document.getElementById("Estudiante").value = reprobadoData.NOMBRE_COMPLETO; // Assuming NOMBRE_COMPLETO is returned
+                    document.getElementById("matricula").value = ''; // Matricula might not be relevant for reprobado re-registration
+                    document.getElementById("reprobado_practice_id").value = reprobadoData.PROFESSIONAL_PRACTICE_ID;
+                    isCorrect("grupo__cedula");
+                    mostrarMensaje(`Se encontró una práctica reprobada (${reprobadoData.INTERNSHIP_TYPE_NAME} - ${reprobadoData.PERIOD_DESCRIPTION}). Puede preinscribir una nueva práctica.`, 'info');
+
+                    // Load internship types for the student's career (assuming career_id is available in reprobadoData or can be fetched)
+                    // For simplicity, let's re-use the buscar_por_cedula to get combos
+                    return fetch(`../controllers/profesional_practices/profesional_practices.php?accion=buscar_por_cedula&cedula=${fullCedula}`);
+                })
+                .catch(error => {
+                    // If no reprobado practice, proceed with normal student lookup
+                    document.getElementById("reprobado_practice_id").value = ''; // Clear reprobado ID
+                    return fetch(`../controllers/profesional_practices/profesional_practices.php?accion=buscar_por_cedula&cedula=${fullCedula}`);
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error('Estudiante no encontrado.');
+                    return res.json();
+                })
+                .then(studentData => {
+                    if (studentData) {
+                        document.getElementById("id_estudiante").value = studentData.STUDENTS_ID;
+                        document.getElementById("Estudiante").value = studentData.NOMBRE_COMPLETO;
+                        document.getElementById("matricula").value = studentData.ENROLLMENT || '';
                         isCorrect("grupo__cedula");
-                        document.getElementById("tipo_practica").innerHTML = ''; // Limpiar opciones previas
-                        if (data['combos'] && Array.isArray(data['combos'].internship_types)) {
-                            data['combos'].internship_types.forEach(tipo => {
+                        document.getElementById("tipo_practica").innerHTML = '';
+                        if (studentData['combos'] && Array.isArray(studentData['combos'].internship_types)) {
+                            studentData['combos'].internship_types.forEach(tipo => {
                                 const option = document.createElement("option");
                                 option.value = tipo.INTERNSHIP_TYPE_ID;
                                 option.textContent = tipo.NAME;
@@ -178,12 +208,19 @@ document.addEventListener("DOMContentLoaded", function() {
                         } else {
                             isIncorrect("grupo__tipo_practica", "No se encontraron tipos de práctica para esta carrera.");
                         }
-
                     } else {
                         document.getElementById("id_form").value = ''; // Reset form ID if student not found
                         document.getElementById("Estudiante").value = 'estudiante no encontrado';
                         isIncorrect("grupo__cedula", "Estudiante no encontrado");
                     }
+                })
+                .catch(error => {
+                    document.getElementById("id_form").value = '';
+                    document.getElementById("id_estudiante").value = '';
+                    document.getElementById("Estudiante").value = 'Estudiante no encontrado';
+                    document.getElementById("matricula").value = '';
+                    document.getElementById("tipo_practica").innerHTML = '<option value="" disabled selected>Cargando...</option>'; // Reset type practice
+                    isIncorrect("grupo__cedula", error.message);
                 });
         } else {
             this.setCustomValidity("Formato inválido. Debe tener entre 7 y 8 dígitos.");
@@ -196,6 +233,13 @@ document.addEventListener("DOMContentLoaded", function() {
         e.preventDefault();
         const formData = new FormData(formulario);
         const id = formData.get("id_form");
+        const reprobadoPracticeId = document.getElementById('reprobado_practice_id').value;
+
+        if (reprobadoPracticeId) {
+            formData.append('reprobado_practice_id', reprobadoPracticeId);
+        }
+
+
         const accion = id ? "actualizar_preinscripcion" : "insertar_preinscripcion";
         formData.append("id", id);
 

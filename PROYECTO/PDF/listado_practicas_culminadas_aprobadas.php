@@ -158,7 +158,7 @@ try {
         <tr>
             <td class="report-title-left-spacer"></td>
             <td class="report-title-center">
-                <div class="titulo-reporte">Listado de Prácticas Profesionales Culminadas y Aprobadas</div>
+                <div class="titulo-reporte">Listado de Prácticas Profesionales Aprobadas</div>
             </td>
             <td class="report-title-right-qr">
                 <img src="<?= $qrImage ?>" width="85" height="85" style="transform: translateX(-15px);">

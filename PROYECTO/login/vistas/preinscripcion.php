@@ -10,6 +10,7 @@ require 'header.php';
             <h2>Preinscripción.</h2>
             <form action="#" class="formulario" id="formulario">
                 <input type="hidden" id="id_form" name="id_form"> 
+                <input type="hidden" id="reprobado_practice_id" name="reprobado_practice_id">
                 <input type="hidden" id="id_estudiante" name="id_estudiante">
 
                 <!-- Grupo: Cédula -->
