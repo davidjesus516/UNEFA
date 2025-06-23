@@ -357,25 +357,37 @@ class ProfesionalPractices
      * @return array Un array de preinscripciones culminadas aprobadas.
      */
     public function listarCulminadasAprobadas() {
-<<<<<<< HEAD
-        $consulta = "SELECT s.STUDENTS_ID, MIN(i.PROFESSIONAL_PRACTICE_ID) AS INSCRIPCION_ID, s.STUDENTS_CI, CONCAT( COALESCE(s.NAME, ''), ' ', COALESCE(s.SECOND_NAME, ''), ' ', COALESCE(s.SURNAME, ''), ' ', COALESCE(s.SECOND_SURNAME, '') ) AS ESTUDIANTE, COALESCE(s.CONTACT_PHONE, '') AS CONTACTO, GROUP_CONCAT(DISTINCT it.NAME SEPARATOR ', ') AS TIPO_PRACTICA, MIN(i.ENROLLMENT) AS ENROLLMENT, MIN(p.DESCRIPTION) AS PERIOD_DESCRIPTION FROM `t-professional_practices` i LEFT JOIN `t-internship_type` it ON i.INTERNSHIP_TYPE_ID = it.INTERNSHIP_TYPE_ID LEFT JOIN `t-students` s ON i.STUDENTS_ID = s.STUDENTS_ID LEFT JOIN `t-internships_period` p ON i.PERIOD_ID = p.PERIOD_ID WHERE i.PRACTICES_STATUS = 3 AND i.INTERSHIP_STATUS = 2 GROUP BY s.STUDENTS_ID, s.STUDENTS_CI, s.NAME, s.SECOND_NAME, s.SURNAME, s.SECOND_SURNAME, s.CONTACT_PHONE"; // Culminado y Aprobado
-=======
-        $consulta = "SELECT
-                        i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
-                        s.`STUDENTS_ID`,
-                        s.`STUDENTS_CI`,
-                        CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
-                        COALESCE(s.`CONTACT_PHONE`, '') AS CONTACTO,
-                        i.`CULMINATION_DATE`,
-                        it.NAME AS TIPO_PRACTICA,
-                        i.`ENROLLMENT`,
-                        p.`DESCRIPTION` AS PERIOD_DESCRIPTION
-                    FROM `t-professional_practices` i
-                    LEFT JOIN `t-internship_type` it ON i.`INTERNSHIP_TYPE_ID` = it.`INTERNSHIP_TYPE_ID`
-                    LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
-                    LEFT JOIN `t-internships_period` p ON i.`PERIOD_ID` = p.`PERIOD_ID`
-                    WHERE i.`PRACTICES_STATUS` = 3 AND i.`INTERSHIP_STATUS` = 2"; // Culminado y Aprobado
->>>>>>> parent of bbcf8da (cambios de culminacion  y otros arreglos)
+        $consulta = "WITH RankedPractices AS (
+                        SELECT
+                            i.PROFESSIONAL_PRACTICE_ID,
+                            s.STUDENTS_ID,
+                            s.STUDENTS_CI,
+                            CONCAT(s.NAME, ' ', s.SECOND_NAME, ' ', s.SURNAME, ' ', s.SECOND_SURNAME) AS ESTUDIANTE,
+                            COALESCE(s.CONTACT_PHONE, '') AS CONTACTO,
+                            i.END_DATE AS CULMINATION_DATE,
+                            it.NAME AS TIPO_PRACTICA,
+                            i.ENROLLMENT,
+                            p.DESCRIPTION AS PERIOD_DESCRIPTION,
+                            i.INTERSHIP_STATUS,
+                            ROW_NUMBER() OVER(PARTITION BY s.STUDENTS_ID ORDER BY it.PRIORITY DESC, i.END_DATE DESC) as rn
+                        FROM `t-professional_practices` i
+                        LEFT JOIN `t-internship_type` it ON i.INTERNSHIP_TYPE_ID = it.INTERNSHIP_TYPE_ID
+                        LEFT JOIN `t-students` s ON i.STUDENTS_ID = s.STUDENTS_ID
+                        LEFT JOIN `t-internships_period` p ON i.PERIOD_ID = p.PERIOD_ID
+                        WHERE i.PRACTICES_STATUS = 3
+                    )
+                    SELECT
+                        PROFESSIONAL_PRACTICE_ID AS INSCRIPCION_ID,
+                        STUDENTS_ID,
+                        STUDENTS_CI,
+                        ESTUDIANTE,
+                        CONTACTO,
+                        CULMINATION_DATE,
+                        TIPO_PRACTICA,
+                        ENROLLMENT,
+                        PERIOD_DESCRIPTION
+                    FROM RankedPractices
+                    WHERE rn = 1 AND INTERSHIP_STATUS = 2"; // Culminado y Aprobado
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -386,25 +398,37 @@ class ProfesionalPractices
      * @return array Un array de preinscripciones culminadas reprobadas.
      */
     public function listarCulminadasReprobadas() {
-<<<<<<< HEAD
-        $consulta = "SELECT s.STUDENTS_ID, MIN(i.PROFESSIONAL_PRACTICE_ID) AS INSCRIPCION_ID, s.STUDENTS_CI, CONCAT( COALESCE(s.NAME, ''), ' ', COALESCE(s.SECOND_NAME, ''), ' ', COALESCE(s.SURNAME, ''), ' ', COALESCE(s.SECOND_SURNAME, '') ) AS ESTUDIANTE, COALESCE(s.CONTACT_PHONE, '') AS CONTACTO, GROUP_CONCAT(DISTINCT it.NAME SEPARATOR ', ') AS TIPO_PRACTICA, MIN(i.ENROLLMENT) AS ENROLLMENT, MIN(p.DESCRIPTION) AS PERIOD_DESCRIPTION FROM `t-professional_practices` i LEFT JOIN `t-internship_type` it ON i.INTERNSHIP_TYPE_ID = it.INTERNSHIP_TYPE_ID LEFT JOIN `t-students` s ON i.STUDENTS_ID = s.STUDENTS_ID LEFT JOIN `t-internships_period` p ON i.PERIOD_ID = p.PERIOD_ID WHERE i.PRACTICES_STATUS = 3 AND i.INTERSHIP_STATUS = 3 GROUP BY s.STUDENTS_ID, s.STUDENTS_CI, s.NAME, s.SECOND_NAME, s.SURNAME, s.SECOND_SURNAME, s.CONTACT_PHONE"; // Culminado y Reprobado
-=======
-        $consulta = "SELECT
-                        i.`PROFESSIONAL_PRACTICE_ID` AS INSCRIPCION_ID,
-                        s.`STUDENTS_ID`,
-                        s.`STUDENTS_CI`,
-                        CONCAT(s.`NAME`, ' ', s.`SECOND_NAME`, ' ', s.`SURNAME`, ' ', s.`SECOND_SURNAME`) AS ESTUDIANTE,
-                        COALESCE(s.`CONTACT_PHONE`, '') AS CONTACTO,
-                        i.`CULMINATION_DATE`,
-                        it.NAME AS TIPO_PRACTICA,
-                        i.`ENROLLMENT`,
-                        p.`DESCRIPTION` AS PERIOD_DESCRIPTION
-                    FROM `t-professional_practices` i
-                    LEFT JOIN `t-internship_type` it ON i.`INTERNSHIP_TYPE_ID` = it.`INTERNSHIP_TYPE_ID`
-                    LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
-                    LEFT JOIN `t-internships_period` p ON i.`PERIOD_ID` = p.`PERIOD_ID`
-                    WHERE i.`PRACTICES_STATUS` = 3 AND i.`INTERSHIP_STATUS` = 3"; // Culminado y Reprobado
->>>>>>> parent of bbcf8da (cambios de culminacion  y otros arreglos)
+        $consulta = "WITH RankedPractices AS (
+                        SELECT
+                            i.PROFESSIONAL_PRACTICE_ID,
+                            s.STUDENTS_ID,
+                            s.STUDENTS_CI,
+                            CONCAT(s.NAME, ' ', s.SECOND_NAME, ' ', s.SURNAME, ' ', s.SECOND_SURNAME) AS ESTUDIANTE,
+                            COALESCE(s.CONTACT_PHONE, '') AS CONTACTO,
+                            i.END_DATE AS CULMINATION_DATE,
+                            it.NAME AS TIPO_PRACTICA,
+                            i.ENROLLMENT,
+                            p.DESCRIPTION AS PERIOD_DESCRIPTION,
+                            i.INTERSHIP_STATUS,
+                            ROW_NUMBER() OVER(PARTITION BY s.STUDENTS_ID ORDER BY it.PRIORITY DESC, i.END_DATE DESC) as rn
+                        FROM `t-professional_practices` i
+                        LEFT JOIN `t-internship_type` it ON i.INTERNSHIP_TYPE_ID = it.INTERNSHIP_TYPE_ID
+                        LEFT JOIN `t-students` s ON i.STUDENTS_ID = s.STUDENTS_ID
+                        LEFT JOIN `t-internships_period` p ON i.PERIOD_ID = p.PERIOD_ID
+                        WHERE i.PRACTICES_STATUS = 3
+                    )
+                    SELECT
+                        PROFESSIONAL_PRACTICE_ID AS INSCRIPCION_ID,
+                        STUDENTS_ID,
+                        STUDENTS_CI,
+                        ESTUDIANTE,
+                        CONTACTO,
+                        CULMINATION_DATE,
+                        TIPO_PRACTICA,
+                        ENROLLMENT,
+                        PERIOD_DESCRIPTION
+                    FROM RankedPractices
+                    WHERE rn = 1 AND INTERSHIP_STATUS = 3"; // Culminado y Reprobado
         $statement = $this->pdo->prepare($consulta);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
