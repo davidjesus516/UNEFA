@@ -58,7 +58,6 @@
                     <label for="tipo_practica" class="formulario__label">Tipo Práctica<span class="obligatorio">*</span></label>
                     <div class="formulario__grupo-input"> 
                         <input type="NULL" class="formulario__input" name="tipo_practica" id="tipo_practica" placeholder="Tipo Práctica" readonly>
-                        </select>
                         <i class="formulario__validacion-estado fas fa-times-circle"></i>
                     </div>
                     <p class="formulario__input-error">Validación</p>
@@ -347,6 +346,9 @@
                     select.appendChild(option);
                 });
         }
+        // Asignar el listener para cargar responsables cuando cambia la institución.
+        document.getElementById("institucion").addEventListener('change', cargarResponsables);
+
         document.getElementById('cedula').addEventListener('input', function() {
             // Validar cédula
             const cedulaInput = this;
@@ -394,7 +396,6 @@
                                 });
                             }
                         }
-                        document.getElementById("institucion").addEventListener('change', cargarResponsables);
                     })
                     .catch(error => {
                         document.getElementById("id_form").value = '';
@@ -589,6 +590,7 @@
                 title: 'Culminar Práctica Profesional',
                 text: 'Seleccione el estado final de la práctica:',
                 icon: 'question',
+                
                 input: 'radio',
                 inputOptions: {
                     '2': 'Aprobado',

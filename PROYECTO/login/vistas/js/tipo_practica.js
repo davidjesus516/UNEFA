@@ -181,10 +181,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // If validation passes, proceed with submission confirmation
         Swal.fire({
-            title: '¿Quieres proceder?',
+            title: '¿Confirmar acción?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'Sí',
+            confirmButtonText: 'Sí, continuar',
             cancelButtonText: 'No',
             allowOutsideClick: false,
             allowEscapeKey: false

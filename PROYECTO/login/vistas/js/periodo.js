@@ -496,7 +496,7 @@ $(document).ready(() => {
                 title: confirmMessage,
                 icon: iconType,
                 showCancelButton: true,
-                confirmButtonText: 'Sí',
+                confirmButtonText: 'Sí, continuar',
                 cancelButtonText: 'No',
                 allowOutsideClick: false,
                 allowEscapeKey: false
@@ -667,7 +667,7 @@ $(document).ready(() => {
             title: '¿Activar este período?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'Sí',
+            confirmButtonText: 'Sí, continuar',
             cancelButtonText: 'No',
             allowOutsideClick: false,
             allowEscapeKey: false

@@ -498,11 +498,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Si la validación pasa, proceder con la confirmación de envío
     Swal.fire({
-      title: '¿Quieres proceder?',
+      title: '¿Confirmar acción?',
       icon: 'question',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
       showCancelButton: true,
-      confirmButtonText: 'Sí',
-      cancelButtonText: 'No',
+      confirmButtonText: 'Sí, continuar',
+      cancelButtonText: 'Cancelar',
       allowOutsideClick: false,
       allowEscapeKey: false
     }).then(async (result) => { // Usamos 'async' aquí porque haremos un fetch dentro

@@ -44,7 +44,7 @@ $(document).ready(function(){//aqui inicializamos javascript
         }
         
         // Agregamos la alerta de confirmación
-        if (confirm('¿Quieres proceder?')) {
+        if (confirm('¿Confirmar acción?')) {
             const postData = {
                 codigo: codigo,
                 nombre: nombre,

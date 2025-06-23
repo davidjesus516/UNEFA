@@ -613,7 +613,8 @@ class ProfesionalPractices
                         i.`TUTOR_M_ID`,
                         i.`INSTITUTION_ID`,
                         i.`MANAGER_ID`,
-                        s.`CAREER_ID`
+                        s.`CAREER_ID`,
+                        itp.`INTERNSHIP_TYPE_ID`
                     FROM `t-professional_practices` i
                     LEFT JOIN `t-students` s ON i.`STUDENTS_ID` = s.`STUDENTS_ID`
                     LEFT JOIN `t-internship_type` itp ON i.`INTERNSHIP_TYPE_ID` = itp.`INTERNSHIP_TYPE_ID`

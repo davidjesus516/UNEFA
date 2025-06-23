@@ -246,18 +246,14 @@ class ProfesionalPracticesController
         $resultado = $this->modelo->actualizarPreinscripcion($id, $datos); // Pass $id for update check
         if ($resultado === "DUPLICATE_PREINSCRIPTION") {
             $this->responder(['success' => false, 'error' => 'No se puede actualizar. Este estudiante ya tiene otra preinscripción (activa o inactiva) para el período de destino.'], 409);
-        } elseif ($resultado === "STUDENT_ALREADY_INSCRIBED") {
+        } elseif ($resultado === "STUDENT_ALREADY_IN_PROGRESS") {
             $this->responder(['success' => false, 'error' => 'No se puede actualizar. El estudiante tiene otra práctica profesional en curso o culminada no aprobada.'], 409); // This message is still valid for hasActiveNonApprovedPractice
         } elseif (strpos($resultado, 'PRIORITY_VIOLATION_NEEDS_') === 0) { // This is for canRegisterForPracticeType
             $requiredPriority = str_replace('PRIORITY_VIOLATION_NEEDS_', '', $resultado);
             $this->responder(['success' => false, 'error' => "No se puede actualizar a esta práctica. El estudiante debe haber culminado y aprobado la práctica de prioridad {$requiredPriority} primero."], 409);
         } elseif ($resultado === "PRIORITY_ALREADY_REGISTERED") {
             $this->responder(['success' => false, 'error' => 'No se puede actualizar. El estudiante ya tiene otro registro para este nivel de práctica.'], 409);
-        } elseif ($resultado) {
-        } elseif ($resultado === "PERIOD_MUST_BE_DIFFERENT") {
-            $this->responder(['success' => false, 'error' => 'El período de la nueva preinscripción debe ser diferente al período de la práctica reprobada.'], 409);
-        } elseif ($resultado === "INVALID_REPROBADO_PRACTICE_ID") {
-            $this->responder(['success' => false, 'error' => 'ID de práctica reprobada inválido o no corresponde a una práctica reprobada.'], 400);
+        } elseif ($resultado === true) { // Correctly handle successful update
             $this->responder(['success' => true, 'message' => 'Preinscripción actualizada correctamente']);
         } else {
             $this->responder(['success' => false, 'error' => 'No se pudo actualizar la preinscripción'], 500);
@@ -385,7 +381,7 @@ class ProfesionalPracticesController
         $data = $this->modelo->buscarInscripcionPorId($id);
         if ($data) {
             // También necesitamos los combos para poblar los selects
-            $data['combos'] = $this->modelo->profesionalPracticesCombos($data['CAREER_ID']);
+            $data['combos'] = $this->modelo->profesionalPracticesCombos($data['CAREER_ID'], $data['INTERNSHIP_TYPE_ID']);
             // Y los responsables de la institución seleccionada
             if (!empty($data['INSTITUTION_ID'])) {
                 $data['combos']['responsables'] = $this->modelo->cargarResponsables($data['INSTITUTION_ID']);
@@ -467,7 +463,7 @@ class ProfesionalPracticesController
         $studentData = $this->modelo->buscarPorCedula($cedula);
         if ($studentData && $studentData['STUDENTS_ID']) {
             // Then, use the student ID to find the latest reprobado practice
-            $datosReprobada = $this->modelo->getLatestReprobadoPracticeDetails($studentData['STUDENTS_ID']);
+            $datosReprobada = $this->modelo->getLatestReprobadaPractice($studentData['STUDENTS_ID']);
             if ($datosReprobada) {
                 $this->responder($datosReprobada);
             } else {

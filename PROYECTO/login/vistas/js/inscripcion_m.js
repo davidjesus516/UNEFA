@@ -30,7 +30,7 @@ function listarInscripciones(tipo) {
                             <td><button class="task-edit" onclick="editarInscripcion(${row.INSCRIPCION_ID})"><span class="texto"></span><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button></td>
                             <td><button class="task-view" onclick="verInscripcion(${row.INSCRIPCION_ID})"><span class="texto"></span><span class="icon"><i class="fa-solid fa-search"></i></span></button></td>
                             <td><button class="task-note" onclick="culminarInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Culminar</span><span class="icon"><i class="fa-solid fa-clipboard-check"></i></span></button></td>
-                            <td><button class="task-delete" onclick="eliminarInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Borrar</span><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button></td>
+                            <td><button class="task-delete" onclick="eliminarInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Borrar</span><span class="icon"><i class="fa-solid fa-trash-can"></i></span></button></td>
                         `;
                     } else {
                         accionesHtml = `
