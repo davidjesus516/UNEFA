@@ -21,13 +21,10 @@ function imageToBase64($path)
 }
 
 try {
-    // Conexión a la base de datos
-    $conexion = new mysqli("localhost", "root", "", "mydb2");
-    if ($conexion->connect_error) {
-        throw new Exception('Error de conexión: ' . $conexion->connect_error);
-    }
+    // Conexión a la base de datos usando la clase Conexion y PDO
+    $conexionObj = new Conexion();
+    $pdo = $conexionObj->conectar();
 
-    // Consulta SQL para obtener los datos de las prácticas profesionales
     $sql = "SELECT 
                 pp.PROFESSIONAL_PRACTICE_ID,
                 s.STUDENTS_CI,
@@ -48,21 +45,18 @@ try {
             LEFT JOIN `t-students` s ON pp.STUDENTS_ID = s.STUDENTS_ID
             LEFT JOIN `t-career` c ON s.CAREER_ID = c.CAREER_ID
             LEFT JOIN `t-internship_type` it ON pp.INTERNSHIP_TYPE_ID = it.INTERNSHIP_TYPE_ID
-            LEFT JOIN `t-tutors` ta ON pp.TUTOR_ID = ta.TUTOR_ID AND pp.TUTOR_TYPE = 'ACADEMICO'
-            LEFT JOIN `t-tutors` tm ON pp.TUTOR_ID = tm.TUTOR_ID AND pp.TUTOR_TYPE = 'METODOLOGICO'
+            LEFT JOIN `t-tutors` ta ON pp.TUTOR_ID = ta.TUTOR_ID
+            LEFT JOIN `t-tutors` tm ON pp.TUTOR_M_ID = tm.TUTOR_ID
             LEFT JOIN `t-institution` i ON pp.INSTITUTION_ID = i.INSTITUTION_ID
             LEFT JOIN `t-institution_manager` im ON pp.MANAGER_ID = im.MANAGER_ID
-            WHERE 1";
+            WHERE pp.PRACTICES_STATUS = 2 AND pp.STATUS = 1"; // Filtra por inscritas (en curso) y activas
 
-    $resultado = $conexion->query($sql);
-    if ($resultado === false) {
-        throw new Exception('Error en consulta: ' . $conexion->error);
-    }
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $practicas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Obtener resultados
-    $practicas = $resultado->fetch_all(MYSQLI_ASSOC);
-
-    $qr = new QrCode('https://www.unefa.edu.ve');
+    // --- Generación de QR y HTML ---
+    $qr = new QrCode('https://drive.google.com/file/d/1y6P8r8sJlntGewHYnVNlt37BHmqZm2ch/view?usp=drivesdk');
     $qr->setSize(400)->setMargin(0)->setErrorCorrectionLevel(new ErrorCorrectionLevelHigh());
     $writer = new SvgWriter();
     $qrImage = 'data:image/svg+xml;base64,' . base64_encode($writer->write($qr)->getString());
@@ -225,8 +219,6 @@ try {
     }
 
     $dompdf->stream('Listado_Practicas_Profesionales.pdf', ['Attachment' => false]);
-
-    $conexion->close();
 
 } catch (Exception $e) {
     // PDF de error

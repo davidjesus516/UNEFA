@@ -38,7 +38,7 @@ try {
     $carreras = $resultado->fetch_all(MYSQLI_ASSOC);
 
     // Generar código QR
-    $qr = new QrCode('https://www.unefa.edu.ve');
+    $qr = new QrCode('https://drive.google.com/file/d/1y6P8r8sJlntGewHYnVNlt37BHmqZm2ch/view?usp=drivesdk');
     $qr->setSize(400)->setMargin(0)->setErrorCorrectionLevel(new ErrorCorrectionLevelHigh());
     $writer = new SvgWriter();
     $qrImage = 'data:image/svg+xml;base64,' . base64_encode($writer->write($qr)->getString());
