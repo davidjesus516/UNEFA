@@ -122,7 +122,7 @@ class ProfesionalPracticesController
         $datosPreinscripcion = $this->modelo->buscarPreinscripcionActivaPorCedula($cedula);
 
         if ($datosPreinscripcion) {
-            $datosPreinscripcion['combos'] = $this->modelo->profesionalPracticesCombos($datosPreinscripcion['CAREER_ID']);
+            $datosPreinscripcion['combos'] = $this->modelo->profesionalPracticesCombos($datosPreinscripcion['CAREER_ID'], $datosPreinscripcion['INTERNSHIP_TYPE_ID']);
             $this->responder($datosPreinscripcion);
         } else {
             $this->responder(['error' => 'No se encontró una preinscripción activa para este estudiante.'], 404);
