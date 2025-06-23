@@ -59,34 +59,34 @@ if (isset($_SESSION['USER']) && $_SESSION['STATUS_SESSION'] == 1) {
   <script src="js/jquery-3.7.0.min.js"></script>
   <script src="js/login.js"></script>
   <script>
-    const togglePassword = document.getElementById('toggle-password');
-    const passwordInput = document.getElementById('password-input');
+    const togglePassword = document.getElementById("toggle-password");
+    const passwordInput = document.getElementById("password-input");
 
     // Mostrar contraseña al mantener presionado
-    togglePassword.addEventListener('mousedown', () => {
-      passwordInput.setAttribute('type', 'text');
-      togglePassword.classList.remove('fa-eye');
-      togglePassword.classList.add('fa-eye-slash');
+    togglePassword.addEventListener("mousedown", () => {
+      passwordInput.setAttribute("type", "text");
+      togglePassword.classList.remove("fa-eye");
+      togglePassword.classList.add("fa-eye-slash");
     });
 
     // Ocultar contraseña al soltar
-    togglePassword.addEventListener('mouseup', () => {
-      passwordInput.setAttribute('type', 'password');
-      togglePassword.classList.remove('fa-eye-slash');
-      togglePassword.classList.add('fa-eye');
+    togglePassword.addEventListener("mouseup", () => {
+      passwordInput.setAttribute("type", "password");
+      togglePassword.classList.remove("fa-eye-slash");
+      togglePassword.classList.add("fa-eye");
     });
 
     // Para dispositivos móviles
-    togglePassword.addEventListener('touchstart', () => {
-      passwordInput.setAttribute('type', 'text');
-      togglePassword.classList.remove('fa-eye');
-      togglePassword.classList.add('fa-eye-slash');
+    togglePassword.addEventListener("touchstart", () => {
+      passwordInput.setAttribute("type", "text");
+      togglePassword.classList.remove("fa-eye");
+      togglePassword.classList.add("fa-eye-slash");
     });
 
-    togglePassword.addEventListener('touchend', () => {
-      passwordInput.setAttribute('type', 'password');
-      togglePassword.classList.remove('fa-eye-slash');
-      togglePassword.classList.add('fa-eye');
+    togglePassword.addEventListener("touchend", () => {
+      passwordInput.setAttribute("type", "password");
+      togglePassword.classList.remove("fa-eye-slash");
+      togglePassword.classList.add("fa-eye");
     });
   </script>
 

@@ -241,14 +241,17 @@ class Usuario
     public function BasicLoginConfig($id, $password, $questions_answers, $correo, $telefono)
     {
         try {
+            $this->pdo->beginTransaction();
             $sql = "UPDATE `t-user` SET `EMAIL`= :correo, `PHONE_NUMBER`= :telefono, `STATUS_SESSION`= 1 WHERE USER_ID = :id";
-            $statement = $this->pdo->beginTransaction();
             $statement = $this->pdo->prepare($sql);
             $statement->bindValue(':id', $id);
             $statement->bindValue(':correo', $correo);
             $statement->bindValue(':telefono', $telefono);
             $statement->execute();
-            $this->NewPassword($id, $password);
+            
+            // Eliminamos la llamada a NewPassword aquí. El controlador la manejará.
+            // $this->NewPassword($id, $password); 
+
             $sql5 = "SELECT a.PRESET_QUESTION_ID FROM `t-security_questions` a INNER join `t-preset_questions` b ON a.PRESET_QUESTION_ID = b.PRESET_QUESTION_ID WHERE a.USER_ID = :id AND b.STATUS = 1";
             $statement5 = $this->pdo->prepare($sql5);
             $statement5->bindValue(':id', $id);
@@ -291,6 +294,7 @@ class Usuario
     function NewPassword($id, $password)
     {
         try {
+            $this->pdo->beginTransaction();
             $sql2 = "SELECT * FROM `T-USER_KEY` WHERE `USER_ID` = :id AND STATUS = 1";
             $statement2 = $this->pdo->prepare($sql2);
             $statement2->bindValue(':id', $id);
@@ -312,10 +316,12 @@ class Usuario
             $statement4->bindValue(':END_DATE', $end_date);
             $statement4->bindValue(':STATUS', 1);
             $statement4->execute();
+            $this->pdo->commit();
             return true;
         } catch (Exception $e) {
             $this->pdo->rollBack();
-            throw $e;
+            error_log("Error en NewPassword: " . $e->getMessage()); // Log del error
+            return false; // Devolver false en lugar de lanzar una excepción
         }
     }
     public function UserBlock($user_id)
