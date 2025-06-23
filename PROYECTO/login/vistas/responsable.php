@@ -81,7 +81,7 @@ require 'header.php';
                     <p class="formulario__input-error">Este campo solo debe contener letras</p>
                 </div>
 
-                <!-- Contacto -->
+                <!-- Teléfono -->
                 <div class="formulario__grupo" id="grupo__telefono">
                     <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
 

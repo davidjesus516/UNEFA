@@ -45,7 +45,7 @@ require 'header.php';
                     <div class="formulario__grupo">
                         <label for="periodo" class="formulario__label">Período</label>
                         <select id="periodo" name="periodo" class="formulario__input" readonly disabled>
-                            <option value="" disabled selected>Cargando...</option>
+                            <option value="" disabled selected>Seleccione una opción</option>
                         </select>
                     </div>
 
@@ -54,7 +54,7 @@ require 'header.php';
                         <label for="tipo_practica" class="formulario__label">Tipo Práctica</label>
                         <div class="formulario__grupo-input">
                             <select class="formulario__input" name="tipo_practica" id="tipo_practica" readonly disabled>
-                                <option value="" disabled selected>Cargando...</option>
+                                <option value="" disabled selected>Seleccione una opción</option>
                             </select>
                         </div>
                     </div>
@@ -84,8 +84,8 @@ require 'header.php';
                 <tr class="w3-light-grey">
                     <th>Cédula</th>
                     <th>Nombre</th>
-                    <th>Contacto</th>
-                    <th>Periodo</th>
+                    <th>Teléfono</th>
+                    <th>Período</th>
                     <th>Matrícula</th>
                     <th>Tipo Práctica</th>
                     <th>Fecha Culminación</th>

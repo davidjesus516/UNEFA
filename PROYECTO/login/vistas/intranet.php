@@ -338,7 +338,7 @@ if (!$periodoActual) {
   <div class="dashboard-header">
     <div style="flex:1;">
       <h2>Hola, <?php echo ucfirst($_SESSION["NAME"]); ?></h2>
-      <div class="subtitle">¿Lista para comenzar tu jornada laboral?</div>
+      <div class="subtitle">¿Listo para comenzar tu jornada laboral?</div>
     </div>
     <div style="flex-shrink:0;">
       <img src="https://img.icons8.com/color/96/000000/laptop.png" alt="Ilustración">
@@ -349,7 +349,7 @@ if (!$periodoActual) {
   <div class="metrics-row">
     <div class="metric-card metric-open">
       <?php if ($periodoActual): ?>
-        <div class="value">Periodo: <?php echo htmlspecialchars($periodoActual['DESCRIPTION']); ?></div>
+        <div class="value">Período: <?php echo htmlspecialchars($periodoActual['DESCRIPTION']); ?></div>
         <div class="label">
           Estado: <?php echo $estadoPeriodo; ?><br>
           Desde: <?php echo date('d/m/Y', strtotime($periodoActual['START_DATE'])); ?><br>

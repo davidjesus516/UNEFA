@@ -2,7 +2,7 @@
 require 'header.php';
 ?>
 
-<span class="text">Tipos Práctica Profesional</span>
+<span class="text">Tipos Prácticas Profesionales</span>
 <div class="page-content">
     <div class="message"></div>
     <div id="modal" class="modal">

@@ -11,23 +11,23 @@
       <h2>Registrar Usuario</h2>
       <form id="formulario" class="formulario">
         <div class="formulario__grupo">
-          <label>Usuario *</label>
+          <label><b>Usuario</b> <span class="obligatorio">*</span></label>
           <input type="text" id="usuario" class="formulario__input" placeholder="Ingrese el Nombre de Usuario (Cédula)" required>
         </div>
         <div class="formulario__grupo">
-          <label>Nombre *</label>
+          <label><b>Nombre</b> <span class="obligatorio">*</span></label>
           <input type="text" id="nombre" class="formulario__input" placeholder="Ingrese el Nombre" required>
         </div>
         <div class="formulario__grupo">
-          <label>Rol *</label>
+          <label><b>Rol <span class="obligatorio">*</span></b></label>
           <select id="rol" class="formulario__input" required>
             <option value="" disabled selected>Seleccione una opción</option>
-            <option value="1">Administrador</option>
-            <option value="2">Asistente</option>
+            <option value="1">ADMINISTRADOR</option>
+            <option value="2">ASISTENTE</option>
           </select>
         </div>
         <div class="formulario__grupo">
-          <label>Contraseña Provisional *</label>
+          <label><b>Contraseña Provisional</b> <span class="obligatorio">*</span></label>
           <div style="position: relative;">
             <input type="password" id="clave" class="formulario__input" autocomplete="new-password" placeholder="Autogenerada">
             <button type="button" id="toggleClave" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;">

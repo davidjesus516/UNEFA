@@ -127,7 +127,7 @@ class Student
      * @param string $SECOND_SURNAME Segundo apellido.
      * @param string $GENDER Género (ej. 'M', 'F').
      * @param string $BIRTHDATE Fecha de nacimiento (formato 'YYYY-MM-DD').
-     * @param string $CONTACT_PHONE Número de teléfono de contacto.
+     * @param string $CONTACT_PHONE Número de teléfono de Teléfono.
      * @param string $EMAIL Correo electrónico (único).
      * @param string $ADDRESS Dirección de residencia.
      * @param string $MARITAL_STATUS Estado civil.

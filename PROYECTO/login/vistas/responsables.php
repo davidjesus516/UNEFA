@@ -63,7 +63,7 @@
                     <label class="formulario__label"for="segundo_apellido">Segundo Apellido</label>
                     <input type="text" name="SECOND_SURNAME" id="SECOND_SURNAME" class="formulario__input" placeholder="Ingrese el segundo apellido">
                 </div>
-                <!-- Contacto -->
+                <!-- Teléfono -->
                 <div class="formulario__grupo" id="grupo__telefono">
                     <label class="formulario__label"for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
 

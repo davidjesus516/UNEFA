@@ -48,7 +48,7 @@ require 'header.php';
                         <p class="formulario__input-error">Validación</p>
                     </div>
 
-                    <!-- Periodo -->
+                    <!-- Período -->
                     <div class="formulario__grupo">
                         <label for="periodo" class="formulario__label">Período <span class="obligatorio">*</span></label>
                         <select id="periodo" name="periodo" class="formulario__input" required>
@@ -108,8 +108,8 @@ require 'header.php';
                 <tr class="w3-light-grey">
                     <th>Cédula</th>
                     <th>Nombre</th>
-                    <th>Contacto</th>
-                    <th>Periodo</th>
+                    <th>Teléfono</th>
+                    <th>Período</th>
                     <th>Matrícula</th>
                     <th>Fecha Preinscripción</th>
                     <th colspan="3">Acciones</th>

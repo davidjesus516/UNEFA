@@ -6,7 +6,7 @@ if (!isset($_SESSION['USER_ID'])) {
 if ($_SESSION['STATUS_SESSION'] == 2) {
     echo '
 <!DOCTYPE html>
-<html>
+<html style="height: 100%; background: #fff;">
 
 <head>
     <meta charset="utf-8">
@@ -19,12 +19,12 @@ if ($_SESSION['STATUS_SESSION'] == 2) {
 </head>
 
 <body>
-
+<section>
     <div class="login-form">
         <!-- <h1>Login</h1> -->
         <div class="container">
-            <div class="main">
-                <div class="content">
+
+                <div class="content" style="height: 100vh;">
                     <h2>Bienvenido ' . $_SESSION['NAME'] . '</h2>
                     <p>Para continuar por favor acepte los <a href="../docs/TÉRMINOS_Y_CONDICIONES.pdf" target="_blank">Términos y Condiciones</a>.</p>
                     <form action="basic_user_config.php" method="POST">
@@ -43,10 +43,10 @@ if ($_SESSION['STATUS_SESSION'] == 2) {
                 <div class="form-img-2">
                     <img src="" alt="">
                 </div>
-            </div>
+
         </div>
     </div>
-    </section>
+</section>
 
     <script src="js/jquery-3.7.0.min.js"></script>
     <script src="js/contraseña_nueva.js"></script>

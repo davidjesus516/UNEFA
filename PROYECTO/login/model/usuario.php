@@ -59,17 +59,17 @@ class Usuario
     public function UserCreate($USER, $USER_CI, $NAME, $SECOND_NAME, $SURNAME, $SECOND_SURNAME, $EMAIL, $PHONE_NUMBER, $KEY)
     {
         try {
-            $sql = "INSERT INTO `t-user`(`USER`, `USER_CI`, `NAME`, `SECOND_NAME`, `SURNAME`, `SECOND_SURNAME`, `EMAIL`, `PHONE_NUMBER`, `CREATION_DATE`, `LOGIN`, `TERMS_CONDITIONS`, `STATUS_SESSION`, `STATUS`) VALUES (:USER, :USER_CI, :NAME, :SECOND_NAME, :SURNAME, :SECOND_SURNAME, :EMAIL, :PHONE_NUMBER, :CREATION_DATE, :LOGIN, :TERMS_CONDITIONS, :STATUS_SESSION, :STATUS)"; // Asegúrate que los nombres de columna coincidan con tu tabla
+            $sql = "INSERT INTO `t-user`(`USER`, `USER_CI`, `NAME`, `SECOND_NAME`, `SURNAME`, `SECOND_SURNAME`, `EMAIL`, `PHONE_NUMBER`, `CREATION_DATE`, `LOGIN`, `TERMS_CONDITIONS`, `STATUS_SESSION`, `STATUS`) VALUES (:USER, :USER_CI, :NAME, :SECOND_NAME, :SURNAME, :SECOND_SURNAME, :EMAIL, :PHONE_NUMBER, :CREATION_DATE, :LOGIN, :TERMS_CONDITIONS, :STATUS_SESSION, :STATUS)";
             $statement = $this->pdo->beginTransaction();
             $statement = $this->pdo->prepare($sql);
-            $statement->bindValue(':USER', $USER);
-            $statement->bindValue(':USER_CI', $USER_CI);
-            $statement->bindValue(':NAME', $NAME);
-            $statement->bindValue(':SECOND_NAME', $SECOND_NAME);
-            $statement->bindValue(':SURNAME', $SURNAME);
-            $statement->bindValue(':SECOND_SURNAME', $SECOND_SURNAME);
-            $statement->bindValue(':EMAIL', $EMAIL);
-            $statement->bindValue(':PHONE_NUMBER', $PHONE_NUMBER);
+            $statement->bindValue(':USER', mb_strtoupper($USER));
+            $statement->bindValue(':USER_CI', mb_strtoupper($USER_CI));
+            $statement->bindValue(':NAME', mb_strtoupper($NAME));
+            $statement->bindValue(':SECOND_NAME', mb_strtoupper($SECOND_NAME));
+            $statement->bindValue(':SURNAME', mb_strtoupper($SURNAME));
+            $statement->bindValue(':SECOND_SURNAME', mb_strtoupper($SECOND_SURNAME));
+            $statement->bindValue(':EMAIL', mb_strtolower($EMAIL));
+            $statement->bindValue(':PHONE_NUMBER', mb_strtoupper($PHONE_NUMBER));
             $statement->bindValue(':CREATION_DATE', date("Y-m-d H:i:s"));
             $statement->bindValue(':LOGIN', 0);
             $statement->bindValue(':TERMS_CONDITIONS', 0);
@@ -404,8 +404,8 @@ class Usuario
     public function ActualizarNombre($user_id, $nombre)
     {
         $sql = "UPDATE `t-user` SET `NAME` = :nombre WHERE USER_ID = :id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':nombre', $nombre);
+        $stmt = $this->pdo->prepare($sql); // Convertir a mayúsculas
+        $stmt->bindValue(':nombre', mb_strtoupper($nombre));
         $stmt->bindValue(':id', $user_id);
         return $stmt->execute();
     }
@@ -460,10 +460,10 @@ class Usuario
             $sql = "INSERT INTO `t-user` (`USER`, `NAME`, `EMAIL`, `PHONE_NUMBER`, `STATUS`, `STATUS_SESSION`, `LOGIN`) 
                 VALUES (:username, :nombre, :correo, :telefono, 1, 1, 0)";
             $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':username', $username);
-            $stmt->bindValue(':nombre', $nombre);
-            $stmt->bindValue(':correo', $correo);
-            $stmt->bindValue(':telefono', $telefono);
+            $stmt->bindValue(':username', mb_strtoupper($username));
+            $stmt->bindValue(':nombre', mb_strtoupper($nombre));
+            $stmt->bindValue(':correo', mb_strtolower($correo));
+            $stmt->bindValue(':telefono', mb_strtoupper($telefono));
             $stmt->execute();
 
             $userId = $this->pdo->lastInsertId();
@@ -504,8 +504,8 @@ class Usuario
     public function ActualizarUsername($userId, $username)
     {
         $sql = "UPDATE `t-user` SET `USER` = :user WHERE USER_ID = :id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':user', $username);
+        $stmt = $this->pdo->prepare($sql); // Convertir a mayúsculas
+        $stmt->bindValue(':user', mb_strtoupper($username));
         $stmt->bindValue(':id', $userId);
         return $stmt->execute();
     }

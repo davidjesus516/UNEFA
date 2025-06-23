@@ -130,7 +130,7 @@ if (!isset($_SESSION['USER'])) {
         border-radius: var(--nav-border-radius);
         box-shadow: var(--nav-shadow-width) var(--nav-shadow-color);
         border: var(--nav-border-width) solid var(--nav-border-color);
-        top: -9rem;
+        top: -6rem;
         left: 1rem;
         right: var(--nav-position-right);
         transition: var(--burger-transition);
@@ -251,19 +251,18 @@ if (!isset($_SESSION['USER'])) {
                         <div class="tabs">
                             <button class="tab-button active" onclick="openTab(event, 'about')">Acerca de</button>
                             <button class="tab-button" onclick="openTab(event, 'contributors')">Contribuyentes</button>
-                            <button class="tab-button" onclick="openTab(event, 'logs')">Registros</button>
-                            <button class="tab-button" onclick="openTab(event, 'issues')">Problemas (0)</button>
+                            <!-- <button class="tab-button" onclick="openTab(event, 'logs')">Registros</button> -->
+                            <!-- <button class="tab-button" onclick="openTab(event, 'issues')">Problemas (0)</button> -->
                         </div>
 
                         <div id="about" class="tab-content">
-                            <h3>Sistema de Gestión</h3>
-                            <p>Versión 1.0.0 @ 2025-01-01</p>
-                            <p><a href="#" target="_blank">Documentación</a></p>
-                            <p><a href="#" target="_blank">Soporte</a></p>
+                            <h3>Sistema de Gestión de Pasantías UNEFA</h3>
+                            <p>Versión beta 1.0.1 | 2025</p>
+                            <!-- <p><a href="#" target="_blank">Soporte</a></p> -->
                         </div>
 
                         <div id="contributors" class="tab-content" style="display:none;">
-                            <h3>Patrocinadores</h3>
+                            <h3>Creadores</h3>
                             <ul>
                                 <li>Organización A</li>
                                 <li>Grupo B</li>
@@ -281,7 +280,7 @@ if (!isset($_SESSION['USER'])) {
                             </ul>
                         </div>
 
-                        <div id="logs" class="tab-content" style="display:none;">
+                        <!-- <div id="logs" class="tab-content" style="display:none;">
                             <h3>Registros del Sistema</h3>
                             <table>
                                 <thead>
@@ -322,7 +321,7 @@ if (!isset($_SESSION['USER'])) {
                         <div id="issues" class="tab-content" style="display:none;">
                             <h3>No hay problemas registrados</h3>
                             <p>Marca la casilla "Solo errores" en la pestaña "Registros" para ver los problemas aquí si existen.</p>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="modal-footer">
                         <button class="modal-ok-button">OK</button>
@@ -388,16 +387,16 @@ if (!isset($_SESSION['USER'])) {
                             <i class='bx'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
                                     <path d="M120-120v-560h160v-160h400v320h160v400H520v-160h-80v160H120Zm80-80h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 320h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 480h80v-80h-80v80Zm0-160h80v-80h-80v80Z" />
                                 </svg></i>
-                            <span class="link_name">Practicas Profesionales</span>
+                            <span class="link_name">Práticas Profesionales</span>
                         </a>
                         <i class='bx bxs-chevron-down arrow'></i>
                     </div>
                     <ul class="sub-menu">
-                        <li><a class="link_name" href="#">Practicas Profesionales</a></li>
+                        <li><a class="link_name" href="#">Práticas Profesionales</a></li>
                         <li><a href="preinscripcion.php">Pre inscripción </a></li>
                         <li><a href="inscripcion_m.php">Inscripción </a></li>
-                        <li><a href="seguimiento.php">Seguimiento</a></li>
-                        <li><a href="culminacion_pasantias.php">Culminación<br>Practica Profesional</a></li>
+                        <li><a href="construcion.php">Seguimiento</a></li>
+                        <li><a href="construcion.php">Culminación<br>Práctica Profesional</a></li>
                     </ul>
                 </li>
 
@@ -413,7 +412,7 @@ if (!isset($_SESSION['USER'])) {
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Reportes</a></li>
-                        <li><a href="../../PDF/listado_periodo.php" target="_blank">Listado Período</a></li>
+                        <li><a href="../../PDF/listado_periodo.php" target="_blank">Listado Períodos</a></li>
                         <li><a href="../../PDF/listado_carrera.php" target="_blank">Listado Carreras</a></li>
                         <li><a href="../../PDF/listado_estudiantes.php" target="_blank">Listado Estudiantes</a></li>
                         <li><a href="../../PDF/listado_tutores.php" target="_blank"">Listado Tutores</a></li>
@@ -429,13 +428,13 @@ if (!isset($_SESSION['USER'])) {
                     <div class="iocn-link">
                         <a href="#">
                             <i class='bx  bx-cog'></i>
-                            <span class="link_name">Configuracion</span>
+                            <span class="link_name">Configuración</span>
                         </a>
                         <i class='bx bxs-chevron-down arrow'></i>
                     </div>
                     <ul class="sub-menu">
-                        <li><a class="link_name" href="#">Configuracion</a></li>
-                        <li><a href="cambio_registro.php">Cambio de Registros</a></li>
+                        <li><a class="link_name" href="#">Configuración</a></li>
+                        <li><a href="construcion.php">Cambio de Registros</a></li>
                         <li><a href="usuario.php">Usuarios</a></li>
                         <li><a href="combo.php">Combos</a></li>
                     </ul>
@@ -486,15 +485,8 @@ if (!isset($_SESSION['USER'])) {
                                 </svg>
                             </div>
                             <nav class="popup-window">
-                                <legend>Perfil de Usuarios</legend>
+                                <legend>Salir</legend>
                                 <ul>
-                                    <li>
-                                        <a href="perfil_usuario.php">
-                                            <button>
-                                                <span>Perfil</span>
-                                            </button>
-                                        </a>
-                                    </li>
                                     <li>
                                         <a href="../logout.php">
                                             <button>

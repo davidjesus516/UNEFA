@@ -188,15 +188,15 @@
                         let accionesHtml = '';
                         if (tipo === 'activos') {
                             accionesHtml = `
-                                <td><button class="task-edit" onclick="editarInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Editar</span><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button></td>
-                                <td><button class="task-view" onclick="verInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Ver</span><span class="icon"><i class="fa-solid fa-search"></i></span></button></td>
+                                <td><button class="task-edit" onclick="editarInscripcion(${row.INSCRIPCION_ID})"><span class="icon"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></span></button></td>
+                                <td><button class="task-view" onclick="verInscripcion(${row.INSCRIPCION_ID})"><span class="icon"><i class="fa-solid fa-search"></i></span></button></td>
                                 <td><button class="task-note" onclick="culminarInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Culminar</span><span class="icon"><i class="fa-solid fa-clipboard-check"></i></span></button></td>
-                                <td><button class="task-delete" onclick="eliminarInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Borrar</span><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button></td>
+                                <td><button class="task-delete" onclick="eliminarInscripcion(${row.INSCRIPCION_ID})"><span class="icon"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></span></button></td>
                             `;
                         } else {
                             accionesHtml = `
-                                <td><button class="task-restore" onclick="activarInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Restaurar</span><span class="icon"><i class="fa-solid fa-rotate-left"></i></span></button></td>
-                                <td><button class="task-view" onclick="verInscripcion(${row.INSCRIPCION_ID})"><span class="texto">Ver</span><span class="icon"><i class="fa-solid fa-search"></i></span></button></td>
+                                <td><button class="task-restore" onclick="activarInscripcion(${row.INSCRIPCION_ID})"><span class="icon"><i class="fa-solid fa-rotate-left"></i></span></button></td>
+                                <td><button class="task-view" onclick="verInscripcion(${row.INSCRIPCION_ID})"><span class="icon"><i class="fa-solid fa-search"></i></span></button></td>
                                 <td></td>
                                 <td></td>
                             `;
@@ -208,20 +208,22 @@
                             <td>${row.TUTOR_METODOLOGICO_NOMBRE || ''} ${row.TUTOR_METODOLOGICO_APELLIDO || ''}</td>
                             <td>${row.INSTITUTION_NAME || ''}</td>
                             <td>${row.RESPONSABLE_NOMBRE || ''} ${row.RESPONSABLE_APELLIDO || ''}</td>
+                            <td>${row.TIPO_PRACTICA || ''}</td>
+                            <td>${row.PRACTICE_START_DATE ? new Date(row.PRACTICE_START_DATE).toLocaleDateString() : ''}</td>
                             ${accionesHtml}
                         `;
                         tbody.appendChild(tr);
                     });
                 } else { // Modified to catch empty arrays or non-array data without 'mensaje'
                     const tr = document.createElement('tr');
-                    tr.innerHTML = `<td colspan="9">${data.mensaje || `No hay inscripciones ${tipo} disponibles.`}</td>`;
+                    tr.innerHTML = `<td colspan="11">${data.mensaje || `No hay inscripciones ${tipo} disponibles.`}</td>`;
                     tbody.appendChild(tr);
                 }
             })
             .catch(error => { // Catch network errors
                 console.error(`Error al cargar inscripciones ${tipo}:`, error);
                 const tbody = document.getElementById(tablaId);
-                tbody.innerHTML = `<tr><td colspan="9">Error al cargar inscripciones ${tipo}. Por favor, intente de nuevo.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="11">Error al cargar inscripciones ${tipo}. Por favor, intente de nuevo.</td></tr>`;
             });
     }
 
@@ -576,6 +578,9 @@
                     form.querySelector('.formulario__btn').style.display = 'none';
                     
                     dialog.showModal();
+                })
+                .catch(error => {
+                    Swal.fire('Error', 'Error al cargar los datos para visualización: ' + error.message, 'error');
                 });
         };
 

@@ -309,9 +309,9 @@ class Periodo
         }
     }
 
-    // Convierte DESCRIPTION (ej: 2025-I) a un valor comparable
+    // Convierte DESCRIPTION (ej: 2025-I) a un valor comparable (made public for use in other models)
 
-    private function descripcionAOrden($descripcion) {
+    public function descripcionAOrden($descripcion) {
         if (preg_match('/^(\d{4})-(I{1,2})$/', $descripcion, $m)) {
             $anio = intval($m[1]);
             $turno = ($m[2] === 'I') ? 1 : 2;

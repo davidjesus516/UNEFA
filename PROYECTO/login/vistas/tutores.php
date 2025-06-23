@@ -69,7 +69,7 @@
                     </select>
                 </div>
 
-                <!-- Contacto -->
+                <!-- Teléfono -->
                 <div class="formulario__grupo" id="grupo__telefono">
                     <label for="telefono" class="formulario__label">Teléfono <span class="obligatorio">*</span></label>
 

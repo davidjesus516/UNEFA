@@ -19,7 +19,7 @@ require 'header.php';
 				<td><a href="https://drive.google.com/file/d/15qrASeBpcKx3_i_6t9TC9S9pXITlrrfL/view?usp=drive_link" target="_blank">https://drive.google.com/file/d/15qrASeBpcKx3_i_6t9TC9S9pXITlrrfL/view?usp=drive_link</a></td>
 			</tr>
 			<tr>
-				<td>Manual - Ventana de Periodo</td>
+				<td>Manual - Ventana de Período</td>
 				<td><a href="https://drive.google.com/file/d/1mcunm4_qcQWnvePp3ZAuUDEnrJaASUBb/view?usp=drive_link" target="_blank">https://drive.google.com/file/d/1mcunm4_qcQWnvePp3ZAuUDEnrJaASUBb/view?usp=drive_link</a></td>
 			</tr>
 			<tr>

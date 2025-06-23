@@ -19,17 +19,17 @@ require 'header.php';
             <h3>GESTIÓN USUARIO:</h3>
 
             <li class="menu-item active">
-                <a href="#">
+                <a href="construcion.php">
                     <i class="fas fa-user-cog"></i> <span>Gestión Usuario</span>
                 </a>
             </li>
             <li class="menu-item active">
-                <a href="#">
+                <a href="construcion.php">
                     <i class="fas fa-user-shield"></i> <span>Gestión Roles</span>
                 </a>
             </li>
             <li class="menu-item active">
-                <a href="#">
+                <a href="construcion.php">
                     <i class="fas fa-user-lock"></i> <span>Gestión Permisos</span>
                 </a>
             </li>
@@ -41,23 +41,23 @@ require 'header.php';
 
             <h3>SEGURIDAD Y ACCESO:</h3>
             <li class="menu-item active">
-                <a href="preguntas.php">
+                <a href="construcion.php">
                     <i class="fas fa-question-circle"></i> <span>Gestión Preguntas Preestablecidas</span>
                 </a>
             </li>
             <li class="menu-item active">
-                <a href="config_contraseña.php">
+                <a href="construcion.php">
                     <i class="fas fa-key"></i> <span>Configuración Contraseña</span>
                 </a>
             </li>
             
             <li class="menu-item active">
-                <a href="config_preguntas.php">
+                <a href="construcion.php">
                     <i class="fas fa-shield-alt"></i> <span>Configuración Preguntas de Seguridad</span>
                 </a>
             </li>
             <li class="menu-item active">
-                <a href="config_usuario.php">
+                <a href="construcion.php">
                     <i class="fas fa-user-edit"></i> <span>Configuración Usuario</span>
                 </a>
             </li>
