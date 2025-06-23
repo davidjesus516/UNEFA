@@ -107,11 +107,14 @@ $(document).ready(() => {
         // Si todas las validaciones previas pasan, ahora mostramos la confirmación de envío.
         // El dialog ya debería estar cerrado por la lógica inicial del submit.
         Swal.fire({
-            title: '¿Quieres proceder?',
+            title: 'Confirmar acción',
+            text: '¿Desea crear/actualizar este período?',
             icon: 'question',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
             showCancelButton: true,
-            confirmButtonText: 'Sí',
-            cancelButtonText: 'No',
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'Cancelar',
             allowOutsideClick: false,
             allowEscapeKey: false
         }).then((result) => {
@@ -159,7 +162,7 @@ $(document).ready(() => {
     // Función para manejar la respuesta del formulario
     const handleFormResponse = response => {
         if (response.success) {
-            mostrarMensajeExito('Operación exitosa', () => {
+            mostrarMensajeExito('Período registrado correctamente', () => {
                 fetchTask();
                 // El dialog se cierra con éxito aquí
                 if (window.dialog && window.dialog.open) {
@@ -307,13 +310,12 @@ $(document).ready(() => {
         }
 
         Swal.fire({
-            title: '¿Estás seguro de que deseas eliminar este registro?',
-            // text: "¡No podrás revertir esto!",
+            title: '¿Desactivar período?',
+            text: "Esta acción moverá al período a la lista de inactivos",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminarlo!',
+
+            confirmButtonText: 'Sí, desactivar',
             cancelButtonText: 'Cancelar',
             allowOutsideClick: false,
             allowEscapeKey: false
@@ -328,11 +330,11 @@ $(document).ready(() => {
                     success: function (response) {
                         fetchTask();
                         if (response && response.success) {
-                            mostrarMensajeExito(response.message || 'Período eliminado correctamente');
+                            mostrarMensajeExito(response.message || 'Período desactivado correctamente');
                         } else if (response && response.message) {
                             mostrarMensajeError(response.message);
                         } else {
-                            mostrarMensajeExito('Período eliminado correctamente');
+                            mostrarMensajeExito('Período desactivado correctamente');
                         }
                     },
                     error: function (xhr) {
@@ -596,11 +598,12 @@ $(document).ready(() => {
         }
 
         Swal.fire({
-            title: '¿Está seguro de restaurar este período?',
-            icon: 'question',
+            title: '¿Reactivar período?',
+            text: '¿Está seguro de restaurar este período?',
+            icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Sí',
-            cancelButtonText: 'No',
+            confirmButtonText: 'Sí, reactivar',
+            cancelButtonText: 'Cancelar',
             allowOutsideClick: false,
             allowEscapeKey: false
         }).then((result) => {
@@ -614,11 +617,11 @@ $(document).ready(() => {
                     success: function (response) {
                         fetchTask();
                         if (response && response.success) {
-                            mostrarMensajeExito(response.message || 'Período restaurado correctamente');
+                            mostrarMensajeExito(response.message || 'Período reactivado correctamente');
                         } else if (response && response.message) {
                             mostrarMensajeError(response.message);
                         } else {
-                            mostrarMensajeExito('Período restaurado correctamente');
+                            mostrarMensajeExito('Período reactivado correctamente');
                         }
                     },
                     error: function (xhr) {
