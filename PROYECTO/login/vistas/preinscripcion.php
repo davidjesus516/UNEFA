@@ -4,7 +4,7 @@ require 'header.php';
 <span class="text">Ventana -> Pre inscripción -> Agregar Práctica Profesional</span>
 <div class="page-content">
     <div id="modal" class="modal">
-        <button class="primary" onclick="window.dialog.showModal();">Nuevo <span>+</span></button>
+        <button class="primary">Nuevo <span>+</span></button>
 
         <dialog id="dialog">
             <h2>Preinscripción.</h2>
@@ -92,7 +92,7 @@ require 'header.php';
                         <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Formulario enviado exitosamente!</p>
                     </div>
             </form>
-            <button type="button" onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+            <button type="button" aria-label="close" class="x">❌</button>
         </dialog>
     </div>
 
@@ -127,7 +127,12 @@ require 'header.php';
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="js/preinscripcion.js"></script>
 
-
+<script>
+        // Cerrar modal con el botón 'x'
+        $('.x').on('click', function () {
+        dialog.close();
+    });
+</script>
 <?php
 require 'footer.php';
 ?>

@@ -1,5 +1,7 @@
 cargarPeriodos();
 
+let dialog; // Declara la variable dialog fuera del DOMContentLoaded para que sea accesible globalmente en el script.
+
 // Nueva función para mostrar mensajes con SweetAlert2
 function mostrarMensaje(mensaje, tipo = 'info') {
     Swal.fire({
@@ -104,8 +106,8 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('formulario').reset();
         document.getElementById('id_form').value = ''; // Resetear ID del formulario
     });
-    const formulario = document.getElementById("formulario");
-    const dialog = document.getElementById("dialog");
+    const formulario = document.getElementById("formulario"); // formulario puede seguir siendo local
+    dialog = document.getElementById("dialog"); // Asigna el elemento del modal a la variable global
     const expresiones = {
         cedula: /^\d{7,8}$/ // Cédula debe tener entre 7 y 8 dígitos
     };
@@ -358,6 +360,11 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     };
 
+    // Cerrar modal con el botón 'x'
+    $('.x').on('click', function () {
+        dialog.close(); // Usa la variable dialog que ahora es accesible globalmente en el script
+    });
+
     // 3. cambiarTab: muestra/oculta correctamente los tbodys de activos/inactivos
     window.cambiarTab = function (tab) {
         document.querySelectorAll('.tab-button').forEach(btn => {
@@ -400,15 +407,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     document.getElementById("nacionalidad").disabled = true; // Deshabilitar nacionalidad
                     document.getElementById("Estudiante").value = data.ESTUDIANTE || '';
                     document.getElementById("id_estudiante").value = data.STUDENTS_ID || '';
+                    document.querySelector('.formulario__btn').style.display = 'none';
                     document.getElementById("periodo").value = data.PERIOD_ID || '';
                     document.getElementById("tipo_practica").value = data.INTERNSHIP_TYPE_ID || '';
                     document.getElementById("matricula").value = data.ENROLLMENT || '';
 
                     // Deshabilitar todos los campos del formulario
-                    const formElements = document.getElementById("formulario").elements;
-                    for (let i = 0; i < formElements.length; i++) {
-                        formElements[i].disabled = true;
-                    }
+                    const form = document.getElementById("formulario");
+                    form.querySelectorAll('input, select, textarea').forEach(el => el.disabled = true);
 
                     dialog.showModal();
                 }
@@ -418,10 +424,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // Escuchar el evento de cierre del diálogo
     document.getElementById("dialog").addEventListener('close', function () {
         // Habilitar todos los campos del formulario
-        const formElements = document.getElementById("formulario").elements;
-        for (let i = 0; i < formElements.length; i++) {
-            formElements[i].disabled = false;
-        }
-        document.getElementById("cedula").disabled = false;
-        document.getElementById("nacionalidad").disabled = false;
+        const form = document.getElementById("formulario");
+        form.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = false);
+
+        // Mostrar el botón de guardar y resetear el formulario
+        document.querySelector('.formulario__btn').style.display = '';
     });

@@ -125,6 +125,7 @@ class InstitutionManager
                 SURNAME = :SURNAME,
                 SECOND_SURNAME = :SECOND_SURNAME,
                 CONTACT_PHONE = :CONTACT_PHONE,
+                INSTITUTION_ID = :INSTITUTION_ID,
                 EMAIL = :EMAIL
                 WHERE MANAGER_ID = :MANAGER_ID";
             $stmt = $this->pdo->prepare($consulta);
@@ -135,6 +136,7 @@ class InstitutionManager
             $stmt->bindValue(':SURNAME', $datos['SURNAME']);
             $stmt->bindValue(':SECOND_SURNAME', $datos['SECOND_SURNAME']);
             $stmt->bindValue(':CONTACT_PHONE', $datos['CONTACT_PHONE']);
+            $stmt->bindValue(':INSTITUTION_ID', $datos['INSTITUTION_ID']);
             $stmt->bindValue(':EMAIL', $datos['EMAIL']);
             return $stmt->execute();
         } catch (PDOException $e) {
