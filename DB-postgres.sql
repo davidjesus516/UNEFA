@@ -10,7 +10,7 @@
 --
 
 CREATE TABLE "t_activity_log" (
-  "LOG_ID" int NOT NULL,
+  "LOG_ID" SERIAL NOT NULL,
   "SESSION_ID" int NOT NULL,
   "USER_ID" int NOT NULL,
   "ACTION" varchar(45) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE "t_activity_log" (
 --
 
 CREATE TABLE "t_career" (
-  "CAREER_ID" int NOT NULL,
+  "CAREER_ID" SERIAL NOT NULL,
   "CAREER_NAME" varchar(255) NOT NULL,
   "CAREER_CODE" int NOT NULL,
   "MINIMUM_GRADE" decimal(10,2) CHECK("MINIMUM_GRADE">=0) NOT NULL,
@@ -64,7 +64,7 @@ INSERT INTO "t_career" ("CAREER_ID", "CAREER_NAME", "CAREER_CODE", "MINIMUM_GRAD
 --
 
 CREATE TABLE "t_career_internship_type" (
-  "ID_CAREER_INTERNSHIP_TYPE_ID" int NOT NULL,
+  "ID_CAREER_INTERNSHIP_TYPE_ID" SERIAL NOT NULL,
   "CAREER_ID" int NOT NULL,
   "INTERNSHIP_TYPE_ID" int NOT NULL
 );
@@ -90,7 +90,7 @@ INSERT INTO "t_career_internship_type" ("ID_CAREER_INTERNSHIP_TYPE_ID", "CAREER_
 --
 
 CREATE TABLE "t_change_log" (
-  "CHANGE_LOG_ID" int NOT NULL,
+  "CHANGE_LOG_ID" SERIAL NOT NULL,
   "DATE_TIME" TIMESTAMP NOT NULL,
   "TABLE_ID" int NOT NULL,
   "COLUMN_ID" int NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE "t_change_log" (
 --
 
 CREATE TABLE "t_columns" (
-  "COLUMN_ID" int NOT NULL,
+  "COLUMN_ID" SERIAL NOT NULL,
   "TABLE_ID" int NOT NULL,
   "COLUMN_NAME" varchar(25) NOT NULL,
   "STATUS" SMALLINT NOT NULL
@@ -124,7 +124,7 @@ CREATE TABLE "t_columns" (
 --
 
 CREATE TABLE "t_config" (
-  "CONFIG_ID" int NOT NULL,
+  "CONFIG_ID" SERIAL NOT NULL,
   "RECOVERY_EMAIL" SMALLINT NOT NULL,
   "BLOCKING_DAYS" SMALLINT NOT NULL,
   "WRONG_KEY_LOCK" SMALLINT NOT NULL,
@@ -170,7 +170,7 @@ INSERT INTO "t_config" ("CONFIG_ID", "RECOVERY_EMAIL", "BLOCKING_DAYS", "WRONG_K
 --
 
 CREATE TABLE "t_institution" (
-  "INSTITUTION_ID" int NOT NULL,
+  "INSTITUTION_ID" SERIAL NOT NULL,
   "INSTITUTION_NAME" varchar(255) NOT NULL,
   "INSTITUTION_ADDRESS" varchar(255) NOT NULL,
   "INSTITUTION_CONTACT" varchar(12) NOT NULL,
@@ -202,7 +202,7 @@ INSERT INTO "t_institution" ("INSTITUTION_ID", "INSTITUTION_NAME", "INSTITUTION_
 --
 
 CREATE TABLE "t_institution_manager" (
-  "MANAGER_ID" int NOT NULL,
+  "MANAGER_ID" SERIAL NOT NULL,
   "MANAGER_CI" varchar(10) NOT NULL,
   "NAME" varchar(255) NOT NULL,
   "SECOND_NAME" varchar(255) DEFAULT NULL,
@@ -231,7 +231,7 @@ INSERT INTO "t_institution_manager" ("MANAGER_ID", "MANAGER_CI", "NAME", "SECOND
 --
 
 CREATE TABLE "t_internships_period" (
-  "PERIOD_ID" int NOT NULL,
+  "PERIOD_ID" SERIAL NOT NULL,
   "START_DATE" date NOT NULL,
   "END_DATE" date NOT NULL,
   "CREATION_DATE" TIMESTAMP NOT NULL,
@@ -258,7 +258,7 @@ INSERT INTO "t_internships_period" ("PERIOD_ID", "START_DATE", "END_DATE", "CREA
 --
 
 CREATE TABLE "t_internship_type" (
-  "INTERNSHIP_TYPE_ID" int NOT NULL,
+  "INTERNSHIP_TYPE_ID" SERIAL NOT NULL,
   "NAME" varchar(40) NOT NULL,
   "PRIORITY" SMALLINT NOT NULL,
   "CREATION_DATE" TIMESTAMP NOT NULL,
@@ -281,7 +281,7 @@ INSERT INTO "t_internship_type" ("INTERNSHIP_TYPE_ID", "NAME", "PRIORITY", "CREA
 --
 
 CREATE TABLE "t_key_history" (
-  "KEY_HISTORY_ID" int NOT NULL,
+  "KEY_HISTORY_ID" SERIAL NOT NULL,
   "USER_KEY_ID" int NOT NULL,
   "USER_ID" int NOT NULL,
   "END_DATE" varchar(45) NOT NULL,
@@ -295,7 +295,7 @@ CREATE TABLE "t_key_history" (
 --
 
 CREATE TABLE "t_list" (
-  "LIST_ID" int NOT NULL,
+  "LIST_ID" SERIAL NOT NULL,
   "NAME" varchar(40) NOT NULL,
   "CREATION_DATE" TIMESTAMP NOT NULL,
   "MODIF_USER_ID" int NOT NULL,
@@ -341,7 +341,7 @@ INSERT INTO "t_list" ("LIST_ID", "NAME", "CREATION_DATE", "MODIF_USER_ID", "MODI
 --
 
 CREATE TABLE "t_operation" (
-  "OPERATION_ID" int NOT NULL,
+  "OPERATION_ID" SERIAL NOT NULL,
   "ACTION" varchar(45) NOT NULL,
   "DESCRIPTION" text DEFAULT NULL,
   "STATUS" SMALLINT NOT NULL
@@ -354,7 +354,7 @@ CREATE TABLE "t_operation" (
 --
 
 CREATE TABLE "t_permissions" (
-  "PERMISSIONS_ID" int NOT NULL,
+  "PERMISSIONS_ID" SERIAL NOT NULL,
   "NAME" varchar(30) NOT NULL,
   "DESCRIPTION" text DEFAULT NULL,
   "MODIF_USER_ID" int NOT NULL,
@@ -373,7 +373,7 @@ CREATE TABLE "t_permissions" (
 --
 
 CREATE TABLE "t_preset_questions" (
-  "PRESET_QUESTION_ID" int NOT NULL,
+  "PRESET_QUESTION_ID" SERIAL NOT NULL,
   "DESCRIPTION" varchar(255) NOT NULL,
   "ANSWER" varchar(255) NOT NULL,
   "MODIF_USER_ID" int NOT NULL,
@@ -404,7 +404,7 @@ INSERT INTO "t_preset_questions" ("PRESET_QUESTION_ID", "DESCRIPTION", "ANSWER",
 --
 
 CREATE TABLE "t_professional_practices" (
-  "PROFESSIONAL_PRACTICE_ID" int NOT NULL,
+  "PROFESSIONAL_PRACTICE_ID" SERIAL NOT NULL,
   "START_DATE" date NOT NULL,
   "END_DATE" date NOT NULL,
   "REPORT_TITLE" varchar(255) NOT NULL,
@@ -444,7 +444,7 @@ INSERT INTO "t_professional_practices" ("PROFESSIONAL_PRACTICE_ID", "START_DATE"
 --
 
 CREATE TABLE "t_roles" (
-  "ID_ROLS" int NOT NULL,
+  "ID_ROLS" SERIAL NOT NULL,
   "NAME" varchar(30) NOT NULL,
   "DESCRIPTION" text DEFAULT NULL,
   "MODIF_USER_ID" int NOT NULL,
@@ -463,7 +463,7 @@ CREATE TABLE "t_roles" (
 --
 
 CREATE TABLE "t_roles_permissions" (
-  "ROLES_ID" int NOT NULL,
+  "ROLES_ID" SERIAL NOT NULL,
   "PERMISSIONS_ID" int NOT NULL
 );
 
@@ -474,7 +474,7 @@ CREATE TABLE "t_roles_permissions" (
 --
 
 CREATE TABLE "t_security_questions" (
-  "SECURITY_QUESTIONS_ID" int NOT NULL,
+  "SECURITY_QUESTIONS_ID" SERIAL NOT NULL,
   "USER_ID" int NOT NULL,
   "PRESET_QUESTION_ID" int NOT NULL
 );
@@ -498,7 +498,7 @@ INSERT INTO "t_security_questions" ("SECURITY_QUESTIONS_ID", "USER_ID", "PRESET_
 --
 
 CREATE TABLE "t_session" (
-  "SESSION_ID" int NOT NULL,
+  "SESSION_ID" SERIAL NOT NULL,
   "USER_ID" int NOT NULL,
   "LOGIN_TIME" TIMESTAMP NOT NULL,
   "MODIF_USER_ID" int NOT NULL,
@@ -624,7 +624,7 @@ INSERT INTO "t_session" ("SESSION_ID", "USER_ID", "LOGIN_TIME", "MODIF_USER_ID",
 --
 
 CREATE TABLE "t_session_attempts" (
-  "ATTEMPT_ID" int NOT NULL,
+  "ATTEMPT_ID" SERIAL NOT NULL,
   "ATTEMPT_TIME" TIMESTAMP NOT NULL,
   "USER_ID" int NOT NULL,
   "ACTION" SMALLINT NOT NULL,
@@ -663,7 +663,7 @@ INSERT INTO "t_session_attempts" ("ATTEMPT_ID", "ATTEMPT_TIME", "USER_ID", "ACTI
 --
 
 CREATE TABLE "t_session_history" (
-  "SESSION_HISTORY_ID" int NOT NULL,
+  "SESSION_HISTORY_ID" SERIAL NOT NULL,
   "SESSION_ID" int NOT NULL,
   "USER_ID" int NOT NULL,
   "LOGIN_TIME" TIMESTAMP NOT NULL,
@@ -760,7 +760,7 @@ INSERT INTO "t_session_history" ("SESSION_HISTORY_ID", "SESSION_ID", "USER_ID", 
 --
 
 CREATE TABLE "t_students" (
-  "STUDENTS_ID" int NOT NULL,
+  "STUDENTS_ID" SERIAL NOT NULL,
   "STUDENTS_CI" varchar(10) NOT NULL,
   "NAME" varchar(255) NOT NULL,
   "SECOND_NAME" varchar(255) DEFAULT NULL,
@@ -801,7 +801,7 @@ INSERT INTO "t_students" ("STUDENTS_ID", "STUDENTS_CI", "NAME", "SECOND_NAME", "
 --
 
 CREATE TABLE "t_tables" (
-  "TABLE_ID" int NOT NULL,
+  "TABLE_ID" SERIAL NOT NULL,
   "NAME" varchar(25) NOT NULL,
   "DESCRIPTION" text DEFAULT NULL,
   "PHYSICAL_NAME" varchar(25) NOT NULL,
@@ -816,7 +816,7 @@ CREATE TABLE "t_tables" (
 --
 
 CREATE TABLE "t_tutors" (
-  "TUTOR_ID" INT NOT NULL,
+  "TUTOR_ID" SERIAL NOT NULL,
   "TUTOR_CI" varchar(10) NOT NULL,
   "NAME" varchar(255) NOT NULL,
   "SECOND_NAME" varchar(255) DEFAULT NULL,
@@ -848,7 +848,7 @@ INSERT INTO "t_tutors" ("TUTOR_ID", "TUTOR_CI", "NAME", "SECOND_NAME", "SURNAME"
 --
 
 CREATE TABLE "t_user" (
-  "USER_ID" int NOT NULL,
+  "USER_ID" SERIAL NOT NULL,
   "USER" varchar(255) NOT NULL,
   "USER_CI" varchar(10) NOT NULL,
   "NAME" varchar(255) NOT NULL,
@@ -882,7 +882,7 @@ INSERT INTO "t_user" ("USER_ID", "USER", "USER_CI", "NAME", "SECOND_NAME", "SURN
 --
 
 CREATE TABLE "t_user_key" (
-  "USER_KEY_ID" int NOT NULL,
+  "USER_KEY_ID" SERIAL NOT NULL,
   "USER_ID" int NOT NULL,
   "KEY" varchar(255) NOT NULL,
   "START_DATE" TIMESTAMP NOT NULL,
@@ -917,7 +917,7 @@ INSERT INTO "t_user_key" ("USER_KEY_ID", "USER_ID", "KEY", "START_DATE", "END_DA
 --
 
 CREATE TABLE "t_user_questions" (
-  "USER_QUESTION_ID" int NOT NULL,
+  "USER_QUESTION_ID" SERIAL NOT NULL,
   "QUESTION" varchar(45) NOT NULL,
   "ANSWER" varchar(45) NOT NULL,
   "MODIF_USER_ID" int NOT NULL,
@@ -956,7 +956,7 @@ INSERT INTO "t_user_roles" ("ID_USER", "ID_ROLES") VALUES
 --
 
 CREATE TABLE "t_value_list" (
-  "VALUE_LIST_ID" INT NOT NULL,
+  "VALUE_LIST_ID" SERIAL NOT NULL,
   "NAME" varchar(45) NOT NULL,
   "ABBREVIATION" varchar(8) DEFAULT NULL,
   "LIST_ID" int NOT NULL,
@@ -1042,7 +1042,7 @@ INSERT INTO "t_value_list" ("VALUE_LIST_ID", "NAME", "ABBREVIATION", "LIST_ID", 
 --
 
 CREATE TABLE "t_visit" (
-  "VISIT_ID" int NOT NULL,
+  "VISIT_ID" SERIAL NOT NULL,
   "VISIT_DATE" date NOT NULL,
   "NOTE" varchar(255) DEFAULT NULL,
   "REQUESTED_ACTIVITY" varchar(45) NOT NULL,
@@ -1248,183 +1248,6 @@ ALTER TABLE "t_value_list"
 ALTER TABLE "t_visit"
   ADD PRIMARY KEY ("VISIT_ID");
 
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla "t_activity_log"
---
-ALTER TABLE "t_activity_log"
-  MODIFY "LOG_ID" int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla "t_career"
---
-ALTER TABLE "t_career"
-  MODIFY "CAREER_ID" INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla "t_career_internship_type"
---
-ALTER TABLE "t_career_internship_type"
-  MODIFY "ID_CAREER_INTERNSHIP_TYPE_ID" INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
-
---
--- AUTO_INCREMENT de la tabla "t_change_log"
---
-ALTER TABLE "t_change_log"
-  MODIFY "CHANGE_LOG_ID" int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla "t_columns"
---
-ALTER TABLE "t_columns"
-  MODIFY "COLUMN_ID" int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla "t_config"
---
-ALTER TABLE "t_config"
-  MODIFY "CONFIG_ID" int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla "t_institution"
---
-ALTER TABLE "t_institution"
-  MODIFY "INSTITUTION_ID" INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla "t_institution_manager"
---
-ALTER TABLE "t_institution_manager"
-  MODIFY "MANAGER_ID" INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de la tabla "t_internships_period"
---
-ALTER TABLE "t_internships_period"
-  MODIFY "PERIOD_ID" INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de la tabla "t_internship_type"
---
-ALTER TABLE "t_internship_type"
-  MODIFY "INTERNSHIP_TYPE_ID" INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de la tabla "t_key_history"
---
-ALTER TABLE "t_key_history"
-  MODIFY "KEY_HISTORY_ID" int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla "t_list"
---
-ALTER TABLE "t_list"
-  MODIFY "LIST_ID" INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
---
--- AUTO_INCREMENT de la tabla "t_operation"
---
-ALTER TABLE "t_operation"
-  MODIFY "OPERATION_ID" int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla "t_permissions"
---
-ALTER TABLE "t_permissions"
-  MODIFY "PERMISSIONS_ID" int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla "t_preset_questions"
---
-ALTER TABLE "t_preset_questions"
-  MODIFY "PRESET_QUESTION_ID" int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de la tabla "t_professional_practices"
---
-ALTER TABLE "t_professional_practices"
-  MODIFY "PROFESSIONAL_PRACTICE_ID" INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
---
--- AUTO_INCREMENT de la tabla "t_roles"
---
-ALTER TABLE "t_roles"
-  MODIFY "ID_ROLS" int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla "t_security_questions"
---
-ALTER TABLE "t_security_questions"
-  MODIFY "SECURITY_QUESTIONS_ID" int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de la tabla "t_session"
---
-ALTER TABLE "t_session"
-  MODIFY "SESSION_ID" int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
-
---
--- AUTO_INCREMENT de la tabla "t_session_attempts"
---
-ALTER TABLE "t_session_attempts"
-  MODIFY "ATTEMPT_ID" int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT de la tabla "t_session_history"
---
-ALTER TABLE "t_session_history"
-  MODIFY "SESSION_HISTORY_ID" int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
-
---
--- AUTO_INCREMENT de la tabla "t_students"
---
-ALTER TABLE "t_students"
-  MODIFY "STUDENTS_ID" INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de la tabla "t_tables"
---
-ALTER TABLE "t_tables"
-  MODIFY "TABLE_ID" int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla "t_tutors"
---
-ALTER TABLE "t_tutors"
-  MODIFY "TUTOR_ID" INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla "t_user"
---
-ALTER TABLE "t_user"
-  MODIFY "USER_ID" int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT de la tabla "t_user_key"
---
-ALTER TABLE "t_user_key"
-  MODIFY "USER_KEY_ID" int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT de la tabla "t_user_questions"
---
-ALTER TABLE "t_user_questions"
-  MODIFY "USER_QUESTION_ID" int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla "t_value_list"
---
-ALTER TABLE "t_value_list"
-  MODIFY "VALUE_LIST_ID" INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
-
---
--- AUTO_INCREMENT de la tabla "t_visit"
---
-ALTER TABLE "t_visit"
-  MODIFY "VISIT_ID" int NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
