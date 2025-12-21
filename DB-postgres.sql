@@ -415,9 +415,6 @@ CREATE TABLE "t_professional_practices" (
   "TRANSFER" SMALLINT NOT NULL,
   "TOUR" varchar(255) NOT NULL,
   "PERIOD_ID" int NOT NULL,
-  "TUTOR_ID" int NOT NULL,
-  "TUTOR_M_ID" int NOT NULL,
-  "TUTOR_TYPE" varchar(45) NOT NULL,
   "INSTITUTION_ID" int NOT NULL,
   "STUDENTS_ID" int NOT NULL,
   "STATUS" SMALLINT NOT NULL,
@@ -432,10 +429,13 @@ CREATE TABLE "t_professional_practices" (
 --
 -- Volcado de datos para la tabla "t_professional_practices"
 --
+CREATE Table "t_professional_practices_tutor"(
+  "PROFESSIONAL_PRACTICES_TUTOR_ID" SERIAL NOT NULL,
+  "TUTOR_ID" int NOT NULL,
+  "PROFESSIONAL_PRACTICE_ID" INT NOT NULL,
+  "TUTOR_TYPE" varchar(45) NOT NULL
+)
 
-INSERT INTO "t_professional_practices" ("PROFESSIONAL_PRACTICE_ID", "START_DATE", "END_DATE", "REPORT_TITLE", "REGISTRATION_DATE", "CREATION_DATE", "GRADE", "PRACTICES_STATUS", "TRANSFER", "TOUR", "PERIOD_ID", "TUTOR_ID", "TUTOR_M_ID", "TUTOR_TYPE", "INSTITUTION_ID", "STUDENTS_ID", "STATUS", "MANAGER_ID", "OBSERVATION", "ENROLLMENT", "INTERSHIP_STATUS", "INTERNSHIP_TYPE_ID") VALUES
-(21, '2025-06-22', '2025-06-22', '', '2025-01-01 00:00:00', '2025-06-22 23:31:32', 00000, '3', 0, '', 4, 2, 1, '', 3, 1, 1, 3, '', 'TSU-E-341-123-D1', 2, 2),
-(23, '2025-01-01', '2025-01-01', '', '2025-01-01 00:00:00', '2025-06-22 23:57:01', 00000, '1', 0, '', 4, 0, 0, '', 0, 1, 1, 0, '', 'TSU-E-341-123-D1', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -1156,6 +1156,12 @@ ALTER TABLE "t_professional_practices"
   ADD PRIMARY KEY ("PROFESSIONAL_PRACTICE_ID");
 
 --
+-- Indices de la tabla "t_professional_practices_tutor"
+--
+
+ALTER TABLE "t_professional_practices_tutor"
+ADD PRIMARY KEY ("PROFESSIONAL_PRACTICES_TUTOR_ID");
+--
 -- Indices de la tabla "t_roles"
 --
 ALTER TABLE "t_roles"
@@ -1250,17 +1256,24 @@ ALTER TABLE "t_visit"
 
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla "t_activity_log"
+-- Constraints for table "t_activity_log"
 --
 ALTER TABLE "t_activity_log"
   ADD CONSTRAINT "fk_REGISTRO_ACTIVIDAD_SESION1" FOREIGN KEY ("SESSION_ID","USER_ID") REFERENCES "t_session" ("SESSION_ID", "USER_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla "t_change_log"
+-- Constraints for table "t_career_internship_type"
+--
+ALTER TABLE "t_career_internship_type"
+  ADD CONSTRAINT "CAREER_ID2" FOREIGN KEY ("CAREER_ID") REFERENCES "t_career" ("CAREER_ID") ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT "INTERNSHIP_TYPE_ID2" FOREIGN KEY ("INTERNSHIP_TYPE_ID") REFERENCES "t_internship_type" ("INTERNSHIP_TYPE_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table "t_change_log"
 --
 ALTER TABLE "t_change_log"
   ADD CONSTRAINT "fk_t_CHANGE_LOG_t_COLUMNS1" FOREIGN KEY ("COLUMN_ID") REFERENCES "t_columns" ("COLUMN_ID") ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -1269,75 +1282,93 @@ ALTER TABLE "t_change_log"
   ADD CONSTRAINT "fk_t_CHANGE_LOG_t_USER1" FOREIGN KEY ("USER_ID") REFERENCES "t_user" ("USER_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla "t_columns"
+-- Constraints for table "t_columns"
 --
 ALTER TABLE "t_columns"
   ADD CONSTRAINT "fk_t_COLUMNS_t_TABLES1" FOREIGN KEY ("TABLE_ID") REFERENCES "t_tables" ("TABLE_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla "t_institution_manager"
+-- Constraints for table "t_institution_manager"
 --
 ALTER TABLE "t_institution_manager"
   ADD CONSTRAINT "INSTITUTION_ID" FOREIGN KEY ("INSTITUTION_ID") REFERENCES "t_institution" ("INSTITUTION_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla "t_key_history"
+-- Constraints for table "t_key_history"
 --
 ALTER TABLE "t_key_history"
   ADD CONSTRAINT "fk_HISTORIAL_CLAVE_CLAVE_USUARIO1" FOREIGN KEY ("USER_KEY_ID","USER_ID") REFERENCES "t_user_key" ("USER_KEY_ID", "USER_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla "t_roles_permissions"
+-- Constraints for table "t_professional_practices"
+--
+ALTER TABLE "t_professional_practices"
+  ADD CONSTRAINT "INTERNSHIP_TYPE_ID" FOREIGN KEY ("INTERNSHIP_TYPE_ID") REFERENCES "t_internship_type" ("INTERNSHIP_TYPE_ID") ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT "IdPeriodo_Pasantias" FOREIGN KEY ("PERIOD_ID") REFERENCES "t_internships_period" ("PERIOD_ID") ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT "Id_Estudiantes" FOREIGN KEY ("STUDENTS_ID") REFERENCES "t_students" ("STUDENTS_ID") ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT "Id_Institucion" FOREIGN KEY ("INSTITUTION_ID") REFERENCES "t_institution" ("INSTITUTION_ID") ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT "MANAGER_ID" FOREIGN KEY ("MANAGER_ID") REFERENCES "t_institution_manager" ("MANAGER_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table "t_professional_practices_tutor"
+--
+ALTER TABLE "t_professional_practices_tutor"
+  ADD CONSTRAINT "fk_t_professional_practices_tutor_tutor" FOREIGN KEY ("TUTOR_ID") REFERENCES "t_tutors" ("TUTOR_ID") ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT "fk_t_professional_practices_tutor_professional_practices" FOREIGN KEY ("PROFESSIONAL_PRACTICE_ID") REFERENCES "t_professional_practices" ("PROFESSIONAL_PRACTICE_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table "t_roles_permissions"
 --
 ALTER TABLE "t_roles_permissions"
   ADD CONSTRAINT "fk_ROLES_has_PERMISOS_PERMISOS1" FOREIGN KEY ("PERMISSIONS_ID") REFERENCES "t_permissions" ("PERMISSIONS_ID") ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT "fk_ROLES_has_PERMISOS_ROLES1" FOREIGN KEY ("ROLES_ID") REFERENCES "t_roles" ("ID_ROLS") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla "t_security_questions"
+-- Constraints for table "t_security_questions"
 --
 ALTER TABLE "t_security_questions"
   ADD CONSTRAINT "t_security_questions_ibfk_1" FOREIGN KEY ("USER_ID") REFERENCES "t_user" ("USER_ID"),
   ADD CONSTRAINT "t_security_questions_ibfk_2" FOREIGN KEY ("PRESET_QUESTION_ID") REFERENCES "t_preset_questions" ("PRESET_QUESTION_ID");
 
 --
--- Filtros para la tabla "t_session"
+-- Constraints for table "t_session"
 --
 ALTER TABLE "t_session"
   ADD CONSTRAINT "fk_SESION_USUARIO1" FOREIGN KEY ("USER_ID") REFERENCES "t_user" ("USER_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla "t_session_attempts"
+-- Constraints for table "t_session_attempts"
 --
 ALTER TABLE "t_session_attempts"
   ADD CONSTRAINT "fk_INTENTOS_DE_SESION_USUARIO1" FOREIGN KEY ("USER_ID") REFERENCES "t_user" ("USER_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla "t_session_history"
+-- Constraints for table "t_session_history"
 --
 ALTER TABLE "t_session_history"
   ADD CONSTRAINT "fk_HISTORIAL_SESION_SESION1" FOREIGN KEY ("SESSION_ID","USER_ID") REFERENCES "t_session" ("SESSION_ID", "USER_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla "t_user_key"
+-- Constraints for table "t_students"
+--
+ALTER TABLE "t_students"
+  ADD CONSTRAINT "CAREER_ID" FOREIGN KEY ("CAREER_ID") REFERENCES "t_career" ("CAREER_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table "t_user_key"
 --
 ALTER TABLE "t_user_key"
   ADD CONSTRAINT "fk_CLAVE_USUARIO_USUARIO" FOREIGN KEY ("USER_ID") REFERENCES "t_user" ("USER_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla "t_user_roles"
+-- Constraints for table "t_user_roles"
 --
 ALTER TABLE "t_user_roles"
-  ADD CONSTRAINT "fk_USUARIO" FOREIGN KEY ("ID_USER") REFERENCES "t_user" ("USER_ID");
+  ADD CONSTRAINT "fk_USUARIO_has_ROLES_ROLES1" FOREIGN KEY ("ID_ROLES") REFERENCES "t_roles" ("ID_ROLS") ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT "fk_USUARIO_has_ROLES_USUARIO1" FOREIGN KEY ("ID_USER") REFERENCES "t_user" ("USER_ID") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla "t_value_list"
---
-ALTER TABLE "t_value_list"
-  ADD CONSTRAINT "t_value_list_ibfk_1" FOREIGN KEY ("LIST_ID") REFERENCES "t_list" ("LIST_ID");
-
---
--- Filtros para la tabla "t_visit"
+-- Constraints for table "t_visit"
 --
 ALTER TABLE "t_visit"
   ADD CONSTRAINT "PROFESSIONAL_PRACTICE_ID" FOREIGN KEY ("PROFESSIONAL_PRACTICE_ID") REFERENCES "t_professional_practices" ("PROFESSIONAL_PRACTICE_ID") ON DELETE NO ACTION ON UPDATE NO ACTION,
