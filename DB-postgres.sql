@@ -434,7 +434,7 @@ CREATE Table "t_professional_practices_tutor"(
   "TUTOR_ID" int NOT NULL,
   "PROFESSIONAL_PRACTICE_ID" INT NOT NULL,
   "TUTOR_TYPE" varchar(45) NOT NULL
-)
+);
 
 
 -- --------------------------------------------------------
@@ -455,6 +455,12 @@ CREATE TABLE "t_roles" (
   "REST_USER_DATE" TIMESTAMP NOT NULL,
   "STATUS" SMALLINT NOT NULL
 );
+
+
+INSERT INTO "t_roles" (
+"ID_ROLS","NAME","DESCRIPTION","MODIF_USER_ID","MODIF_USER_DATE","ELIM_USER_ID","ELIM_USER_DATE","REST_USER_ID",
+"REST_USER_DATE","STATUS"
+) VALUES (1,'ADMIN','ADMIN',0, '2025-01-01 00:00:00', 0, '2025-01-01 00:00:00', 0, '2025-01-01 00:00:00', 1) ;
 
 -- --------------------------------------------------------
 
@@ -946,8 +952,7 @@ CREATE TABLE "t_user_roles" (
 
 INSERT INTO "t_user_roles" ("ID_USER", "ID_ROLES") VALUES
 (3, 1),
-(7, 1),
-(8, 2);
+(7, 1);
 
 -- --------------------------------------------------------
 
@@ -1085,7 +1090,7 @@ ALTER TABLE "t_change_log"
 -- Indices de la tabla "t_columns"
 --
 ALTER TABLE "t_columns"
-  ADD PRIMARY KEY ("COLUMN_ID","TABLE_ID");
+  ADD PRIMARY KEY ("COLUMN_ID"  );
 
 --
 -- Indices de la tabla "t_config"
